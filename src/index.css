@@ -1,0 +1,62 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-[#F5F1E8] text-[#3B5998] overflow-x-hidden w-full relative;
+    font-family: 'Lato', sans-serif;
+  }
+
+  /* Ensure root does not force overflow */
+  #root {
+    @apply w-full overflow-x-hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    @apply text-[#3B5998];
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .font-serif {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .font-sans {
+    font-family: 'Lato', sans-serif;
+  }
+}
+
+:root {
+  --background: 40 33% 94%; /* #F5F1E8 - Maslow Cream */
+  --foreground: 221 44% 41%; /* #3B5998 - Maslow Blue */
+  --card: 40 33% 94%; /* #F5F1E8 */
+  --card-foreground: 221 44% 41%; /* #3B5998 */
+  --popover: 40 33% 94%; /* #F5F1E8 */
+  --popover-foreground: 221 44% 41%; /* #3B5998 */
+  --primary: 221 44% 41%; /* #3B5998 */
+  --primary-foreground: 40 33% 94%; /* #F5F1E8 */
+  --secondary: 40 33% 94%; /* #F5F1E8 */
+  --secondary-foreground: 221 44% 41%; /* #3B5998 */
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 39 49% 56%; /* #C5A059 - Maslow Gold */
+  --accent-foreground: 221 44% 41%; /* #3B5998 */
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 221 44% 41%; /* #3B5998 - matching blue for borders */
+  --input: 221 44% 41%;
+  --ring: 39 49% 56%; /* Gold ring */
+  --radius: 0.75rem; /* rounded-xl */
+}
