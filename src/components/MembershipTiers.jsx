@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Check, Crown, Star, Hammer, Landmark, AlertTriangle, QrCode } from 'lucide-react';
+import { Check, Crown, Star, Hammer, Landmark, AlertTriangle, QrCode, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useToast } from '@/components/ui/use-toast';
@@ -16,6 +16,22 @@ import { PAYMENT_DISABLED } from '@/config/featureFlags';
 
 // Updated tiers based on user request
 const tiers = [
+  {
+    name: 'SINGLE SESSION',
+    price: 5,
+    icon: Clock, 
+    benefits: [
+      '10-Minute Private Suite Access',
+      'Secure Hallway Entry',
+      'Extend time at check-in',
+    ],
+    description: 'Immediate access. Pure utility. Pay per session.',
+    highlight: false,
+    action: 'pay'
+  },
+  {
+    name: 'THE BUILDER',
+    // ... (Leave the rest of the file exactly as it is!)
   {
     name: 'THE BUILDER', 
     price: 100,
