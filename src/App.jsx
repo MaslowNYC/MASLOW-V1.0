@@ -1,4 +1,5 @@
 
+import { Analytics } from "@vercel/analytics/react"
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -21,7 +22,7 @@ import HomePage from '@/pages/HomePage';
 import StorePage from '@/pages/StorePage';
 import ProductDetailPage from '@/pages/ProductDetailPage';
 import CheckoutSuccessPage from '@/pages/CheckoutSuccessPage';
-import ImpactPage from '@/pages/ImpactPage'; 
+import ImpactPage from '@/pages/ImpactPage';
 import SanctuaryPage from '@/pages/SanctuaryPage';
 import MembershipPage from '@/pages/MembershipPage';
 import LocationDetail from '@/pages/LocationDetail';
@@ -37,67 +38,68 @@ function App() {
           <Router>
             <Helmet>
               <title>Maslow NYC - The Infrastructure of Dignity</title>
-              <meta 
-                name="description" 
-                content="New York City has 8 million people and only 1,100 public restrooms. Maslow is the sanctuary the city deserves. Join the movement for dignified sanitation access." 
+              <meta
+                name="description"
+                content="New York City has 8 million people and only 1,100 public restrooms. Maslow is the sanctuary the city deserves. Join the movement for dignified sanitation access."
               />
               <link rel="preconnect" href="https://fonts.googleapis.com" />
               <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-              <link 
-                href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&display=swap" 
-                rel="stylesheet" 
+              <link
+                href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&display=swap"
+                rel="stylesheet"
               />
             </Helmet>
-            
+
             <div className="min-h-screen bg-[#F5F1E8] flex flex-col">
               {/* Header visibility is handled internally by the component based on auth state */}
               <Header setIsCartOpen={setIsCartOpen} />
-              
+
               <main className="flex-grow">
                 <Routes>
                   {/* Public Routes */}
                   <Route path="/" element={<HomePage />} />
                   <Route path="/login" element={<LoginPage />} />
-                  <Route path="/impact" element={<ImpactPage />} /> 
+                  <Route path="/impact" element={<ImpactPage />} />
                   <Route path="/sanctuary" element={<SanctuaryPage />} />
                   <Route path="/membership" element={<MembershipPage />} />
                   <Route path="/locations/:slug" element={<LocationDetail />} />
-                  
+
                   {/* Protected Routes */}
-                  <Route 
-                    path="/store" 
+                  <Route
+                    path="/store"
                     element={
                       <ProtectedRoute>
                         <StorePage />
                       </ProtectedRoute>
-                    } 
+                    }
                   />
-                  <Route 
-                    path="/product/:id" 
+                  <Route
+                    path="/product/:id"
                     element={
                       <ProtectedRoute>
                         <ProductDetailPage />
                       </ProtectedRoute>
-                    } 
+                    }
                   />
-                  <Route 
-                    path="/reactor-core" 
+                  <Route
+                    path="/reactor-core"
                     element={
                       <ProtectedRoute requireFounder={true}>
                         <ReactorCorePage />
                       </ProtectedRoute>
-                    } 
+                    }
                   />
-                  
+
                   <Route path="/checkout-success" element={<CheckoutSuccessPage />} />
-                  <Route 
-                    path="/admin" 
+                  <Route
+                    path="/admin"
                     element={
                       <ProtectedRoute>
                         <AdminFundingDashboard />
                       </ProtectedRoute>
-                    } 
+                    }
                   />
+                  <Analytics />
                 </Routes>
               </main>
 
@@ -110,6 +112,7 @@ function App() {
         </CartProvider>
       </StripeProvider>
     </AuthProvider>
+
   );
 }
 
