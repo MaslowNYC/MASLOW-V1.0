@@ -15,6 +15,7 @@ import { formatNumber } from '@/utils/formatting';
 import { PAYMENT_DISABLED } from '@/config/featureFlags';
 
 // Updated tiers based on user request
+// Updated tiers based on user request
 const tiers = [
   {
     name: 'SINGLE SESSION',
@@ -29,9 +30,6 @@ const tiers = [
     highlight: false,
     action: 'pay'
   },
-  {
-    name: 'THE BUILDER',
-    // ... (Leave the rest of the file exactly as it is!)
   {
     name: 'THE BUILDER', 
     price: 100,

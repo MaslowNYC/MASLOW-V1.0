@@ -1,4 +1,3 @@
-
 import { Analytics } from "@vercel/analytics/react"
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -99,8 +98,9 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
-                  <Analytics />
                 </Routes>
+                {/* CORRECTED: Analytics is now outside Routes, but inside Main */}
+                <Analytics />
               </main>
 
               <Footer />
@@ -112,7 +112,6 @@ function App() {
         </CartProvider>
       </StripeProvider>
     </AuthProvider>
-
   );
 }
 
