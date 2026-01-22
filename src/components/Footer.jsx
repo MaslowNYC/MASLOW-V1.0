@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Mail, ShieldCheck, FileText } from 'lucide-react';
@@ -93,8 +92,9 @@ const Footer = () => {
           </div>
           <div>
             <h5 className="text-[#C5A059] font-bold mb-3 uppercase tracking-wide text-sm">Non-Profit Project</h5>
-            <a href="https://themaslowproject.com" target="_blank" rel="noopener noreferrer" className="text-[#3B5998]/80 hover:text-[#C5A059] transition-colors">
-              themaslowproject.com
+            {/* UPDATED LINK AND TEXT BELOW */}
+            <a href="https://themaslowproject.org" target="_blank" rel="noopener noreferrer" className="text-[#3B5998]/80 hover:text-[#C5A059] transition-colors">
+              themaslowproject.org
             </a>
           </div>
           <div>
