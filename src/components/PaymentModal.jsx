@@ -1,15 +1,16 @@
 
 import React, { useState, useEffect } from 'react';
-import { CardElement, useStripe, useElements, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, CreditCard, Lock, Loader2, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { toast } from '@/components/ui/use-toast';
-import { Loader2, Lock, CreditCard, Wallet } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { createPaymentIntent } from '@/api/EcommerceApi';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
-import { PAYMENT_DISABLED } from '@/config/featureFlags';
+import { featureFlags } from '@/config/featureFlags'; // <--- UPDATED IMPORT
 
 const cardStyle = {
   style: {
@@ -32,312 +33,169 @@ const cardStyle = {
 const PaymentModal = ({ isOpen, onClose, tierName, price }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const { toast } = useToast();
   const { user } = useAuth();
   
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [location, setLocation] = useState('');
   const [error, setError] = useState(null);
-  const [paymentRequest, setPaymentRequest] = useState(null);
-  const [canMakePayment, setCanMakePayment] = useState(null);
+  const [succeeded, setSucceeded] = useState(false);
+  const [clientSecret, setClientSecret] = useState('');
+  const [billingDetails, setBillingDetails] = useState({
+    name: '',
+    email: user?.email || '',
+    address: {
+      line1: '',
+      city: '',
+      state: '',
+      postal_code: '',
+      country: 'US',
+    }
+  });
 
-  // Force close if payments are disabled
+  // Effect to pre-fill user data
   useEffect(() => {
-    if (PAYMENT_DISABLED && isOpen) {
-      onClose();
-      toast({
-        title: "Payments Unavailable",
-        description: "Payment processing is currently disabled.",
-        variant: "destructive"
-      });
-    }
-  }, [isOpen, onClose]);
-
-  const recordMembership = async () => {
-    if (!user) {
-      console.error("User not authenticated during payment record.");
-      return;
-    }
-
-    try {
-      // Direct insertion to memberships table using authenticated user
-      const { error } = await supabase
-        .from('memberships')
-        .insert({
-          user_id: user.id,
-          tier_name: tierName,
-          amount: price,
-          status: 'active', // Should verify payment first in real app
-          member_name: name || user.email,
-          member_location: location || 'New York, NY'
-        });
-
-      if (error) {
-        console.error('Error recording membership:', error);
-        throw error;
-      }
-      
-      // Also update the funding goal
-      // In a real app, this should be a trigger or atomic transaction on the server
-      const { data: currentGoal } = await supabase
-        .from('funding_goal')
-        .select('current_total')
-        .single();
-        
-      if (currentGoal) {
-        await supabase
-          .from('funding_goal')
-          .update({ current_total: Number(currentGoal.current_total) + Number(price) })
-          .eq('goal_amount', 1000000); // Ideally use ID, but simplifying here
-      }
-
-    } catch (err) {
-      console.error('Failed to record membership:', err);
-      // Don't throw here to avoid showing error to user if payment succeeded but DB insert failed (edge case)
-    }
-  };
-
-  useEffect(() => {
-    if (user && user.email) {
-      setEmail(user.email);
+    if (user) {
+        setBillingDetails(prev => ({ ...prev, email: user.email }));
     }
   }, [user]);
 
+  // Create PaymentIntent when modal opens
   useEffect(() => {
-    if (stripe && !PAYMENT_DISABLED) {
-      const pr = stripe.paymentRequest({
-        country: 'US',
-        currency: 'usd',
-        total: {
-          label: `${tierName} Sponsorship`,
-          amount: price * 100, // Amount in cents
-        },
-        requestPayerName: true,
-        requestPayerEmail: true,
-      });
-
-      pr.canMakePayment().then((result) => {
-        if (result) {
-          setPaymentRequest(pr);
-          setCanMakePayment(true);
-        } else {
-          setCanMakePayment(false);
+    if (isOpen && price && !succeeded && featureFlags.enablePayments) { // <--- UPDATED CHECK
+      const fetchPaymentIntent = async () => {
+        try {
+            setLoading(true);
+            const data = await createPaymentIntent({ 
+                amount: price * 100, // Convert to cents
+                currency: 'usd',
+                description: `Maslow Membership: ${tierName}`,
+                metadata: {
+                    tier: tierName,
+                    userId: user?.id
+                }
+            });
+            setClientSecret(data.clientSecret);
+        } catch (err) {
+            console.error("Payment intent error:", err);
+            setError("Failed to initialize payment. Please try again.");
+        } finally {
+            setLoading(false);
         }
-      });
-
-      pr.on('paymentmethod', async (ev) => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        if (ev.paymentMethod) {
-          // In a real implementation, you would confirm the payment intent server-side here
-          // ev.paymentIntent.status === 'succeeded'
-          
-          ev.complete('success');
-          
-          setName(ev.payerName || name);
-          await recordMembership();
-          
-          toast({
-            title: "Sponsorship Confirmed!",
-            description: `Thank you for your generous ${tierName} sponsorship via ${ev.paymentMethod.type === 'card' ? 'Digital Wallet' : ev.paymentMethod.type}!`,
-            duration: 5000,
-            className: "bg-green-50 border-green-200",
-          });
-          
-          onClose();
-        } else {
-           ev.complete('fail');
-           toast({
-            title: "Payment Failed",
-            description: "There was an issue processing your digital wallet payment.",
-            variant: "destructive",
-          });
-        }
-      });
+      };
+      
+      fetchPaymentIntent();
     }
-  }, [stripe, price, tierName, onClose, user, name]);
+  }, [isOpen, price, tierName, user, succeeded]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    if (PAYMENT_DISABLED) {
-      setError("Payments are currently disabled.");
-      return;
-    }
-
     setLoading(true);
     setError(null);
+
+    // DOUBLE CHECK: Stop if payments are disabled
+    if (!featureFlags.enablePayments) {
+        setLoading(false);
+        setError("Payments are currently disabled.");
+        return;
+    }
 
     if (!stripe || !elements) {
       setLoading(false);
       return;
     }
 
-    const cardElement = elements.getElement(CardElement);
-
-    try {
-      const { error: paymentMethodError, paymentMethod } = await stripe.createPaymentMethod({
-        type: 'card',
-        card: cardElement,
-        billing_details: {
-          name: name,
-          email: email,
-        },
-      });
-
-      if (paymentMethodError) {
-        setError(paymentMethodError.message);
-        setLoading(false);
-        return;
+    const payload = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardElement),
+        billing_details: billingDetails
       }
+    });
 
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      console.log('PaymentMethod Created:', paymentMethod);
-
-      // Record membership in DB
-      await recordMembership();
-
-      toast({
-        title: "Sponsorship Confirmed!",
-        description: `Thank you for your generous ${tierName} sponsorship! Your name has been added to the Digital Wall.`,
-        duration: 5000,
-        className: "bg-green-50 border-green-200",
-      });
-
-      onClose();
-    } catch (err) {
-      console.error(err);
-      setError("An unexpected error occurred. Please try again.");
-      toast({
-        title: "Payment Failed",
-        description: "We couldn't process your payment. Please check your details.",
-        variant: "destructive",
-      });
-    } finally {
+    if (payload.error) {
+      setError(`Payment failed: ${payload.error.message}`);
       setLoading(false);
+    } else {
+      setError(null);
+      setSucceeded(true);
+      setLoading(false);
+      toast({
+        title: "Welcome to Maslow.",
+        description: "Your membership has been secured.",
+      });
+      // Here you would typically trigger a database update to upgrade the user
+      setTimeout(() => {
+          onClose();
+      }, 2000);
     }
   };
 
-  if (PAYMENT_DISABLED) return null;
+  const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      if (name.includes('.')) {
+          const [parent, child] = name.split('.');
+          setBillingDetails(prev => ({
+              ...prev,
+              [parent]: { ...prev[parent], [child]: value }
+          }));
+      } else {
+          setBillingDetails(prev => ({ ...prev, [name]: value }));
+      }
+  };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] bg-white text-gray-900 border-none shadow-2xl rounded-xl overflow-hidden p-0">
-        <div className="bg-[#3B5998] p-6 text-white text-center">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-serif text-[#F5F1E8]">Secure Checkout</DialogTitle>
-            <DialogDescription className="text-[#F5F1E8]/80 text-lg">
-              {tierName} Sponsorship
-            </DialogDescription>
-          </DialogHeader>
-          <div className="mt-4 text-3xl font-bold text-[#C5A059]">
-            ${price.toLocaleString()}
-          </div>
-        </div>
-        
-        <div className="p-6 pb-0">
-           {paymentRequest && canMakePayment ? (
-            <div className="mb-6">
-              <Label className="text-sm font-medium text-gray-700 mb-2 block">Express Checkout</Label>
-              <div className="w-full">
-                <PaymentRequestButtonElement options={{ paymentRequest, style: { paymentRequestButton: { theme: 'dark', height: '48px' } } }} />
-              </div>
-              <div className="relative mt-6">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t border-gray-200" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-white px-2 text-gray-500 font-medium">Or pay with card</span>
-                </div>
-              </div>
-            </div>
-          ) : null}
-        </div>
-
-        <form onSubmit={handleSubmit} className="p-6 pt-0 space-y-4">
-          <div className="space-y-3">
-            <div className="grid gap-2">
-              <Label htmlFor="name" className="text-sm font-medium text-gray-700">Cardholder Name (For Digital Wall)</Label>
-              <Input
-                id="name"
-                placeholder="Jane Doe"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="bg-gray-50 border-gray-200 focus:border-[#3B5998] focus:ring-[#3B5998]"
-              />
-            </div>
-            
-            <div className="grid gap-2">
-              <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email Address</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="jane@example.com"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="bg-gray-50 border-gray-200 focus:border-[#3B5998] focus:ring-[#3B5998]"
-              />
-            </div>
-            
-             <div className="grid gap-2">
-              <Label htmlFor="location" className="text-sm font-medium text-gray-700">City / Location (Optional)</Label>
-              <Input
-                id="location"
-                type="text"
-                placeholder="New York, NY"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                className="bg-gray-50 border-gray-200 focus:border-[#3B5998] focus:ring-[#3B5998]"
-              />
-            </div>
-
-            <div className="grid gap-2">
-              <Label htmlFor="card-element" className="text-sm font-medium text-gray-700">Card Details</Label>
-              <div className="p-4 border rounded-md bg-gray-50 border-gray-200 focus-within:border-[#3B5998] focus-within:ring-1 focus-within:ring-[#3B5998]">
-                <CardElement id="card-element" options={cardStyle} />
-              </div>
-            </div>
-          </div>
-
-          {error && (
-            <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md border border-red-100 flex items-center gap-2">
-              <CreditCard className="w-4 h-4" />
-              {error}
-            </div>
-          )}
-
-          <div className="space-y-3 pt-2">
-            <Button 
-              type="submit" 
-              className="w-full bg-[#3B5998] hover:bg-[#2d4474] text-white py-6 text-lg font-bold shadow-lg transition-all"
-              disabled={!stripe || loading}
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-[#3B5998]/60 backdrop-blur-sm z-50"
+            onClick={onClose}
+          />
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
+          >
+            <div 
+                className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden pointer-events-auto flex flex-col max-h-[90vh]"
+                onClick={(e) => e.stopPropagation()}
             >
-              {loading ? (
-                <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Processing...
-                </>
-              ) : (
-                <>
-                  Contribute ${price.toLocaleString()}
-                  <Lock className="ml-2 h-4 w-4 opacity-70" />
-                </>
-              )}
-            </Button>
-            
-            <p className="text-xs text-center text-gray-500 flex items-center justify-center gap-1">
-              <Lock className="w-3 h-3" /> 
-              Payments secured by Stripe. No card data is stored on our servers.
-            </p>
-          </div>
-        </form>
-      </DialogContent>
-    </Dialog>
-  );
-};
+                {/* Header */}
+                <div className="p-6 bg-[#3B5998] text-[#F5F1E8] flex justify-between items-center shrink-0">
+                    <div>
+                        <h3 className="text-xl font-serif font-bold">Secure Membership</h3>
+                        <p className="text-[#F5F1E8]/70 text-sm mt-1">{tierName} • ${price}</p>
+                    </div>
+                    <button onClick={onClose} className="text-[#F5F1E8]/70 hover:text-white transition-colors">
+                        <X size={24} />
+                    </button>
+                </div>
 
-export default PaymentModal;
+                {/* Body */}
+                <div className="p-6 overflow-y-auto">
+                    {succeeded ? (
+                        <div className="text-center py-8">
+                            <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <Lock className="w-8 h-8" />
+                            </div>
+                            <h4 className="text-2xl font-bold text-[#3B5998] mb-2">Payment Successful</h4>
+                            <p className="text-gray-500">Your Member ID is being generated.</p>
+                        </div>
+                    ) : !featureFlags.enablePayments ? (
+                        // DISABLED STATE
+                        <div className="text-center py-8">
+                            <div className="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <Lock className="w-8 h-8" />
+                            </div>
+                            <h4 className="text-xl font-bold text-[#3B5998] mb-2">Checkout Closed</h4>
+                            <p className="text-gray-500 mb-6">We are currently in Waitlist Mode. Payments are disabled.</p>
+                            <Button onClick={onClose} variant="outline" className="w-full">
+                                Return to Site
+                            </Button>
+                        </div>
+                    ) : (
+                        // ACTIVE FORM
