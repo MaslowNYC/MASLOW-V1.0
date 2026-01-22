@@ -1,3 +1,4 @@
+
 import React, { useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart as ShoppingCartIcon, X, Trash2, ArrowRight, Lock } from 'lucide-react';
