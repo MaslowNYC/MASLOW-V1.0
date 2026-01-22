@@ -13,13 +13,21 @@ const HomePage = () => {
   const [totalCount, setTotalCount] = useState(0);
   const { toast } = useToast();
 
-  // Fetch current waitlist count on load
+  // Fetch the HIGHEST Member ID (includes the ghost members)
   useEffect(() => {
     const fetchCount = async () => {
-      const { count } = await supabase
-        .from('beta_signups')
-        .select('*', { count: 'exact', head: true });
-      if (count) setTotalCount(count);
+      try {
+        const { data } = await supabase
+          .from('beta_signups')
+          .select('id')
+          .order('id', { ascending: false })
+          .limit(1)
+          .single();
+          
+        if (data) setTotalCount(data.id);
+      } catch (error) {
+        console.error("Error fetching count:", error);
+      }
     };
     fetchCount();
   }, []);
@@ -56,9 +64,9 @@ const HomePage = () => {
 
       if (error) throw error;
 
-      // 3. Set Member Number
+      // 3. Set Member Number & Update Counter
       setMemberNumber(data.id);
-      setTotalCount(prev => prev + 1);
+      setTotalCount(data.id); // Update the "People in line" to match this new highest number
       
       toast({
         title: "Spot Secured",
@@ -95,7 +103,7 @@ const HomePage = () => {
             {/* Glow effect behind the logo */}
             <div className="absolute inset-0 bg-[#C5A059] blur-[40px] opacity-20 rounded-full"></div>
             
-            {/* The Real Logo - FIXED WITH LEADING SLASH */}
+            {/* The Real Logo */}
             <img 
               src="/MASLOW-logo-rev1-png2.png" 
               alt="Maslow NYC" 
