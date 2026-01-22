@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { supabase } from '@/lib/customSupabaseClient';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Loader2, ArrowRight, Lock, CheckCircle2 } from 'lucide-react';
+import { Loader2, Lock, CheckCircle2 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
 const HomePage = () => {
@@ -50,13 +50,13 @@ const HomePage = () => {
       // 2. Insert new member
       const { data, error } = await supabase
         .from('beta_signups')
-        .insert([{ email, name: 'Founder Candidate' }]) // Default name for now
+        .insert([{ email, name: 'Founder Candidate' }]) 
         .select()
         .single();
 
       if (error) throw error;
 
-      // 3. Set Member Number from the ID returned by Supabase
+      // 3. Set Member Number
       setMemberNumber(data.id);
       setTotalCount(prev => prev + 1);
       
@@ -89,10 +89,18 @@ const HomePage = () => {
         transition={{ duration: 1 }}
         className="relative z-10 max-w-lg w-full text-center"
       >
-        {/* Logo */}
-        <div className="mb-8 flex justify-center">
-          <div className="w-20 h-20 bg-[#F5F1E8] text-[#0a0a0a] rounded-full flex items-center justify-center font-serif font-black text-4xl shadow-[0_0_40px_rgba(245,241,232,0.1)]">
-            M
+        {/* LOGO SECTION */}
+        <div className="mb-10 flex justify-center">
+          <div className="w-32 h-32 md:w-40 md:h-40 relative flex items-center justify-center">
+            {/* Glow effect behind the logo */}
+            <div className="absolute inset-0 bg-[#C5A059] blur-[40px] opacity-20 rounded-full"></div>
+            
+            {/* The Real Logo */}
+            <img 
+              src="/MASLOW-logo-rev1-png2.png" 
+              alt="Maslow NYC" 
+              className="w-full h-full object-contain relative z-10 drop-shadow-2xl"
+            />
           </div>
         </div>
 
