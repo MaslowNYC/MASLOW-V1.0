@@ -9,7 +9,7 @@ import { Helmet } from 'react-helmet';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
-import { PAYMENT_DISABLED } from '@/config/featureFlags';
+import { featureFlags } from '@/config/featureFlags';
 
 const MembershipPage = () => {
   const [selectedTier, setSelectedTier] = useState(null);
@@ -59,7 +59,7 @@ const MembershipPage = () => {
         return;
     }
 
-    if (PAYMENT_DISABLED) {
+    if (!featureFlags.enablePayments) {
       toast({
         title: "Payments Unavailable",
         description: "Payment processing is currently disabled. Please check back later.",
@@ -145,7 +145,7 @@ const MembershipPage = () => {
                 ))}
               </ul>
               
-              {PAYMENT_DISABLED ? (
+              {!featureFlags.enablePayments ? (
                 <div className="w-full py-6 text-center bg-gray-100 rounded border border-gray-200 cursor-not-allowed">
                   <p className="text-[#3B5998] font-bold">Payment Unavailable</p>
                   <p className="text-[#3B5998]/60 text-sm">Please check back soon</p>
@@ -213,7 +213,7 @@ const MembershipPage = () => {
                   </label>
                 </div>
                 
-                {PAYMENT_DISABLED ? (
+                {!featureFlags.enablePayments ? (
                    <div className="w-full py-6 text-center bg-gray-800 rounded border border-gray-700 cursor-not-allowed text-[#F5F1E8]">
                     <p className="font-bold">Payment Unavailable</p>
                     <p className="text-[#F5F1E8]/60 text-sm">Please check back soon</p>
