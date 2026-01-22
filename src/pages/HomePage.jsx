@@ -95,7 +95,7 @@ const HomePage = () => {
             {/* Glow effect behind the logo */}
             <div className="absolute inset-0 bg-[#C5A059] blur-[40px] opacity-20 rounded-full"></div>
             
-            {/* The Real Logo */}
+            {/* The Real Logo - FIXED WITH LEADING SLASH */}
             <img 
               src="/MASLOW-logo-rev1-png2.png" 
               alt="Maslow NYC" 
