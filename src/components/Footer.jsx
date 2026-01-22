@@ -93,8 +93,8 @@ const Footer = () => {
           <div>
             <h5 className="text-[#C5A059] font-bold mb-3 uppercase tracking-wide text-sm">Non-Profit Project</h5>
             {/* UPDATED LINK AND TEXT BELOW */}
-            <a href="https://themaslowproject.org" target="_blank" rel="noopener noreferrer" className="text-[#3B5998]/80 hover:text-[#C5A059] transition-colors">
-              themaslowproject.org
+            <a href="https://maslownyc.org" target="_blank" rel="noopener noreferrer" className="text-[#3B5998]/80 hover:text-[#C5A059] transition-colors">
+              maslownyc.org
             </a>
           </div>
           <div>
