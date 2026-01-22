@@ -1,23 +1,24 @@
-// src/config/featureFlags.js
+/// src/config/featureFlags.js
 
-const PHASES = {
-  VELVET_ROPE: 'VELVET_ROPE', // Homepage only, waitlist
-  SANCTUARY_MODE: 'SANCTUARY_MODE', // Full site, no payments (Free Accounts)
-  GRAND_OPENING: 'GRAND_OPENING', // Full site, payments live
-};
+// --- THE SWITCHBOARD ---
+// 'VELVET_ROPE'   = Homepage is Waitlist. Side doors redirect to Home. Payments Off.
+// 'SANCTUARY'     = Full site visible. Payments Off (Waitlist buttons).
+// 'GRAND_OPENING' = Full site visible. Payments Live.
 
-// CURRENT PHASE SETTING (CHANGE THIS TO SWITCH MODES)
-const CURRENT_PHASE = PHASES.SANCTUARY_MODE; 
+const CURRENT_PHASE = 'VELVET_ROPE'; 
 
 export const featureFlags = {
-  // Logic to determine what is visible based on the Phase
-  enableSiteNavigation: CURRENT_PHASE !== PHASES.VELVET_ROPE,
-  enablePayments: CURRENT_PHASE === PHASES.GRAND_OPENING,
-  enableFreeSignup: CURRENT_PHASE === PHASES.SANCTUARY_MODE || CURRENT_PHASE === PHASES.GRAND_OPENING,
+  // Is the main navigation visible?
+  showNavigation: CURRENT_PHASE !== 'VELVET_ROPE',
   
-  // Keep your existing flags if you had any specific ones
-  showRevenueSimulator: true, 
-  showFoundersList: true,
+  // Can people pay money?
+  enablePayments: CURRENT_PHASE === 'GRAND_OPENING',
+  
+  // Should "Buy" buttons be "Join Waitlist" instead?
+  waitlistMode: CURRENT_PHASE === 'SANCTUARY',
+  
+  // Is the site fully open to the public? (Used by the Bouncer)
+  publicAccess: CURRENT_PHASE !== 'VELVET_ROPE',
 };
 
 export default featureFlags;
