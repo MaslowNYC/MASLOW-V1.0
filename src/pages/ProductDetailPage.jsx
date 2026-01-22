@@ -9,7 +9,7 @@ import { useCart } from '@/hooks/useCart';
 import { useToast } from '@/components/ui/use-toast';
 import { ShoppingCart, Loader2, ArrowLeft, CheckCircle, Minus, Plus, XCircle, ChevronLeft, ChevronRight, AlertCircle } from 'lucide-react';
 import { formatNumber } from '@/utils/formatting';
-import { PAYMENT_DISABLED } from '@/config/featureFlags';
+import { featureFlags } from '@/config/featureFlags'; // <--- UPDATED IMPORT
 
 const placeholderImage = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzc0MTUxIi8+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzlDQTNBRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk5vIEltYWdlPC90ZXh0Pgo8L3N2Zz4K";
 
@@ -32,7 +32,8 @@ function ProductDetailPage() {
       try {
         await addToCart(product, selectedVariant, quantity, availableQuantity);
         
-        const description = PAYMENT_DISABLED 
+        // UPDATED LOGIC
+        const description = !featureFlags.enablePayments 
           ? `${quantity} x ${product.title} added. Note: Checkout is currently disabled.` 
           : `${quantity} x ${product.title} (${selectedVariant.title}) added.`;
 
@@ -328,7 +329,8 @@ function ProductDetailPage() {
                   Add to Cart
                 </Button>
                 
-                {PAYMENT_DISABLED && (
+                {/* UPDATED LOGIC HERE */}
+                {!featureFlags.enablePayments && (
                   <div className="mt-4 flex items-center gap-2 text-amber-600 bg-amber-50 p-3 rounded-lg border border-amber-200">
                     <AlertCircle className="w-5 h-5 flex-shrink-0" />
                     <p className="text-sm font-medium">
