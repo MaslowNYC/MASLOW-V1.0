@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useStripe, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
 import { CreditCard, Wallet, Banknote, Loader2, ArrowRight, ShieldCheck } from 'lucide-react';
 import { toast } from '@/components/ui/use-toast';
-import { PAYMENT_DISABLED } from '@/config/featureFlags';
+import { featureFlags } from '@/config/featureFlags'; // <--- UPDATED IMPORT
 
 const PaymentOptionsModal = ({ isOpen, onClose, tierName, price, onPayWithCard }) => {
   const stripe = useStripe();
@@ -15,7 +15,7 @@ const PaymentOptionsModal = ({ isOpen, onClose, tierName, price, onPayWithCard }
 
   // Force close if payments are disabled
   useEffect(() => {
-    if (PAYMENT_DISABLED && isOpen) {
+    if (!featureFlags.enablePayments && isOpen) { // <--- UPDATED CHECK
       onClose();
       toast({
         title: "Payments Unavailable",
@@ -26,7 +26,7 @@ const PaymentOptionsModal = ({ isOpen, onClose, tierName, price, onPayWithCard }
   }, [isOpen, onClose]);
 
   useEffect(() => {
-    if (stripe && isOpen && !PAYMENT_DISABLED) {
+    if (stripe && isOpen && featureFlags.enablePayments) { // <--- UPDATED CHECK
       const pr = stripe.paymentRequest({
         country: 'US',
         currency: 'usd',
@@ -61,7 +61,7 @@ const PaymentOptionsModal = ({ isOpen, onClose, tierName, price, onPayWithCard }
   }, [stripe, price, tierName, isOpen, onClose]);
 
   const handleExternalPayment = (method) => {
-    if (PAYMENT_DISABLED) return;
+    if (!featureFlags.enablePayments) return; // <--- UPDATED CHECK
 
     setLoadingMethod(method);
     
@@ -86,7 +86,7 @@ const PaymentOptionsModal = ({ isOpen, onClose, tierName, price, onPayWithCard }
   };
 
   const handleCardClick = () => {
-    if (PAYMENT_DISABLED) return;
+    if (!featureFlags.enablePayments) return; // <--- UPDATED CHECK
     
     setLoadingMethod('card');
     setTimeout(() => {
@@ -95,7 +95,7 @@ const PaymentOptionsModal = ({ isOpen, onClose, tierName, price, onPayWithCard }
     }, 500);
   };
 
-  if (PAYMENT_DISABLED) return null;
+  if (!featureFlags.enablePayments) return null; // <--- UPDATED CHECK
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
