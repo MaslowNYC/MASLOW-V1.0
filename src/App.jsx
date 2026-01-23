@@ -1,5 +1,6 @@
 
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/react" // <--- ADD THIS
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -51,7 +52,6 @@ function App() {
             </Helmet>
 
             <div className="min-h-screen bg-[#F5F1E8] flex flex-col">
-              {/* Header visibility is handled internally by the component based on auth state */}
               <Header setIsCartOpen={setIsCartOpen} />
 
               <main className="flex-grow">
@@ -81,10 +81,9 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
-                  
-                  {/* THE LOTUS ROUTE */}
+                  {/* The Lotus Route */}
                   <Route
-                    path="/lotus"
+                    path="/lotus" // Kept your Lotus update
                     element={
                       <ProtectedRoute requireFounder={true}>
                         <ReactorCorePage />
@@ -102,7 +101,10 @@ function App() {
                     }
                   />
                 </Routes>
+                
+                {/* Vercel Tools */}
                 <Analytics />
+                <SpeedInsights /> {/* <--- ADD THIS */}
               </main>
 
               <Footer />
@@ -110,7 +112,6 @@ function App() {
               <FloatingMembershipButton />
               <Toaster />
             </div>
-            <SpeedInsights />
           </Router>
         </CartProvider>
       </StripeProvider>
