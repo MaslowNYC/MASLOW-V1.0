@@ -1,9 +1,10 @@
 
+
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, LogOut, Menu, X, ShoppingBag, UserCircle } from 'lucide-react';
+import { LayoutDashboard, LogOut, Menu, X, ShoppingBag } from 'lucide-react';
 import { useCart } from '@/hooks/useCart';
 import { formatNumber } from '@/utils/formatting';
 
@@ -31,10 +32,10 @@ const Header = ({ setIsCartOpen }) => {
     { name: 'STORE', path: '/store' },
   ];
 
-  // Only show REACTOR link if user is a founder
+  // Only show THE LOTUS link if user is a founder
   const displayLinks = [...navLinks];
   if (isFounder) {
-    displayLinks.push({ name: 'REACTOR', path: '/reactor-core' });
+    displayLinks.push({ name: 'THE LOTUS', path: '/lotus' });
   }
 
   const isActive = (path) => location.pathname === path;

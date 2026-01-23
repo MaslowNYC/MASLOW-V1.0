@@ -1,7 +1,5 @@
 
-import AdminPage from './pages/AdminPage';
 import { Analytics } from "@vercel/analytics/react"
-import { SpeedInsights } from "@vercel/speed-insights/next"
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -83,8 +81,16 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
-                  {/* Public Engineering Transparency Page */}
-                  <Route path="/reactor-core" element={<ReactorCorePage />} />
+                  
+                  {/* THE LOTUS ROUTE */}
+                  <Route
+                    path="/lotus"
+                    element={
+                      <ProtectedRoute requireFounder={true}>
+                        <ReactorCorePage />
+                      </ProtectedRoute>
+                    }
+                  />
 
                   <Route path="/checkout-success" element={<CheckoutSuccessPage />} />
                   <Route
@@ -95,21 +101,8 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
-
-                  {/* Secured Financial Command Center */}
-                  <Route
-                    path="/admin-command"
-                    element={
-                      <ProtectedRoute>
-                        <AdminPage />
-                      </ProtectedRoute>
-                    }
-                  />
                 </Routes>
-                
-                {/* CORRECTED: Analytics is now outside Routes, but inside Main */}
                 <Analytics />
-                <SpeedInsights />
               </main>
 
               <Footer />
@@ -117,6 +110,7 @@ function App() {
               <FloatingMembershipButton />
               <Toaster />
             </div>
+            <SpeedInsights />
           </Router>
         </CartProvider>
       </StripeProvider>

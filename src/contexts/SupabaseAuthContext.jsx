@@ -1,58 +1,114 @@
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { supabase } from '../lib/customSupabaseClient';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import { supabase } from '@/lib/customSupabaseClient';
+import { useToast } from '@/components/ui/use-toast';
 
-const AuthContext = createContext({});
+const AuthContext = createContext(undefined);
 
-export const useAuth = () => useContext(AuthContext);
+export const AuthProvider = ({ children }) => {
+  const { toast } = useToast();
 
-export const SupabaseAuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Check active sessions and sets the user
-    const session = supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    // Listen for changes on auth state (logged in, signed out, etc.)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+  const handleSession = useCallback(async (session) => {
+    setSession(session);
+    setUser(session?.user ?? null);
+    setLoading(false);
   }, []);
 
-  // UPDATED: Added emailRedirectTo to bring them back to the live site
-  const signUp = async (email, password, metadata = {}) => {
-    return await supabase.auth.signUp({
+  useEffect(() => {
+    const getSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      handleSession(session);
+    };
+
+    getSession();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        handleSession(session);
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, [handleSession]);
+
+  // FIX: This function now tells Supabase where to redirect users
+  const signUp = useCallback(async (email, password, metadata = {}) => {
+    const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: metadata,
-        // This line is crucial: it tells Supabase where to send them back
         emailRedirectTo: window.location.origin, 
       },
     });
-  };
 
-  const signIn = async (email, password) => {
-    return await supabase.auth.signInWithPassword({
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "Sign up Failed",
+        description: error.message || "Something went wrong",
+      });
+    }
+
+    return { error };
+  }, [toast]);
+
+  const signIn = useCallback(async (email, password) => {
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-  };
 
-  const signOut = async () => {
-    return await supabase.auth.signOut();
-  };
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "Sign in Failed",
+        description: error.message || "Something went wrong",
+      });
+    }
 
-  return (
-    <AuthContext.Provider value={{ user, signUp, signIn, signOut, loading }}>
-      {!loading && children}
-    </AuthContext.Provider>
-  );
+    return { error };
+  }, [toast]);
+
+  const signOut = useCallback(async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "Sign out Failed",
+        description: error.message || "Something went wrong",
+      });
+    }
+
+    return { error };
+  }, [toast]);
+
+  const isFounder = useMemo(() => {
+    return user?.email?.endsWith('@maslownyc.com') ?? false;
+  }, [user]);
+
+  const value = useMemo(() => ({
+    user,
+    session,
+    loading,
+    isFounder,
+    signUp,
+    signIn,
+    signOut,
+  }), [user, session, loading, isFounder, signUp, signIn, signOut]);
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 };
