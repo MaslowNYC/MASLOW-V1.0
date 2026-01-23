@@ -1,4 +1,5 @@
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -101,6 +102,7 @@ function App() {
                 </Routes>
                 {/* CORRECTED: Analytics is now outside Routes, but inside Main */}
                 <Analytics />
+                <SpeedInsights />
               </main>
 
               <Footer />
