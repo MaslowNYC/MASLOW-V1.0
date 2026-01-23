@@ -1,259 +1,234 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card.jsx';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table.jsx';
-import { useToast } from '@/components/ui/use-toast';
-import { Loader2, DollarSign, Users, RefreshCw, LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import RevenueSimulator from '@/components/RevenueSimulator';
+import { motion } from 'framer-motion';
+import { Download, Users, DollarSign, Shield, Lock } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { formatNumber } from '@/utils/formatting';
 
 const AdminFundingDashboard = () => {
-  const [fundingGoal, setFundingGoal] = useState({ id: null, goal_amount: 0, current_total: 0 });
-  const [memberships, setMemberships] = useState([]);
-  const [newGoalAmount, setNewGoalAmount] = useState('');
-  const [displayGoalAmount, setDisplayGoalAmount] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-  const [isUpdating, setIsUpdating] = useState(false);
-  const { signOut } = useAuth();
-  const { toast } = useToast();
+  const { user } = useAuth();
   const navigate = useNavigate();
+  
+  // Security State
+  const [verifying, setVerifying] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  const fetchData = async () => {
-    setIsLoading(true);
-    try {
-      // Fetch Goal
-      const { data: goalData, error: goalError } = await supabase
-        .from('funding_goal')
-        .select('*')
-        .single();
-      
-      if (goalError && goalError.code !== 'PGRST116') {
-         console.error('Error fetching goal:', goalError);
-      } else if (goalData) {
-        setFundingGoal(goalData);
-        setNewGoalAmount(goalData.goal_amount.toString());
-        setDisplayGoalAmount(Number(goalData.goal_amount).toLocaleString());
+  // Data State
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalFunding: 0,
+    tierBreakdown: {}
+  });
+  const [recentPledges, setRecentPledges] = useState([]);
+  const [allUsers, setAllUsers] = useState([]); 
+  const [loadingData, setLoadingData] = useState(true);
+
+  // 1. SECURITY CHECK (The Bouncer)
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      if (!user) {
+        navigate('/'); // Not logged in? Get out.
+        return;
       }
 
-      // Fetch Memberships
-      const { data: memData, error: memError } = await supabase
-        .from('memberships')
+      // Check the 'is_admin' flag in Supabase
+      const { data, error } = await supabase
+        .from('user_profiles')
+        .select('is_admin')
+        .eq('id', user.id)
+        .single();
+
+      if (error || !data || data.is_admin !== true) {
+        console.warn("Unauthorized access attempt blocked.");
+        navigate('/'); // Logged in but not Admin? Get out.
+      } else {
+        setIsAdmin(true); // Welcome, Sir.
+        setVerifying(false);
+        fetchData(); // Only fetch sensitive data AFTER verifying admin
+      }
+    };
+
+    checkAdminStatus();
+  }, [user, navigate]);
+
+  // 2. DATA FETCHING (Only runs if Admin)
+  const fetchData = async () => {
+    try {
+      const { data: profiles, error } = await supabase
+        .from('user_profiles')
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (memError) {
-        console.error('Error fetching memberships:', memError);
-      } else {
-        setMemberships(memData || []);
-      }
-    } catch (err) {
-      console.error('Fetch error:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      if (error) throw error;
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+      setAllUsers(profiles); 
 
-  const handleGoalInputChange = (e) => {
-    // Allow digits and dots only
-    const rawValue = e.target.value.replace(/[^0-9.]/g, '');
-    setNewGoalAmount(rawValue);
-    
-    // Format for display (commas)
-    if (rawValue && !isNaN(rawValue)) {
-      setDisplayGoalAmount(Number(rawValue).toLocaleString());
-    } else {
-      setDisplayGoalAmount(rawValue);
-    }
-  };
+      // Calculate Stats
+      const totalUsers = profiles.length;
+      let totalFunding = 0;
+      const tierBreakdown = {};
 
-  const handleUpdateGoal = async (e) => {
-    e.preventDefault();
-    setIsUpdating(true);
-    
-    try {
-      if (!fundingGoal.id) {
-         const { error } = await supabase
-            .from('funding_goal')
-            .insert([{ goal_amount: newGoalAmount, current_total: fundingGoal.current_total }]);
-          if (error) throw error;
-      } else {
-        const { error } = await supabase
-            .from('funding_goal')
-            .update({ goal_amount: newGoalAmount, updated_at: new Date().toISOString() })
-            .eq('id', fundingGoal.id);
-        if (error) throw error;
-      }
+      profiles.forEach(user => {
+        const amount = user.contribution_amount || getTierPrice(user.membership_tier);
+        totalFunding += amount;
 
-      toast({
-        title: "Success",
-        description: "Funding goal updated successfully.",
-        className: "bg-green-50 border-green-200",
+        const tier = user.membership_tier || 'Free/None';
+        tierBreakdown[tier] = (tierBreakdown[tier] || 0) + 1;
       });
-      fetchData();
+
+      setStats({ totalUsers, totalFunding, tierBreakdown });
+      setRecentPledges(profiles.slice(0, 10)); 
     } catch (err) {
-      console.error(err);
-      toast({
-        title: "Error",
-        description: "Failed to update funding goal.",
-        variant: "destructive",
-      });
+      console.error('Error fetching admin data:', err);
     } finally {
-      setIsUpdating(false);
+      setLoadingData(false);
     }
   };
 
-  const handleLogout = async () => {
-    await signOut();
-    navigate('/login');
+  const getTierPrice = (tierName) => {
+    switch (tierName) {
+      case 'THE BUILDER': return 100;
+      case 'THE FOUNDING MEMBER': return 500;
+      case 'THE ARCHITECT': return 10000;
+      case 'THE SOVEREIGN': return 25000;
+      default: return 0;
+    }
   };
 
-  if (isLoading) {
+  const downloadCSV = () => {
+    if (allUsers.length === 0) return;
+    const headers = ['ID', 'Email', 'First Name', 'Last Name', 'Tier', 'Total Contributed', 'Joined Date'];
+    const rows = allUsers.map(user => [
+      user.id,
+      user.email,
+      user.first_name || '',
+      user.last_name || '',
+      user.membership_tier || 'None',
+      user.contribution_amount || getTierPrice(user.membership_tier),
+      new Date(user.created_at).toLocaleDateString()
+    ]);
+    const csvContent = [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `maslow_users_export_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // 3. LOADING SCREEN (While verifying identity)
+  if (verifying || loadingData) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
-        <Loader2 className="w-8 h-8 animate-spin text-[#3B5998]" />
+      <div className="flex flex-col items-center justify-center min-h-screen bg-[#F5F1E8]">
+        <Lock className="w-12 h-12 text-[#C5A059] mb-4 animate-pulse" />
+        <div className="text-[#3B5998] font-serif text-xl tracking-widest">VERIFYING SECURITY CLEARANCE...</div>
       </div>
     );
   }
 
+  // 4. THE DASHBOARD (Only renders if isAdmin is true)
+  if (!isAdmin) return null;
+
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-6 w-full overflow-x-hidden">
-      <div className="w-full max-w-6xl mx-auto space-y-8">
-        
-        {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-6 rounded-xl shadow-sm border border-gray-100 gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-[#3B5998]">Admin Dashboard</h1>
-            <p className="text-gray-500 text-sm">Manage funding goals and track sponsorships</p>
-          </div>
-          <div className="flex gap-3 w-full md:w-auto">
-             <Button variant="outline" onClick={fetchData} size="sm" className="flex-1 md:flex-none">
-               <RefreshCw className="w-4 h-4 mr-2" /> Refresh
-             </Button>
-             <Button variant="destructive" onClick={handleLogout} size="sm" className="flex-1 md:flex-none">
-               <LogOut className="w-4 h-4 mr-2" /> Logout
-             </Button>
-          </div>
+    <div className="max-w-7xl mx-auto p-8 bg-[#F5F1E8] min-h-screen">
+      
+      {/* Header */}
+      <div className="flex justify-between items-end mb-12 border-b-4 border-[#C5A059] pb-6">
+        <div>
+          <h1 className="text-4xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Reactor Core</h1>
+          <p className="text-[#C5A059] font-bold mt-2">Maslow Administrative Command</p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Stats Cards */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Raised</CardTitle>
-              <DollarSign className="h-4 w-4 text-green-600" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{formatNumber(fundingGoal.current_total, { type: 'currency' })}</div>
-              <p className="text-xs text-muted-foreground">
-                {formatNumber((Number(fundingGoal.current_total) / Number(fundingGoal.goal_amount) * 100), { type: 'percent' })} of goal
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Contributions</CardTitle>
-              <Users className="h-4 w-4 text-blue-600" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{formatNumber(memberships.length)}</div>
-              <p className="text-xs text-muted-foreground">
-                Supporters recorded
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-               <CardTitle className="text-sm font-medium">Goal Setting</CardTitle>
-            </CardHeader>
-            <CardContent>
-               <form onSubmit={handleUpdateGoal} className="flex gap-2">
-                 <div className="flex-1">
-                   <Input 
-                     type="text"
-                     value={displayGoalAmount}
-                     onChange={handleGoalInputChange}
-                     placeholder="Enter goal amount"
-                     className="text-gray-900"
-                   />
-                 </div>
-                 <Button type="submit" size="sm" disabled={isUpdating} className="bg-[#3B5998]">
-                    {isUpdating ? '...' : 'Update'}
-                 </Button>
-               </form>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Membership Table */}
-        <Card className="w-full">
-          <CardHeader>
-            <CardTitle>Recent Sponsorships</CardTitle>
-            <CardDescription>
-              A list of all recorded membership contributions.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {/* Added overflow-x-auto and webkit-overflow-scrolling for mobile table response */}
-            <div className="w-full max-h-[500px] overflow-x-auto touch-auto">
-              <Table className="min-w-[600px]">
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Tier</TableHead>
-                    <TableHead>Amount</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>ID</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {memberships.length === 0 ? (
-                    <TableRow>
-                      <TableCell colSpan={5} className="text-center py-8 text-gray-500">
-                        No memberships found.
-                      </TableCell>
-                    </TableRow>
-                  ) : (
-                    memberships.map((mem) => (
-                      <TableRow key={mem.id}>
-                        <TableCell>{new Date(mem.created_at).toLocaleDateString()} {new Date(mem.created_at).toLocaleTimeString()}</TableCell>
-                        <TableCell className="font-medium text-[#3B5998]">{mem.tier_name}</TableCell>
-                        <TableCell className="font-bold">{formatNumber(mem.amount, { type: 'currency' })}</TableCell>
-                        <TableCell>
-                          <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                            mem.status === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                          }`}>
-                            {mem.status}
-                          </span>
-                        </TableCell>
-                        <TableCell className="text-xs text-gray-400 font-mono">{mem.id.slice(0, 8)}...</TableCell>
-                      </TableRow>
-                    ))
-                  )}
-                </TableBody>
-              </Table>
-            </div>
-          </CardContent>
-        </Card>
-        
-        {/* Revenue Simulator Section */}
-        <div className="w-full overflow-hidden">
-          <h2 className="text-2xl font-serif font-bold text-[#3B5998] mb-6">Financial Projections</h2>
-          <RevenueSimulator />
-        </div>
-
+        <Button 
+          onClick={downloadCSV}
+          className="bg-[#3B5998] text-white hover:bg-[#2d4475] flex items-center gap-2"
+        >
+          <Download size={18} /> Export CSV
+        </Button>
       </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+          className="bg-white p-8 rounded-xl shadow-lg border border-[#3B5998]/10"
+        >
+          <div className="flex items-center gap-4 mb-2">
+            <Users className="text-[#C5A059] w-8 h-8" />
+            <h3 className="text-sm font-bold text-[#3B5998] uppercase">Total Members</h3>
+          </div>
+          <p className="text-5xl font-black text-[#3B5998]">{stats.totalUsers}</p>
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+          className="bg-white p-8 rounded-xl shadow-lg border border-[#3B5998]/10"
+        >
+          <div className="flex items-center gap-4 mb-2">
+            <DollarSign className="text-green-600 w-8 h-8" />
+            <h3 className="text-sm font-bold text-[#3B5998] uppercase">Total Pledged</h3>
+          </div>
+          <p className="text-5xl font-black text-[#3B5998]">{formatNumber(stats.totalFunding)}</p>
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+          className="bg-white p-8 rounded-xl shadow-lg border border-[#3B5998]/10"
+        >
+          <div className="flex items-center gap-4 mb-2">
+            <Shield className="text-[#3B5998] w-8 h-8" />
+            <h3 className="text-sm font-bold text-[#3B5998] uppercase">Top Tier</h3>
+          </div>
+          <div className="text-sm space-y-1">
+            {Object.entries(stats.tierBreakdown).map(([tier, count]) => (
+              <div key={tier} className="flex justify-between border-b border-gray-100 pb-1 last:border-0">
+                <span className="font-medium text-[#3B5998]">{tier}</span>
+                <span className="font-bold text-[#C5A059]">{count}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Recent Activity Table */}
+      <div className="bg-white rounded-xl shadow-lg border border-[#3B5998]/10 overflow-hidden">
+        <div className="bg-[#3B5998] p-4">
+          <h3 className="text-white font-bold uppercase tracking-wider">Recent Accessions</h3>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left">
+            <thead className="bg-gray-50 border-b border-gray-200">
+              <tr>
+                <th className="p-4 text-xs font-bold text-[#3B5998] uppercase">Email</th>
+                <th className="p-4 text-xs font-bold text-[#3B5998] uppercase">Tier</th>
+                <th className="p-4 text-xs font-bold text-[#3B5998] uppercase">Date</th>
+                <th className="p-4 text-xs font-bold text-[#3B5998] uppercase text-right">Value</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {recentPledges.map((user) => (
+                <tr key={user.id} className="hover:bg-gray-50 transition-colors">
+                  <td className="p-4 text-[#3B5998] font-medium">{user.email}</td>
+                  <td className="p-4 text-sm text-gray-600">
+                    <span className="bg-[#F5F1E8] px-2 py-1 rounded text-[#3B5998] font-bold text-xs border border-[#C5A059]/30">
+                      {user.membership_tier || 'Guest'}
+                    </span>
+                  </td>
+                  <td className="p-4 text-sm text-gray-500">{new Date(user.created_at).toLocaleDateString()}</td>
+                  <td className="p-4 text-right font-bold text-[#3B5998]">
+                    {formatNumber(user.contribution_amount || getTierPrice(user.membership_tier))}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
   );
 };
