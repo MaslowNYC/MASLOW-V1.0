@@ -85,4 +85,90 @@ const Header = ({ setIsCartOpen }) => {
 
           {/* User Controls */}
           <div className="flex items-center gap-2 border-l border-[#3B5998]/20 pl-6">
-            {/*
+            <Link to="/admin">
+              <Button variant="ghost" size="sm" className="text-[#3B5998] hover:text-[#C5A059] hover:bg-[#3B5998]/5 h-8 text-xs uppercase tracking-wider">
+                <LayoutDashboard className="w-4 h-4 mr-2" />
+                Dashboard
+              </Button>
+            </Link>
+            
+            <Button variant="ghost" size="sm" onClick={handleLogout} className="text-[#3B5998]/60 hover:text-red-600 hover:bg-red-50 h-8">
+              <LogOut className="w-4 h-4" />
+            </Button>
+          </div>
+        </nav>
+
+        {/* Mobile Navigation */}
+        <div className="md:hidden flex items-center gap-4">
+            <Button 
+            variant="ghost" 
+            size="icon" 
+            className="relative text-[#3B5998] hover:text-[#C5A059]"
+            onClick={() => setIsCartOpen(true)}
+          >
+            <ShoppingBag className="w-5 h-5" />
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-[#C5A059] text-[#F5F1E8] text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                {formatNumber(cartCount)}
+              </span>
+            )}
+          </Button>
+          <Button 
+            variant="ghost" 
+            className="text-[#3B5998]"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </Button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-[#F5F1E8] border-t border-[#3B5998]/10 py-6 absolute w-full shadow-xl left-0 right-0 h-screen z-50">
+          <div className="container mx-auto px-4 flex flex-col gap-6">
+            <Link 
+              to="/" 
+              className={`text-lg font-bold tracking-widest uppercase ${isActive('/') ? 'text-[#C5A059]' : 'text-[#3B5998]'}`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Home
+            </Link>
+            {navLinks.map((link) => (
+              <Link 
+                key={link.name}
+                to={link.path} 
+                className={`text-lg font-bold tracking-widest uppercase ${isActive(link.path) ? 'text-[#C5A059]' : 'text-[#3B5998]'}`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {link.name}
+              </Link>
+            ))}
+            
+            <div className="h-px bg-[#3B5998]/10 my-2" />
+            
+            {/* Dashboard Mobile Link */}
+            <Link 
+              to="/admin" 
+              className="text-[#3B5998] hover:text-[#C5A059] font-medium tracking-wide transition-colors uppercase text-sm"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Dashboard
+            </Link>
+            
+            <Button 
+              onClick={handleLogout} 
+              className="text-red-500 hover:bg-red-100 w-full justify-start pl-0 uppercase text-sm"
+              variant="ghost"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+};
+
+export default Header;
