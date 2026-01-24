@@ -1,474 +1,234 @@
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { useAuth } from '@/contexts/SupabaseAuthContext';
+import React, { useEffect, useState } from 'react';
 import { supabase } from '@/lib/customSupabaseClient';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { useAuth } from '@/contexts/SupabaseAuthContext';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Download, Users, DollarSign, Shield, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { useToast } from '@/components/ui/use-toast';
-import { 
-  Loader2, 
-  Save, 
-  TrendingUp, 
-  Users, 
-  Building2, 
-  ShoppingBag,
-  LayoutDashboard,
-  Wallet,
-  AlertCircle
-} from 'lucide-react';
 import { formatNumber } from '@/utils/formatting';
 
-// Helper component for formatted input
-const FormattedInput = ({ value, onChange, prefix = "", suffix = "", ...props }) => {
-  const [displayValue, setDisplayValue] = useState('');
-
-  useEffect(() => {
-    if (value === '' || value === null || value === undefined) {
-      setDisplayValue('');
-    } else {
-      setDisplayValue(Number(value).toLocaleString('en-US'));
-    }
-  }, [value]);
-
-  const handleChange = (e) => {
-    const rawValue = e.target.value.replace(/[^0-9.]/g, '');
-    setDisplayValue(rawValue ? Number(rawValue).toLocaleString('en-US') : rawValue);
-    onChange(rawValue);
-  };
-
-  return (
-    <div className="relative">
-      {prefix && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">{prefix}</span>}
-      <Input 
-        {...props} 
-        type="text" 
-        value={displayValue} 
-        onChange={handleChange} 
-        className={`${prefix ? 'pl-7' : ''} ${suffix ? 'pr-8' : ''}`}
-      />
-      {suffix && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">{suffix}</span>}
-    </div>
-  );
-};
-
 const AdminFundingDashboard = () => {
-  const { user, isFounder } = useAuth();
-  const { toast } = useToast();
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [liveMemberCount, setLiveMemberCount] = useState(0);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  
+  // Security State
+  const [verifying, setVerifying] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  // Financial Projection State
-  const [formData, setFormData] = useState({
-    suites: 8,
-    hours_open: 14,
-    avg_duration: 30,
-    avg_price: 35,
-    occupancy_rate: 45,
-    retail_spend_per_visit: 12,
-    active_members: 150,
-    monthly_fee: 49,
-    brand_partners: 1,
-    fee_per_partner: 5000,
-    total_sq_ft: 2500,
-    rent_per_sq_ft: 65,
-    monthly_staff_cost: 12000,
-    monthly_utilities: 1500,
-    has_omny: true
+  // Data State
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalFunding: 0,
+    tierBreakdown: {}
   });
+  const [recentPledges, setRecentPledges] = useState([]);
+  const [allUsers, setAllUsers] = useState([]); 
+  const [loadingData, setLoadingData] = useState(true);
 
-  // Load Data (Live Count + Saved Projections)
+  // 1. SECURITY CHECK (The Bouncer)
   useEffect(() => {
-    if (!isFounder) return;
+    const checkAdminStatus = async () => {
+      if (!user) {
+        navigate('/'); // Not logged in? Get out.
+        return;
+      }
 
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        // 1. Get Live Waitlist Count
-        const { count, error: countError } = await supabase
-          .from('beta_signups')
-          .select('*', { count: 'exact', head: true });
-        
-        if (!countError) setLiveMemberCount(count || 0);
+      // Check the 'is_admin' flag in Supabase
+      const { data, error } = await supabase
+        .from('user_profiles')
+        .select('is_admin')
+        .eq('id', user.id)
+        .single();
 
-        // 2. Get Saved Projections
-        const { data, error } = await supabase
-          .from('financial_projections')
-          .select('*')
-          .eq('user_id', user.id)
-          .maybeSingle(); // Use maybeSingle to avoid 404 error if table empty
-
-        if (data) {
-          setFormData(prev => ({
-            ...prev,
-            ...data
-          }));
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
+      if (error || !data || data.is_admin !== true) {
+        console.warn("Unauthorized access attempt blocked.");
+        navigate('/'); // Logged in but not Admin? Get out.
+      } else {
+        setIsAdmin(true); // Welcome, Sir.
+        setVerifying(false);
+        fetchData(); // Only fetch sensitive data AFTER verifying admin
       }
     };
 
-    fetchData();
-  }, [user, isFounder]);
+    checkAdminStatus();
+  }, [user, navigate]);
 
-  const handleInputChange = (field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: field === 'has_omny' ? value : Number(value)
-    }));
-  };
-
-  const handleSave = async () => {
-    setSaving(true);
+  // 2. DATA FETCHING (Only runs if Admin)
+  const fetchData = async () => {
     try {
-      const { error } = await supabase
-        .from('financial_projections')
-        .upsert({
-          user_id: user.id,
-          ...formData,
-          updated_at: new Date().toISOString()
-        }, { onConflict: 'user_id' });
+      const { data: profiles, error } = await supabase
+        .from('user_profiles')
+        .select('*')
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
 
-      toast({
-        title: "Model Saved",
-        description: "Financial projections updated successfully.",
-        className: "bg-[#3B5998] text-[#F5F1E8] border-[#C5A059]"
+      setAllUsers(profiles); 
+
+      // Calculate Stats
+      const totalUsers = profiles.length;
+      let totalFunding = 0;
+      const tierBreakdown = {};
+
+      profiles.forEach(user => {
+        const amount = user.contribution_amount || getTierPrice(user.membership_tier);
+        totalFunding += amount;
+
+        const tier = user.membership_tier || 'Free/None';
+        tierBreakdown[tier] = (tierBreakdown[tier] || 0) + 1;
       });
-    } catch (error) {
-      console.error('Error saving:', error);
-      toast({ title: "Save Failed", variant: "destructive" });
+
+      setStats({ totalUsers, totalFunding, tierBreakdown });
+      setRecentPledges(profiles.slice(0, 10)); 
+    } catch (err) {
+      console.error('Error fetching admin data:', err);
     } finally {
-      setSaving(false);
+      setLoadingData(false);
     }
   };
 
-  // Calculations
-  const metrics = useMemo(() => {
-    // 1. Hull Revenue
-    const dailyMinutes = formData.hours_open * 60;
-    const dailySessionsCapacity = Math.floor(dailyMinutes / (formData.avg_duration || 30)) * formData.suites;
-    
-    // OMNY boost
-    const effectiveOccupancy = (formData.occupancy_rate / 100);
-    
-    const dailySessions = Math.round(dailySessionsCapacity * effectiveOccupancy);
-    const dailyHullRevenue = dailySessions * formData.avg_price;
-    const monthlyHullRevenue = dailyHullRevenue * 30;
-
-    // 2. Retail Revenue
-    const monthlyRetailRevenue = dailySessions * 30 * formData.retail_spend_per_visit;
-
-    // 3. Recurring Revenue
-    const monthlyMembershipRevenue = formData.active_members * formData.monthly_fee;
-    const monthlySponsorshipRevenue = formData.brand_partners * formData.fee_per_partner;
-
-    const totalMonthlyRevenue = monthlyHullRevenue + monthlyRetailRevenue + monthlyMembershipRevenue + monthlySponsorshipRevenue;
-    
-    // 4. Expenses
-    const annualRent = formData.total_sq_ft * formData.rent_per_sq_ft;
-    const monthlyRent = annualRent / 12;
-    const totalMonthlyExpenses = monthlyRent + formData.monthly_staff_cost + formData.monthly_utilities;
-
-    // 5. Profitability
-    const monthlyProfit = totalMonthlyRevenue - totalMonthlyExpenses;
-    const annualProfit = monthlyProfit * 12;
-    const profitMargin = totalMonthlyRevenue > 0 ? (monthlyProfit / totalMonthlyRevenue) * 100 : 0;
-
-    // 6. Break Even Point
-    const monthlyFixedExpenses = totalMonthlyExpenses;
-    const monthlyFixedRevenue = monthlyMembershipRevenue + monthlySponsorshipRevenue;
-    const variableRevenuePotential = dailySessionsCapacity * 30 * (formData.avg_price + formData.retail_spend_per_visit);
-    
-    let breakEvenOccupancy = 0;
-    if (variableRevenuePotential > 0) {
-      breakEvenOccupancy = ((monthlyFixedExpenses - monthlyFixedRevenue) / variableRevenuePotential) * 100;
+  const getTierPrice = (tierName) => {
+    switch (tierName) {
+      case 'THE BUILDER': return 100;
+      case 'THE FOUNDING MEMBER': return 500;
+      case 'THE ARCHITECT': return 10000;
+      case 'THE SOVEREIGN': return 25000;
+      default: return 0;
     }
+  };
 
-    return {
-      dailySessionsCapacity,
-      dailySessions,
-      monthlyHullRevenue,
-      monthlyRetailRevenue,
-      monthlyMembershipRevenue,
-      monthlySponsorshipRevenue,
-      totalMonthlyRevenue,
-      monthlyRent,
-      totalMonthlyExpenses,
-      monthlyProfit,
-      annualProfit,
-      profitMargin,
-      breakEvenOccupancy: Math.max(0, Math.min(100, breakEvenOccupancy))
-    };
-  }, [formData]);
+  const downloadCSV = () => {
+    if (allUsers.length === 0) return;
+    const headers = ['ID', 'Email', 'First Name', 'Last Name', 'Tier', 'Total Contributed', 'Joined Date'];
+    const rows = allUsers.map(user => [
+      user.id,
+      user.email,
+      user.first_name || '',
+      user.last_name || '',
+      user.membership_tier || 'None',
+      user.contribution_amount || getTierPrice(user.membership_tier),
+      new Date(user.created_at).toLocaleDateString()
+    ]);
+    const csvContent = [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `maslow_users_export_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
-  if (!isFounder) {
+  // 3. LOADING SCREEN (While verifying identity)
+  if (verifying || loadingData) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F5F1E8] text-[#3B5998]">
-        <div className="text-center space-y-4">
-          <AlertCircle className="w-16 h-16 mx-auto text-red-500" />
-          <h1 className="text-3xl font-bold">Access Denied</h1>
-          <p>Founder credentials required.</p>
-        </div>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-[#F5F1E8]">
+        <Lock className="w-12 h-12 text-[#C5A059] mb-4 animate-pulse" />
+        <div className="text-[#3B5998] font-serif text-xl tracking-widest">VERIFYING SECURITY CLEARANCE...</div>
       </div>
     );
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F5F1E8]">
-        <Loader2 className="w-12 h-12 text-[#C5A059] animate-spin" />
-      </div>
-    );
-  }
+  // 4. THE DASHBOARD (Only renders if isAdmin is true)
+  if (!isAdmin) return null;
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] pt-24 pb-12 px-4">
-      <div className="w-full max-w-7xl mx-auto space-y-8">
-        
-        {/* TOP BAR: Live Stats */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-[#3B5998]/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div>
-            <h1 className="text-2xl font-serif font-bold text-[#3B5998] flex items-center gap-3">
-              <LayoutDashboard className="w-6 h-6 text-[#C5A059]" />
-              Maslow Command Center
-            </h1>
-            <p className="text-gray-500 text-sm">System Status: Operational</p>
-          </div>
-          
-          <div className="flex items-center gap-6">
-            <div className="text-right">
-              <p className="text-xs uppercase tracking-widest text-gray-400 font-bold">Live Waitlist</p>
-              <p className="text-3xl font-bold text-[#3B5998]">{liveMemberCount.toLocaleString()}</p>
-            </div>
-            <div className="h-10 w-px bg-gray-200"></div>
-            <Button 
-              onClick={handleSave} 
-              disabled={saving}
-              className="bg-[#C5A059] hover:bg-[#b08d4b] text-white shadow-lg"
-            >
-              {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
-              Save Model
-            </Button>
-          </div>
+    <div className="max-w-7xl mx-auto p-8 bg-[#F5F1E8] min-h-screen">
+      
+      {/* Header */}
+      <div className="flex justify-between items-end mb-12 border-b-4 border-[#C5A059] pb-6">
+        <div>
+          <h1 className="text-4xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Revenue Command</h1>
+          <p className="text-[#C5A059] font-bold mt-2">Maslow Administrative Command</p>
         </div>
+        <Button 
+          onClick={downloadCSV}
+          className="bg-[#3B5998] text-white hover:bg-[#2d4475] flex items-center gap-2"
+        >
+          <Download size={18} /> Export CSV
+        </Button>
+      </div>
 
-        {/* MAIN SIMULATOR */}
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
-          
-          {/* INPUTS (Left Side) */}
-          <div className="xl:col-span-7 space-y-6">
-            
-            {/* Operations */}
-            <Card className="border-t-4 border-t-[#3B5998] shadow-sm bg-white">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-[#3B5998]">
-                  <Building2 className="w-5 h-5" />
-                  Hull Operations
-                </CardTitle>
-                <CardDescription>Capacity and pricing inputs.</CardDescription>
-              </CardHeader>
-              <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label>Number of Suites</Label>
-                  <FormattedInput value={formData.suites} onChange={(val) => handleInputChange('suites', val)} />
-                </div>
-                <div className="space-y-2">
-                  <Label>Hours Open / Day</Label>
-                  <FormattedInput value={formData.hours_open} onChange={(val) => handleInputChange('hours_open', val)} suffix="hrs" />
-                </div>
-                <div className="space-y-2">
-                  <Label>Session Price</Label>
-                  <FormattedInput value={formData.avg_price} onChange={(val) => handleInputChange('avg_price', val)} prefix="$" />
-                </div>
-                <div className="space-y-2">
-                  <Label>Duration</Label>
-                  <FormattedInput value={formData.avg_duration} onChange={(val) => handleInputChange('avg_duration', val)} suffix="min" />
-                </div>
-                
-                <div className="col-span-1 md:col-span-2 pt-4 border-t border-dashed">
-                  <div className="flex justify-between mb-2">
-                    <Label className="font-semibold text-[#3B5998]">Occupancy Rate</Label>
-                    <span className="text-[#C5A059] font-bold">{formData.occupancy_rate}%</span>
-                  </div>
-                  <Slider 
-                    value={[formData.occupancy_rate]} 
-                    onValueChange={(val) => handleInputChange('occupancy_rate', val[0])}
-                    max={100} 
-                    step={1}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Members & Sponsors */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="shadow-sm bg-white">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base flex items-center gap-2 text-[#3B5998]">
-                    <Users className="w-4 h-4" />
-                    Membership
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <Label className="text-xs text-gray-500">Active Members</Label>
-                    <FormattedInput value={formData.active_members} onChange={(val) => handleInputChange('active_members', val)} />
-                  </div>
-                  <div className="space-y-2">
-                    <Label className="text-xs text-gray-500">Monthly Fee</Label>
-                    <FormattedInput value={formData.monthly_fee} onChange={(val) => handleInputChange('monthly_fee', val)} prefix="$" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="shadow-sm bg-white">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base flex items-center gap-2 text-[#3B5998]">
-                    <ShoppingBag className="w-4 h-4" />
-                    Retail & Partners
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <Label className="text-xs text-gray-500">Spend / Visit</Label>
-                    <FormattedInput value={formData.retail_spend_per_visit} onChange={(val) => handleInputChange('retail_spend_per_visit', val)} prefix="$" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label className="text-xs text-gray-500">Partner Revenue</Label>
-                    <FormattedInput value={formData.fee_per_partner} onChange={(val) => handleInputChange('fee_per_partner', val)} prefix="$" />
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Expenses */}
-            <Card className="border-t-4 border-t-red-400 shadow-sm bg-white">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-red-700">
-                  <Wallet className="w-5 h-5" />
-                  Expenses (Monthly)
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="grid grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label>Rent (Total/Yr)</Label>
-                  <div className="text-sm font-medium text-gray-600 mb-2">
-                    {formatNumber(formData.total_sq_ft * formData.rent_per_sq_ft, { type: 'currency', maximumFractionDigits: 0 })}
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <FormattedInput placeholder="Sq Ft" value={formData.total_sq_ft} onChange={(val) => handleInputChange('total_sq_ft', val)} />
-                    <FormattedInput placeholder="$/ft" value={formData.rent_per_sq_ft} onChange={(val) => handleInputChange('rent_per_sq_ft', val)} />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label>Staff & Utils</Label>
-                  <div className="grid grid-cols-1 gap-2">
-                    <FormattedInput placeholder="Staff" value={formData.monthly_staff_cost} onChange={(val) => handleInputChange('monthly_staff_cost', val)} prefix="$" />
-                    <FormattedInput placeholder="Utils" value={formData.monthly_utilities} onChange={(val) => handleInputChange('monthly_utilities', val)} prefix="$" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+          className="bg-white p-8 rounded-xl shadow-lg border border-[#3B5998]/10"
+        >
+          <div className="flex items-center gap-4 mb-2">
+            <Users className="text-[#C5A059] w-8 h-8" />
+            <h3 className="text-sm font-bold text-[#3B5998] uppercase">Total Members</h3>
           </div>
+          <p className="text-5xl font-black text-[#3B5998]">{stats.totalUsers}</p>
+        </motion.div>
 
-          {/* OUTPUTS (Right Side) */}
-          <div className="xl:col-span-5 space-y-6">
-            
-            {/* HERO METRIC */}
-            <Card className="bg-[#3B5998] text-white border-none shadow-xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-32 bg-[#C5A059] opacity-10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
-              <CardHeader>
-                <CardTitle className="text-[#C5A059] uppercase tracking-wider text-sm font-semibold">Projected Annual Profit</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-5xl font-serif font-bold mb-2">
-                  {formatNumber(metrics.annualProfit, { type: 'currency', maximumFractionDigits: 0 })}
-                </div>
-                <div className="flex gap-4 mt-4">
-                  <div className="bg-white/10 px-3 py-1 rounded text-sm font-medium">
-                    Margin: <span className={metrics.profitMargin > 20 ? "text-green-300" : "text-yellow-300"}>{formatNumber(metrics.profitMargin, { type: 'percent' })}</span>
-                  </div>
-                  <div className="bg-white/10 px-3 py-1 rounded text-sm font-medium">
-                    Break-even: <span className="text-white">{formatNumber(metrics.breakEvenOccupancy, { maximumFractionDigits: 1 })}%</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* P&L Breakdown */}
-            <Card className="shadow-lg border-t-4 border-t-[#C5A059] bg-white">
-              <CardHeader>
-                <CardTitle className="text-[#3B5998]">Monthly P&L</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                
-                {/* Revenue */}
-                <div className="space-y-2">
-                  <div className="flex justify-between items-end border-b pb-1">
-                    <span className="font-bold text-gray-700">Revenue</span>
-                    <span className="font-bold text-[#3B5998]">{formatNumber(metrics.totalMonthlyRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span>
-                  </div>
-                  <div className="pl-4 space-y-1 text-sm text-gray-500">
-                    <div className="flex justify-between"><span>Sessions</span><span>{formatNumber(metrics.monthlyHullRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
-                    <div className="flex justify-between"><span>Retail</span><span>{formatNumber(metrics.monthlyRetailRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
-                    <div className="flex justify-between"><span>Memberships</span><span>{formatNumber(metrics.monthlyMembershipRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
-                  </div>
-                </div>
-
-                {/* Expenses */}
-                <div className="space-y-2 pt-2">
-                  <div className="flex justify-between items-end border-b pb-1">
-                    <span className="font-bold text-gray-700">Expenses</span>
-                    <span className="font-bold text-red-600">-{formatNumber(metrics.totalMonthlyExpenses, { type: 'currency', maximumFractionDigits: 0 })}</span>
-                  </div>
-                  <div className="pl-4 space-y-1 text-sm text-gray-500">
-                    <div className="flex justify-between"><span>Rent</span><span>{formatNumber(metrics.monthlyRent, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
-                    <div className="flex justify-between"><span>Staff & Ops</span><span>{formatNumber(formData.monthly_staff_cost + formData.monthly_utilities, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
-                  </div>
-                </div>
-
-                {/* Net */}
-                <div className="flex justify-between items-center pt-4 border-t-2 border-gray-100">
-                  <span className="text-lg font-bold text-gray-900">Net Monthly</span>
-                  <span className={`text-xl font-bold ${metrics.monthlyProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                     {formatNumber(metrics.monthlyProfit, { type: 'currency', maximumFractionDigits: 0 })}
-                  </span>
-                </div>
-
-              </CardContent>
-            </Card>
-
-            {/* Foot Traffic Stats */}
-            <Card className="bg-[#3B5998]/5 border-none">
-              <CardContent className="p-6">
-                <h4 className="font-bold text-[#3B5998] mb-4 flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4" />
-                  Traffic Metrics
-                </h4>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <div className="text-xs text-gray-500 uppercase">Daily Capacity</div>
-                    <div className="text-lg font-bold text-gray-800">{metrics.dailySessionsCapacity}</div>
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-500 uppercase">Est. Visits</div>
-                    <div className="text-lg font-bold text-[#C5A059]">{metrics.dailySessions}</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+          className="bg-white p-8 rounded-xl shadow-lg border border-[#3B5998]/10"
+        >
+          <div className="flex items-center gap-4 mb-2">
+            <DollarSign className="text-green-600 w-8 h-8" />
+            <h3 className="text-sm font-bold text-[#3B5998] uppercase">Total Pledged</h3>
           </div>
+          <p className="text-5xl font-black text-[#3B5998]">{formatNumber(stats.totalFunding)}</p>
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+          className="bg-white p-8 rounded-xl shadow-lg border border-[#3B5998]/10"
+        >
+          <div className="flex items-center gap-4 mb-2">
+            <Shield className="text-[#3B5998] w-8 h-8" />
+            <h3 className="text-sm font-bold text-[#3B5998] uppercase">Top Tier</h3>
+          </div>
+          <div className="text-sm space-y-1">
+            {Object.entries(stats.tierBreakdown).map(([tier, count]) => (
+              <div key={tier} className="flex justify-between border-b border-gray-100 pb-1 last:border-0">
+                <span className="font-medium text-[#3B5998]">{tier}</span>
+                <span className="font-bold text-[#C5A059]">{count}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Recent Activity Table */}
+      <div className="bg-white rounded-xl shadow-lg border border-[#3B5998]/10 overflow-hidden">
+        <div className="bg-[#3B5998] p-4">
+          <h3 className="text-white font-bold uppercase tracking-wider">Recent Accessions</h3>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left">
+            <thead className="bg-gray-50 border-b border-gray-200">
+              <tr>
+                <th className="p-4 text-xs font-bold text-[#3B5998] uppercase">Email</th>
+                <th className="p-4 text-xs font-bold text-[#3B5998] uppercase">Tier</th>
+                <th className="p-4 text-xs font-bold text-[#3B5998] uppercase">Date</th>
+                <th className="p-4 text-xs font-bold text-[#3B5998] uppercase text-right">Value</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {recentPledges.map((user) => (
+                <tr key={user.id} className="hover:bg-gray-50 transition-colors">
+                  <td className="p-4 text-[#3B5998] font-medium">{user.email}</td>
+                  <td className="p-4 text-sm text-gray-600">
+                    <span className="bg-[#F5F1E8] px-2 py-1 rounded text-[#3B5998] font-bold text-xs border border-[#C5A059]/30">
+                      {user.membership_tier || 'Guest'}
+                    </span>
+                  </td>
+                  <td className="p-4 text-sm text-gray-500">{new Date(user.created_at).toLocaleDateString()}</td>
+                  <td className="p-4 text-right font-bold text-[#3B5998]">
+                    {formatNumber(user.contribution_amount || getTierPrice(user.membership_tier))}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
+
     </div>
   );
 };
