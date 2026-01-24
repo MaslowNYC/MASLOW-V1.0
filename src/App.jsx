@@ -34,7 +34,9 @@ const AppContent = () => {
   const location = useLocation();
   const { user } = useAuth();
   
-  // Hide Header ONLY on Login page or if Public (Not Logged In) looking at Hero
+  // Hide Header/Footer only if:
+  // 1. We are on the Login page
+  // 2. We are Public (not logged in) and looking at the Root URL (Velvet Rope)
   const isHideHeaderPath = location.pathname === '/login' || (!user && location.pathname === '/');
 
   return (
@@ -51,7 +53,7 @@ const AppContent = () => {
 
           {/* --- INSIDER ROUTES --- */}
           <Route path="/hull" element={<ProtectedRoute><SanctuaryPage /></ProtectedRoute>} />
-          <Route path="/sanctuary" element={<Navigate to="/hull" replace />} /> {/* Redirect old links */}
+          <Route path="/sanctuary" element={<Navigate to="/hull" replace />} />
           <Route path="/lotus" element={<ProtectedRoute><TheLotusPage /></ProtectedRoute>} />
           <Route path="/impact" element={<ProtectedRoute><ImpactPage /></ProtectedRoute>} />
           <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
