@@ -27,7 +27,6 @@ import StorePage from '@/pages/StorePage';
 import ProductDetailPage from '@/pages/ProductDetailPage';
 import CheckoutSuccessPage from '@/pages/CheckoutSuccessPage';
 import LocationDetail from '@/pages/LocationDetail';
-import ReactorCorePage from '@/pages/ReactorCorePage';
 
 // Helper component to handle logic inside the Router
 const AppContent = () => {
@@ -38,7 +37,7 @@ const AppContent = () => {
   // Define Lock Screen paths
   const isLockScreen = location.pathname === '/' || location.pathname === '/login';
 
-  // --- AUTO-USHER FIX ---
+  // --- AUTO-USHER ---
   // If logged in and on the Lock Screen, go directly to The Hull.
   if (!loading && user && isLockScreen) {
     return <Navigate to="/hull" replace />;
@@ -56,13 +55,12 @@ const AppContent = () => {
           <Route path="/login" element={<LoginPage />} />
 
           {/* --- INSIDER ROUTES (LOCKED) --- */}
-          {/* Renamed /sanctuary to /hull */}
           <Route path="/hull" element={<ProtectedRoute><SanctuaryPage /></ProtectedRoute>} />
           <Route path="/lotus" element={<ProtectedRoute><TheLotusPage /></ProtectedRoute>} />
           <Route path="/impact" element={<ProtectedRoute><ImpactPage /></ProtectedRoute>} />
           <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
           
-          {/* --- COMMERCE ROUTES (Restored) --- */}
+          {/* --- COMMERCE ROUTES --- */}
           <Route path="/store" element={<ProtectedRoute><StorePage /></ProtectedRoute>} />
           <Route path="/product/:id" element={<ProtectedRoute><ProductDetailPage /></ProtectedRoute>} />
           <Route path="/checkout-success" element={<ProtectedRoute><CheckoutSuccessPage /></ProtectedRoute>} />
@@ -70,9 +68,8 @@ const AppContent = () => {
 
           {/* --- FOUNDER ROUTE --- */}
           <Route path="/admin" element={<ProtectedRoute requireFounder={true}><AdminFundingDashboard /></ProtectedRoute>} />
-          <Route path="/reactor-core" element={<ProtectedRoute requireFounder={true}><ReactorCorePage /></ProtectedRoute>} />
 
-          {/* Catch-all: Send lost people back to Home (which auto-ushers to /hull) */}
+          {/* Catch-all: Send lost people to Home (which auto-ushers to /hull) */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         
