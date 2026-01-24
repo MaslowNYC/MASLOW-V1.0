@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import { Helmet } from 'react-helmet';
 import { Toaster } from '@/components/ui/toaster';
 import { StripeProvider } from '@/contexts/StripeContext';
-import { AuthProvider } from '@/contexts/SupabaseAuthContext';
+import { AuthProvider, useAuth } from '@/contexts/SupabaseAuthContext'; // Import useAuth
 import { CartProvider } from '@/hooks/useCart';
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/react"
@@ -24,17 +24,25 @@ import MembershipPage from '@/pages/MembershipPage';
 import ImpactPage from '@/pages/ImpactPage';
 import AdminFundingDashboard from '@/components/AdminFundingDashboard';
 
-// Helper component to conditionally hide header/footer
+// Helper component to handle logic inside the Router
 const AppContent = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const location = useLocation();
+  const { user, loading } = useAuth(); // Get user status
   
-  // Define pages where the menu should be HIDDEN
+  // Define Lock Screen paths
   const isLockScreen = location.pathname === '/' || location.pathname === '/login';
+
+  // --- THE FIX: AUTO-USHER ---
+  // If user is logged in (and not loading) and tries to view the Lock Screen, 
+  // send them to The Hull immediately.
+  if (!loading && user && isLockScreen) {
+    return <Navigate to="/sanctuary" replace />;
+  }
 
   return (
     <div className="min-h-screen bg-[#1D5DA0] flex flex-col">
-      {/* Only show Header if we are NOT on the lock screen */}
+      {/* Show Header only if we are NOT on the lock screen */}
       {!isLockScreen && <Header setIsCartOpen={setIsCartOpen} />}
 
       <main className="flex-grow">
@@ -52,7 +60,7 @@ const AppContent = () => {
           {/* --- FOUNDER ROUTE --- */}
           <Route path="/admin" element={<ProtectedRoute requireFounder={true}><AdminFundingDashboard /></ProtectedRoute>} />
 
-          {/* Redirect lost people to the Lock Screen */}
+          {/* Redirect lost people to home */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         
@@ -60,9 +68,7 @@ const AppContent = () => {
         <SpeedInsights />
       </main>
 
-      {/* Only show Footer if we are NOT on the lock screen */}
       {!isLockScreen && <Footer />}
-      
       <ShoppingCart isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} />
       <Toaster />
     </div>

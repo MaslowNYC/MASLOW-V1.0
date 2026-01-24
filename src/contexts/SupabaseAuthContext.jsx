@@ -1,114 +1,73 @@
 
-import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '@/lib/customSupabaseClient';
-import { useToast } from '@/components/ui/use-toast';
 
-const AuthContext = createContext(undefined);
+const AuthContext = createContext({});
+
+export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const { toast } = useToast();
-
   const [user, setUser] = useState(null);
-  const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isFounder, setIsFounder] = useState(false);
 
-  const handleSession = useCallback(async (session) => {
-    setSession(session);
-    setUser(session?.user ?? null);
-    setLoading(false);
-  }, []);
+  // --- HARDCODED FOUNDER LIST ---
+  // This ensures your email ALWAYS triggers the Dashboard button
+  const FOUNDER_EMAILS = [
+    'patrick@maslownyc.com',
+    // Add other founder emails here if needed
+  ];
 
   useEffect(() => {
     const getSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      handleSession(session);
+      setUser(session?.user ?? null);
+      checkFounderStatus(session?.user);
+      setLoading(false);
     };
 
     getSession();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        handleSession(session);
-      }
-    );
-
-    return () => subscription.unsubscribe();
-  }, [handleSession]);
-
-  // FIX: This function now tells Supabase where to redirect users
-  const signUp = useCallback(async (email, password, metadata = {}) => {
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: metadata,
-        emailRedirectTo: window.location.origin, 
-      },
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setUser(session?.user ?? null);
+      checkFounderStatus(session?.user);
+      setLoading(false);
     });
 
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: "Sign up Failed",
-        description: error.message || "Something went wrong",
-      });
+    return () => {
+      subscription?.unsubscribe();
+    };
+  }, []);
+
+  const checkFounderStatus = async (currentUser) => {
+    if (!currentUser || !currentUser.email) {
+      setIsFounder(false);
+      return;
     }
 
-    return { error };
-  }, [toast]);
-
-  const signIn = useCallback(async (email, password) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: "Sign in Failed",
-        description: error.message || "Something went wrong",
-      });
+    // 1. Check Hardcoded List (Case insensitive)
+    const email = currentUser.email.toLowerCase();
+    const isHardcodedFounder = FOUNDER_EMAILS.includes(email);
+    
+    if (isHardcodedFounder) {
+      console.log(`Founder access granted for: ${email}`);
+      setIsFounder(true);
+      return;
     }
 
-    return { error };
-  }, [toast]);
+    // 2. (Optional) Check Database Role here in the future
+    setIsFounder(false);
+  };
 
-  const signOut = useCallback(async () => {
-    const { error } = await supabase.auth.signOut();
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    setIsFounder(false);
+  };
 
-    if (error) {
-      toast({
-        variant: "destructive",
-        title: "Sign out Failed",
-        description: error.message || "Something went wrong",
-      });
-    }
-
-    return { error };
-  }, [toast]);
-
-  const isFounder = useMemo(() => {
-    return user?.email?.endsWith('@maslownyc.com') ?? false;
-  }, [user]);
-
-  const value = useMemo(() => ({
-    user,
-    session,
-    loading,
-    isFounder,
-    signUp,
-    signIn,
-    signOut,
-  }), [user, session, loading, isFounder, signUp, signIn, signOut]);
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  return (
+    <AuthContext.Provider value={{ user, signOut, loading, isFounder }}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 };
