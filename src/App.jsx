@@ -15,10 +15,12 @@ import Footer from '@/components/Footer';
 import ShoppingCart from '@/components/ShoppingCart';
 import FloatingMembershipButton from '@/components/FloatingMembershipButton';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import AdminFundingDashboard from '@/components/AdminFundingDashboard'; // Money (Private)
 
 // Pages
 import HomePage from '@/pages/HomePage';
-import LoginPage from '@/pages/LoginPage';
+// FIX: LoginPage is in /components, not /pages
+import LoginPage from '@/components/LoginPage'; 
 import ImpactPage from '@/pages/ImpactPage';
 import SanctuaryPage from '@/pages/SanctuaryPage';
 import MembershipPage from '@/pages/MembershipPage';
@@ -26,11 +28,7 @@ import LocationDetail from '@/pages/LocationDetail';
 import StorePage from '@/pages/StorePage';
 import ProductDetailPage from '@/pages/ProductDetailPage';
 import CheckoutSuccessPage from '@/pages/CheckoutSuccessPage';
-
-// --- THE CRITICAL SWAP ---
-// We are NOT importing ReactorCorePage anymore.
-import TheLotusPage from '@/pages/TheLotusPage'; // <--- The Design (Public)
-import AdminFundingDashboard from '@/components/AdminFundingDashboard'; // <--- The Money (Private)
+import TheLotusPage from '@/pages/TheLotusPage'; // Design (Public)
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -58,8 +56,7 @@ function App() {
                   <Route path="/membership" element={<MembershipPage />} />
                   <Route path="/locations/:slug" element={<LocationDetail />} />
                   
-                  {/* --- FIXING THE LOTUS ROUTE --- */}
-                  {/* Old: Pointed to Financials. New: Points to the Design Layers */}
+                  {/* The Lotus Design (Public) */}
                   <Route path="/lotus" element={<TheLotusPage />} />
 
                   {/* Protected Routes */}
@@ -81,8 +78,7 @@ function App() {
                   />
                   <Route path="/checkout-success" element={<CheckoutSuccessPage />} />
 
-                  {/* --- FIXING THE ADMIN ROUTE --- */}
-                  {/* This is where the Financials live now. Only for YOU. */}
+                  {/* Admin Dashboard (Private - Founder Only) */}
                   <Route
                     path="/admin"
                     element={
