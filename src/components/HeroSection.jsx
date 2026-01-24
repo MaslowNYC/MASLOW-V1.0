@@ -2,54 +2,39 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import BetaSignupModal from '@/components/BetaSignupModal';
 import HeroImage from '@/components/HeroImage';
 import { supabase } from '@/lib/customSupabaseClient';
-import { useNavigate } from 'react-router-dom'; // Added for Login link
-import { Lock } from 'lucide-react'; // Added for Login icon
+import { useNavigate } from 'react-router-dom';
+import { Lock, ArrowRight } from 'lucide-react';
 
 const HeroSection = () => {
-  const [isBetaModalOpen, setIsBetaModalOpen] = useState(false);
   const navigate = useNavigate();
   // We start at 254 to maintain the "Velvet Rope" scarcity illusion
   const FOUNDER_SEED_COUNT = 254; 
   const [memberCount, setMemberCount] = useState(FOUNDER_SEED_COUNT);
 
   useEffect(() => {
-    // 1. Fetch the initial count from the database
+    // 1. Fetch the count (Total Users + Beta Signups)
     const fetchCount = async () => {
       try {
-        const { count, error } = await supabase
+        // Count real users (Profiles)
+        const { count: userCount } = await supabase
+          .from('user_profiles')
+          .select('*', { count: 'exact', head: true });
+          
+        // Count beta signups (Legacy)
+        const { count: betaCount } = await supabase
           .from('beta_signups')
           .select('*', { count: 'exact', head: true });
 
-        if (error) {
-          console.error('Error fetching count:', error);
-        } else {
-          // Display = Seed (254) + Real Signups
-          setMemberCount(FOUNDER_SEED_COUNT + (count || 0));
-        }
+        // Total "Waitlist" Number
+        setMemberCount(FOUNDER_SEED_COUNT + (userCount || 0) + (betaCount || 0));
       } catch (err) {
         console.error('Connection error:', err);
       }
     };
 
     fetchCount();
-
-    // 2. Set up Real-Time Listener
-    const subscription = supabase
-      .channel('public:beta_signups')
-      .on('postgres_changes', 
-        { event: 'INSERT', schema: 'public', table: 'beta_signups' }, 
-        (payload) => {
-          setMemberCount(prev => prev + 1);
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(subscription);
-    };
   }, []);
 
   return (
@@ -93,19 +78,19 @@ const HeroSection = () => {
 
           <div className="space-y-1">
             <p className="text-[#94A3B8] text-[10px] uppercase tracking-[0.3em] font-medium">
-              Current Waitlist Position
+              Current Member Count
             </p>
             <div className="text-4xl md:text-5xl font-serif text-white font-medium tracking-tighter tabular-nums">
               #{memberCount}
             </div>
           </div>
 
-          {/* 5. The "Velvet Rope" Button */}
+          {/* 5. The "Velvet Rope" Button -> Now goes to Account Creation */}
           <Button 
-            onClick={() => setIsBetaModalOpen(true)}
+            onClick={() => navigate('/login?mode=signup')}
             className="bg-transparent border border-[#C5A059]/50 text-[#C5A059] hover:bg-[#C5A059] hover:text-[#0F172A] text-xs font-bold py-6 px-10 uppercase tracking-[0.2em] rounded-sm transition-all duration-500 shadow-[0_0_20px_rgba(197,160,89,0.05)] hover:shadow-[0_0_30px_rgba(197,160,89,0.3)]"
           >
-            Get In Line
+            Join The Waitlist <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </motion.div>
 
@@ -127,8 +112,6 @@ const HeroSection = () => {
         </motion.div>
 
       </div>
-
-      <BetaSignupModal isOpen={isBetaModalOpen} onClose={() => setIsBetaModalOpen(false)} />
     </section>
   );
 };
