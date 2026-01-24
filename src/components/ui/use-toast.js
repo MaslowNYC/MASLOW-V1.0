@@ -1,5 +1,4 @@
 
-// Inspired by react-hot-toast library
 import * as React from "react"
 
 const TOAST_LIMIT = 1
@@ -21,23 +20,11 @@ function genId() {
 
 const toastTimeouts = new Map()
 
-const addToRemoveQueue = (toastId) => {
-  if (toastTimeouts.has(toastId)) {
-    return
-  }
+// --- DISPATCHER (Moved to Top) ---
+let memoryState = { toasts: [] }
+const listeners = []
 
-  const timeout = setTimeout(() => {
-    toastTimeouts.delete(toastId)
-    dispatch({
-      type: actionTypes.REMOVE_TOAST,
-      toastId: toastId,
-    })
-  }, TOAST_REMOVE_DELAY)
-
-  toastTimeouts.set(toastId, timeout)
-}
-
-export const reducer = (state, action) => {
+const reducer = (state, action) => {
   switch (action.type) {
     case actionTypes.ADD_TOAST:
       return {
@@ -56,8 +43,6 @@ export const reducer = (state, action) => {
     case actionTypes.DISMISS_TOAST: {
       const { toastId } = action
 
-      // ! Side effects ! - This could be extracted into a hook,
-      // but for simplicity we keep it here.
       if (toastId) {
         addToRemoveQueue(toastId)
       } else {
@@ -92,17 +77,32 @@ export const reducer = (state, action) => {
   }
 }
 
-const listeners = []
-
-let memoryState = { toasts: [] }
-
-function dispatch(action) {
+// Safe Dispatch function
+const dispatch = (action) => {
   memoryState = reducer(memoryState, action)
   listeners.forEach((listener) => {
     listener(memoryState)
   })
 }
 
+// --- QUEUE MANAGER ---
+const addToRemoveQueue = (toastId) => {
+  if (toastTimeouts.has(toastId)) {
+    return
+  }
+
+  const timeout = setTimeout(() => {
+    toastTimeouts.delete(toastId)
+    dispatch({
+      type: actionTypes.REMOVE_TOAST,
+      toastId: toastId,
+    })
+  }, TOAST_REMOVE_DELAY)
+
+  toastTimeouts.set(toastId, timeout)
+}
+
+// --- EXPORTS ---
 function toast({ ...props }) {
   const id = genId()
 
@@ -152,4 +152,4 @@ function useToast() {
   }
 }
 
-export { useToast, toast }
+export { useToast, toast, reducer }

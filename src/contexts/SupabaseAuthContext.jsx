@@ -1,115 +1,100 @@
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
 import { supabase } from '@/lib/customSupabaseClient';
 
-const AuthContext = createContext({});
-
-export const useAuth = () => useContext(AuthContext);
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isFounder, setIsFounder] = useState(false);
-
-  // --- FOUNDER WHITELIST ---
-  // 1. Make sure your email is in this list.
-  // 2. We use lowercase for comparison to avoid capitalization issues.
-  const FOUNDER_EMAILS = [
-    'patrick@maslownyc.com',
-    'patrickmay@maslownyc.com', // Added just in case
-    // Add any other aliases here
-  ];
+  const [isFounder, setIsFounder] = useState(false); // Founder/Admin check
 
   useEffect(() => {
-    // 1. Initial Session Check
-    const initializeAuth = async () => {
+    // Check active sessions and sets the user
+    const getSession = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
-        
+        setUser(session?.user ?? null);
         if (session?.user) {
-          console.log("Auth: Session found for", session.user.email);
-          setUser(session.user);
-          // CRITICAL: We await this to ensure isFounder is set BEFORE loading becomes false
-          await checkFounderStatus(session.user);
-        } else {
-          console.log("Auth: No session found.");
-          setUser(null);
-          setIsFounder(false);
+          checkFounderStatus(session.user.id);
         }
-      } catch (error) {
-        console.error('Auth initialization error:', error);
+      } catch (err) {
+        console.error("Session check failed", err);
       } finally {
         setLoading(false);
       }
     };
 
-    initializeAuth();
+    getSession();
 
-    // 2. Listen for Auth Changes (Login/Logout)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log(`Auth Event: ${event}`);
-      
+    // Listen for changes on auth state
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      setUser(session?.user ?? null);
       if (session?.user) {
-        setUser(session.user);
-        await checkFounderStatus(session.user);
-      } else {
-        setUser(null);
-        setIsFounder(false);
+        checkFounderStatus(session.user.id);
       }
       setLoading(false);
     });
 
-    return () => {
-      subscription?.unsubscribe();
-    };
+    return () => subscription.unsubscribe();
   }, []);
 
-  const checkFounderStatus = async (currentUser) => {
-    if (!currentUser || !currentUser.email) {
-      console.log("Auth: No user email to check.");
-      setIsFounder(false);
-      return;
-    }
-
-    // Normalize email (lowercase + trim whitespace)
-    const email = currentUser.email.toLowerCase().trim();
-    
-    console.log(`Auth: Checking founder status for [${email}]...`);
-    
-    const isHardcodedFounder = FOUNDER_EMAILS.includes(email);
-    
-    if (isHardcodedFounder) {
-      console.log("Auth: ✅ Founder Access GRANTED.");
-      setIsFounder(true);
-    } else {
-      console.log("Auth: ❌ Founder Access DENIED. Email not in whitelist.");
-      setIsFounder(false);
-    }
-  };
-
-  const signIn = async (email, password) => {
+  const checkFounderStatus = async (userId) => {
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (error) throw error;
-      return { data, error: null };
+        const { data, error } = await supabase
+            .from('user_profiles')
+            .select('is_admin')
+            .eq('id', userId)
+            .single();
+        
+        if (data && data.is_admin) {
+            setIsFounder(true);
+        } else {
+            setIsFounder(false);
+        }
     } catch (error) {
-      console.error("Login Error:", error.message);
-      return { data: null, error };
+        console.error("Founder check failed:", error);
     }
   };
+
+  // Wrapped methods to ensure they return consistent structure even on crash
+  const signUp = async (data) => {
+      try {
+        return await supabase.auth.signUp(data);
+      } catch (error) {
+        return { data: null, error };
+      }
+  }
+
+  const signIn = async (data) => {
+      try {
+        return await supabase.auth.signInWithPassword(data);
+      } catch (error) {
+        return { data: null, error };
+      }
+  }
 
   const signOut = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-    setIsFounder(false);
+      try {
+        return await supabase.auth.signOut();
+      } catch (error) {
+        return { error };
+      }
+  }
+
+  // Exposed value
+  const value = {
+    signUp,
+    signIn,
+    signOut,
+    user,
+    loading,
+    isFounder, 
   };
 
-  return (
-    <AuthContext.Provider value={{ user, signIn, signOut, loading, isFounder }}>
-      {!loading && children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+export const useAuth = () => {
+  return useContext(AuthContext);
 };
