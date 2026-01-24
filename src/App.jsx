@@ -1,4 +1,5 @@
 
+
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/react" // <--- ADD THIS
 import React, { useState } from 'react';
@@ -19,6 +20,7 @@ import AdminFundingDashboard from '@/components/AdminFundingDashboard';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
 // Pages
+import TheLotusPage from '@/pages/TheLotusPage';
 import HomePage from '@/pages/HomePage';
 import StorePage from '@/pages/StorePage';
 import ProductDetailPage from '@/pages/ProductDetailPage';
@@ -27,7 +29,7 @@ import ImpactPage from '@/pages/ImpactPage';
 import SanctuaryPage from '@/pages/SanctuaryPage';
 import MembershipPage from '@/pages/MembershipPage';
 import LocationDetail from '@/pages/LocationDetail';
-import ReactorCorePage from '@/pages/ReactorCorePage';
+//import ReactorCorePage from '@/pages/ReactorCorePage';
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -63,7 +65,8 @@ function App() {
                   <Route path="/sanctuary" element={<SanctuaryPage />} />
                   <Route path="/membership" element={<MembershipPage />} />
                   <Route path="/locations/:slug" element={<LocationDetail />} />
-
+                  <Route path="/lotus" element={<TheLotusPage />} />
+                  
                   {/* Protected Routes */}
                   <Route
                     path="/store"
@@ -83,6 +86,14 @@ function App() {
                   />
                   {/* The Lotus Route */}
                   <Route
+                    path="/admin"
+                    element={
+                      <ProtectedRoute requireFounder={true}>
+                        <AdminFundingDashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
                     path="/lotus" // Kept your Lotus update
                     element={
                       <ProtectedRoute requireFounder={true}>
@@ -90,7 +101,14 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
-
+<Route
+  path="/admin"
+  element={
+    <ProtectedRoute requireFounder={true}>
+      <AdminFundingDashboard />
+    </ProtectedRoute>
+  }
+/>
                   <Route path="/checkout-success" element={<CheckoutSuccessPage />} />
                   <Route
                     path="/admin"
