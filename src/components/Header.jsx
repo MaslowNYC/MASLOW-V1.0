@@ -14,7 +14,6 @@ const Header = ({ setIsCartOpen }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { cartCount } = useCart();
 
-  // If not logged in, Header doesn't render (double safety)
   if (!user) return null;
 
   const handleLogout = async () => {
@@ -23,8 +22,7 @@ const Header = ({ setIsCartOpen }) => {
     setMobileMenuOpen(false);
   };
 
-  // 1. "THE LOTUS" is now visible to ALL Insiders (anyone with a login)
-  // We removed the 'isFounder' check for this specific link.
+  // Define the Insider Navigation
   const navLinks = [
     { name: 'IMPACT', path: '/impact' }, 
     { name: 'THE HULL', path: '/sanctuary' },
@@ -33,13 +31,14 @@ const Header = ({ setIsCartOpen }) => {
     { name: 'STORE', path: '/store' },
   ];
 
+  // Helper to check active state
   const isActive = (path) => location.pathname === path;
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[#F5F1E8]/90 backdrop-blur-md border-b border-[#3B5998]/10 shadow-sm transition-all duration-300">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between w-full">
-        {/* Logo Area */}
-        <Link to="/" className="flex items-center gap-3 group shrink-0">
+        {/* Logo Area - NOW POINTS TO SANCTUARY (The Hub) */}
+        <Link to="/sanctuary" className="flex items-center gap-3 group shrink-0">
           <div className="w-12 h-12 rounded-full overflow-hidden border border-[#3B5998]/20 group-hover:border-[#C5A059] transition-colors shadow-sm">
             <img 
               src="https://horizons-cdn.hostinger.com/7adf1ef9-c634-4976-bcba-ad9bbe695f8b/3c7aa64b62346b6f961bc303f289feac.png" 
@@ -54,12 +53,14 @@ const Header = ({ setIsCartOpen }) => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
+          {/* HOME Link - Explicitly points to Sanctuary now */}
           <Link 
-            to="/" 
-            className={`text-xs font-bold tracking-widest transition-colors uppercase ${isActive('/') ? 'text-[#C5A059]' : 'text-[#3B5998] hover:text-[#C5A059]'}`}
+            to="/sanctuary" 
+            className={`text-xs font-bold tracking-widest transition-colors uppercase ${isActive('/sanctuary') ? 'text-[#C5A059]' : 'text-[#3B5998] hover:text-[#C5A059]'}`}
           >
             Home
           </Link>
+          
           {navLinks.map((link) => (
             <Link 
               key={link.name}
@@ -86,8 +87,6 @@ const Header = ({ setIsCartOpen }) => {
 
           {/* User Controls */}
           <div className="flex items-center gap-2 border-l border-[#3B5998]/20 pl-6">
-            
-            {/* 2. FOUNDER ONLY: This Dashboard button is now protected */}
             {isFounder && (
               <Link to="/admin">
                 <Button variant="ghost" size="sm" className="text-[#3B5998] hover:text-[#C5A059] hover:bg-[#3B5998]/5 h-8 text-xs uppercase tracking-wider">
@@ -133,8 +132,8 @@ const Header = ({ setIsCartOpen }) => {
         <div className="md:hidden bg-[#F5F1E8] border-t border-[#3B5998]/10 py-6 absolute w-full shadow-xl left-0 right-0 h-screen z-50">
           <div className="container mx-auto px-4 flex flex-col gap-6">
             <Link 
-              to="/" 
-              className={`text-lg font-bold tracking-widest uppercase ${isActive('/') ? 'text-[#C5A059]' : 'text-[#3B5998]'}`}
+              to="/sanctuary" 
+              className={`text-lg font-bold tracking-widest uppercase ${isActive('/sanctuary') ? 'text-[#C5A059]' : 'text-[#3B5998]'}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
@@ -152,7 +151,6 @@ const Header = ({ setIsCartOpen }) => {
             
             <div className="h-px bg-[#3B5998]/10 my-2" />
             
-            {/* 3. FOUNDER ONLY: Mobile Dashboard protection */}
             {isFounder && (
               <Link 
                 to="/admin" 

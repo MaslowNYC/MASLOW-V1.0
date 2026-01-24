@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import { Helmet } from 'react-helmet';
 import { Toaster } from '@/components/ui/toaster';
 import { StripeProvider } from '@/contexts/StripeContext';
-import { AuthProvider, useAuth } from '@/contexts/SupabaseAuthContext'; // Import useAuth
+import { AuthProvider, useAuth } from '@/contexts/SupabaseAuthContext';
 import { CartProvider } from '@/hooks/useCart';
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/react"
@@ -23,26 +23,30 @@ import SanctuaryPage from '@/pages/SanctuaryPage';
 import MembershipPage from '@/pages/MembershipPage';
 import ImpactPage from '@/pages/ImpactPage';
 import AdminFundingDashboard from '@/components/AdminFundingDashboard';
+import StorePage from '@/pages/StorePage';
+import ProductDetailPage from '@/pages/ProductDetailPage';
+import CheckoutSuccessPage from '@/pages/CheckoutSuccessPage';
+import LocationDetail from '@/pages/LocationDetail';
+import ReactorCorePage from '@/pages/ReactorCorePage';
 
 // Helper component to handle logic inside the Router
 const AppContent = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const location = useLocation();
-  const { user, loading } = useAuth(); // Get user status
+  const { user, loading } = useAuth();
   
-  // Define Lock Screen paths
+  // Define Lock Screen paths (No Header/Footer)
   const isLockScreen = location.pathname === '/' || location.pathname === '/login';
 
-  // --- THE FIX: AUTO-USHER ---
-  // If user is logged in (and not loading) and tries to view the Lock Screen, 
-  // send them to The Hull immediately.
+  // --- AUTO-USHER ---
+  // If user is logged in and tries to go to the Lock Screen, send them to The Hull.
   if (!loading && user && isLockScreen) {
     return <Navigate to="/sanctuary" replace />;
   }
 
   return (
     <div className="min-h-screen bg-[#1D5DA0] flex flex-col">
-      {/* Show Header only if we are NOT on the lock screen */}
+      {/* Header is hidden on Lock Screen */}
       {!isLockScreen && <Header setIsCartOpen={setIsCartOpen} />}
 
       <main className="flex-grow">
@@ -52,15 +56,22 @@ const AppContent = () => {
           <Route path="/login" element={<LoginPage />} />
 
           {/* --- INSIDER ROUTES (LOCKED) --- */}
-          <Route path="/lotus" element={<ProtectedRoute><TheLotusPage /></ProtectedRoute>} />
           <Route path="/sanctuary" element={<ProtectedRoute><SanctuaryPage /></ProtectedRoute>} />
-          <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
+          <Route path="/lotus" element={<ProtectedRoute><TheLotusPage /></ProtectedRoute>} />
           <Route path="/impact" element={<ProtectedRoute><ImpactPage /></ProtectedRoute>} />
+          <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
+          
+          {/* --- RESTORED COMMERCE ROUTES --- */}
+          <Route path="/store" element={<ProtectedRoute><StorePage /></ProtectedRoute>} />
+          <Route path="/product/:id" element={<ProtectedRoute><ProductDetailPage /></ProtectedRoute>} />
+          <Route path="/checkout-success" element={<ProtectedRoute><CheckoutSuccessPage /></ProtectedRoute>} />
+          <Route path="/locations/:slug" element={<ProtectedRoute><LocationDetail /></ProtectedRoute>} />
 
           {/* --- FOUNDER ROUTE --- */}
           <Route path="/admin" element={<ProtectedRoute requireFounder={true}><AdminFundingDashboard /></ProtectedRoute>} />
+          <Route path="/reactor-core" element={<ProtectedRoute requireFounder={true}><ReactorCorePage /></ProtectedRoute>} />
 
-          {/* Redirect lost people to home */}
+          {/* Catch-all: Send lost people to the Lock Screen (or Sanctuary if logged in) */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         
