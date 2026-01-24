@@ -2,7 +2,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import HeroSection from '@/components/HeroSection';
-import ProblemSolution from '@/components/ProblemSolution';
 import MissionSection from '@/components/MissionSection';
 import HullSection from '@/components/HullSection';
 import FinalCTA from '@/components/FinalCTA';
@@ -19,7 +18,6 @@ const HomePage = () => {
       <HeroSection />
       
       {/* The Rest of the Story (Visible to Insiders) */}
-      <ProblemSolution />
       <MissionSection />
       <HullSection />
       <FinalCTA />
