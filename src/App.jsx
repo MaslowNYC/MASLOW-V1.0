@@ -101,6 +101,7 @@ function App() {
     </ProtectedRoute>
   }
 />
+                  <Route path="/lotus" element={<ReactorCorePage />} /
                   <Route path="/checkout-success" element={<CheckoutSuccessPage />} />
                   <Route
                     path="/admin"
