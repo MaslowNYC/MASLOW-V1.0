@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Toaster } from '@/components/ui/toaster';
 import { StripeProvider } from '@/contexts/StripeContext';
@@ -13,22 +13,16 @@ import { SpeedInsights } from "@vercel/speed-insights/react"
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ShoppingCart from '@/components/ShoppingCart';
-import FloatingMembershipButton from '@/components/FloatingMembershipButton';
 import ProtectedRoute from '@/components/ProtectedRoute';
-import AdminFundingDashboard from '@/components/AdminFundingDashboard'; // Money (Private)
 
 // Pages
-import HomePage from '@/pages/HomePage';
-// FIX: LoginPage is in /components, not /pages
-import LoginPage from '@/components/LoginPage'; 
-import ImpactPage from '@/pages/ImpactPage';
-import SanctuaryPage from '@/pages/SanctuaryPage';
+import HeroSection from '@/components/HeroSection'; // The Lock Screen
+import LoginPage from '@/components/LoginPage';
+import TheLotusPage from '@/pages/TheLotusPage';
+import SanctuaryPage from '@/pages/SanctuaryPage'; // The Hull (Rewritten)
 import MembershipPage from '@/pages/MembershipPage';
-import LocationDetail from '@/pages/LocationDetail';
-import StorePage from '@/pages/StorePage';
-import ProductDetailPage from '@/pages/ProductDetailPage';
-import CheckoutSuccessPage from '@/pages/CheckoutSuccessPage';
-import TheLotusPage from '@/pages/TheLotusPage'; // Design (Public)
+import ImpactPage from '@/pages/ImpactPage';
+import AdminFundingDashboard from '@/components/AdminFundingDashboard';
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -39,46 +33,27 @@ function App() {
         <CartProvider>
           <Router>
             <Helmet>
-              <title>Maslow NYC - The Infrastructure of Dignity</title>
-              <meta name="description" content="New York City has 8 million people and only 1,100 public restrooms. Maslow is the sanctuary the city deserves." />
+              <title>Maslow NYC</title>
+              <meta name="description" content="The Infrastructure of Dignity." />
             </Helmet>
 
-            <div className="min-h-screen bg-[#F5F1E8] flex flex-col">
+            <div className="min-h-screen bg-[#1D5DA0] flex flex-col">
+              {/* Header is ONLY visible if logged in (Handled inside Header component usually, or we can condition it here) */}
               <Header setIsCartOpen={setIsCartOpen} />
 
               <main className="flex-grow">
                 <Routes>
-                  {/* Public Routes */}
-                  <Route path="/" element={<HomePage />} />
+                  {/* --- PUBLIC ROUTE: THE LOCK SCREEN --- */}
+                  <Route path="/" element={<HeroSection />} />
                   <Route path="/login" element={<LoginPage />} />
-                  <Route path="/impact" element={<ImpactPage />} />
-                  <Route path="/sanctuary" element={<SanctuaryPage />} />
-                  <Route path="/membership" element={<MembershipPage />} />
-                  <Route path="/locations/:slug" element={<LocationDetail />} />
-                  
-                  {/* The Lotus Design (Public) */}
-                  <Route path="/lotus" element={<TheLotusPage />} />
 
-                  {/* Protected Routes */}
-                  <Route
-                    path="/store"
-                    element={
-                      <ProtectedRoute>
-                        <StorePage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/product/:id"
-                    element={
-                      <ProtectedRoute>
-                        <ProductDetailPage />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route path="/checkout-success" element={<CheckoutSuccessPage />} />
+                  {/* --- INSIDER ROUTES (LOCKED) --- */}
+                  <Route path="/lotus" element={<ProtectedRoute><TheLotusPage /></ProtectedRoute>} />
+                  <Route path="/sanctuary" element={<ProtectedRoute><SanctuaryPage /></ProtectedRoute>} />
+                  <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
+                  <Route path="/impact" element={<ProtectedRoute><ImpactPage /></ProtectedRoute>} />
 
-                  {/* Admin Dashboard (Private - Founder Only) */}
+                  {/* --- FOUNDER ROUTE (DOUBLE LOCKED) --- */}
                   <Route
                     path="/admin"
                     element={
@@ -87,16 +62,18 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
+
+                  {/* Catch-all: Send lost people back to the Lock Screen */}
+                  <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
                 
-                {/* Vercel Tools */}
                 <Analytics />
                 <SpeedInsights />
               </main>
 
+              {/* Footer can be minimal on lock screen, full on inside. For now, we keep it simple. */}
               <Footer />
               <ShoppingCart isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} />
-              <FloatingMembershipButton />
               <Toaster />
             </div>
           </Router>
