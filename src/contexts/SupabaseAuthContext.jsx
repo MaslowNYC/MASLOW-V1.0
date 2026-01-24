@@ -12,31 +12,42 @@ export const AuthProvider = ({ children }) => {
   const [isFounder, setIsFounder] = useState(false);
 
   // --- HARDCODED FOUNDER LIST ---
-  // This ensures your email ALWAYS triggers the Dashboard button
+  // Ensure your email is here, exactly as it appears in Supabase
   const FOUNDER_EMAILS = [
     'patrick@maslownyc.com',
-    // Add other founder emails here if needed
+    // Add other founder emails here
   ];
 
   useEffect(() => {
-    // Check active session on load
-    const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        checkFounderStatus(session.user);
+    // 1. Initial Session Check
+    const initializeAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (session?.user) {
+          setUser(session.user);
+          // CRITICAL FIX: Await the founder check before stopping loading
+          await checkFounderStatus(session.user);
+        } else {
+          setUser(null);
+          setIsFounder(false);
+        }
+      } catch (error) {
+        console.error('Auth initialization error:', error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
-    getSession();
+    initializeAuth();
 
-    // Listen for auth changes (login/logout)
+    // 2. Listen for Auth Changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setUser(session?.user ?? null);
       if (session?.user) {
-        checkFounderStatus(session.user);
+        setUser(session.user);
+        await checkFounderStatus(session.user);
       } else {
+        setUser(null);
         setIsFounder(false);
       }
       setLoading(false);
@@ -53,21 +64,17 @@ export const AuthProvider = ({ children }) => {
       return;
     }
 
-    // 1. Check Hardcoded List (Case insensitive)
+    // Check Hardcoded List (Case insensitive)
     const email = currentUser.email.toLowerCase();
     const isHardcodedFounder = FOUNDER_EMAILS.includes(email);
     
     if (isHardcodedFounder) {
-      console.log(`Founder access granted for: ${email}`);
+      console.log(`Founder access confirmed for: ${email}`);
       setIsFounder(true);
-      return;
+    } else {
+      setIsFounder(false);
     }
-
-    // 2. (Optional) You can add database role checks here later
-    setIsFounder(false);
   };
-
-  // --- RESTORED FUNCTIONS ---
 
   const signIn = async (email, password) => {
     try {
@@ -75,7 +82,6 @@ export const AuthProvider = ({ children }) => {
         email,
         password,
       });
-
       if (error) throw error;
       return { data, error: null };
     } catch (error) {
