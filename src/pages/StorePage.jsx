@@ -11,7 +11,7 @@ const StorePage = () => {
     <>
       <Helmet>
         <title>Maslow Store - Support The Cause</title>
-        <meta name="description" content="Purchase Maslow merchandise and support our mission to provide dignified public restrooms in NYC." />
+        <meta name="description" content="Purchase Maslow merchandise. Proceeds directly fund the construction of our SoHo flagship." />
       </Helmet>
       
       <div className="min-h-screen bg-[#F5F1E8]">
