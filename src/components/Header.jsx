@@ -22,7 +22,7 @@ const Header = ({ setIsCartOpen }) => {
     setMobileMenuOpen(false);
   };
 
-  // UPDATED: 'THE HULL' now points to '/hull'
+  // UPDATED: 'THE HULL' points to /hull
   const navLinks = [
     { name: 'IMPACT', path: '/impact' }, 
     { name: 'THE HULL', path: '/hull' },
@@ -36,7 +36,7 @@ const Header = ({ setIsCartOpen }) => {
   return (
     <header className="sticky top-0 z-50 w-full bg-[#F5F1E8]/90 backdrop-blur-md border-b border-[#3B5998]/10 shadow-sm transition-all duration-300">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between w-full">
-        {/* Logo Area - NOW POINTS TO /hull */}
+        {/* Logo Area - Points to /hull */}
         <Link to="/hull" className="flex items-center gap-3 group shrink-0">
           <div className="w-12 h-12 rounded-full overflow-hidden border border-[#3B5998]/20 group-hover:border-[#C5A059] transition-colors shadow-sm">
             <img 

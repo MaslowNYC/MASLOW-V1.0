@@ -38,8 +38,8 @@ const AppContent = () => {
   // Define Lock Screen paths
   const isLockScreen = location.pathname === '/' || location.pathname === '/login';
 
-  // --- AUTO-USHER (Updated to /hull) ---
-  // If logged in and on the Lock Screen, go to The Hull.
+  // --- AUTO-USHER FIX ---
+  // If logged in and on the Lock Screen, go directly to The Hull.
   if (!loading && user && isLockScreen) {
     return <Navigate to="/hull" replace />;
   }
@@ -62,7 +62,7 @@ const AppContent = () => {
           <Route path="/impact" element={<ProtectedRoute><ImpactPage /></ProtectedRoute>} />
           <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
           
-          {/* --- COMMERCE ROUTES (Restored!) --- */}
+          {/* --- COMMERCE ROUTES (Restored) --- */}
           <Route path="/store" element={<ProtectedRoute><StorePage /></ProtectedRoute>} />
           <Route path="/product/:id" element={<ProtectedRoute><ProductDetailPage /></ProtectedRoute>} />
           <Route path="/checkout-success" element={<ProtectedRoute><CheckoutSuccessPage /></ProtectedRoute>} />
@@ -72,7 +72,7 @@ const AppContent = () => {
           <Route path="/admin" element={<ProtectedRoute requireFounder={true}><AdminFundingDashboard /></ProtectedRoute>} />
           <Route path="/reactor-core" element={<ProtectedRoute requireFounder={true}><ReactorCorePage /></ProtectedRoute>} />
 
-          {/* Catch-all: Send lost people to Home (which auto-ushers to /hull) */}
+          {/* Catch-all: Send lost people back to Home (which auto-ushers to /hull) */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         
