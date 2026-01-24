@@ -19,18 +19,26 @@ export const AuthProvider = ({ children }) => {
   ];
 
   useEffect(() => {
+    // Check active session on load
     const getSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       setUser(session?.user ?? null);
-      checkFounderStatus(session?.user);
+      if (session?.user) {
+        checkFounderStatus(session.user);
+      }
       setLoading(false);
     };
 
     getSession();
 
+    // Listen for auth changes (login/logout)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       setUser(session?.user ?? null);
-      checkFounderStatus(session?.user);
+      if (session?.user) {
+        checkFounderStatus(session.user);
+      } else {
+        setIsFounder(false);
+      }
       setLoading(false);
     });
 
@@ -55,8 +63,25 @@ export const AuthProvider = ({ children }) => {
       return;
     }
 
-    // 2. (Optional) Check Database Role here in the future
+    // 2. (Optional) You can add database role checks here later
     setIsFounder(false);
+  };
+
+  // --- RESTORED FUNCTIONS ---
+
+  const signIn = async (email, password) => {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+      return { data, error: null };
+    } catch (error) {
+      console.error("Login Error:", error.message);
+      return { data: null, error };
+    }
   };
 
   const signOut = async () => {
@@ -66,7 +91,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, signOut, loading, isFounder }}>
+    <AuthContext.Provider value={{ user, signIn, signOut, loading, isFounder }}>
       {!loading && children}
     </AuthContext.Provider>
   );
