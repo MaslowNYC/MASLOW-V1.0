@@ -339,4 +339,138 @@ const AdminFundingDashboard = () => {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label className="text-xs text-gray-500">Spend / Visit</Label>
-                    <FormattedInput value={formData.retail_spend_per_visit} onChange={(val) => handleInputChange('retail_spend
+                    <FormattedInput value={formData.retail_spend_per_visit} onChange={(val) => handleInputChange('retail_spend_per_visit', val)} prefix="$" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-xs text-gray-500">Partner Revenue</Label>
+                    <FormattedInput value={formData.fee_per_partner} onChange={(val) => handleInputChange('fee_per_partner', val)} prefix="$" />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Expenses */}
+            <Card className="border-t-4 border-t-red-400 shadow-sm bg-white">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-red-700">
+                  <Wallet className="w-5 h-5" />
+                  Expenses (Monthly)
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label>Rent (Total/Yr)</Label>
+                  <div className="text-sm font-medium text-gray-600 mb-2">
+                    {formatNumber(formData.total_sq_ft * formData.rent_per_sq_ft, { type: 'currency', maximumFractionDigits: 0 })}
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <FormattedInput placeholder="Sq Ft" value={formData.total_sq_ft} onChange={(val) => handleInputChange('total_sq_ft', val)} />
+                    <FormattedInput placeholder="$/ft" value={formData.rent_per_sq_ft} onChange={(val) => handleInputChange('rent_per_sq_ft', val)} />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label>Staff & Utils</Label>
+                  <div className="grid grid-cols-1 gap-2">
+                    <FormattedInput placeholder="Staff" value={formData.monthly_staff_cost} onChange={(val) => handleInputChange('monthly_staff_cost', val)} prefix="$" />
+                    <FormattedInput placeholder="Utils" value={formData.monthly_utilities} onChange={(val) => handleInputChange('monthly_utilities', val)} prefix="$" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* OUTPUTS (Right Side) */}
+          <div className="xl:col-span-5 space-y-6">
+            
+            {/* HERO METRIC */}
+            <Card className="bg-[#3B5998] text-white border-none shadow-xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-32 bg-[#C5A059] opacity-10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+              <CardHeader>
+                <CardTitle className="text-[#C5A059] uppercase tracking-wider text-sm font-semibold">Projected Annual Profit</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-5xl font-serif font-bold mb-2">
+                  {formatNumber(metrics.annualProfit, { type: 'currency', maximumFractionDigits: 0 })}
+                </div>
+                <div className="flex gap-4 mt-4">
+                  <div className="bg-white/10 px-3 py-1 rounded text-sm font-medium">
+                    Margin: <span className={metrics.profitMargin > 20 ? "text-green-300" : "text-yellow-300"}>{formatNumber(metrics.profitMargin, { type: 'percent' })}</span>
+                  </div>
+                  <div className="bg-white/10 px-3 py-1 rounded text-sm font-medium">
+                    Break-even: <span className="text-white">{formatNumber(metrics.breakEvenOccupancy, { maximumFractionDigits: 1 })}%</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* P&L Breakdown */}
+            <Card className="shadow-lg border-t-4 border-t-[#C5A059] bg-white">
+              <CardHeader>
+                <CardTitle className="text-[#3B5998]">Monthly P&L</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                
+                {/* Revenue */}
+                <div className="space-y-2">
+                  <div className="flex justify-between items-end border-b pb-1">
+                    <span className="font-bold text-gray-700">Revenue</span>
+                    <span className="font-bold text-[#3B5998]">{formatNumber(metrics.totalMonthlyRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span>
+                  </div>
+                  <div className="pl-4 space-y-1 text-sm text-gray-500">
+                    <div className="flex justify-between"><span>Sessions</span><span>{formatNumber(metrics.monthlyHullRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                    <div className="flex justify-between"><span>Retail</span><span>{formatNumber(metrics.monthlyRetailRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                    <div className="flex justify-between"><span>Memberships</span><span>{formatNumber(metrics.monthlyMembershipRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                  </div>
+                </div>
+
+                {/* Expenses */}
+                <div className="space-y-2 pt-2">
+                  <div className="flex justify-between items-end border-b pb-1">
+                    <span className="font-bold text-gray-700">Expenses</span>
+                    <span className="font-bold text-red-600">-{formatNumber(metrics.totalMonthlyExpenses, { type: 'currency', maximumFractionDigits: 0 })}</span>
+                  </div>
+                  <div className="pl-4 space-y-1 text-sm text-gray-500">
+                    <div className="flex justify-between"><span>Rent</span><span>{formatNumber(metrics.monthlyRent, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                    <div className="flex justify-between"><span>Staff & Ops</span><span>{formatNumber(formData.monthly_staff_cost + formData.monthly_utilities, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                  </div>
+                </div>
+
+                {/* Net */}
+                <div className="flex justify-between items-center pt-4 border-t-2 border-gray-100">
+                  <span className="text-lg font-bold text-gray-900">Net Monthly</span>
+                  <span className={`text-xl font-bold ${metrics.monthlyProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                     {formatNumber(metrics.monthlyProfit, { type: 'currency', maximumFractionDigits: 0 })}
+                  </span>
+                </div>
+
+              </CardContent>
+            </Card>
+
+            {/* Foot Traffic Stats */}
+            <Card className="bg-[#3B5998]/5 border-none">
+              <CardContent className="p-6">
+                <h4 className="font-bold text-[#3B5998] mb-4 flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4" />
+                  Traffic Metrics
+                </h4>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <div className="text-xs text-gray-500 uppercase">Daily Capacity</div>
+                    <div className="text-lg font-bold text-gray-800">{metrics.dailySessionsCapacity}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-500 uppercase">Est. Visits</div>
+                    <div className="text-lg font-bold text-[#C5A059]">{metrics.dailySessions}</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AdminFundingDashboard;
