@@ -15,7 +15,7 @@ const HeroSection = () => {
   // Simple animation to show the count is "live"
   useEffect(() => {
     const interval = setInterval(() => {
-      setMemberCount(prev => prev === 254 ? 254 : 254); // Keeps it steady for now, or we can fetch real data later
+      setMemberCount(prev => prev === 254 ? 254 : 254); // Keeps it steady for now
     }, 5000);
     return () => clearInterval(interval);
   }, []);
