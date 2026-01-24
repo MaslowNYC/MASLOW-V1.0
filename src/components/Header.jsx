@@ -35,8 +35,8 @@ const Header = ({ setIsCartOpen }) => {
   return (
     <header className="sticky top-0 z-50 w-full bg-[#F5F1E8]/90 backdrop-blur-md border-b border-[#3B5998]/10 shadow-sm transition-all duration-300">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between w-full">
-        {/* Logo Area */}
-        <Link to="/hull" className="flex items-center gap-3 group shrink-0">
+        {/* Logo -> Points to Home (/) */}
+        <Link to="/" className="flex items-center gap-3 group shrink-0">
           <div className="w-12 h-12 rounded-full overflow-hidden border border-[#3B5998]/20 group-hover:border-[#C5A059] transition-colors shadow-sm">
             <img 
               src="https://horizons-cdn.hostinger.com/7adf1ef9-c634-4976-bcba-ad9bbe695f8b/3c7aa64b62346b6f961bc303f289feac.png" 
@@ -52,8 +52,8 @@ const Header = ({ setIsCartOpen }) => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           <Link 
-            to="/hull" 
-            className={`text-xs font-bold tracking-widest transition-colors uppercase ${isActive('/hull') ? 'text-[#C5A059]' : 'text-[#3B5998] hover:text-[#C5A059]'}`}
+            to="/" 
+            className={`text-xs font-bold tracking-widest transition-colors uppercase ${isActive('/') ? 'text-[#C5A059]' : 'text-[#3B5998] hover:text-[#C5A059]'}`}
           >
             Home
           </Link>
@@ -128,8 +128,8 @@ const Header = ({ setIsCartOpen }) => {
         <div className="md:hidden bg-[#F5F1E8] border-t border-[#3B5998]/10 py-6 absolute w-full shadow-xl left-0 right-0 h-screen z-50">
           <div className="container mx-auto px-4 flex flex-col gap-6">
             <Link 
-              to="/hull" 
-              className={`text-lg font-bold tracking-widest uppercase ${isActive('/hull') ? 'text-[#C5A059]' : 'text-[#3B5998]'}`}
+              to="/" 
+              className={`text-lg font-bold tracking-widest uppercase ${isActive('/') ? 'text-[#C5A059]' : 'text-[#3B5998]'}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Home

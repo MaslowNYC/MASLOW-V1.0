@@ -17,7 +17,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 
 // Pages
 import HeroSection from '@/components/HeroSection';
-import HomePage from '@/pages/HomePage'; // Import the restored HomePage
+import HomePage from '@/pages/HomePage';
 import LoginPage from '@/components/LoginPage';
 import TheLotusPage from '@/pages/TheLotusPage';
 import SanctuaryPage from '@/pages/SanctuaryPage';
@@ -32,42 +32,39 @@ import LocationDetail from '@/pages/LocationDetail';
 const AppContent = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const location = useLocation();
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
   
-  // Define Lock Screen paths
-  // Note: '/' is no longer a "Lock Screen" for members, so we remove it from this check
-  // ONLY the Login page should hide the header now.
+  // Hide Header ONLY on Login page or public Lock Screen (if not logged in)
   const isHideHeaderPath = location.pathname === '/login' || (!user && location.pathname === '/');
 
   return (
     <div className="min-h-screen bg-[#1D5DA0] flex flex-col">
-      {/* Show Header unless we are on the public lock screen or login */}
       {!isHideHeaderPath && <Header setIsCartOpen={setIsCartOpen} />}
 
       <main className="flex-grow">
         <Routes>
-          {/* --- THE HYBRID HOMEPAGE --- */}
-          {/* If Logged In: Show Full HomePage. If Public: Show Velvet Rope (HeroSection) */}
+          {/* --- HYBRID HOMEPAGE --- */}
+          {/* Logged In? Show Full Site. Public? Show Velvet Rope. */}
           <Route path="/" element={user ? <HomePage /> : <HeroSection />} />
           
           <Route path="/login" element={<LoginPage />} />
 
-          {/* --- INSIDER ROUTES (LOCKED) --- */}
+          {/* --- INSIDER ROUTES --- */}
           <Route path="/hull" element={<ProtectedRoute><SanctuaryPage /></ProtectedRoute>} />
           <Route path="/lotus" element={<ProtectedRoute><TheLotusPage /></ProtectedRoute>} />
           <Route path="/impact" element={<ProtectedRoute><ImpactPage /></ProtectedRoute>} />
           <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
           
-          {/* --- COMMERCE ROUTES --- */}
+          {/* --- COMMERCE --- */}
           <Route path="/store" element={<ProtectedRoute><StorePage /></ProtectedRoute>} />
           <Route path="/product/:id" element={<ProtectedRoute><ProductDetailPage /></ProtectedRoute>} />
           <Route path="/checkout-success" element={<ProtectedRoute><CheckoutSuccessPage /></ProtectedRoute>} />
           <Route path="/locations/:slug" element={<ProtectedRoute><LocationDetail /></ProtectedRoute>} />
 
-          {/* --- FOUNDER ROUTE --- */}
+          {/* --- FOUNDER --- */}
           <Route path="/admin" element={<ProtectedRoute requireFounder={true}><AdminFundingDashboard /></ProtectedRoute>} />
 
-          {/* Catch-all: Send lost people back Home */}
+          {/* Catch-all */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         

@@ -1,87 +1,78 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Heart, Users, Briefcase, Award, ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { ShieldCheck, Heart, Zap } from 'lucide-react';
 
 const MissionSection = () => {
   return (
-    <section className="bg-[#3B5998] py-20 w-full overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto">
+    <section className="py-24 bg-white relative overflow-hidden">
+      <div className="container mx-auto px-4 max-w-6xl relative z-10">
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center max-w-3xl mx-auto mb-20"
+        >
+          <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#3B5998] mb-6">
+            The Maslow Standard
+          </h2>
+          <p className="text-lg md:text-xl text-[#3B5998]/70 leading-relaxed font-light">
+            We aren't just building restrooms. We are building a self-sustaining infrastructure for human dignity.
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-3 gap-12">
+          
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center space-y-12"
+            transition={{ delay: 0.2 }}
+            className="bg-[#F5F1E8] p-8 rounded-2xl border border-[#3B5998]/10 hover:border-[#C5A059] transition-all group"
           >
-            <div className="space-y-4">
-               <h3 className="text-4xl md:text-5xl font-serif text-[#F5F1E8]">
-                The Maslow Project
-              </h3>
-              <p className="text-[#F5F1E8]/60 uppercase tracking-widest font-bold text-sm">Strategic Alignment & Social Impact</p>
+            <div className="bg-white w-14 h-14 rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+              <ShieldCheck className="w-7 h-7 text-[#C5A059]" />
             </div>
-
-            <div className="grid md:grid-cols-2 gap-6 text-[#F5F1E8]/90 text-lg leading-relaxed font-light text-left">
-              
-              {/* WBE Highlight */}
-              <div className="md:col-span-2 bg-[#C5A059]/10 p-8 rounded-xl border border-[#C5A059]/30 flex flex-col md:flex-row gap-6 items-start">
-                <div className="bg-[#C5A059] p-3 rounded-full text-[#3B5998]">
-                  <Award className="w-8 h-8" />
-                </div>
-                <div>
-                  <h4 className="text-[#C5A059] font-bold text-xl mb-2">Certified Women-Owned Business Enterprise (WBE)</h4>
-                  <p className="text-[#F5F1E8]/90">
-                    Maslow LLC is proud to be a Certified WBE with <span className="font-bold text-white">64% female ownership</span>. We are a strategic partner for the City of New York, uniquely positioned to help fulfill city procurement goals while solving the sanitation crisis with a perspective grounded in safety and inclusivity.
-                  </p>
-                </div>
-              </div>
-
-              {/* Non-Profit Impact with Impact Protocol Button */}
-              <div className="flex flex-col gap-4 bg-[#F5F1E8]/5 p-6 rounded-lg border border-[#F5F1E8]/10 h-full hover:bg-[#F5F1E8]/10 transition-colors duration-300">
-                <div className="flex-grow">
-                  <Heart className="w-8 h-8 text-[#C5A059] mb-4" />
-                  <p className="mb-6">
-                    Once established, Maslow will work with our non-profit arm to build mini-Maslow locations in underserved neighborhoods. Dignity isn't negotiable. Access shouldn't depend on your zip code.
-                  </p>
-                </div>
-                <Link to="/impact" className="mt-auto">
-                  <Button 
-                    variant="outline" 
-                    className="w-full border-white/30 text-white hover:bg-white hover:text-[#3B5998] bg-transparent uppercase tracking-widest text-xs font-bold transition-all flex items-center justify-center gap-2"
-                  >
-                    View The Impact Protocol <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
-              </div>
-
-              <div className="flex flex-col gap-4 bg-[#F5F1E8]/5 p-6 rounded-lg border border-[#F5F1E8]/10 h-full hover:bg-[#F5F1E8]/10 transition-colors duration-300">
-                <div className="flex-grow">
-                  <Users className="w-8 h-8 text-[#C5A059] mb-4" />
-                  <p>
-                    Beyond traditional facilities, we prioritize fundamental access. Universally accessible hand washing stations ensure basic hygiene and comfort for every member of our community.
-                  </p>
-                </div>
-              </div>
-
-              <div className="md:col-span-2 flex flex-col md:flex-row items-center gap-6 bg-[#F5F1E8]/5 p-6 rounded-lg border border-[#F5F1E8]/10 hover:bg-[#F5F1E8]/10 transition-colors duration-300">
-                <Briefcase className="w-8 h-8 text-[#C5A059] flex-shrink-0" />
-                <p>
-                  Our "Open Door" hiring model partners with neurodiversity advocacy 
-                  groups to create meaningful employment opportunities. We build 
-                  infrastructure. We build community. We build futures.
-                </p>
-              </div>
-            </div>
-
-            <div className="pt-8 border-t border-[#F5F1E8]/10">
-              <p className="text-2xl text-[#C5A059] font-serif italic">
-                "Infrastructure for all. Funded by those who can."
-              </p>
-            </div>
+            <h3 className="text-xl font-bold text-[#3B5998] mb-3">Sanctuary</h3>
+            <p className="text-[#3B5998]/70 leading-relaxed">
+              Safe, staffed, and spotless. Every location features the "Hull"—a protected public commons—and private suites for total isolation.
+            </p>
           </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="bg-[#F5F1E8] p-8 rounded-2xl border border-[#3B5998]/10 hover:border-[#C5A059] transition-all group"
+          >
+            <div className="bg-white w-14 h-14 rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+              <Zap className="w-7 h-7 text-[#C5A059]" />
+            </div>
+            <h3 className="text-xl font-bold text-[#3B5998] mb-3">Economic Engine</h3>
+            <p className="text-[#3B5998]/70 leading-relaxed">
+              A sustainable model. Revenue from premium memberships and retail partners subsidizes the maintenance of the public infrastructure.
+            </p>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="bg-[#F5F1E8] p-8 rounded-2xl border border-[#3B5998]/10 hover:border-[#C5A059] transition-all group"
+          >
+            <div className="bg-white w-14 h-14 rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+              <Heart className="w-7 h-7 text-[#C5A059]" />
+            </div>
+            <h3 className="text-xl font-bold text-[#3B5998] mb-3">Impact</h3>
+            <p className="text-[#3B5998]/70 leading-relaxed">
+              Profit with purpose. A portion of every transaction funds the <span className="font-bold">Maslow Non-Profit</span>, bringing facilities to underserved neighborhoods.
+            </p>
+          </motion.div>
+
         </div>
       </div>
     </section>

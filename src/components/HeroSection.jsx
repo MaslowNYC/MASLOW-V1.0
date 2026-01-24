@@ -1,116 +1,73 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import BetaSignupModal from '@/components/BetaSignupModal';
-import HeroImage from '@/components/HeroImage';
-import { supabase } from '@/lib/customSupabaseClient';
+import { ArrowRight } from 'lucide-react';
 
-const HeroSection = () => {
-  const [isBetaModalOpen, setIsBetaModalOpen] = useState(false);
-  // We start at 254 to maintain the "Velvet Rope" scarcity illusion
-  const FOUNDER_SEED_COUNT = 254; 
-  const [memberCount, setMemberCount] = useState(FOUNDER_SEED_COUNT);
-
-  useEffect(() => {
-    // 1. Fetch the initial count from the database
-    const fetchCount = async () => {
-      try {
-        const { count, error } = await supabase
-          .from('beta_signups')
-          .select('*', { count: 'exact', head: true });
-
-        if (error) {
-          console.error('Error fetching count:', error);
-        } else {
-          // Display = Seed (254) + Real Signups
-          setMemberCount(FOUNDER_SEED_COUNT + (count || 0));
-        }
-      } catch (err) {
-        console.error('Connection error:', err);
-      }
-    };
-
-    fetchCount();
-
-    // 2. Set up Real-Time Listener
-    // This makes the number tick up INSTANTLY when a new row is added
-    const subscription = supabase
-      .channel('public:beta_signups')
-      .on('postgres_changes', 
-        { event: 'INSERT', schema: 'public', table: 'beta_signups' }, 
-        (payload) => {
-          setMemberCount(prev => prev + 1);
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(subscription);
-    };
-  }, []);
-
+const HullSection = () => {
   return (
-    <section className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#0F172A]">
-      {/* 1. Matte Dark Slate Background */}
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1E293B] via-[#0F172A] to-[#020617]" />
+    <section className="py-24 bg-[#3B5998] text-[#F5F1E8] relative overflow-hidden">
       
-      {/* 2. Texture Overlay */}
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 z-0"></div>
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-[#C5A059]/5 skew-x-12 transform translate-x-1/4"></div>
 
-      {/* Central Content */}
-      <div className="relative z-20 flex flex-col items-center gap-10 max-w-md w-full px-6">
+      <div className="container mx-auto px-4 max-w-6xl relative z-10 flex flex-col md:flex-row items-center gap-16">
         
-        {/* 3. The Refined Backlit "M" */}
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="relative"
-        >
-          {/* The Glow Effect */}
-          <div className="absolute inset-0 bg-[#C5A059] blur-[80px] opacity-10 rounded-full animate-pulse"></div>
-          
-          {/* Logo */}
-          <HeroImage className="w-56 h-56 md:w-72 md:h-72 drop-shadow-[0_0_40px_rgba(197,160,89,0.15)]" />
-        </motion.div>
-
-        {/* 4. Minimalist Typography */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-          className="text-center space-y-8 w-full"
-        >
-          <div>
-            <h1 className="text-[#F5F1E8] text-lg md:text-xl font-serif tracking-[0.25em] uppercase mb-3 opacity-90">
-              The Infrastructure of Dignity
-            </h1>
-            <div className="w-8 h-0.5 bg-[#C5A059] mx-auto opacity-60"></div>
-          </div>
-
-          <div className="space-y-1">
-            <p className="text-[#94A3B8] text-[10px] uppercase tracking-[0.3em] font-medium">
-              Current Waitlist Position
-            </p>
-            <div className="text-4xl md:text-5xl font-serif text-white font-medium tracking-tighter tabular-nums">
-              #{memberCount}
-            </div>
-          </div>
-
-          {/* 5. The "Velvet Rope" Button */}
-          <Button 
-            onClick={() => setIsBetaModalOpen(true)}
-            className="bg-transparent border border-[#C5A059]/50 text-[#C5A059] hover:bg-[#C5A059] hover:text-[#0F172A] text-xs font-bold py-6 px-10 uppercase tracking-[0.2em] rounded-sm transition-all duration-500 shadow-[0_0_20px_rgba(197,160,89,0.05)] hover:shadow-[0_0_30px_rgba(197,160,89,0.3)]"
+        <div className="flex-1 space-y-8">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
           >
-            Get In Line
-          </Button>
-        </motion.div>
-      </div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-0.5 w-12 bg-[#C5A059]"></div>
+              <span className="text-[#C5A059] uppercase tracking-widest font-bold text-sm">The Experience</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6 leading-tight">
+              Enter The Hull.
+            </h2>
+            <p className="text-xl opacity-80 font-light leading-relaxed mb-8">
+              More than a restroom. It is a pressure vessel for peace.
+              <br/><br/>
+              Beneath the city streets, we have carved out a space of radical hospitality. 
+              Sound-dampened corridors, circadian lighting that mimics the sun, and the "Social Contract" ensure that your 15-minute respite restores you completely.
+            </p>
+            
+            <Link to="/hull">
+              <Button className="bg-[#C5A059] text-[#3B5998] hover:bg-white hover:text-[#3B5998] font-bold text-lg px-8 py-6 rounded-none transition-all">
+                Explore The Design <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
 
-      <BetaSignupModal isOpen={isBetaModalOpen} onClose={() => setIsBetaModalOpen(false)} />
+        <div className="flex-1 w-full">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative aspect-square md:aspect-[4/3] rounded-sm overflow-hidden border-2 border-[#C5A059]/30 shadow-2xl"
+          >
+            {/* Abstract representation of The Hull */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a1a] to-[#3B5998]"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+               <div className="w-32 h-32 border border-[#C5A059] rounded-full flex items-center justify-center opacity-80 animate-pulse">
+                  <div className="w-24 h-24 bg-[#C5A059] rounded-full blur-2xl opacity-40"></div>
+               </div>
+            </div>
+            <div className="absolute bottom-6 left-6 right-6">
+              <p className="text-xs uppercase tracking-widest opacity-50 mb-1">Architecture</p>
+              <p className="font-serif text-2xl">The Center</p>
+            </div>
+          </motion.div>
+        </div>
+
+      </div>
     </section>
   );
 };
 
-export default HeroSection;
+export default HullSection;
