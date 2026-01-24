@@ -11,11 +11,13 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isFounder, setIsFounder] = useState(false);
 
-  // --- HARDCODED FOUNDER LIST ---
-  // Ensure your email is here, exactly as it appears in Supabase
+  // --- FOUNDER WHITELIST ---
+  // 1. Make sure your email is in this list.
+  // 2. We use lowercase for comparison to avoid capitalization issues.
   const FOUNDER_EMAILS = [
     'patrick@maslownyc.com',
-    // Add other founder emails here
+    'patrickmay@maslownyc.com', // Added just in case
+    // Add any other aliases here
   ];
 
   useEffect(() => {
@@ -25,10 +27,12 @@ export const AuthProvider = ({ children }) => {
         const { data: { session } } = await supabase.auth.getSession();
         
         if (session?.user) {
+          console.log("Auth: Session found for", session.user.email);
           setUser(session.user);
-          // CRITICAL FIX: Await the founder check before stopping loading
+          // CRITICAL: We await this to ensure isFounder is set BEFORE loading becomes false
           await checkFounderStatus(session.user);
         } else {
+          console.log("Auth: No session found.");
           setUser(null);
           setIsFounder(false);
         }
@@ -41,8 +45,10 @@ export const AuthProvider = ({ children }) => {
 
     initializeAuth();
 
-    // 2. Listen for Auth Changes
+    // 2. Listen for Auth Changes (Login/Logout)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log(`Auth Event: ${event}`);
+      
       if (session?.user) {
         setUser(session.user);
         await checkFounderStatus(session.user);
@@ -60,18 +66,23 @@ export const AuthProvider = ({ children }) => {
 
   const checkFounderStatus = async (currentUser) => {
     if (!currentUser || !currentUser.email) {
+      console.log("Auth: No user email to check.");
       setIsFounder(false);
       return;
     }
 
-    // Check Hardcoded List (Case insensitive)
-    const email = currentUser.email.toLowerCase();
+    // Normalize email (lowercase + trim whitespace)
+    const email = currentUser.email.toLowerCase().trim();
+    
+    console.log(`Auth: Checking founder status for [${email}]...`);
+    
     const isHardcodedFounder = FOUNDER_EMAILS.includes(email);
     
     if (isHardcodedFounder) {
-      console.log(`Founder access confirmed for: ${email}`);
+      console.log("Auth: ✅ Founder Access GRANTED.");
       setIsFounder(true);
     } else {
+      console.log("Auth: ❌ Founder Access DENIED. Email not in whitelist.");
       setIsFounder(false);
     }
   };
