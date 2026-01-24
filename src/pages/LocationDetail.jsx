@@ -15,7 +15,7 @@ const LocationDetail = () => {
       <div className="min-h-screen bg-[#F5F1E8] pb-24">
         <Helmet>
           <title>SoHo Flagship | Maslow NYC</title>
-          <meta name="description" content="Experience the Maslow Flagship at 74 Grand Street. The future of public sanitation." />
+          <meta name="description" content="Experience the Maslow Flagship at SoHo Historic District. The future of public sanitation." />
         </Helmet>
 
         {/* Hero */}
@@ -41,7 +41,7 @@ const LocationDetail = () => {
                 </div>
                 <h1 className="text-6xl md:text-8xl font-serif text-[#3B5998] mb-4">SoHo</h1>
                 <p className="text-2xl text-[#3B5998] font-light max-w-xl">
-                    74 Grand Street<br/>
+                    SoHo Historic District<br/>
                     New York, NY 10013
                 </p>
             </motion.div>
