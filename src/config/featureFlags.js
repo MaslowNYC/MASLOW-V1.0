@@ -1,24 +1,10 @@
-/// src/config/featureFlags.js
 
-// --- THE SWITCHBOARD ---
-// 'VELVET_ROPE'   = Homepage is Waitlist. Side doors redirect to Home. Payments Off.
-// 'SANCTUARY'     = Full site visible. Payments Off (Waitlist buttons).
-// 'GRAND_OPENING' = Full site visible. Payments Live.
-
-const CURRENT_PHASE = 'VELVET_ROPE'; 
-
+// Global feature flags for Maslow NYC
 export const featureFlags = {
-  // Is the main navigation visible?
-  showNavigation: CURRENT_PHASE !== 'VELVET_ROPE',
+  // Toggle this to TRUE to enable Stripe checkout
+  // Toggle this to FALSE to disable checkout (Waitlist Mode)
+  enablePayments: false, 
   
-  // Can people pay money?
-  enablePayments: CURRENT_PHASE === 'GRAND_OPENING',
-  
-  // Should "Buy" buttons be "Join Waitlist" instead?
-  waitlistMode: CURRENT_PHASE === 'SANCTUARY',
-  
-  // Is the site fully open to the public? (Used by the Bouncer)
-  publicAccess: CURRENT_PHASE !== 'VELVET_ROPE',
+  // Toggle this to enable/disable the store entirely
+  enableStore: true,
 };
-
-export default featureFlags;
