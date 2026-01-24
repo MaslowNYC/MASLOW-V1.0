@@ -1,89 +1,95 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import BetaSignupModal from '@/components/BetaSignupModal';
 import HeroImage from '@/components/HeroImage';
 import { useNavigate } from 'react-router-dom';
+import { Key } from 'lucide-react';
 
 const HeroSection = () => {
   const [isBetaModalOpen, setIsBetaModalOpen] = useState(false);
+  const [memberCount, setMemberCount] = useState(254);
   const navigate = useNavigate();
 
-  const handleGetInLine = () => {
-    navigate('/login');
-  };
+  // Simple animation to show the count is "live"
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMemberCount(prev => prev === 254 ? 254 : 254); // Keeps it steady for now, or we can fetch real data later
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <section className="relative h-screen w-full flex flex-col overflow-hidden bg-[#1D5DA0] justify-between">
-      {/* Background - Solid Color */}
+    <section className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#1D5DA0]">
+      {/* Background - Deep Blue with subtle texture */}
       <div className="absolute inset-0 z-0 bg-[#1D5DA0]" />
+      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 z-0 mix-blend-overlay"></div>
 
-      {/* Main Content Area - Logo focused at top/center */}
-      <div className="flex-grow flex items-center justify-center w-full px-4 sm:px-6 lg:px-8 relative z-10 pt-16 pb-8">
-        <div className="flex flex-col items-center justify-center h-full w-full max-w-4xl">
-          {/* Logo Image Component - Sized up ~15% from original design */}
-          <HeroImage className="w-56 h-56 md:w-80 md:h-80" />
-        </div>
-      </div>
-
-      {/* Bottom Area - Text and Buttons grouped together */}
-      <motion.div 
-        initial={{ opacity: 0, y: 30 }} 
-        animate={{ opacity: 1, y: 0 }} 
-        transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }} 
-        className="w-full pb-12 sm:pb-16 px-4 z-20 flex flex-col items-center gap-8"
-      >
-        {/* Headlines */}
-        <div className="text-center space-y-5 max-w-2xl px-4">
-           <h1 className="text-2xl md:text-3xl lg:text-4xl font-sans font-bold text-white tracking-tight leading-tight drop-shadow-sm">
-            New York's First real{" "}
-            <span className="relative inline-block">
-              rest
-              {/* Animated White Streak Underline */}
-              <motion.span 
-                className="absolute -bottom-1 left-0 h-[4px] bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.8)]"
-                initial={{ width: "0%" }}
-                animate={{ width: "100%" }}
-                transition={{ 
-                  duration: 1.6, // Reduced by 20% (from 2.0s to 1.6s)
-                  ease: "easeInOut", 
-                  repeat: Infinity,
-                  repeatDelay: 0.5
-                }}
-              />
-            </span>
-            room . . .
-          </h1>
+      {/* Central Content */}
+      <div className="relative z-20 flex flex-col items-center gap-10 max-w-md w-full px-6">
+        
+        {/* The Circle Logo (Pulsing) */}
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="relative"
+        >
+          <HeroImage className="w-64 h-64 md:w-80 md:h-80 shadow-2xl" />
           
-          {/* Gold Divider */}
-          <div className="w-16 h-1.5 bg-[#C5A059] rounded-full shadow-sm mx-auto"></div>
-        </div>
-
-        {/* Buttons - Reduced height/padding as requested */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-sm mx-auto">
-          {/* Left Button - Join Mailing List */}
-          <Button 
-            onClick={() => setIsBetaModalOpen(true)} 
-            variant="outline" 
-            className="w-full sm:w-auto flex-1 bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#1D5DA0] text-xs font-bold px-6 py-3 rounded-md uppercase tracking-widest transition-all shadow-lg hover:shadow-xl hover:scale-105 h-auto flex flex-col items-center justify-center text-center min-w-[160px]"
+          {/* Status Indicator */}
+          <motion.div 
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 1, type: "spring" }}
+            className="absolute -bottom-4 -right-4 bg-[#C5A059] text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg border-2 border-[#1D5DA0]"
           >
-            <span className="leading-none mb-1">Join Mailing List</span>
-            {/* Invisible placeholder for height consistency */}
-            <span className="text-[9px] font-medium normal-case opacity-0 leading-none h-[10px] block"></span> 
-          </Button>
+            Live
+          </motion.div>
+        </motion.div>
 
-          {/* Right Button - Get in Line */}
-          <Button 
-            onClick={handleGetInLine} 
-            variant="default" 
-            className="w-full sm:w-auto flex-1 bg-[#C5A059] border-2 border-[#C5A059] text-white hover:bg-[#b08d4b] hover:border-[#b08d4b] px-6 py-3 rounded-md transition-all group flex flex-col items-center justify-center text-center shadow-lg hover:shadow-xl hover:scale-105 h-auto min-w-[160px]"
-          >
-            <span className="text-xs font-bold uppercase tracking-widest leading-none mb-1">Get in Line!</span>
-            <span className="text-[9px] font-medium normal-case opacity-90 text-center leading-none h-[10px] block">(open free account*)</span>
-          </Button>
-        </div>
-      </motion.div>
+        {/* The "Member 255" Hook */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+          className="text-center space-y-6 w-full"
+        >
+          <div className="space-y-2">
+            <p className="text-white/60 text-sm uppercase tracking-[0.2em] font-light">
+              Current Member Count
+            </p>
+            <div className="flex items-center justify-center gap-3">
+              <span className="text-5xl md:text-6xl font-serif text-white font-bold tracking-tighter">
+                {memberCount}
+              </span>
+              <span className="text-white/40 text-xl font-light">/ 1000</span>
+            </div>
+            <p className="text-[#C5A059] text-xs font-bold uppercase tracking-widest animate-pulse">
+              Next Allocation: #255
+            </p>
+          </div>
+
+          {/* The Action */}
+          <div className="flex flex-col gap-3 w-full pt-4">
+            <Button 
+              onClick={() => setIsBetaModalOpen(true)}
+              className="w-full bg-white text-[#1D5DA0] hover:bg-[#F5F1E8] text-lg font-bold py-6 uppercase tracking-widest rounded-none border border-transparent hover:border-[#C5A059] transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+            >
+              Claim Spot #255
+            </Button>
+            
+            <Button 
+              onClick={() => navigate('/login')}
+              variant="ghost" 
+              className="text-white/40 hover:text-white text-xs uppercase tracking-widest"
+            >
+              Member Login
+            </Button>
+          </div>
+        </motion.div>
+      </div>
 
       <BetaSignupModal isOpen={isBetaModalOpen} onClose={() => setIsBetaModalOpen(false)} />
     </section>
