@@ -51,8 +51,7 @@ const MaslowPhilosophy = () => {
               <p className="text-base md:text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto">
                 Access to basic sanitation is not just a convenience; it's a fundamental human right that underpins dignity and well-being.
                 Without secure and hygienic bathroom access, individuals are constantly hindered from meeting their most basic physiological needs,
-                making higher pursuits like self-esteem and self-actualization an impossible dream. We believe that providing this fundamental
-                "boot" is essential for unlocking human potential and fostering a society where everyone has the opportunity to thrive.
+                making higher pursuits like self-esteem and self-actualization an impossible dream. We believe that providing this fundamental "boot"—manifested in The Hull—is essential for unlocking human potential for unlocking human potential and fostering a society where everyone has the opportunity to thrive.
               </p>
             </div>
           </div>

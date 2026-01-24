@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Shield, Wind, Hexagon } from 'lucide-react';
+import { Users, Wind, Hexagon } from 'lucide-react'; // Swapped Shield for Users
 
 const TheLotusPage = () => {
   return (
@@ -18,7 +18,7 @@ const TheLotusPage = () => {
             The Lotus Layout
           </h1>
           <p className="text-[#3B5998]/80 text-lg max-w-2xl mx-auto font-light italic">
-            "Dignity requires separation. Like a lotus, the sanctuary unfolds in protected layers."
+            "Dignity requires separation. Like a lotus, the sanctuary unfolds from the communal to the intimate."
           </p>
         </div>
 
@@ -35,11 +35,11 @@ const TheLotusPage = () => {
             </div>
             <div className="bg-white/60 backdrop-blur-sm p-8 rounded-xl border border-[#3B5998]/10 hover:border-[#C5A059] transition-all w-full">
               <div className="flex items-center gap-3 mb-3">
-                <Shield className="w-6 h-6 text-[#C5A059]" />
-                <h3 className="text-2xl font-serif font-bold text-[#3B5998]">The Hull (Exterior)</h3>
+                <Users className="w-6 h-6 text-[#C5A059]" />
+                <h3 className="text-2xl font-serif font-bold text-[#3B5998]">The Hull (The Commons)</h3>
               </div>
               <p className="text-[#3B5998]/80 leading-relaxed">
-                The protective shell. A hardened, weatherproof barrier separating the chaos of the street from the sanctuary. Armored glass, acoustic dampening, and access control.
+                The pressurized vessel. A shared, sub-grade sanctuary featuring a circadian skylight and restored seating. This is the "Third Place" for the public—a space to breathe, hydrate, and reset under the protection of Maslow's infrastructure.
               </p>
             </div>
           </div>
@@ -52,10 +52,10 @@ const TheLotusPage = () => {
             <div className="bg-white/60 backdrop-blur-sm p-8 rounded-xl border border-[#3B5998]/10 hover:border-[#C5A059] transition-all w-full">
               <div className="flex items-center gap-3 mb-3">
                 <Wind className="w-6 h-6 text-[#C5A059]" />
-                <h3 className="text-2xl font-serif font-bold text-[#3B5998]">The Petals (Transition)</h3>
+                <h3 className="text-2xl font-serif font-bold text-[#3B5998]">The Petals (The Transition)</h3>
               </div>
               <p className="text-[#3B5998]/80 leading-relaxed">
-                The decompression zone. A hallway designed with "Pink Noise" soundscapes and filtered air. This is where the city washes off before you enter the private suite.
+                The decompression zone. Sound-dampened corridors separating the Hull from the private suites. Designed with "Pink Noise" and filtered air to wash off the city before you enter the core.
               </p>
             </div>
           </div>
@@ -68,10 +68,10 @@ const TheLotusPage = () => {
             <div className="bg-white/80 backdrop-blur-md p-8 rounded-xl border border-[#C5A059] shadow-xl w-full">
               <div className="flex items-center gap-3 mb-3">
                 <Hexagon className="w-6 h-6 text-[#C5A059]" />
-                <h3 className="text-2xl font-serif font-bold text-[#3B5998]">The Core (Suite)</h3>
+                <h3 className="text-2xl font-serif font-bold text-[#3B5998]">The Core (The Sanctuary Suite)</h3>
               </div>
               <p className="text-[#3B5998]/80 leading-relaxed">
-                The absolute center. A private environment with ritual ablution basins, touchless utilities, full-spectrum lighting, and the "Return to Self."
+                The absolute center. A fully private hygiene environment with ritual basins, touchless utilities, and full-spectrum lighting. This is the "Return to Self."
               </p>
             </div>
           </div>
