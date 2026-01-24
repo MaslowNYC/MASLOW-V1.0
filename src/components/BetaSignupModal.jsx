@@ -1,125 +1,115 @@
 
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { supabase } from "@/lib/customSupabaseClient";
-import { useToast } from "@/components/ui/use-toast";
-import { Loader2, CheckCircle2 } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { supabase } from '@/lib/customSupabaseClient';
+import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 
 const BetaSignupModal = ({ isOpen, onClose }) => {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '' });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const { toast } = useToast();
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-  };
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    if (!email) return;
+
+    setLoading(true);
+    setError('');
 
     try {
-      const { error } = await supabase
+      // 1. Check if email already exists
+      const { data: existing, error: checkError } = await supabase
         .from('beta_signups')
-        .insert([formData]);
+        .select('id')
+        .eq('email', email)
+        .maybeSingle();
 
-      if (error) throw error;
+      if (checkError) throw checkError;
+
+      if (existing) {
+        // Stop right here. Do not insert.
+        setSuccess(true); // Fake success to the user so they don't keep trying, or tell them.
+        // Let's be honest but gentle:
+        // Actually, for UX, let's just show success but NOT insert. 
+        // This prevents error messages but stops the DB clutter.
+      } else {
+        // 2. Insert if new
+        const { error: insertError } = await supabase
+          .from('beta_signups')
+          .insert([{ email }]);
+
+        if (insertError) throw insertError;
+      }
 
       setSuccess(true);
-      toast({
-        title: "Welcome to the Beta!",
-        description: "You've successfully reserved your spot for The Hull.",
-        className: "bg-[#3B5998] text-[#F5F1E8] border-[#C5A059]",
-      });
-      
-      // Close modal after delay
       setTimeout(() => {
         onClose();
         setSuccess(false);
-        setFormData({ name: '', email: '', phone: '' });
+        setEmail('');
       }, 2000);
 
-    } catch (error) {
-      console.error('Error signing up for beta:', error);
-      toast({
-        title: "Signup Failed",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive"
-      });
+    } catch (err) {
+      console.error('Signup error:', err);
+      setError('Something went wrong. Please try again.');
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] bg-[#F5F1E8] border-[#3B5998]">
+      <DialogContent className="bg-[#F5F1E8] border-[#3B5998]/20 max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-[#3B5998] font-serif text-2xl">Join the Beta</DialogTitle>
-          <DialogDescription className="text-[#3B5998]/70">
-            Digital Access to The Hull is currently in Beta. Reserve your spot to get early access.
+          <DialogTitle className="text-[#3B5998] font-serif text-2xl text-center">
+            {success ? 'Welcome to the Line' : 'Secure Your Spot'}
+          </DialogTitle>
+          <DialogDescription className="text-[#3B5998]/60 text-center">
+            {success 
+              ? "You're on the list. We'll notify you when your key is ready."
+              : "Join the waitlist for Maslow's first allocation."
+            }
           </DialogDescription>
         </DialogHeader>
 
         {success ? (
-          <div className="py-12 flex flex-col items-center justify-center text-center space-y-4">
-            <CheckCircle2 className="w-16 h-16 text-[#C5A059] animate-bounce" />
-            <h3 className="text-xl font-bold text-[#3B5998]">You're on the list!</h3>
-            <p className="text-[#3B5998]/70">Watch your inbox for updates.</p>
+          <div className="flex flex-col items-center justify-center py-8">
+            <CheckCircle2 className="w-16 h-16 text-[#C5A059] mb-4 animate-in zoom-in" />
+            <p className="text-[#3B5998] font-medium">Position Locked</p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4 py-4">
+          <form onSubmit={handleSubmit} className="space-y-4 pt-4">
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-[#3B5998]">Name</Label>
-              <Input 
-                id="name" 
-                value={formData.name} 
-                onChange={handleChange} 
-                required 
-                className="bg-white border-[#3B5998]/20 text-[#3B5998]"
-                placeholder="Jane Doe"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-[#3B5998]">Email</Label>
-              <Input 
-                id="email" 
+              <Input
                 type="email"
-                value={formData.email} 
-                onChange={handleChange} 
-                required 
-                className="bg-white border-[#3B5998]/20 text-[#3B5998]"
-                placeholder="jane@example.com"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="phone" className="text-[#3B5998]">Phone (Optional)</Label>
-              <Input 
-                id="phone" 
-                type="tel"
-                value={formData.phone} 
-                onChange={handleChange} 
-                className="bg-white border-[#3B5998]/20 text-[#3B5998]"
-                placeholder="(555) 123-4567"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="bg-white border-[#3B5998]/20 text-[#3B5998] placeholder:text-[#3B5998]/40 focus:border-[#C5A059] focus:ring-[#C5A059]"
+                required
               />
             </div>
             
-            <DialogFooter className="pt-4">
-              <Button type="submit" disabled={isSubmitting} className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#3B5998] font-bold">
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Reserving...
-                  </>
-                ) : (
-                  'Reserve My Spot'
-                )}
-              </Button>
-            </DialogFooter>
+            {error && (
+              <div className="flex items-center gap-2 text-red-500 text-sm bg-red-50 p-2 rounded">
+                <AlertCircle className="w-4 h-4" />
+                {error}
+              </div>
+            )}
+
+            <Button 
+              type="submit" 
+              className="w-full bg-[#3B5998] hover:bg-[#2a4070] text-white font-bold tracking-wider"
+              disabled={loading}
+            >
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'JOIN WAITLIST'}
+            </Button>
+            
+            <p className="text-[10px] text-center text-[#3B5998]/40">
+              *Limited to the first 1,000 founding members.
+            </p>
           </form>
         )}
       </DialogContent>
