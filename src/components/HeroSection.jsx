@@ -5,17 +5,16 @@ import { Button } from '@/components/ui/button';
 import BetaSignupModal from '@/components/BetaSignupModal';
 import HeroImage from '@/components/HeroImage';
 import { useNavigate } from 'react-router-dom';
-import { Key } from 'lucide-react';
 
 const HeroSection = () => {
   const [isBetaModalOpen, setIsBetaModalOpen] = useState(false);
   const [memberCount, setMemberCount] = useState(254);
   const navigate = useNavigate();
 
-  // Simple animation to show the count is "live"
+  // The "Live" Pulse Effect
   useEffect(() => {
     const interval = setInterval(() => {
-      setMemberCount(prev => prev === 254 ? 254 : 254); // Keeps it steady for now
+      setMemberCount(prev => prev === 254 ? 254 : 254); // Keeps it steady at 254 for now
     }, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -36,9 +35,10 @@ const HeroSection = () => {
           transition={{ duration: 1, ease: "easeOut" }}
           className="relative"
         >
+          {/* Logo Sized Up for Impact */}
           <HeroImage className="w-64 h-64 md:w-80 md:h-80 shadow-2xl" />
           
-          {/* Status Indicator */}
+          {/* "Live" Status Indicator */}
           <motion.div 
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -57,7 +57,11 @@ const HeroSection = () => {
           className="text-center space-y-6 w-full"
         >
           <div className="space-y-2">
-            <p className="text-white/60 text-sm uppercase tracking-[0.2em] font-light">
+            <h1 className="text-white text-lg font-serif tracking-widest uppercase opacity-80 mb-4">
+              The Infrastructure of Dignity
+            </h1>
+            
+            <p className="text-white/60 text-xs uppercase tracking-[0.2em] font-light">
               Current Member Count
             </p>
             <div className="flex items-center justify-center gap-3">
@@ -71,13 +75,13 @@ const HeroSection = () => {
             </p>
           </div>
 
-          {/* The Action */}
-          <div className="flex flex-col gap-3 w-full pt-4">
+          {/* The Action Buttons */}
+          <div className="flex flex-col gap-3 w-full pt-6">
             <Button 
               onClick={() => setIsBetaModalOpen(true)}
               className="w-full bg-white text-[#1D5DA0] hover:bg-[#F5F1E8] text-lg font-bold py-6 uppercase tracking-widest rounded-none border border-transparent hover:border-[#C5A059] transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]"
             >
-              Claim Spot #255
+              Get In Line
             </Button>
             
             <Button 
