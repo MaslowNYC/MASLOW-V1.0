@@ -1,30 +1,61 @@
 
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import BetaSignupModal from '@/components/BetaSignupModal';
 import HeroImage from '@/components/HeroImage';
+import { supabase } from '@/lib/customSupabaseClient';
 
 const HeroSection = () => {
   const [isBetaModalOpen, setIsBetaModalOpen] = useState(false);
-  const [memberCount, setMemberCount] = useState(254);
+  // We start at 254 to maintain the "Velvet Rope" scarcity illusion
+  const FOUNDER_SEED_COUNT = 254; 
+  const [memberCount, setMemberCount] = useState(FOUNDER_SEED_COUNT);
 
-  // Scarcity Counter Animation
   useEffect(() => {
-    const interval = setInterval(() => {
-      setMemberCount(254); 
-    }, 5000);
-    return () => clearInterval(interval);
+    // 1. Fetch the initial count from the database
+    const fetchCount = async () => {
+      try {
+        const { count, error } = await supabase
+          .from('beta_signups')
+          .select('*', { count: 'exact', head: true });
+
+        if (error) {
+          console.error('Error fetching count:', error);
+        } else {
+          // Display = Seed (254) + Real Signups
+          setMemberCount(FOUNDER_SEED_COUNT + (count || 0));
+        }
+      } catch (err) {
+        console.error('Connection error:', err);
+      }
+    };
+
+    fetchCount();
+
+    // 2. Set up Real-Time Listener
+    // This makes the number tick up INSTANTLY when a new row is added
+    const subscription = supabase
+      .channel('public:beta_signups')
+      .on('postgres_changes', 
+        { event: 'INSERT', schema: 'public', table: 'beta_signups' }, 
+        (payload) => {
+          setMemberCount(prev => prev + 1);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(subscription);
+    };
   }, []);
 
   return (
     <section className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#0F172A]">
       {/* 1. Matte Dark Slate Background */}
-      {/* We use a radial gradient to create a subtle 'spotlight' effect in the center, fading to deep slate at the edges */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1E293B] via-[#0F172A] to-[#020617]" />
       
-      {/* 2. Texture Overlay (Subtle Noise for that 'Matte' feel) */}
+      {/* 2. Texture Overlay */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 z-0"></div>
 
       {/* Central Content */}
@@ -37,10 +68,10 @@ const HeroSection = () => {
           transition={{ duration: 1.5, ease: "easeOut" }}
           className="relative"
         >
-          {/* The Glow Effect - Softer now to match the slate */}
+          {/* The Glow Effect */}
           <div className="absolute inset-0 bg-[#C5A059] blur-[80px] opacity-10 rounded-full animate-pulse"></div>
           
-          {/* Logo - Sized down for elegance (w-56/h-56 mobile, w-72/h-72 desktop) */}
+          {/* Logo */}
           <HeroImage className="w-56 h-56 md:w-72 md:h-72 drop-shadow-[0_0_40px_rgba(197,160,89,0.15)]" />
         </motion.div>
 
@@ -62,7 +93,7 @@ const HeroSection = () => {
             <p className="text-[#94A3B8] text-[10px] uppercase tracking-[0.3em] font-medium">
               Current Waitlist Position
             </p>
-            <div className="text-4xl md:text-5xl font-serif text-white font-medium tracking-tighter">
+            <div className="text-4xl md:text-5xl font-serif text-white font-medium tracking-tighter tabular-nums">
               #{memberCount}
             </div>
           </div>
