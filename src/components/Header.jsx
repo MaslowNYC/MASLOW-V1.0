@@ -23,22 +23,27 @@ const Header = ({ setIsCartOpen }) => {
     navigate('/login');
     setMobileMenuOpen(false);
   };
-
+// Find the navLinks array and REPLACE it with this:
   const navLinks = [
     { name: 'IMPACT', path: '/impact' }, 
     { name: 'THE HULL', path: '/sanctuary' },
-    { name: 'SUITE ACCESS', path: '/membership' },
-    { name: 'LOCATIONS', path: '/locations/soho' },
+    { name: 'THE LOTUS', path: '/lotus' }, // Now points to Design
+    { name: 'MEMBERSHIP', path: '/membership' },
     { name: 'STORE', path: '/store' },
   ];
 
-  // Only show THE LOTUS link if user is a founder
+  // Find the displayLinks logic and REPLACE it with this:
   const displayLinks = [...navLinks];
-  if (isFounder) {
-    displayLinks.push({ name: 'THE LOTUS', path: '/lotus' });
-  }
+  // Note: We removed the "push" logic because the Dashboard button is separate below.
 
-  const isActive = (path) => location.pathname === path;
+// Find the Dashboard Button (inside the return statement) and ensure it points to /admin:
+          <div className="flex items-center gap-2 border-l border-[#3B5998]/20 pl-6">
+            <Link to="/admin">
+              <Button variant="ghost" size="sm" className="text-[#3B5998] hover:text-[#C5A059] hover:bg-[#3B5998]/5 h-8 text-xs uppercase tracking-wider">
+                <LayoutDashboard className="w-4 h-4 mr-2" />
+                Dashboard
+              </Button>
+            </Link>
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[#F5F1E8]/90 backdrop-blur-md border-b border-[#3B5998]/10 shadow-sm transition-all duration-300">
