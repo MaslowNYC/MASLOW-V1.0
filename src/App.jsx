@@ -51,6 +51,7 @@ const AppContent = () => {
       <main className="flex-grow">
         <Routes>
           {/* --- PUBLIC LOCK SCREEN --- */}
+          {/* FIX: Point directly to HeroSection, removing the broken HomePage */}
           <Route path="/" element={<HeroSection />} />
           <Route path="/login" element={<LoginPage />} />
 
@@ -69,7 +70,7 @@ const AppContent = () => {
           {/* --- FOUNDER ROUTE --- */}
           <Route path="/admin" element={<ProtectedRoute requireFounder={true}><AdminFundingDashboard /></ProtectedRoute>} />
 
-          {/* Catch-all: Send lost people to Home (which auto-ushers to /hull) */}
+          {/* Catch-all: Send lost people back to Home (which auto-ushers to /hull) */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         
