@@ -8,14 +8,13 @@ import { useCart } from '@/hooks/useCart';
 import { formatNumber } from '@/utils/formatting';
 
 const Header = ({ setIsCartOpen }) => {
-  const { user, signOut, isFounder } = useAuth(); // We need isFounder here
+  const { user, signOut, isFounder } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { cartCount } = useCart();
 
-  // If not logged in, Header should likely be hidden by App.jsx, 
-  // but if it renders, return null just in case.
+  // If not logged in, Header doesn't render (double safety)
   if (!user) return null;
 
   const handleLogout = async () => {
@@ -24,11 +23,12 @@ const Header = ({ setIsCartOpen }) => {
     setMobileMenuOpen(false);
   };
 
-  // INSIDER LINKS (Visible to everyone who is logged in)
+  // 1. "THE LOTUS" is now visible to ALL Insiders (anyone with a login)
+  // We removed the 'isFounder' check for this specific link.
   const navLinks = [
     { name: 'IMPACT', path: '/impact' }, 
     { name: 'THE HULL', path: '/sanctuary' },
-    { name: 'THE LOTUS', path: '/lotus' }, // Now available to all insiders
+    { name: 'THE LOTUS', path: '/lotus' },
     { name: 'MEMBERSHIP', path: '/membership' },
     { name: 'STORE', path: '/store' },
   ];
@@ -86,7 +86,8 @@ const Header = ({ setIsCartOpen }) => {
 
           {/* User Controls */}
           <div className="flex items-center gap-2 border-l border-[#3B5998]/20 pl-6">
-            {/* FOUNDER ONLY: Dashboard Link */}
+            
+            {/* 2. FOUNDER ONLY: This Dashboard button is now protected */}
             {isFounder && (
               <Link to="/admin">
                 <Button variant="ghost" size="sm" className="text-[#3B5998] hover:text-[#C5A059] hover:bg-[#3B5998]/5 h-8 text-xs uppercase tracking-wider">
@@ -151,7 +152,7 @@ const Header = ({ setIsCartOpen }) => {
             
             <div className="h-px bg-[#3B5998]/10 my-2" />
             
-            {/* FOUNDER ONLY: Dashboard Mobile Link */}
+            {/* 3. FOUNDER ONLY: Mobile Dashboard protection */}
             {isFounder && (
               <Link 
                 to="/admin" 
