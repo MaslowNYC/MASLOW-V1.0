@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, LogOut, Menu, X, ShoppingBag, UserCircle } from 'lucide-react';
+import { LayoutDashboard, LogOut, Menu, X, ShoppingBag } from 'lucide-react';
 import { useCart } from '@/hooks/useCart';
 import { formatNumber } from '@/utils/formatting';
 
@@ -23,19 +22,14 @@ const Header = ({ setIsCartOpen }) => {
     setMobileMenuOpen(false);
   };
 
+  // UPDATED: "The Lotus" is now a standard public link
   const navLinks = [
     { name: 'IMPACT', path: '/impact' }, 
     { name: 'THE HULL', path: '/sanctuary' },
-    { name: 'SUITE ACCESS', path: '/membership' },
-    { name: 'LOCATIONS', path: '/locations/soho' },
+    { name: 'THE LOTUS', path: '/lotus' },
+    { name: 'MEMBERSHIP', path: '/membership' },
     { name: 'STORE', path: '/store' },
   ];
-
-  // Only show REACTOR link if user is a founder
-  const displayLinks = [...navLinks];
-  if (isFounder) {
-    displayLinks.push({ name: 'REACTOR', path: '/reactor-core' });
-  }
 
   const isActive = (path) => location.pathname === path;
 
@@ -64,7 +58,7 @@ const Header = ({ setIsCartOpen }) => {
           >
             Home
           </Link>
-          {displayLinks.map((link) => (
+          {navLinks.map((link) => (
             <Link 
               key={link.name}
               to={link.path} 
@@ -96,6 +90,7 @@ const Header = ({ setIsCartOpen }) => {
                 Dashboard
               </Button>
             </Link>
+            
             <Button variant="ghost" size="sm" onClick={handleLogout} className="text-[#3B5998]/60 hover:text-red-600 hover:bg-red-50 h-8">
               <LogOut className="w-4 h-4" />
             </Button>
@@ -138,7 +133,7 @@ const Header = ({ setIsCartOpen }) => {
             >
               Home
             </Link>
-            {displayLinks.map((link) => (
+            {navLinks.map((link) => (
               <Link 
                 key={link.name}
                 to={link.path} 
@@ -151,6 +146,7 @@ const Header = ({ setIsCartOpen }) => {
             
             <div className="h-px bg-[#3B5998]/10 my-2" />
             
+            {/* Dashboard Mobile Link */}
             <Link 
               to="/admin" 
               className="text-[#3B5998] hover:text-[#C5A059] font-medium tracking-wide transition-colors uppercase text-sm"
@@ -158,6 +154,7 @@ const Header = ({ setIsCartOpen }) => {
             >
               Dashboard
             </Link>
+            
             <Button 
               onClick={handleLogout} 
               className="text-red-500 hover:bg-red-100 w-full justify-start pl-0 uppercase text-sm"

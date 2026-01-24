@@ -9,7 +9,7 @@ import { toast } from '@/components/ui/use-toast';
 import { Loader2, Lock, CreditCard, Wallet } from 'lucide-react';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
-import { PAYMENT_DISABLED } from '@/config/featureFlags';
+import { featureFlags } from '@/config/featureFlags';
 
 const cardStyle = {
   style: {
@@ -44,7 +44,7 @@ const PaymentModal = ({ isOpen, onClose, tierName, price }) => {
 
   // Force close if payments are disabled
   useEffect(() => {
-    if (PAYMENT_DISABLED && isOpen) {
+    if (!featureFlags.enablePayments && isOpen) {
       onClose();
       toast({
         title: "Payments Unavailable",
@@ -105,7 +105,7 @@ const PaymentModal = ({ isOpen, onClose, tierName, price }) => {
   }, [user]);
 
   useEffect(() => {
-    if (stripe && !PAYMENT_DISABLED) {
+    if (stripe && featureFlags.enablePayments) {
       const pr = stripe.paymentRequest({
         country: 'US',
         currency: 'usd',
@@ -161,7 +161,7 @@ const PaymentModal = ({ isOpen, onClose, tierName, price }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     
-    if (PAYMENT_DISABLED) {
+    if (!featureFlags.enablePayments) {
       setError("Payments are currently disabled.");
       return;
     }
@@ -220,7 +220,7 @@ const PaymentModal = ({ isOpen, onClose, tierName, price }) => {
     }
   };
 
-  if (PAYMENT_DISABLED) return null;
+  if (!featureFlags.enablePayments) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

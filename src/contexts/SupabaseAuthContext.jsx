@@ -1,6 +1,5 @@
 
-import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
-
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -36,11 +35,15 @@ export const AuthProvider = ({ children }) => {
     return () => subscription.unsubscribe();
   }, [handleSession]);
 
-  const signUp = useCallback(async (email, password, options) => {
+  // FIX: This function now tells Supabase where to redirect users
+  const signUp = useCallback(async (email, password, metadata = {}) => {
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options,
+      options: {
+        data: metadata,
+        emailRedirectTo: window.location.origin, 
+      },
     });
 
     if (error) {

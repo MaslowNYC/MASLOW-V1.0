@@ -12,10 +12,8 @@ import MaslowPassMockup from '@/components/MaslowPassMockup';
 import ContactFormModal from '@/components/ContactFormModal';
 import BetaSignupModal from '@/components/BetaSignupModal';
 import { formatNumber } from '@/utils/formatting';
-import { PAYMENT_DISABLED } from '@/config/featureFlags';
+import { featureFlags } from '@/config/featureFlags'; // <--- UPDATED IMPORT
 
-// Updated tiers based on user request
-// Updated tiers based on user request
 const tiers = [
   {
     name: 'SINGLE SESSION',
@@ -109,10 +107,11 @@ const MembershipTiers = () => {
       return;
     }
 
-    if (PAYMENT_DISABLED && tier.action !== 'inquiry') {
+    // UPDATED CHECK: Use featureFlags instead of PAYMENT_DISABLED
+    if (!featureFlags.enablePayments && tier.action !== 'inquiry') {
       toast({
         title: "Payments Unavailable",
-        description: "Payment processing is currently disabled. Please check back later.",
+        description: "We are currently in Waitlist Mode. Payments are disabled.",
         variant: "destructive"
       });
       return;
@@ -235,7 +234,8 @@ const MembershipTiers = () => {
                   ))}
                 </ul>
 
-                {PAYMENT_DISABLED && isPaymentRequired ? (
+                {/* UPDATED LOGIC HERE */}
+                {!featureFlags.enablePayments && isPaymentRequired ? (
                   <div className="w-full py-4 text-center bg-gray-100 rounded-lg border border-gray-200 cursor-not-allowed">
                     <p className="text-[#3B5998] font-bold text-sm">Payment Unavailable</p>
                     <p className="text-[#3B5998]/60 text-xs">Please check back soon</p>

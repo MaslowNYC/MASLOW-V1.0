@@ -9,7 +9,7 @@ import { Helmet } from 'react-helmet';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
-import { PAYMENT_DISABLED } from '@/config/featureFlags';
+import { featureFlags } from '@/config/featureFlags';
 
 const MembershipPage = () => {
   const [selectedTier, setSelectedTier] = useState(null);
@@ -59,7 +59,7 @@ const MembershipPage = () => {
         return;
     }
 
-    if (PAYMENT_DISABLED) {
+    if (!featureFlags.enablePayments) {
       toast({
         title: "Payments Unavailable",
         description: "Payment processing is currently disabled. Please check back later.",
@@ -112,131 +112,57 @@ const MembershipPage = () => {
             Pre-buy your access. Help us build the sanctuary NYC deserves.
           </p>
         </motion.div>
+        {/* THE VELVET ROPE PRICING SECTION */}
+<div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+  
+  {/* Tier 1: The Sovereign */}
+  <div className="border border-[#C5A059] bg-[#F5F1E8] p-8 relative overflow-hidden group hover:shadow-2xl transition-all duration-500">
+    <div className="absolute top-0 right-0 bg-[#C5A059] text-white text-[10px] font-bold px-3 py-1 uppercase tracking-widest">
+      Allocated: 2/12
+    </div>
+    <h3 className="text-3xl font-serif font-bold text-[#3B5998] mb-2">The Sovereign</h3>
+    <p className="text-xs text-[#C5A059] uppercase tracking-widest mb-6">Founding Patron Status</p>
+    
+    <div className="space-y-4 mb-8">
+      <p className="text-[#3B5998]/80 font-light italic">"A literal key to the city."</p>
+      <ul className="text-sm text-[#3B5998] space-y-2">
+        <li>• Lifetime Access + 1 Guest</li>
+        <li>• Permanent Name on Founding Plaque</li>
+        <li>• 24/7 Private Key Access</li>
+        <li>• Equity-Free Patronage</li>
+      </ul>
+    </div>
 
-        <div className="grid md:grid-cols-2 gap-8 items-start">
-          
-          {/* Tier 1: The Founding Member */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="bg-white rounded-xl shadow-xl overflow-hidden border border-[#3B5998]/10 flex flex-col h-full"
-          >
-            <div className="bg-[#3B5998]/5 p-8 border-b border-[#3B5998]/10">
-              <div className="flex justify-between items-start mb-4">
-                <Hammer className="w-8 h-8 text-[#3B5998]" />
-              </div>
-              <h3 className="text-3xl font-serif text-[#3B5998] mb-2">{builderMember.name}</h3>
-              <div className="text-4xl font-bold text-[#C5A059] mb-4 font-sans">
-                ${builderMember.price.toLocaleString()}
-              </div>
-              <p className="text-[#3B5998]/70 font-sans italic">
-                {builderMember.description}
-              </p>
-            </div>
-            
-            <div className="p-8 flex-grow flex flex-col justify-between">
-              <ul className="space-y-4 mb-8">
-                {builderMember.benefits.map((benefit, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-[#C5A059] mt-0.5 flex-shrink-0" />
-                    <span className="text-[#3B5998] font-sans">{benefit}</span>
-                  </li>
-                ))}
-              </ul>
-              
-              {PAYMENT_DISABLED ? (
-                <div className="w-full py-6 text-center bg-gray-100 rounded border border-gray-200 cursor-not-allowed">
-                  <p className="text-[#3B5998] font-bold">Payment Unavailable</p>
-                  <p className="text-[#3B5998]/60 text-sm">Please check back soon</p>
-                </div>
-              ) : (
-                <Button 
-                  onClick={() => handleSelectTier(builderMember)}
-                  className="w-full py-6 text-lg bg-[#3B5998] hover:bg-[#2d4474] text-[#F5F1E8] font-bold tracking-wider uppercase"
-                >
-                  Join Now
-                </Button>
-              )}
-            </div>
-          </motion.div>
+    <Button 
+      className="w-full bg-[#3B5998] text-white hover:bg-[#2A406E] uppercase tracking-widest"
+      onClick={() => window.location.href = 'mailto:patrick@maslownyc.com?subject=Sovereign%20Allocation%20Inquiry'}
+    >
+      Request Allocation
+    </Button>
+    <p className="text-[10px] text-center mt-3 text-[#3B5998]/40">
+      *Strictly limited to 12 founding members.
+    </p>
+  </div>
 
-          {/* Tier 2: The Advisory Circle */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="bg-[#1a1a1a] rounded-xl shadow-2xl overflow-hidden border-2 border-[#C5A059] relative flex flex-col h-full group"
-          >
-            {/* Gritty Texture Overlay */}
-            <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] pointer-events-none"></div>
-            
-            <div className="p-8 border-b border-[#C5A059]/30 relative z-10">
-              <div className="flex justify-between items-start mb-4">
-                <Crown className="w-10 h-10 text-[#C5A059]" />
-                <span className="bg-[#C5A059] text-[#1a1a1a] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                  Strict Limit: 10 Seats
-                </span>
-              </div>
-              <h3 className="text-3xl font-serif text-[#F5F1E8] mb-2">{advisoryCircle.name}</h3>
-              <div className="text-4xl font-bold text-[#C5A059] mb-4 font-sans">
-                ${advisoryCircle.price.toLocaleString()}
-              </div>
-              <p className="text-[#F5F1E8]/70 font-sans italic border-l-2 border-[#C5A059] pl-4">
-                {advisoryCircle.description}
-              </p>
-            </div>
-            
-            <div className="p-8 relative z-10 flex-grow flex flex-col justify-between">
-              <ul className="space-y-5 mb-8">
-                {advisoryCircle.benefits.map((benefit, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <div className="bg-[#C5A059]/20 p-1 rounded-full">
-                      <Check className="w-4 h-4 text-[#C5A059] flex-shrink-0" />
-                    </div>
-                    <span className="text-[#F5F1E8] font-sans font-light tracking-wide">{benefit}</span>
-                  </li>
-                ))}
-              </ul>
+  {/* Tier 2: The Founding Member */}
+  <div className="border border-[#3B5998]/10 bg-white/50 p-8 opacity-75 grayscale hover:grayscale-0 transition-all duration-500">
+    <h3 className="text-2xl font-serif font-bold text-[#3B5998] mb-2">Founding Member</h3>
+    <p className="text-xs text-[#3B5998]/60 uppercase tracking-widest mb-6">Waitlist Access</p>
+    
+    <div className="space-y-4 mb-8">
+      <p className="text-[#3B5998]/80 font-light">
+        Secure your position for the 2026 launch. Pre-purchased credit bundles for early adopters.
+      </p>
+    </div>
 
-              <div className="mt-auto space-y-6">
-                <div className="flex items-start gap-3 bg-[#C5A059]/5 p-4 rounded border border-[#C5A059]/20">
-                  <input 
-                    type="checkbox" 
-                    id="advisory-terms" 
-                    className="mt-1 w-5 h-5 rounded border-[#C5A059] text-[#C5A059] focus:ring-[#C5A059] bg-transparent cursor-pointer accent-[#C5A059]"
-                    checked={advisoryTermsAccepted}
-                    onChange={(e) => setAdvisoryTermsAccepted(e.target.checked)}
-                  />
-                  <label htmlFor="advisory-terms" className="text-xs text-[#F5F1E8]/60 cursor-pointer select-none leading-relaxed">
-                    I acknowledge that this is a purchase of a <span className="text-[#C5A059]">Lifetime Membership</span> and does not convey equity or voting rights in Maslow LLC.
-                  </label>
-                </div>
-                
-                {PAYMENT_DISABLED ? (
-                   <div className="w-full py-6 text-center bg-gray-800 rounded border border-gray-700 cursor-not-allowed text-[#F5F1E8]">
-                    <p className="font-bold">Payment Unavailable</p>
-                    <p className="text-[#F5F1E8]/60 text-sm">Please check back soon</p>
-                  </div>
-                ) : (
-                  <Button 
-                    onClick={() => handleSelectTier(advisoryCircle)}
-                    disabled={!advisoryTermsAccepted}
-                    className={`w-full py-6 text-lg font-bold tracking-wider uppercase transition-all duration-500
-                      ${advisoryTermsAccepted 
-                        ? 'bg-[#C5A059] text-[#1a1a1a] hover:bg-[#d4b06a] shadow-[0_0_20px_rgba(197,160,89,0.4)]' 
-                        : 'bg-gray-800 text-gray-500 cursor-not-allowed'
-                      }`}
-                  >
-                    {advisoryTermsAccepted ? 'Secure Your Legacy' : 'Accept Terms to Join'}
-                  </Button>
-                )}
-              </div>
-            </div>
-          </motion.div>
+    <Button variant="outline" className="w-full border-[#3B5998]/20 text-[#3B5998]" disabled>
+      Coming Soon
+    </Button>
+  </div>
 
-        </div>
+</div>
 
+       
         <div className="mt-16 text-center">
             <p className="text-[#3B5998]/60 text-sm max-w-2xl mx-auto flex items-center justify-center gap-2">
                 <ShieldCheck className="w-4 h-4" />

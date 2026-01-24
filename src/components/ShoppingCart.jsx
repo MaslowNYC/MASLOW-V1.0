@@ -1,19 +1,20 @@
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart as ShoppingCartIcon, X, Trash2, ArrowRight, Lock } from 'lucide-react';
 import { useCart } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
 import { initializeCheckout } from '@/api/EcommerceApi';
 import { useToast } from '@/components/ui/use-toast';
-import { PAYMENT_DISABLED } from '@/config/featureFlags';
+import { featureFlags } from '@/config/featureFlags'; // <--- UPDATED IMPORT
 
 const ShoppingCart = ({ isCartOpen, setIsCartOpen }) => {
   const { toast } = useToast();
-  const { cartItems, removeFromCart, updateQuantity, getCartTotal, clearCart } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, getCartTotal } = useCart();
 
   const handleCheckout = useCallback(async () => {
-    if (PAYMENT_DISABLED) {
+    // UPDATED CHECK
+    if (!featureFlags.enablePayments) {
       toast({
         title: 'Checkout Unavailable',
         description: 'Payment processing is temporarily unavailable. Please check back later.',
@@ -47,8 +48,6 @@ const ShoppingCart = ({ isCartOpen, setIsCartOpen }) => {
         throw new Error("Invalid checkout session URL received from server.");
       }
 
-      // Note: We normally clear cart AFTER success, but Stripe hosted page handles flow.
-      // We will clear on success page load.
       window.location.href = response.url;
     } catch (error) {
       console.error("Checkout initialization failed:", error);
@@ -164,7 +163,8 @@ const ShoppingCart = ({ isCartOpen, setIsCartOpen }) => {
                 </div>
                 <p className="mt-0.5 text-sm text-[#3B5998]/60 mb-6">Shipping and taxes calculated at checkout.</p>
                 
-                {PAYMENT_DISABLED ? (
+                {/* UPDATED LOGIC HERE */}
+                {!featureFlags.enablePayments ? (
                   <div className="w-full">
                     <Button 
                       disabled
