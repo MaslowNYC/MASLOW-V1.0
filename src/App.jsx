@@ -17,6 +17,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 
 // Pages
 import HeroSection from '@/components/HeroSection';
+import HomePage from '@/pages/HomePage'; // Import the restored HomePage
 import LoginPage from '@/components/LoginPage';
 import TheLotusPage from '@/pages/TheLotusPage';
 import SanctuaryPage from '@/pages/SanctuaryPage';
@@ -28,31 +29,27 @@ import ProductDetailPage from '@/pages/ProductDetailPage';
 import CheckoutSuccessPage from '@/pages/CheckoutSuccessPage';
 import LocationDetail from '@/pages/LocationDetail';
 
-// Helper component to handle logic inside the Router
 const AppContent = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const location = useLocation();
   const { user, loading } = useAuth();
   
   // Define Lock Screen paths
-  const isLockScreen = location.pathname === '/' || location.pathname === '/login';
-
-  // --- AUTO-USHER ---
-  // If logged in and on the Lock Screen, go directly to The Hull.
-  if (!loading && user && isLockScreen) {
-    return <Navigate to="/hull" replace />;
-  }
+  // Note: '/' is no longer a "Lock Screen" for members, so we remove it from this check
+  // ONLY the Login page should hide the header now.
+  const isHideHeaderPath = location.pathname === '/login' || (!user && location.pathname === '/');
 
   return (
     <div className="min-h-screen bg-[#1D5DA0] flex flex-col">
-      {/* Header is hidden on Lock Screen */}
-      {!isLockScreen && <Header setIsCartOpen={setIsCartOpen} />}
+      {/* Show Header unless we are on the public lock screen or login */}
+      {!isHideHeaderPath && <Header setIsCartOpen={setIsCartOpen} />}
 
       <main className="flex-grow">
         <Routes>
-          {/* --- PUBLIC LOCK SCREEN --- */}
-          {/* FIX: Point directly to HeroSection, removing the broken HomePage */}
-          <Route path="/" element={<HeroSection />} />
+          {/* --- THE HYBRID HOMEPAGE --- */}
+          {/* If Logged In: Show Full HomePage. If Public: Show Velvet Rope (HeroSection) */}
+          <Route path="/" element={user ? <HomePage /> : <HeroSection />} />
+          
           <Route path="/login" element={<LoginPage />} />
 
           {/* --- INSIDER ROUTES (LOCKED) --- */}
@@ -70,7 +67,7 @@ const AppContent = () => {
           {/* --- FOUNDER ROUTE --- */}
           <Route path="/admin" element={<ProtectedRoute requireFounder={true}><AdminFundingDashboard /></ProtectedRoute>} />
 
-          {/* Catch-all: Send lost people back to Home (which auto-ushers to /hull) */}
+          {/* Catch-all: Send lost people back Home */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         
@@ -78,7 +75,7 @@ const AppContent = () => {
         <SpeedInsights />
       </main>
 
-      {!isLockScreen && <Footer />}
+      {!isHideHeaderPath && <Footer />}
       <ShoppingCart isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} />
       <Toaster />
     </div>
