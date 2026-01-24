@@ -35,13 +35,13 @@ const AppContent = () => {
   const location = useLocation();
   const { user, loading } = useAuth();
   
-  // Define Lock Screen paths (No Header/Footer)
+  // Define Lock Screen paths
   const isLockScreen = location.pathname === '/' || location.pathname === '/login';
 
-  // --- AUTO-USHER ---
-  // If user is logged in and tries to go to the Lock Screen, send them to The Hull.
+  // --- AUTO-USHER (Updated to /hull) ---
+  // If logged in and on the Lock Screen, go to The Hull.
   if (!loading && user && isLockScreen) {
-    return <Navigate to="/sanctuary" replace />;
+    return <Navigate to="/hull" replace />;
   }
 
   return (
@@ -56,12 +56,13 @@ const AppContent = () => {
           <Route path="/login" element={<LoginPage />} />
 
           {/* --- INSIDER ROUTES (LOCKED) --- */}
-          <Route path="/sanctuary" element={<ProtectedRoute><SanctuaryPage /></ProtectedRoute>} />
+          {/* Renamed /sanctuary to /hull */}
+          <Route path="/hull" element={<ProtectedRoute><SanctuaryPage /></ProtectedRoute>} />
           <Route path="/lotus" element={<ProtectedRoute><TheLotusPage /></ProtectedRoute>} />
           <Route path="/impact" element={<ProtectedRoute><ImpactPage /></ProtectedRoute>} />
           <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
           
-          {/* --- RESTORED COMMERCE ROUTES --- */}
+          {/* --- COMMERCE ROUTES (Restored!) --- */}
           <Route path="/store" element={<ProtectedRoute><StorePage /></ProtectedRoute>} />
           <Route path="/product/:id" element={<ProtectedRoute><ProductDetailPage /></ProtectedRoute>} />
           <Route path="/checkout-success" element={<ProtectedRoute><CheckoutSuccessPage /></ProtectedRoute>} />
@@ -71,7 +72,7 @@ const AppContent = () => {
           <Route path="/admin" element={<ProtectedRoute requireFounder={true}><AdminFundingDashboard /></ProtectedRoute>} />
           <Route path="/reactor-core" element={<ProtectedRoute requireFounder={true}><ReactorCorePage /></ProtectedRoute>} />
 
-          {/* Catch-all: Send lost people to the Lock Screen (or Sanctuary if logged in) */}
+          {/* Catch-all: Send lost people to Home (which auto-ushers to /hull) */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         
