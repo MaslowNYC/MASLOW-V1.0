@@ -2,7 +2,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Droplets, Snowflake, Wifi, Hand, Accessibility, BatteryCharging, Layout, DoorOpen, ShieldCheck, Zap, HardHat } from 'lucide-react';
-import HullPassMockup from '@/components/HullPassMockup';
 
 const HullSection = () => {
   return (
@@ -18,10 +17,10 @@ const HullSection = () => {
           className="space-y-8 text-center mb-16"
         >
           <h3 className="text-4xl md:text-5xl font-serif text-[#F5F1E8] mb-6">
-            The Reactor Core Design
+            The Sanctuary Design
           </h3>
           <p className="text-xl text-[#F5F1E8]/80 max-w-3xl mx-auto font-light leading-relaxed">
-            Our "Concentric Horseshoe" architecture creates a secure, self-sustaining ecosystem that balances public access with private utility.
+            Our "Concentric" architecture creates a secure ecosystem that balances public access with private utility.
           </p>
         </motion.div>
 
@@ -101,7 +100,7 @@ const HullSection = () => {
             </div>
             <h4 className="text-2xl font-serif font-bold text-[#3B5998] mb-4 flex items-center gap-3">
               <span className="bg-[#C5A059] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
-              The Phantom Corridor
+              The Service Corridor
             </h4>
             <p className="text-[#3B5998]/80 leading-relaxed font-medium">
               The secret to our operations. A hidden service alley runs behind the suites, allowing staff to clean, restock, and maintain utilities from the rear without ever entering the public lobby or disrupting the user experience.
@@ -142,7 +141,7 @@ const HullSection = () => {
         </div>
       </div>
 
-      {/* Unit Economics of Dignity Section */}
+      {/* Built for Longevity Section */}
       <div className="w-full bg-gradient-to-r from-[#1a1a1a] to-[#2d2d2d] py-24 border-t border-[#C5A059]/30 relative overflow-hidden">
         {/* Decorative Grid */}
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
@@ -158,7 +157,7 @@ const HullSection = () => {
                   <HardHat className="w-8 h-8 text-[#C5A059]" />
                 </div>
                 <h2 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tight uppercase">
-                    The Unit Economics of Dignity
+                    Built for Longevity
                 </h2>
                 <div className="h-1 w-24 bg-[#C5A059] mx-auto mb-10"></div>
                 <p className="text-xl md:text-2xl text-gray-300 font-light leading-relaxed max-w-4xl mx-auto">

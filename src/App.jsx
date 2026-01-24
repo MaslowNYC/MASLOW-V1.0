@@ -34,7 +34,7 @@ const AppContent = () => {
   const location = useLocation();
   const { user } = useAuth();
   
-  // Hide Header ONLY on Login page or public Lock Screen (if not logged in)
+  // Hide Header ONLY on Login page or if Public (Not Logged In) looking at Hero
   const isHideHeaderPath = location.pathname === '/login' || (!user && location.pathname === '/');
 
   return (
@@ -44,13 +44,14 @@ const AppContent = () => {
       <main className="flex-grow">
         <Routes>
           {/* --- HYBRID HOMEPAGE --- */}
-          {/* Logged In? Show Full Site. Public? Show Velvet Rope. */}
+          {/* If Logged In: Show Full HomePage. If Public: Show Velvet Rope (HeroSection) */}
           <Route path="/" element={user ? <HomePage /> : <HeroSection />} />
           
           <Route path="/login" element={<LoginPage />} />
 
           {/* --- INSIDER ROUTES --- */}
           <Route path="/hull" element={<ProtectedRoute><SanctuaryPage /></ProtectedRoute>} />
+          <Route path="/sanctuary" element={<Navigate to="/hull" replace />} /> {/* Redirect old links */}
           <Route path="/lotus" element={<ProtectedRoute><TheLotusPage /></ProtectedRoute>} />
           <Route path="/impact" element={<ProtectedRoute><ImpactPage /></ProtectedRoute>} />
           <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
