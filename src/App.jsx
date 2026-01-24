@@ -34,7 +34,7 @@ const AppContent = () => {
   const location = useLocation();
   const { user } = useAuth();
   
-  // Only hide header on Login page or if Public (Not Logged In) looking at Hero
+  // Hide Header ONLY on Login page or if Public (Not Logged In) looking at Hero
   const isHideHeaderPath = location.pathname === '/login' || (!user && location.pathname === '/');
 
   return (

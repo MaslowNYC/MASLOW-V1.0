@@ -87,7 +87,7 @@ const HullSection = () => {
             </p>
           </motion.div>
 
-          {/* 4. The Phantom Corridor */}
+          {/* 4. The Service Corridor */}
           <motion.div 
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
