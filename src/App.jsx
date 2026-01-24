@@ -29,7 +29,6 @@ import ImpactPage from '@/pages/ImpactPage';
 import SanctuaryPage from '@/pages/SanctuaryPage';
 import MembershipPage from '@/pages/MembershipPage';
 import LocationDetail from '@/pages/LocationDetail';
-//import ReactorCorePage from '@/pages/ReactorCorePage';
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -93,14 +92,7 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
-                  <Route
-                    path="/lotus" // Kept your Lotus update
-                    element={
-                      <ProtectedRoute requireFounder={true}>
-                        <ReactorCorePage />
-                      </ProtectedRoute>
-                    }
-                  />
+                 
 <Route
   path="/admin"
   element={
