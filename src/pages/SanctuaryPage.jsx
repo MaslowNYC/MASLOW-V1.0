@@ -55,7 +55,7 @@ const SanctuaryPage = () => {
     <div className="min-h-screen bg-[#1a1a1a] text-[#F5F1E8] font-sans overflow-x-hidden w-full">
       <Helmet>
         <title>The Sanctuary | Maslow NYC</title>
-        <meta name="description" content="Experience the Artificial Sky, the Maslow Console, and invisible hygiene technology." />
+        <meta name="description" content="Experience the Artificial Sky, the Maslow Console, and ihospital-grade sanitation technology." />
       </Helmet>
 
       {/* Hero */}
@@ -179,7 +179,7 @@ const SanctuaryPage = () => {
         </div>
       </section>
 
-      {/* Feature 3: The Hygiene */}
+      {/* Feature 3: The Ritual Cleansing */}
       <section className="py-24 px-4 w-full border-b border-white/5">
         <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12">
              <motion.div
