@@ -1,73 +1,166 @@
 
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
+import { supabase } from '@/lib/customSupabaseClient';
+import BetaSignupModal from '@/components/BetaSignupModal';
+import { ArrowRight, Lock, Loader2 } from 'lucide-react';
 
-const HullSection = () => {
-  return (
-    <section className="py-24 bg-[#3B5998] text-[#F5F1E8] relative overflow-hidden">
+const HeroSection = () => {
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [isBetaModalOpen, setIsBetaModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleWaitlistSubmit = async (e) => {
+    e.preventDefault();
+    if (!email) return;
+    
+    setLoading(true);
+    try {
+      // 1. Insert into beta_signups table
+      const { error } = await supabase
+        .from('beta_signups')
+        .insert([{ email, status: 'pending' }]);
+
+      if (error) {
+        // If duplicate email, just treat as success (security through obscurity)
+        if (error.code === '23505') {
+           toast({
+            title: "Already Registered",
+            description: "You are already on the list. Watch your inbox.",
+            className: "bg-[#3B5998] text-[#F5F1E8] border-[#C5A059]",
+          });
+          setLoading(false);
+          return;
+        }
+        throw error;
+      }
+
+      // 2. Success
+      toast({
+        title: "Access Requested",
+        description: "You have been added to the priority queue.",
+        className: "bg-[#3B5998] text-[#F5F1E8] border-[#C5A059]",
+      });
+      setEmail('');
       
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-[#C5A059]/5 skew-x-12 transform translate-x-1/4"></div>
+      // Optional: Open the modal to upsell membership immediately?
+      // setIsBetaModalOpen(true); 
 
-      <div className="container mx-auto px-4 max-w-6xl relative z-10 flex flex-col md:flex-row items-center gap-16">
+    } catch (error) {
+      console.error('Waitlist Error:', error);
+      toast({
+        title: "System Error",
+        description: "Could not process request. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="relative min-h-screen w-full overflow-hidden bg-[#1a1a1a] flex items-center justify-center">
+      
+      {/* Background Video/Image Placeholder */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-black/60 z-10"></div>
+        {/* Replace with your subway tile video or image */}
+        <img 
+          src="https://images.unsplash.com/photo-1555617778-02518510b9fa?q=80&w=2070&auto=format&fit=crop" 
+          alt="Subway Tiles" 
+          className="w-full h-full object-cover grayscale opacity-40"
+        />
+      </div>
+
+      {/* Content Container */}
+      <div className="relative z-20 w-full max-w-4xl px-4 text-center">
         
-        <div className="flex-1 space-y-8">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="h-0.5 w-12 bg-[#C5A059]"></div>
-              <span className="text-[#C5A059] uppercase tracking-widest font-bold text-sm">The Experience</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6 leading-tight">
-              Enter The Hull.
-            </h2>
-            <p className="text-xl opacity-80 font-light leading-relaxed mb-8">
-              More than a restroom. It is a pressure vessel for peace.
-              <br/><br/>
-              Beneath the city streets, we have carved out a space of radical hospitality. 
-              Sound-dampened corridors, circadian lighting that mimics the sun, and the "Social Contract" ensure that your 15-minute respite restores you completely.
-            </p>
-            
-            <Link to="/hull">
-              <Button className="bg-[#C5A059] text-[#3B5998] hover:bg-white hover:text-[#3B5998] font-bold text-lg px-8 py-6 rounded-none transition-all">
-                Explore The Design <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
-          </motion.div>
-        </div>
+        {/* Logo */}
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="mb-8"
+        >
+          <h1 className="text-6xl md:text-8xl font-serif font-bold text-[#F5F1E8] tracking-widest uppercase mb-2">
+            Maslow
+          </h1>
+          <div className="h-1 w-24 bg-[#C5A059] mx-auto"></div>
+        </motion.div>
 
-        <div className="flex-1 w-full">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="relative aspect-square md:aspect-[4/3] rounded-sm overflow-hidden border-2 border-[#C5A059]/30 shadow-2xl"
+        {/* Tagline */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+          className="mb-12 space-y-4"
+        >
+          <p className="text-xl md:text-2xl text-[#F5F1E8]/80 font-light tracking-wide">
+            The Infrastructure of Dignity.
+          </p>
+          <p className="text-sm text-[#C5A059] uppercase tracking-[0.2em] font-bold">
+            Coming to NYC 2026
+          </p>
+        </motion.div>
+
+        {/* The Gate (Email Form) */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
+          className="max-w-md mx-auto bg-white/5 backdrop-blur-md p-1 rounded-full border border-white/10 flex items-center"
+        >
+          <form onSubmit={handleWaitlistSubmit} className="flex w-full">
+            <Input 
+              type="email" 
+              placeholder="Enter access code or email..." 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="bg-transparent border-none text-white placeholder:text-white/40 h-12 px-6 focus-visible:ring-0 rounded-l-full flex-grow"
+              required
+            />
+            <Button 
+              type="submit" 
+              disabled={loading}
+              className="bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold h-12 px-8 rounded-full transition-all"
+            >
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Request Access"}
+            </Button>
+          </form>
+        </motion.div>
+
+        {/* Member Login Link */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 1 }}
+          className="mt-16"
+        >
+          <Button 
+            variant="link" 
+            onClick={() => navigate('/login')}
+            className="text-white/30 hover:text-[#C5A059] text-xs uppercase tracking-widest transition-colors"
           >
-            {/* Abstract representation of The Hull */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a1a] to-[#3B5998]"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-               <div className="w-32 h-32 border border-[#C5A059] rounded-full flex items-center justify-center opacity-80 animate-pulse">
-                  <div className="w-24 h-24 bg-[#C5A059] rounded-full blur-2xl opacity-40"></div>
-               </div>
-            </div>
-            <div className="absolute bottom-6 left-6 right-6">
-              <p className="text-xs uppercase tracking-widest opacity-50 mb-1">Architecture</p>
-              <p className="font-serif text-2xl">The Center</p>
-            </div>
-          </motion.div>
-        </div>
+            <Lock className="w-3 h-3 mr-2" />
+            Member Login
+          </Button>
+        </motion.div>
 
       </div>
-    </section>
+
+      {/* Beta Modal (Hidden by default, can be triggered) */}
+      <BetaSignupModal 
+        isOpen={isBetaModalOpen} 
+        onClose={() => setIsBetaModalOpen(false)} 
+      />
+    </div>
   );
 };
 
-export default HullSection;
+export default HeroSection;
