@@ -4,94 +4,73 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import BetaSignupModal from '@/components/BetaSignupModal';
 import HeroImage from '@/components/HeroImage';
-import { useNavigate } from 'react-router-dom';
 
 const HeroSection = () => {
   const [isBetaModalOpen, setIsBetaModalOpen] = useState(false);
   const [memberCount, setMemberCount] = useState(254);
-  const navigate = useNavigate();
 
-  // The "Live" Pulse Effect
+  // Scarcity Counter Animation
   useEffect(() => {
     const interval = setInterval(() => {
-      setMemberCount(prev => prev === 254 ? 254 : 254); // Keeps it steady at 254
+      setMemberCount(254); 
     }, 5000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#1D5DA0]">
-      {/* Background - Deep Blue with subtle texture */}
-      <div className="absolute inset-0 z-0 bg-[#1D5DA0]" />
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 z-0 mix-blend-overlay"></div>
+    <section className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-black">
+      {/* 1. Dark Backlit Background */}
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1D5DA0]/20 via-black to-black" />
+      
+      {/* 2. Grid Texture (Subtle) */}
+      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20 z-0"></div>
 
       {/* Central Content */}
-      <div className="relative z-20 flex flex-col items-center gap-10 max-w-md w-full px-6">
+      <div className="relative z-20 flex flex-col items-center gap-12 max-w-md w-full px-6">
         
-        {/* The Circle Logo (Pulsing) */}
+        {/* 3. The Backlit "M" */}
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
           className="relative"
         >
-          {/* Logo Sized Up for Impact */}
-          <HeroImage className="w-64 h-64 md:w-80 md:h-80 shadow-2xl" />
+          {/* The Glow Effect behind the logo */}
+          <div className="absolute inset-0 bg-[#C5A059] blur-[100px] opacity-20 rounded-full animate-pulse"></div>
           
-          {/* "Live" Status Indicator */}
-          <motion.div 
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 1, type: "spring" }}
-            className="absolute -bottom-4 -right-4 bg-[#C5A059] text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest shadow-lg border-2 border-[#1D5DA0]"
-          >
-            Live
-          </motion.div>
+          <HeroImage className="w-72 h-72 md:w-96 md:h-96 drop-shadow-[0_0_50px_rgba(197,160,89,0.3)]" />
         </motion.div>
 
-        {/* The "Member 255" Hook */}
+        {/* 4. Minimalist Text & Counter */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className="text-center space-y-6 w-full"
+          className="text-center space-y-8 w-full"
         >
-          <div className="space-y-2">
-            <h1 className="text-white text-lg font-serif tracking-widest uppercase opacity-80 mb-4">
+          <div>
+            <h1 className="text-white/90 text-xl font-serif tracking-[0.2em] uppercase mb-2">
               The Infrastructure of Dignity
             </h1>
-            
-            <p className="text-white/60 text-xs uppercase tracking-[0.2em] font-light">
-              Current Member Count
-            </p>
-            <div className="flex items-center justify-center gap-3">
-              <span className="text-5xl md:text-6xl font-serif text-white font-bold tracking-tighter">
-                {memberCount}
-              </span>
-              <span className="text-white/40 text-xl font-light">/ 1000</span>
-            </div>
-            <p className="text-[#C5A059] text-xs font-bold uppercase tracking-widest animate-pulse">
-              Next Allocation: #255
-            </p>
+            <div className="w-12 h-0.5 bg-[#C5A059] mx-auto opacity-50"></div>
           </div>
 
-          {/* The Action Buttons */}
-          <div className="flex flex-col gap-3 w-full pt-6">
-            <Button 
-              onClick={() => setIsBetaModalOpen(true)}
-              className="w-full bg-white text-[#1D5DA0] hover:bg-[#F5F1E8] text-lg font-bold py-6 uppercase tracking-widest rounded-none border border-transparent hover:border-[#C5A059] transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]"
-            >
-              Get In Line
-            </Button>
-            
-            <Button 
-              onClick={() => navigate('/login')}
-              variant="ghost" 
-              className="text-white/40 hover:text-white text-xs uppercase tracking-widest hover:bg-transparent"
-            >
-              Member Login
-            </Button>
+          <div className="space-y-1">
+            <p className="text-white/40 text-xs uppercase tracking-widest font-light">
+              Waitlist Position
+            </p>
+            <div className="text-5xl font-serif text-white font-bold tracking-tighter">
+              #{memberCount}
+            </div>
           </div>
+
+          {/* 5. The Only Way Forward */}
+          <Button 
+            onClick={() => setIsBetaModalOpen(true)}
+            className="bg-transparent border border-[#C5A059] text-[#C5A059] hover:bg-[#C5A059] hover:text-black text-sm font-bold py-6 px-12 uppercase tracking-[0.2em] rounded-full transition-all duration-500 shadow-[0_0_20px_rgba(197,160,89,0.1)] hover:shadow-[0_0_40px_rgba(197,160,89,0.4)]"
+          >
+            Get In Line
+          </Button>
         </motion.div>
       </div>
 
