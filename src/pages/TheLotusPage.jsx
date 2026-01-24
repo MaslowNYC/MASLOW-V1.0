@@ -39,7 +39,7 @@ const TheLotusPage = () => {
                 <h3 className="text-2xl font-serif font-bold text-[#3B5998]">The Hull (The Center)</h3>
               </div>
               <p className="text-[#3B5998]/80 leading-relaxed">
-                The open heart of the facility. This is the communal "Third Place"—a sunken plaza featuring the circadian skylight and church pews. It anchors the space, providing a shared sense of safety and breath before you disperse to the private rooms.
+                The open heart of the facility. This is the communal "Third Place"—a central sanctuary featuring the circadian skylight and church pews. It anchors the space, providing a shared sense of safety and breath before you disperse to the private rooms.
               </p>
             </div>
           </div>
