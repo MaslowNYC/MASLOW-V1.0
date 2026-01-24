@@ -1,7 +1,4 @@
 
-
-import { Analytics } from "@vercel/analytics/react"
-import { SpeedInsights } from "@vercel/speed-insights/react" // <--- ADD THIS
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -9,26 +6,31 @@ import { Toaster } from '@/components/ui/toaster';
 import { StripeProvider } from '@/contexts/StripeContext';
 import { AuthProvider } from '@/contexts/SupabaseAuthContext';
 import { CartProvider } from '@/hooks/useCart';
-import ShoppingCart from '@/components/ShoppingCart';
-import FloatingMembershipButton from '@/components/FloatingMembershipButton';
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 // Components
-import Footer from '@/components/Footer';
 import Header from '@/components/Header';
-import LoginPage from '@/components/LoginPage';
-import AdminFundingDashboard from '@/components/AdminFundingDashboard';
+import Footer from '@/components/Footer';
+import ShoppingCart from '@/components/ShoppingCart';
+import FloatingMembershipButton from '@/components/FloatingMembershipButton';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
 // Pages
-import TheLotusPage from '@/pages/TheLotusPage';
 import HomePage from '@/pages/HomePage';
-import StorePage from '@/pages/StorePage';
-import ProductDetailPage from '@/pages/ProductDetailPage';
-import CheckoutSuccessPage from '@/pages/CheckoutSuccessPage';
+import LoginPage from '@/pages/LoginPage';
 import ImpactPage from '@/pages/ImpactPage';
 import SanctuaryPage from '@/pages/SanctuaryPage';
 import MembershipPage from '@/pages/MembershipPage';
 import LocationDetail from '@/pages/LocationDetail';
+import StorePage from '@/pages/StorePage';
+import ProductDetailPage from '@/pages/ProductDetailPage';
+import CheckoutSuccessPage from '@/pages/CheckoutSuccessPage';
+
+// --- THE CRITICAL SWAP ---
+// We are NOT importing ReactorCorePage anymore.
+import TheLotusPage from '@/pages/TheLotusPage'; // <--- The Design (Public)
+import AdminFundingDashboard from '@/components/AdminFundingDashboard'; // <--- The Money (Private)
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -40,16 +42,7 @@ function App() {
           <Router>
             <Helmet>
               <title>Maslow NYC - The Infrastructure of Dignity</title>
-              <meta
-                name="description"
-                content="New York City has 8 million people and only 1,100 public restrooms. Maslow is the sanctuary the city deserves. Join the movement for dignified sanitation access."
-              />
-              <link rel="preconnect" href="https://fonts.googleapis.com" />
-              <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-              <link
-                href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&display=swap"
-                rel="stylesheet"
-              />
+              <meta name="description" content="New York City has 8 million people and only 1,100 public restrooms. Maslow is the sanctuary the city deserves." />
             </Helmet>
 
             <div className="min-h-screen bg-[#F5F1E8] flex flex-col">
@@ -64,8 +57,11 @@ function App() {
                   <Route path="/sanctuary" element={<SanctuaryPage />} />
                   <Route path="/membership" element={<MembershipPage />} />
                   <Route path="/locations/:slug" element={<LocationDetail />} />
-                  <Route path="/lotus" element={<TheLotusPage />} />
                   
+                  {/* --- FIXING THE LOTUS ROUTE --- */}
+                  {/* Old: Pointed to Financials. New: Points to the Design Layers */}
+                  <Route path="/lotus" element={<TheLotusPage />} />
+
                   {/* Protected Routes */}
                   <Route
                     path="/store"
@@ -83,7 +79,10 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
-                  {/* The Lotus Route */}
+                  <Route path="/checkout-success" element={<CheckoutSuccessPage />} />
+
+                  {/* --- FIXING THE ADMIN ROUTE --- */}
+                  {/* This is where the Financials live now. Only for YOU. */}
                   <Route
                     path="/admin"
                     element={
@@ -92,30 +91,11 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
-                 
-<Route
-  path="/admin"
-  element={
-    <ProtectedRoute requireFounder={true}>
-      <AdminFundingDashboard />
-    </ProtectedRoute>
-  }
-/>
-                  <Route path="/lotus" element={<ReactorCorePage />} /
-                  <Route path="/checkout-success" element={<CheckoutSuccessPage />} />
-                  <Route
-                    path="/admin"
-                    element={
-                      <ProtectedRoute>
-                        <AdminFundingDashboard />
-                      </ProtectedRoute>
-                    }
-                  />
                 </Routes>
                 
                 {/* Vercel Tools */}
                 <Analytics />
-                <SpeedInsights /> {/* <--- ADD THIS */}
+                <SpeedInsights />
               </main>
 
               <Footer />
