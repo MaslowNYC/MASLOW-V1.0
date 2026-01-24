@@ -2,7 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
-import { Sun, CloudRain, Clock, Users, Coffee, Utensils } from 'lucide-react';
+import { Sun, CloudRain, Clock, Users } from 'lucide-react';
 
 const SanctuaryPage = () => {
   return (

@@ -14,7 +14,7 @@ const HeroSection = () => {
   // The "Live" Pulse Effect
   useEffect(() => {
     const interval = setInterval(() => {
-      setMemberCount(prev => prev === 254 ? 254 : 254); // Keeps it steady at 254 for now
+      setMemberCount(prev => prev === 254 ? 254 : 254); // Keeps it steady at 254
     }, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -87,7 +87,7 @@ const HeroSection = () => {
             <Button 
               onClick={() => navigate('/login')}
               variant="ghost" 
-              className="text-white/40 hover:text-white text-xs uppercase tracking-widest"
+              className="text-white/40 hover:text-white text-xs uppercase tracking-widest hover:bg-transparent"
             >
               Member Login
             </Button>
