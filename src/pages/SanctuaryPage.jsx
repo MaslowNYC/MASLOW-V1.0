@@ -51,7 +51,7 @@ const SanctuaryPage = () => {
                 <h3 className="text-xl font-bold uppercase tracking-widest">Circadian Skylight</h3>
               </div>
               <p className="text-lg leading-relaxed text-[#3B5998]/80">
-                Deep underground, we mimic the sun. Our artificial skylight tracks the real-time movement of the sun across New York City, shifting from the cool blue of dawn to the warm amber of sunset, keeping your body clock anchored to the world above.
+                Our artificial skylight tracks the real-time movement of the sun across New York City, shifting from the cool blue of dawn to the warm amber of sunset, keeping your body clock anchored to the world above.
               </p>
             </motion.div>
 
