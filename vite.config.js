@@ -1,22 +1,34 @@
 
 import path from 'node:path';
 import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
+import { defineConfig, createLogger } from 'vite';
+
+const logger = createLogger();
+const loggerError = logger.error;
+
+// Filter out annoying PostCSS warnings
+logger.error = (msg, options) => {
+    if (options?.error?.toString().includes('CssSyntaxError: [postcss]')) {
+        return;
+    }
+    loggerError(msg, options);
+}
 
 export default defineConfig({
-  // 1. The React Plugin: Essential for your site to work
-  plugins: [react()],
-
-  // 2. Path Alias: Ensures imports like '@/components/Header' work
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
+    customLogger: logger,
+    plugins: [
+        react(), // This is the ONLY plugin you need for Maslow
+    ],
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, './src'),
+        },
     },
-  },
-
-  // 3. Build Settings: Standard settings for Vercel
-  build: {
-    outDir: 'dist',
-    sourcemap: true,
-  }
+    server: {
+        allowedHosts: true,
+    },
+    build: {
+        outDir: 'dist',
+        sourcemap: true,
+    }
 });
