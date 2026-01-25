@@ -48,7 +48,7 @@ const HomePage = () => {
       label: "Our Mission", // Previously "Our Vision"
       sub: "The Blueprint", 
       icon: <BookOpen className="w-5 h-5" />, 
-      path: "/vision" 
+      path: "/mission" 
     },
   ];
 

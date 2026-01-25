@@ -40,7 +40,10 @@
   body {
     @apply antialiased overflow-x-hidden w-full relative text-foreground;
     font-family: 'Lato', sans-serif;
-    /* Removed forced background color to allow page-specific colors */
+    /* Prevent mobile side-scrolling */
+    overflow-x: hidden;
+    width: 100vw;
+    position: relative;
   }
 
   #root {
@@ -51,6 +54,7 @@
     font-family: 'Playfair Display', serif;
     @apply text-primary break-words;
     overflow-wrap: anywhere;
+    word-break: break-word;
   }
 }
 

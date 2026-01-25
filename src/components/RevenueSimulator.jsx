@@ -335,6 +335,18 @@ const RevenueSimulator = () => {
                 />
               </div>
               <div className="space-y-2">
+                <Label>Turnaround Time (Cleaning)</Label>
+                <Slider 
+                  value={[formData.turnaround_time]} 
+                  onValueChange={(val) => handleInputChange('turnaround_time', val[0])}
+                  min={0}
+                  max={30}
+                  step={1}
+                  className="py-2"
+                />
+                <div className="text-xs text-gray-500">Minutes between sessions for cleaning/reset</div>
+              </div>
+              <div className="space-y-2">
                 <Label>Price per Session</Label>
                 <FormattedInput 
                   value={formData.avg_price}

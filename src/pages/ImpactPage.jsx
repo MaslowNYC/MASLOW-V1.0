@@ -1,5 +1,26 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '@/lib/customSupabaseClient';
+import RevenueSimulator from '@/components/RevenueSimulator';
+// Efficiency Gap Card
+import { Card, CardContent } from '@/components/ui/card';
+  // Actuals state for real-time metrics
+  const [actuals, setActuals] = useState({ avgStay: 0, totalRevenue: 0 });
+
+  // Fetch actuals from usage_logs
+  useEffect(() => {
+    const fetchActuals = async () => {
+      const { data, error } = await supabase
+        .from('usage_logs')
+        .select('stay_duration_minutes')
+        .not('stay_duration_minutes', 'is', null);
+      if (data && data.length > 0) {
+        const avg = data.reduce((acc, curr) => acc + curr.stay_duration_minutes, 0) / data.length;
+        setActuals(prev => ({ ...prev, avgStay: avg }));
+      }
+    };
+    fetchActuals();
+  }, []);
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -166,6 +187,28 @@ const ImpactPage = () => {
           </div>
         </section>
 
+      {/* --- SECTION 4: OPERATIONAL INTELLIGENCE --- */}
+      <section className="py-20 px-4 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-serif text-[#3B5998] mb-12 text-center">Operational Simulation</h2>
+          {/* Efficiency Gap Card */}
+          <Card className="bg-sky-50 border-sky-200 max-w-lg mx-auto mb-8">
+            <CardContent className="p-4">
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium text-sky-800">Actual Avg Stay (Door Logs):</span>
+                <span className="text-lg font-bold text-sky-900">{actuals.avgStay ? actuals.avgStay.toFixed(2) : '--'} min</span>
+              </div>
+              {/* The following will be filled by RevenueSimulator's formData via props or context if refactored */}
+              {/* <div className="flex justify-between items-center mt-2">
+                <span className="text-sm font-medium text-sky-800">Target Stay (Simulator Knob):</span>
+                <span className="text-lg font-bold text-[#C5A059]">{formData.avg_duration} min</span>
+              </div> */}
+            </CardContent>
+          </Card>
+          {/* Revenue Simulator Knobs */}
+          <RevenueSimulator />
+        </div>
+      </section>
       </main>
     </div>
   );
