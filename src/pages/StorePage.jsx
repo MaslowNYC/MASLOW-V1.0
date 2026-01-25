@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Droplets, Heart, Sparkles, ArrowRight, Lock } from 'lucide-react';
+import { ShieldCheck, Heart, Sparkles, ArrowRight, Lock, Wind, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
@@ -13,151 +12,78 @@ const StorePage = () => {
   const partners = [
     {
       name: "Ursa Major",
-      origin: "Vermont, USA",
       category: "Sanitation Standards",
-      description: "We refuse to use synthetic fragrances or sulfates. Ursa Major sets the baseline for our 'Sanctuary Grade' amenities with forest-infused, clean formulas.",
-      image: "https://images.unsplash.com/photo-1616789916365-1d6eb7501a30?auto=format&fit=crop&q=80", // Forest/Clean vibe
-      icon: <Sparkles className="w-4 h-4 text-emerald-400" />,
+      description: "B Corp certified performance. We use their forest-infused formulas because dignity shouldn't smell like a hospital—it should smell like the outdoors.",
+      image: "https://images.unsplash.com/photo-1616789916365-1d6eb7501a30?auto=format&fit=crop&q=80",
+      icon: <Wind className="w-4 h-4 text-emerald-400" />,
       color: "text-emerald-400"
     },
     {
       name: "Cora",
-      origin: "San Francisco, USA",
-      category: "Dignity & Care",
-      description: "Period care is infrastructure, not a luxury. We align with Cora for their 100% organic cotton commitment and their mission to end period poverty globally.",
-      image: "https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?auto=format&fit=crop&q=80", // Soft/Cotton vibe
+      category: "Human Rights",
+      description: "Period care is infrastructure. We partner with Cora to provide 100% organic cotton supplies, ensuring that essential care is never an afterthought.",
+      image: "https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?auto=format&fit=crop&q=80",
       icon: <Heart className="w-4 h-4 text-rose-400" />,
       color: "text-rose-400"
     },
     {
-      name: "Skoolmilk",
-      origin: "New York, NYC", 
-      category: "Modern Wellness",
-      description: "Reimagining the basics of nourishment. Skoolmilk represents the future of foundational health—simple, honest, and designed for the modern urban athlete.",
-      image: "https://images.unsplash.com/photo-1626139576127-452178225026?auto=format&fit=crop&q=80", // Minimalist/Milk vibe
-      icon: <Droplets className="w-4 h-4 text-sky-400" />,
+      name: "Dr. Bronner's",
+      category: "Foundation Clean",
+      description: "The gold standard for fair-trade, organic soap. 18-in-1 formulas that respect the worker and the user in every Sanctuary Suite.",
+      image: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?auto=format&fit=crop&q=80",
+      icon: <Zap className="w-4 h-4 text-sky-400" />,
       color: "text-sky-400"
+    },
+    {
+      name: "Farmacy",
+      category: "Interview Ready",
+      description: "Purity for the professional. We stock Farmacy balms to ensure members can transition from the street to the boardroom with confidence.",
+      image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80",
+      icon: <Sparkles className="w-4 h-4 text-lime-400" />,
+      color: "text-lime-400"
     }
   ];
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
-      <Helmet>
-        <title>The Standard | Maslow NYC</title>
-        <meta name="description" content="Our curated list of ethical partners. We only work with brands that respect human dignity." />
-      </Helmet>
-
-      {/* --- HEADER: The Philosophy --- */}
+      <Helmet><title>The Standard | Maslow NYC</title></Helmet>
       <header className="bg-slate-900 text-white pt-24 pb-20 px-6 border-b-4 border-[#C5A059]">
-        <div className="max-w-6xl mx-auto text-center md:text-left">
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="space-y-6"
-          >
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full border border-white/20 backdrop-blur-sm">
+        <div className="max-w-6xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-center md:text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full border border-white/20">
               <ShieldCheck className="w-3 h-3 text-[#C5A059]" />
-              <span className="text-[10px] uppercase tracking-[0.2em] font-bold">Procurement Division</span>
+              <span className="text-[10px] uppercase tracking-[0.2em] font-bold">The Standard of Care</span>
             </div>
-            
-            <h1 className="text-4xl md:text-7xl font-serif tracking-tight">
-              The Maslow Standard.
-            </h1>
-            
-            <p className="text-slate-400 max-w-2xl text-lg md:text-xl font-light leading-relaxed">
-              We don't just stock shelves. We curate dignity. <br className="hidden md:block"/>
-              These are the partners we have chosen to build the future of public sanitation.
+            <h1 className="text-4xl md:text-7xl font-serif tracking-tight">Ethical Procurement.</h1>
+            <p className="text-slate-400 max-w-2xl text-lg font-light leading-relaxed mx-auto md:mx-0">
+              Maslow does not operate on a "lowest bidder" model. We only partner with companies that treat their workers and the planet with dignity.
             </p>
           </motion.div>
         </div>
       </header>
-
-      <main className="max-w-6xl mx-auto px-6 py-20 space-y-24">
-
-        {/* --- SECTION 1: THE PARTNER GRID --- */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <main className="max-w-6xl mx-auto px-6 py-20 space-y-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {partners.map((partner, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-            >
-              <Card className="h-full bg-white border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 overflow-hidden group">
-                
-                {/* Image Area */}
-                <div className="h-64 overflow-hidden relative">
-                  <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-slate-900/0 transition-colors duration-500 z-10" />
-                  <img 
-                    src={partner.image} 
-                    alt={partner.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
-                  />
-                  <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur-md px-3 py-1 rounded-sm text-[10px] uppercase tracking-widest font-bold border border-slate-200">
-                    {partner.origin}
-                  </div>
+            <Card key={i} className="bg-white border-slate-100 shadow-xl overflow-hidden group hover:scale-[1.02] transition-transform duration-500">
+                <div className="h-40 overflow-hidden">
+                  <img src={partner.image} alt={partner.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                 </div>
-
-                {/* Content Area */}
-                <CardContent className="p-8 space-y-6 relative">
-                  <div>
-                    <div className={`flex items-center gap-2 mb-3 text-xs font-bold uppercase tracking-widest ${partner.color}`}>
-                      {partner.icon}
-                      {partner.category}
-                    </div>
-                    <h3 className="text-3xl font-serif text-slate-900 mb-4 group-hover:text-[#3B5998] transition-colors">
-                      {partner.name}
-                    </h3>
-                    <p className="text-slate-600 leading-relaxed text-sm">
-                      {partner.description}
-                    </p>
+                <CardContent className="p-6 space-y-3">
+                  <div className={`flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest ${partner.color}`}>
+                    {partner.icon} {partner.category}
                   </div>
-                  
-                  {/* "Why We Chose Them" Stamp */}
-                  <div className="pt-6 border-t border-slate-100">
-                    <p className="text-[10px] uppercase tracking-widest text-slate-400 font-medium">
-                      Status: <span className="text-slate-900">Preferred Alignment</span>
-                    </p>
-                  </div>
+                  <h3 className="text-xl font-serif">{partner.name}</h3>
+                  <p className="text-slate-600 text-xs leading-relaxed">{partner.description}</p>
                 </CardContent>
-              </Card>
-            </motion.div>
+            </Card>
           ))}
         </div>
-
-        {/* --- SECTION 2: THE ONLY THING FOR SALE --- */}
-        <section className="bg-[#1E293B] rounded-2xl p-8 md:p-16 text-center relative overflow-hidden">
-          {/* Background decoration */}
-          <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
-          
-          <div className="relative z-10 max-w-2xl mx-auto space-y-8">
-            <div className="w-16 h-16 bg-[#C5A059]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-               <Lock className="w-8 h-8 text-[#C5A059]" />
-            </div>
-            
-            <h2 className="text-3xl md:text-5xl font-serif text-white">
-              Earn The Access.
-            </h2>
-            
-            <p className="text-slate-400 text-lg leading-relaxed">
-              We don't sell merchandise. We sell infrastructure access. 
-              The Maslow Pass is your digital key to every Sanctuary Suite in the network.
-            </p>
-
-            <Button 
-              onClick={() => navigate('/login?mode=signup')}
-              className="bg-[#C5A059] hover:bg-[#b08d4b] text-[#0F172A] font-bold py-6 px-12 text-sm uppercase tracking-[0.2em] rounded-sm transition-all shadow-[0_0_30px_rgba(197,160,89,0.2)] hover:shadow-[0_0_50px_rgba(197,160,89,0.4)]"
-            >
-              Secure Your Pass <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
-            
-            <p className="text-[10px] uppercase tracking-widest text-slate-500 mt-4">
-              Founder Tier // Limited Release
-            </p>
-          </div>
+        <section className="bg-slate-900 rounded-2xl p-12 text-center text-white border border-[#C5A059]/30">
+          <h2 className="text-3xl font-serif mb-4">Earn The Access.</h2>
+          <Button onClick={() => navigate('/login?mode=signup')} className="bg-[#C5A059] text-slate-900 font-bold px-12 py-6 rounded-none uppercase tracking-widest hover:bg-[#b08d4b]">
+            Join The Mission <ArrowRight className="ml-2 w-4 h-4" />
+          </Button>
         </section>
-
       </main>
     </div>
   );
