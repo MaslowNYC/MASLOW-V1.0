@@ -2,28 +2,29 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
-import { TrendingUp, Users, ShieldCheck, MapPin, Building2, Mail } from 'lucide-react';
-import { supabase } from '@/lib/customSupabaseClient';
-import RevenueSimulator from '@/components/RevenueSimulator';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { TrendingUp, Users, ShieldCheck, MapPin, Building2, Mail } from 'lucide-react';
+import { supabase } from '@/lib/customSupabaseClient';
+import RevenueSimulator from '@/components/RevenueSimulator';
 import { formatNumber } from '@/utils/formatting';
 
 const ImpactPage = () => {
-  // --- 1. LOGIC & STATE (Now correctly inside the component) ---
+  // --- 1. LOGIC MOVED INSIDE THE COMPONENT ---
   const [actuals, setActuals] = useState({ avgStay: 0, turnaroundTime: 0 });
 
   // Fetch actuals from usage_logs
   useEffect(() => {
     const fetchActuals = async () => {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('usage_logs')
         .select('stay_duration_minutes,turnaround_time')
         .not('stay_duration_minutes', 'is', null);
       
       if (data && data.length > 0) {
         const avgStay = data.reduce((acc, curr) => acc + curr.stay_duration_minutes, 0) / data.length;
+        // Fallback for turnaround time if null
         const avgTurn = data.some(row => row.turnaround_time != null)
           ? data.reduce((acc, curr) => acc + (curr.turnaround_time || 0), 0) / data.length
           : 0;
@@ -37,7 +38,7 @@ const ImpactPage = () => {
   const formData = { suites: 8, avg_price: 35 };
 
   const metrics = useMemo(() => {
-    const totalCycleTime = 30 + 5; // fallback target
+    const totalCycleTime = 30 + 5; // Standard Simulator Target
     return {
       dailySessionsCapacity: Math.floor(1440 / totalCycleTime) * formData.suites
     };
@@ -110,22 +111,15 @@ const ImpactPage = () => {
       </header>
 
       <main className="max-w-5xl mx-auto px-6 py-12 space-y-16">
-
         {/* SECTION 1: THE DATA GRID */}
         <section>
           <div className="flex items-center gap-4 mb-8">
             <h2 className="text-sm font-bold uppercase tracking-widest text-slate-500">01 // The Current Reality</h2>
             <Separator className="flex-1 bg-slate-200" />
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {stats.map((stat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-              >
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
                 <Card className="border-slate-200 shadow-sm hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-slate-500 text-xs uppercase tracking-wider flex justify-between items-center">
@@ -150,15 +144,10 @@ const ImpactPage = () => {
               <h2 className="text-sm font-bold uppercase tracking-widest text-slate-500">02 // The Infrastructure Model</h2>
               <Separator className="flex-1 bg-slate-200" />
             </div>
-            
-            <h3 className="text-3xl font-serif text-[#3B5998]">
-              We don't build restrooms.<br/>We build dignity grids.
-            </h3>
-            
+            <h3 className="text-3xl font-serif text-[#3B5998]">We don't build restrooms.<br/>We build dignity grids.</h3>
             <p className="text-slate-600 leading-relaxed">
               The Maslow Model decentralizes public sanitation. Instead of relying on expensive, standalone municipal structures that cost millions to build and maintain, we activate underutilized urban spaces into a network of <strong>"Sanctuary Suites."</strong>
             </p>
-
             <ul className="space-y-3 mt-4">
               {[
                 "Hospital-grade sanitation standards.",
@@ -166,15 +155,10 @@ const ImpactPage = () => {
                 "Zero to minimal maintenance cost to the city.",
                 "Real-time usage analytics."
               ].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-sm text-slate-700 font-medium">
-                  <div className="w-1.5 h-1.5 bg-[#C5A059] rounded-full" />
-                  {item}
-                </li>
+                <li key={i} className="flex items-center gap-3 text-sm text-slate-700 font-medium"><div className="w-1.5 h-1.5 bg-[#C5A059] rounded-full" />{item}</li>
               ))}
             </ul>
           </div>
-
-          {/* Visual Representation */}
           <div className="bg-slate-900 rounded-lg p-8 relative overflow-hidden h-80 flex items-center justify-center">
             <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
             <div className="relative z-10 text-center">
@@ -185,32 +169,8 @@ const ImpactPage = () => {
           </div>
         </section>
 
-        {/* SECTION 3: MUNICIPAL PARTNERSHIP */}
-        <section className="bg-white border border-slate-200 rounded-xl p-8 md:p-12 shadow-sm">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="max-w-xl space-y-4">
-              <h2 className="text-2xl font-serif text-slate-900">Open a Municipal Channel</h2>
-              <p className="text-slate-600 text-sm leading-relaxed">
-                We are currently accepting inquiries from the <strong>Office of the Mayor</strong>, 
-                <strong> Department of Sanitation</strong>, and <strong>City Council</strong> members. 
-                Let's discuss how Maslow can integrate into your district's 2026 roadmap.
-              </p>
-            </div>
-            
-            <div className="shrink-0">
-               <Button 
-                 className="bg-[#3B5998] hover:bg-[#2d4475] text-white px-8 py-6 text-sm uppercase tracking-widest"
-                 onClick={() => window.location.href = 'mailto:partnerships@maslownyc.com?subject=Municipal%20Inquiry:%20[District%20Name]'}
-               >
-                 <Mail className="w-4 h-4 mr-2" />
-                 Contact Our Liaisons
-               </Button>
-            </div>
-          </div>
-        </section>
-
-        {/* SECTION 4: OPERATIONAL INTELLIGENCE */}
-        <section className="py-20 px-4 bg-gray-50">
+        {/* SECTION 3: OPERATIONAL INTELLIGENCE */}
+        <section className="py-20 px-4 bg-gray-50 rounded-xl">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-3xl font-serif text-[#3B5998] mb-12 text-center">Operational Simulation</h2>
             
@@ -221,11 +181,11 @@ const ImpactPage = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-red-600">
-                  {/* Safe handling if formatNumber isn't available, though we imported it */}
                   {formatNumber ? formatNumber(revenueVariance.annualLoss, { type: 'currency' }) : `$${revenueVariance.annualLoss}`} / year
                 </div>
                 <p className="text-xs text-red-700 mt-2">
-                  Actual turnover is {(actuals.avgStay + actuals.turnaroundTime).toFixed(2)} min. Shaving 2 minutes off cleaning would fund an additional {revenueVariance.annualLoss > 0 ? Math.floor(revenueVariance.annualLoss / 50000) : 0} community suites.
+                  Actual turnover is {(actuals.avgStay + actuals.turnaroundTime).toFixed(2)} min. 
+                  Shaving 2 minutes off cleaning would fund {revenueVariance.annualLoss > 0 ? Math.floor(revenueVariance.annualLoss / 50000) : 0} additional community suites.
                 </p>
               </CardContent>
             </Card>

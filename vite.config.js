@@ -6,7 +6,7 @@ import { defineConfig, createLogger } from 'vite';
 const logger = createLogger();
 const loggerError = logger.error;
 
-// Clean up console noise from PostCSS
+// Ignore annoying CSS warnings from the console
 logger.error = (msg, options) => {
     if (options?.error?.toString().includes('CssSyntaxError: [postcss]')) {
         return;
@@ -16,17 +16,14 @@ logger.error = (msg, options) => {
 
 export default defineConfig({
     customLogger: logger,
-    // THE CRITICAL FIX: Only load React, no "Horizons" editor plugins
     plugins: [
-        react(), 
+        react(), // The only plugin you need
     ],
-    // Keep your path aliases so @/components works
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),
         },
     },
-    // Standard Vercel build settings
     build: {
         outDir: 'dist',
         sourcemap: true,
