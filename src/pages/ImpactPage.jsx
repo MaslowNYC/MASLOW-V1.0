@@ -2,8 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/customSupabaseClient';
 import RevenueSimulator from '@/components/RevenueSimulator';
-// Efficiency Gap Card
-import { Card, CardContent } from '@/components/ui/card';
   // Actuals state for real-time metrics
   const [actuals, setActuals] = useState({ avgStay: 0, totalRevenue: 0 });
 
