@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
+import { supabase } from '@/lib/customSupabaseClient'; // Added for profile check
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -14,15 +15,13 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [searchParams] = useSearchParams(); // Read URL params
+  const [searchParams] = useSearchParams();
   const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Set default tab based on URL (e.g., /login?mode=signup)
   const defaultTab = searchParams.get('mode') === 'signup' ? 'signup' : 'login';
 
-  // Helper to safely show toast
   const safeToast = (props) => {
     if (typeof toast === 'function') {
       toast(props);
@@ -31,12 +30,32 @@ const LoginPage = () => {
     }
   };
 
+  // Helper to decide where to send them
+  const checkProfileAndRedirect = async (userId) => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('first_name')
+        .eq('id', userId)
+        .single();
+
+      if (data && data.first_name) {
+        navigate('/'); // Profile complete -> Go to Home
+      } else {
+        navigate('/profile'); // Incomplete -> Go to Setup
+      }
+    } catch (e) {
+      navigate('/'); // Fallback
+    }
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const { error } = await signIn({ email, password });
+      const { data, error } = await signIn({ email, password });
       if (error) throw error;
+      if (data?.user) await checkProfileAndRedirect(data.user.id);
     } catch (error) {
       safeToast({
         title: "Access Denied",
@@ -52,7 +71,7 @@ const LoginPage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const { error } = await signUp({ email, password });
+      const { data, error } = await signUp({ email, password });
       
       if (error) {
         if (error.message?.includes('already registered') || error.status === 422) {
@@ -66,12 +85,14 @@ const LoginPage = () => {
         throw error;
       }
       
-      // Success! The AuthContext will detect the new user and redirect to Home
       safeToast({
-        title: "Waitlist Confirmed",
-        description: "Your spot is reserved. Welcome to Maslow.",
+        title: "Welcome to Maslow",
+        description: "Let's set up your preferences.",
         className: "bg-[#3B5998] text-[#F5F1E8] border-[#C5A059]",
       });
+      
+      if (data?.user) navigate('/profile'); // New users ALWAYS go to profile first
+
     } catch (error) {
       console.error("Signup Error:", error);
       safeToast({
@@ -124,8 +145,6 @@ const LoginPage = () => {
           </TabsList>
           
           <CardContent className="pt-8">
-            
-            {/* LOGIN FORM */}
             <TabsContent value="login">
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
@@ -161,7 +180,6 @@ const LoginPage = () => {
               </form>
             </TabsContent>
 
-            {/* SIGNUP FORM */}
             <TabsContent value="signup">
               <form onSubmit={handleSignUp} className="space-y-4">
                 <div className="space-y-2">

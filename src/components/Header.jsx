@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, LogOut, Menu, X, ShoppingBag } from 'lucide-react';
+import { LayoutDashboard, LogOut, Menu, X, ShoppingBag, User } from 'lucide-react';
 import { useCart } from '@/hooks/useCart';
 import { formatNumber } from '@/utils/formatting';
 
@@ -83,6 +83,17 @@ const Header = ({ setIsCartOpen }) => {
 
           {/* User Controls */}
           <div className="flex items-center gap-2 border-l border-[#3B5998]/20 pl-6">
+            <Link to="/profile">
+                <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className={`h-8 text-xs uppercase tracking-wider ${isActive('/profile') ? 'text-[#C5A059]' : 'text-[#3B5998] hover:text-[#C5A059]'}`}
+                >
+                    <User className="w-4 h-4 mr-2" />
+                    Profile
+                </Button>
+            </Link>
+
             {isFounder && (
               <Link to="/admin">
                 <Button variant="ghost" size="sm" className="text-[#3B5998] hover:text-[#C5A059] hover:bg-[#3B5998]/5 h-8 text-xs uppercase tracking-wider">
@@ -145,6 +156,14 @@ const Header = ({ setIsCartOpen }) => {
               </Link>
             ))}
             
+            <Link 
+                to="/profile" 
+                className={`text-lg font-bold tracking-widest uppercase ${isActive('/profile') ? 'text-[#C5A059]' : 'text-[#3B5998]'}`}
+                onClick={() => setMobileMenuOpen(false)}
+            >
+                My Profile
+            </Link>
+
             <div className="h-px bg-[#3B5998]/10 my-2" />
             
             {isFounder && (

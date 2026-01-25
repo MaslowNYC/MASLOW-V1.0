@@ -28,15 +28,13 @@ import StorePage from '@/pages/StorePage';
 import ProductDetailPage from '@/pages/ProductDetailPage';
 import CheckoutSuccessPage from '@/pages/CheckoutSuccessPage';
 import LocationDetail from '@/pages/LocationDetail';
+import ProfilePage from '@/pages/ProfilePage'; // NEW IMPORT
 
 const AppContent = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const location = useLocation();
   const { user } = useAuth();
   
-  // Hide Header/Footer only if:
-  // 1. We are on the Login page
-  // 2. We are Public (not logged in) and looking at the Root URL (Velvet Rope)
   const isHideHeaderPath = location.pathname === '/login' || (!user && location.pathname === '/');
 
   return (
@@ -45,29 +43,26 @@ const AppContent = () => {
 
       <main className="flex-grow">
         <Routes>
-          {/* --- HYBRID HOMEPAGE --- */}
-          {/* If Logged In: Show Full HomePage. If Public: Show Velvet Rope (HeroSection) */}
           <Route path="/" element={user ? <HomePage /> : <HeroSection />} />
-          
           <Route path="/login" element={<LoginPage />} />
 
-          {/* --- INSIDER ROUTES --- */}
+          {/* INSIDER ROUTES */}
           <Route path="/hull" element={<ProtectedRoute><SanctuaryPage /></ProtectedRoute>} />
           <Route path="/sanctuary" element={<Navigate to="/hull" replace />} />
           <Route path="/lotus" element={<ProtectedRoute><TheLotusPage /></ProtectedRoute>} />
           <Route path="/impact" element={<ProtectedRoute><ImpactPage /></ProtectedRoute>} />
           <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} /> {/* NEW ROUTE */}
           
-          {/* --- COMMERCE --- */}
+          {/* COMMERCE */}
           <Route path="/store" element={<ProtectedRoute><StorePage /></ProtectedRoute>} />
           <Route path="/product/:id" element={<ProtectedRoute><ProductDetailPage /></ProtectedRoute>} />
           <Route path="/checkout-success" element={<ProtectedRoute><CheckoutSuccessPage /></ProtectedRoute>} />
           <Route path="/locations/:slug" element={<ProtectedRoute><LocationDetail /></ProtectedRoute>} />
 
-          {/* --- FOUNDER --- */}
+          {/* ADMIN */}
           <Route path="/admin" element={<ProtectedRoute requireFounder={true}><AdminFundingDashboard /></ProtectedRoute>} />
 
-          {/* Catch-all */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         
