@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
-import { Loader2, User, Save, Upload, Sparkles, Wind, BatteryCharging, Wifi, Coffee } from 'lucide-react';
+import { Loader2, User, Save, Upload, Sparkles, Wind, Coffee } from 'lucide-react';
 
 const ProfilePage = () => {
   const { user } = useAuth();
@@ -34,7 +34,7 @@ const ProfilePage = () => {
   const usageOptions = [
     { id: 'prayer', label: 'Prayer / Meditation', icon: '🙏' },
     { id: 'pumping', label: 'Nursing / Pumping', icon: '🍼' },
-    { id: 'interview', label: 'Interview Prep', icon: 'yw' },
+    { id: 'interview', label: 'Interview Prep', icon: '👔' },
     { id: 'decompress', label: 'Sensory Decompression', icon: '🧠' },
     { id: 'change', label: 'Outfit Change', icon: '👕' },
   ];
@@ -66,7 +66,8 @@ const ProfilePage = () => {
           .eq('id', user.id)
           .single();
 
-        if (error) throw error;
+        // If no row exists, we just stick with default state
+        if (error && error.code !== 'PGRST116') throw error; 
 
         if (data) {
           setProfile({
@@ -122,8 +123,12 @@ const ProfilePage = () => {
       // Update profile with new path
       const { error: updateError } = await supabase
         .from('profiles')
-        .update({ photo_url: filePath })
-        .eq('id', user.id);
+        .upsert({ 
+            id: user.id, 
+            email: user.email,
+            photo_url: filePath,
+            updated_at: new Date()
+        });
 
       if (updateError) throw updateError;
 
@@ -131,23 +136,26 @@ const ProfilePage = () => {
       toast({ title: "Photo Updated", className: "bg-[#3B5998] text-white" });
 
     } catch (error) {
+      console.error(error);
       toast({ title: "Upload Failed", description: error.message, variant: "destructive" });
     } finally {
       setSaving(false);
     }
   };
 
-  // --- SAVE PROFILE ---
+  // --- SAVE PROFILE (Upsert Fix) ---
   const handleSave = async () => {
     try {
       setSaving(true);
+      
       const { error } = await supabase
         .from('profiles')
-        .update({
+        .upsert({
+          id: user.id, // CRITICAL: upsert needs the PK
+          email: user.email,
           ...profile,
           updated_at: new Date(),
-        })
-        .eq('id', user.id);
+        });
 
       if (error) throw error;
       toast({ 
@@ -156,13 +164,13 @@ const ProfilePage = () => {
         className: "bg-[#3B5998] text-white border-[#C5A059]"
       });
     } catch (error) {
+      console.error(error);
       toast({ title: "Error Saving", description: error.message, variant: "destructive" });
     } finally {
       setSaving(false);
     }
   };
 
-  // --- HELPER FOR CHECKBOXES ---
   const togglePreference = (category, itemId) => {
     setProfile(prev => {
       const currentList = prev[category] || [];

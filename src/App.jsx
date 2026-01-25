@@ -9,6 +9,9 @@ import { CartProvider } from '@/hooks/useCart';
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/react"
 
+// ... other imports
+import ConciergeDashboard from '@/pages/ConciergeDashboard'; // New Import
+
 // Components
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -53,7 +56,8 @@ const AppContent = () => {
           <Route path="/impact" element={<ProtectedRoute><ImpactPage /></ProtectedRoute>} />
           <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} /> {/* NEW ROUTE */}
-          
+          {/* Staff Route - Needs Founder/Admin Access */}
+          <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} />
           {/* COMMERCE */}
           <Route path="/store" element={<ProtectedRoute><StorePage /></ProtectedRoute>} />
           <Route path="/product/:id" element={<ProtectedRoute><ProductDetailPage /></ProtectedRoute>} />
