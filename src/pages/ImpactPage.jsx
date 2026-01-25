@@ -3,9 +3,9 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { TrendingUp, Users, Droplets, ShieldCheck, MapPin, Building2, Mail } from 'lucide-react';
+import { TrendingUp, Users, ShieldCheck, MapPin, Building2, Mail } from 'lucide-react';
 
 const ImpactPage = () => {
   
@@ -25,7 +25,7 @@ const ImpactPage = () => {
     },
     { 
       label: "Maslow Solution", 
-      value: "Zero Cost", 
+      value: "Zero to Low Cost", // UPDATED HERE
       sub: "To municipal taxpayers",
       icon: <TrendingUp className="w-5 h-5 text-emerald-600" /> 
     }
@@ -120,7 +120,7 @@ const ImpactPage = () => {
               {[
                 "Hospital-grade sanitation standards.",
                 "ADA compliant accessibility.",
-                "Zero maintenance cost to the city.",
+                "Zero to minimal maintenance cost to the city.", // UPDATED HERE
                 "Real-time usage analytics."
               ].map((item, i) => (
                 <li key={i} className="flex items-center gap-3 text-sm text-slate-700 font-medium">
