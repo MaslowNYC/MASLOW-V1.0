@@ -6,7 +6,7 @@ import { defineConfig, createLogger } from 'vite';
 const logger = createLogger();
 const loggerError = logger.error;
 
-// Filter out annoying PostCSS warnings
+// Clean up console noise from PostCSS
 logger.error = (msg, options) => {
     if (options?.error?.toString().includes('CssSyntaxError: [postcss]')) {
         return;
@@ -16,17 +16,17 @@ logger.error = (msg, options) => {
 
 export default defineConfig({
     customLogger: logger,
+    // THE CRITICAL FIX: Only load React, no "Horizons" editor plugins
     plugins: [
-        react(), // This is the ONLY plugin you need for Maslow
+        react(), 
     ],
+    // Keep your path aliases so @/components works
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),
         },
     },
-    server: {
-        allowedHosts: true,
-    },
+    // Standard Vercel build settings
     build: {
         outDir: 'dist',
         sourcemap: true,
