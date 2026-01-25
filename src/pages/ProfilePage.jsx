@@ -143,21 +143,29 @@ const ProfilePage = () => {
     }
   };
 
-  // --- SAVE PROFILE (Upsert Fix) ---
+ // --- SAVE PROFILE (Fixed for Date Error) ---
   const handleSave = async () => {
     try {
       setSaving(true);
       
+      // 1. Sanitize the data before sending
+      // PostgreSQL hates empty strings "" for Dates. It wants NULL.
+      const updates = {
+        ...profile,
+        dob: profile.dob === '' ? null : profile.dob, // <--- THE FIX
+        updated_at: new Date(),
+      };
+
       const { error } = await supabase
         .from('profiles')
         .upsert({
-          id: user.id, // CRITICAL: upsert needs the PK
+          id: user.id,
           email: user.email,
-          ...profile,
-          updated_at: new Date(),
+          ...updates
         });
 
       if (error) throw error;
+      
       toast({ 
         title: "Preferences Saved", 
         description: "Your digital concierge is updated.",
