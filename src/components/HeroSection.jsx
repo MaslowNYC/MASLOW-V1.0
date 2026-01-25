@@ -51,7 +51,8 @@ const HeroSection = ({ variant = 'default', children }) => {
       <div className={`absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] ${isSanctuary ? 'opacity-[0.03] invert' : 'opacity-10'} z-0`}></div>
 
       {/* CONTENT LAYER */}
-      <div className="relative z-20 flex flex-col items-center gap-8 max-w-md w-full px-6">
+      {/* Added 'pt-12' to ensure logo doesn't hit the top of screen on mobile */}
+      <div className="relative z-20 flex flex-col items-center gap-6 md:gap-8 max-w-md w-full px-6 pt-12 md:pt-0">
         
         {/* LOGO */}
         <motion.div
@@ -61,7 +62,8 @@ const HeroSection = ({ variant = 'default', children }) => {
           className="relative"
         >
           <div className={`absolute inset-0 blur-[60px] rounded-full animate-pulse ${isSanctuary ? 'bg-sky-200 opacity-40' : 'bg-[#C5A059] opacity-10'}`}></div>
-          <HeroImage className={`w-48 h-48 md:w-64 md:h-64 drop-shadow-2xl transition-all duration-1000 ${isSanctuary ? 'brightness-105 contrast-100' : ''}`} />
+          {/* Reduced mobile size to w-40/h-40 to prevent cutoff */}
+          <HeroImage className={`w-40 h-40 md:w-64 md:h-64 drop-shadow-2xl transition-all duration-1000 ${isSanctuary ? 'brightness-105 contrast-100' : ''}`} />
         </motion.div>
 
         {/* HEADER TEXT */}
@@ -88,6 +90,7 @@ const HeroSection = ({ variant = 'default', children }) => {
               </div>
               
               <div className="flex flex-col gap-4">
+                {/* 1. Waitlist Button */}
                 <Button 
                     onClick={() => navigate('/login?mode=signup')}
                     className="bg-transparent border border-[#C5A059]/50 text-[#C5A059] hover:bg-[#C5A059] hover:text-[#0F172A] text-xs font-bold py-6 px-10 uppercase tracking-[0.2em] rounded-sm transition-all duration-500 shadow-[0_0_20px_rgba(197,160,89,0.05)] hover:shadow-[0_0_30px_rgba(197,160,89,0.3)]"
@@ -95,30 +98,29 @@ const HeroSection = ({ variant = 'default', children }) => {
                     Join The Waitlist <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
                 
+                {/* 2. Blueprint Link */}
                 <Button 
                   variant="link" 
                   onClick={() => navigate('/vision')}
                   className="text-[#94A3B8]/50 hover:text-white text-[10px] uppercase tracking-widest"
                 >
-                  Read The Blueprint {/* <--- THIS IS THE FIX */}
+                  Read The Blueprint
                 </Button>
+
+                {/* 3. Member Access (Moved HERE for even spacing) */}
+                {!isSanctuary && (
+                  <Button 
+                    variant="link" 
+                    onClick={() => navigate('/login')}
+                    className="text-[#94A3B8]/30 hover:text-[#C5A059] text-[10px] uppercase tracking-widest h-auto p-0"
+                  >
+                    <Lock className="w-3 h-3 mr-2" /> Member Access
+                  </Button>
+                )}
               </div>
             </>
           )}
         </motion.div>
-
-        {/* Login Link (Public Only) */}
-        {!isSanctuary && !children && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2, duration: 1 }}
-          >
-            <Button variant="link" onClick={() => navigate('/login')} className="text-[#94A3B8]/30 hover:text-[#C5A059] text-[10px] uppercase tracking-widest h-auto p-0">
-              <Lock className="w-3 h-3 mr-2" /> Member Access
-            </Button>
-          </motion.div>
-        )}
 
       </div>
     </section>
