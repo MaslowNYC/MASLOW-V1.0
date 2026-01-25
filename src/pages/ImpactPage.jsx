@@ -2,23 +2,48 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/customSupabaseClient';
 import RevenueSimulator from '@/components/RevenueSimulator';
+import { useMemo } from 'react';
   // Actuals state for real-time metrics
-  const [actuals, setActuals] = useState({ avgStay: 0, totalRevenue: 0 });
+  const [actuals, setActuals] = useState({ avgStay: 0, turnaroundTime: 0 });
 
   // Fetch actuals from usage_logs
   useEffect(() => {
     const fetchActuals = async () => {
       const { data, error } = await supabase
         .from('usage_logs')
-        .select('stay_duration_minutes')
+        .select('stay_duration_minutes,turnaround_time')
         .not('stay_duration_minutes', 'is', null);
       if (data && data.length > 0) {
-        const avg = data.reduce((acc, curr) => acc + curr.stay_duration_minutes, 0) / data.length;
-        setActuals(prev => ({ ...prev, avgStay: avg }));
+        const avgStay = data.reduce((acc, curr) => acc + curr.stay_duration_minutes, 0) / data.length;
+        // If turnaround_time is tracked, average it; else fallback to 0
+        const avgTurn = data.some(row => row.turnaround_time != null)
+          ? data.reduce((acc, curr) => acc + (curr.turnaround_time || 0), 0) / data.length
+          : 0;
+        setActuals({ avgStay, turnaroundTime: avgTurn });
       }
     };
     fetchActuals();
   }, []);
+  // Revenue Variance Calculation
+  // These will be passed down or lifted up in a real app; here, we re-calc for the card
+  const formData = {
+    suites: 8,
+    avg_price: 35,
+  };
+  const metrics = {
+    dailySessionsCapacity: useMemo(() => {
+      const totalCycleTime = 30 + 5; // fallback if not available
+      return Math.floor(1440 / totalCycleTime) * formData.suites;
+    }, [formData.suites]),
+  };
+  const revenueVariance = useMemo(() => {
+    const actualCycleTime = (actuals.avgStay || 0) + (actuals.turnaroundTime || 0);
+    const actualDailySessions = actualCycleTime > 0 ? Math.floor(1440 / actualCycleTime) * formData.suites : 0;
+    const projectedDailySessions = metrics.dailySessionsCapacity;
+    const dailyLoss = (projectedDailySessions - actualDailySessions) * formData.avg_price;
+    const annualLoss = dailyLoss * 365;
+    return { dailyLoss, annualLoss };
+  }, [actuals, formData, metrics]);
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -189,18 +214,18 @@ const ImpactPage = () => {
       <section className="py-20 px-4 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-serif text-[#3B5998] mb-12 text-center">Operational Simulation</h2>
-          {/* Efficiency Gap Card */}
-          <Card className="bg-sky-50 border-sky-200 max-w-lg mx-auto mb-8">
-            <CardContent className="p-4">
-              <div className="flex justify-between items-center">
-                <span className="text-sm font-medium text-sky-800">Actual Avg Stay (Door Logs):</span>
-                <span className="text-lg font-bold text-sky-900">{actuals.avgStay ? actuals.avgStay.toFixed(2) : '--'} min</span>
+          {/* Efficiency Leak Card */}
+          <Card className="border-l-4 border-l-red-500 bg-red-50 max-w-lg mx-auto mb-8">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-red-900 text-sm uppercase tracking-widest">Efficiency Leak</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-red-600">
+                -{formatNumber(revenueVariance.annualLoss, { type: 'currency' })} / year
               </div>
-              {/* The following will be filled by RevenueSimulator's formData via props or context if refactored */}
-              {/* <div className="flex justify-between items-center mt-2">
-                <span className="text-sm font-medium text-sky-800">Target Stay (Simulator Knob):</span>
-                <span className="text-lg font-bold text-[#C5A059]">{formData.avg_duration} min</span>
-              </div> */}
+              <p className="text-xs text-red-700 mt-2">
+                Actual turnover is {(actuals.avgStay + actuals.turnaroundTime).toFixed(2)} min. Shaving 2 minutes off cleaning would fund an additional {revenueVariance.annualLoss > 0 ? Math.floor(revenueVariance.annualLoss / 50000) : 0} community suites.
+              </p>
             </CardContent>
           </Card>
           {/* Revenue Simulator Knobs */}
