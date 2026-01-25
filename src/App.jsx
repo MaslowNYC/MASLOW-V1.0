@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -29,11 +28,11 @@ import MembershipPage from '@/pages/MembershipPage';
 import ImpactPage from '@/pages/ImpactPage';
 import AdminFundingDashboard from '@/components/AdminFundingDashboard';
 
-// --- QUARANTINED IMPORTS (Uncomment one by one to find the crash) ---
-// import MissionPage from '@/pages/MissionPage';
-// import DrMaslowPage from '@/pages/DrMaslowPage';
-// import ProfilePage from '@/pages/ProfilePage';
-// import ConciergeDashboard from '@/pages/ConciergeDashboard';
+// --- RESTORED IMPORTS (Waking them up!) ---
+import ProfilePage from '@/pages/ProfilePage';
+import MissionPage from '@/pages/MissionPage';
+import DrMaslowPage from '@/pages/DrMaslowPage';
+import ConciergeDashboard from '@/pages/ConciergeDashboard';
 
 const AppContent = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -66,11 +65,11 @@ const AppContent = () => {
           <Route path="/locations/:slug" element={<ProtectedRoute><LocationDetail /></ProtectedRoute>} />
           <Route path="/admin" element={<ProtectedRoute requireFounder={true}><AdminFundingDashboard /></ProtectedRoute>} />
 
-          {/* --- QUARANTINED ROUTES --- */}
-          {/* <Route path="/mission" element={<MissionPage />} /> */}
-          {/* <Route path="/maslow" element={<DrMaslowPage />} /> */}
-          {/* <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} /> */}
-          {/* <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} /> */}
+          {/* --- RESTORED ROUTES --- */}
+          <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="/mission" element={<MissionPage />} />
+          <Route path="/maslow" element={<DrMaslowPage />} />
+          <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
