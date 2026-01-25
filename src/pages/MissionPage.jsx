@@ -21,9 +21,12 @@ const VisionPage = () => {
         >
           Why We Built This.
         </motion.h1>
-        <p className="text-[#94A3B8] max-w-xl mx-auto uppercase tracking-widest text-xs">
-          The Blueprint for Dignity {/* <--- CONFIRMED FIX */}
-        </p>
+        <h1 className="text-4xl md:text-5xl font-serif mb-4">
+        Our Collective Mission.
+        </h1>
+<p className="text-[#94A3B8] max-w-xl mx-auto uppercase tracking-widest text-xs">
+  Infrastructure is a shared responsibility.
+</p>
       </div>
 
       <MissionSection />
