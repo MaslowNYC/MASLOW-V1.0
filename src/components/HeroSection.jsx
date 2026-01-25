@@ -31,7 +31,9 @@ const HeroSection = ({ variant = 'default', children }) => {
   const lineColor = isSanctuary ? 'bg-[#3B5998]' : 'bg-[#C5A059]';
 
   return (
-    <section className={`relative h-screen w-full flex flex-col items-center justify-center overflow-hidden transition-colors duration-1000 ${isSanctuary ? 'bg-white' : 'bg-[#0F172A]'}`}>
+    // CHANGE 1: min-h-[100dvh] ensures it fits on mobile browsers without address bar issues
+    // CHANGE 2: py-24 forces safety space at the top and bottom so logo can't be cut off
+    <section className={`relative min-h-[100dvh] w-full flex flex-col items-center justify-center py-24 overflow-hidden transition-colors duration-1000 ${isSanctuary ? 'bg-white' : 'bg-[#0F172A]'}`}>
       
       {/* BACKGROUND LAYER */}
       {isSanctuary ? (
@@ -51,8 +53,7 @@ const HeroSection = ({ variant = 'default', children }) => {
       <div className={`absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] ${isSanctuary ? 'opacity-[0.03] invert' : 'opacity-10'} z-0`}></div>
 
       {/* CONTENT LAYER */}
-      {/* Added 'pt-12' to ensure logo doesn't hit the top of screen on mobile */}
-      <div className="relative z-20 flex flex-col items-center gap-6 md:gap-8 max-w-md w-full px-6 pt-12 md:pt-0">
+      <div className="relative z-20 flex flex-col items-center gap-6 md:gap-8 max-w-md w-full px-6">
         
         {/* LOGO */}
         <motion.div
@@ -62,8 +63,8 @@ const HeroSection = ({ variant = 'default', children }) => {
           className="relative"
         >
           <div className={`absolute inset-0 blur-[60px] rounded-full animate-pulse ${isSanctuary ? 'bg-sky-200 opacity-40' : 'bg-[#C5A059] opacity-10'}`}></div>
-          {/* Reduced mobile size to w-40/h-40 to prevent cutoff */}
-          <HeroImage className={`w-40 h-40 md:w-64 md:h-64 drop-shadow-2xl transition-all duration-1000 ${isSanctuary ? 'brightness-105 contrast-100' : ''}`} />
+          {/* CHANGE 3: Smaller logo on mobile (w-32) to prevent crowding */}
+          <HeroImage className={`w-32 h-32 md:w-64 md:h-64 drop-shadow-2xl transition-all duration-1000 ${isSanctuary ? 'brightness-105 contrast-100' : ''}`} />
         </motion.div>
 
         {/* HEADER TEXT */}
@@ -89,11 +90,12 @@ const HeroSection = ({ variant = 'default', children }) => {
                 <div className="text-4xl md:text-5xl font-serif text-white font-medium tracking-tighter tabular-nums">#{memberCount}</div>
               </div>
               
-              <div className="flex flex-col gap-4">
+              {/* CHANGE 4: All buttons in one flex container with consistent gap */}
+              <div className="flex flex-col gap-4 w-full max-w-xs mx-auto">
                 {/* 1. Waitlist Button */}
                 <Button 
                     onClick={() => navigate('/login?mode=signup')}
-                    className="bg-transparent border border-[#C5A059]/50 text-[#C5A059] hover:bg-[#C5A059] hover:text-[#0F172A] text-xs font-bold py-6 px-10 uppercase tracking-[0.2em] rounded-sm transition-all duration-500 shadow-[0_0_20px_rgba(197,160,89,0.05)] hover:shadow-[0_0_30px_rgba(197,160,89,0.3)]"
+                    className="w-full bg-transparent border border-[#C5A059]/50 text-[#C5A059] hover:bg-[#C5A059] hover:text-[#0F172A] text-xs font-bold py-6 uppercase tracking-[0.2em] rounded-sm transition-all duration-500"
                 >
                     Join The Waitlist <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
@@ -102,17 +104,17 @@ const HeroSection = ({ variant = 'default', children }) => {
                 <Button 
                   variant="link" 
                   onClick={() => navigate('/vision')}
-                  className="text-[#94A3B8]/50 hover:text-white text-[10px] uppercase tracking-widest"
+                  className="w-full text-[#94A3B8]/50 hover:text-white text-[10px] uppercase tracking-widest h-auto py-2"
                 >
                   Read The Blueprint
                 </Button>
 
-                {/* 3. Member Access (Moved HERE for even spacing) */}
+                {/* 3. Member Access (Now seamlessly integrated) */}
                 {!isSanctuary && (
                   <Button 
                     variant="link" 
                     onClick={() => navigate('/login')}
-                    className="text-[#94A3B8]/30 hover:text-[#C5A059] text-[10px] uppercase tracking-widest h-auto p-0"
+                    className="w-full text-[#94A3B8]/30 hover:text-[#C5A059] text-[10px] uppercase tracking-widest h-auto py-2 p-0"
                   >
                     <Lock className="w-3 h-3 mr-2" /> Member Access
                   </Button>
