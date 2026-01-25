@@ -19,7 +19,6 @@ const HomePage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // THE NEW "CLOUDS" MENU
   const menuItems = [
     { 
       label: "My Preferences",  
@@ -53,7 +52,7 @@ const HomePage = () => {
     },
     { 
       label: "Our Vision", 
-      sub: "The Blueprint", // <--- CHANGED FROM "The Manifesto"
+      sub: "The Blueprint", // <--- CONFIRMED FIX
       icon: <BookOpen className="w-5 h-5" />, 
       path: "/vision" 
     },
@@ -94,7 +93,6 @@ const HomePage = () => {
               </Button>
             ))}
           </motion.div>
-          
           <p className="mt-8 text-slate-400 text-[9px] uppercase tracking-[0.3em]">
             System Status: Nominal
           </p>
