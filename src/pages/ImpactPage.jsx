@@ -1,9 +1,17 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Helmet } from 'react-helmet';
+import { motion } from 'framer-motion';
+import { TrendingUp, Users, ShieldCheck, MapPin, Building2, Mail } from 'lucide-react';
 import { supabase } from '@/lib/customSupabaseClient';
 import RevenueSimulator from '@/components/RevenueSimulator';
-import { useMemo } from 'react';
-  // Actuals state for real-time metrics
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { formatNumber } from '@/utils/formatting';
+
+const ImpactPage = () => {
+  // --- 1. LOGIC & STATE (Now correctly inside the component) ---
   const [actuals, setActuals] = useState({ avgStay: 0, turnaroundTime: 0 });
 
   // Fetch actuals from usage_logs
@@ -13,9 +21,9 @@ import { useMemo } from 'react';
         .from('usage_logs')
         .select('stay_duration_minutes,turnaround_time')
         .not('stay_duration_minutes', 'is', null);
+      
       if (data && data.length > 0) {
         const avgStay = data.reduce((acc, curr) => acc + curr.stay_duration_minutes, 0) / data.length;
-        // If turnaround_time is tracked, average it; else fallback to 0
         const avgTurn = data.some(row => row.turnaround_time != null)
           ? data.reduce((acc, curr) => acc + (curr.turnaround_time || 0), 0) / data.length
           : 0;
@@ -24,18 +32,17 @@ import { useMemo } from 'react';
     };
     fetchActuals();
   }, []);
+
   // Revenue Variance Calculation
-  // These will be passed down or lifted up in a real app; here, we re-calc for the card
-  const formData = {
-    suites: 8,
-    avg_price: 35,
-  };
-  const metrics = {
-    dailySessionsCapacity: useMemo(() => {
-      const totalCycleTime = 30 + 5; // fallback if not available
-      return Math.floor(1440 / totalCycleTime) * formData.suites;
-    }, [formData.suites]),
-  };
+  const formData = { suites: 8, avg_price: 35 };
+
+  const metrics = useMemo(() => {
+    const totalCycleTime = 30 + 5; // fallback target
+    return {
+      dailySessionsCapacity: Math.floor(1440 / totalCycleTime) * formData.suites
+    };
+  }, [formData.suites]);
+
   const revenueVariance = useMemo(() => {
     const actualCycleTime = (actuals.avgStay || 0) + (actuals.turnaroundTime || 0);
     const actualDailySessions = actualCycleTime > 0 ? Math.floor(1440 / actualCycleTime) * formData.suites : 0;
@@ -44,16 +51,8 @@ import { useMemo } from 'react';
     const annualLoss = dailyLoss * 365;
     return { dailyLoss, annualLoss };
   }, [actuals, formData, metrics]);
-import { Helmet } from 'react-helmet';
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { TrendingUp, Users, ShieldCheck, MapPin, Building2, Mail } from 'lucide-react';
 
-const ImpactPage = () => {
-  
-  // Data points that sound official and urgent
+  // --- 2. PRESENTATION DATA ---
   const stats = [
     { 
       label: "Current Deficit", 
@@ -69,7 +68,7 @@ const ImpactPage = () => {
     },
     { 
       label: "Maslow Solution", 
-      value: "Zero to Low Cost", // UPDATED HERE
+      value: "Zero to Low Cost", 
       sub: "To municipal taxpayers",
       icon: <TrendingUp className="w-5 h-5 text-emerald-600" /> 
     }
@@ -81,7 +80,7 @@ const ImpactPage = () => {
         <title>Civic Outreach | Maslow NYC</title>
       </Helmet>
 
-      {/* --- HEADER: The Official Briefing --- */}
+      {/* HEADER */}
       <header className="bg-slate-900 text-white pt-20 pb-16 px-6 border-b-4 border-[#C5A059]">
         <div className="max-w-5xl mx-auto">
           <motion.div 
@@ -104,7 +103,7 @@ const ImpactPage = () => {
             
             <div className="text-right hidden md:block">
               <div className="text-xs uppercase tracking-widest text-slate-500 mb-1">Report Status</div>
-              <div className="text-[#C5A059] font-bold">ACTIVE // 2024</div>
+              <div className="text-[#C5A059] font-bold">ACTIVE // 2026</div>
             </div>
           </motion.div>
         </div>
@@ -112,7 +111,7 @@ const ImpactPage = () => {
 
       <main className="max-w-5xl mx-auto px-6 py-12 space-y-16">
 
-        {/* --- SECTION 1: THE DATA GRID --- */}
+        {/* SECTION 1: THE DATA GRID */}
         <section>
           <div className="flex items-center gap-4 mb-8">
             <h2 className="text-sm font-bold uppercase tracking-widest text-slate-500">01 // The Current Reality</h2>
@@ -144,7 +143,7 @@ const ImpactPage = () => {
           </div>
         </section>
 
-        {/* --- SECTION 2: THE MODEL (Solution) --- */}
+        {/* SECTION 2: THE MODEL */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <div className="flex items-center gap-4">
@@ -164,7 +163,7 @@ const ImpactPage = () => {
               {[
                 "Hospital-grade sanitation standards.",
                 "ADA compliant accessibility.",
-                "Zero to minimal maintenance cost to the city.", // UPDATED HERE
+                "Zero to minimal maintenance cost to the city.",
                 "Real-time usage analytics."
               ].map((item, i) => (
                 <li key={i} className="flex items-center gap-3 text-sm text-slate-700 font-medium">
@@ -175,7 +174,7 @@ const ImpactPage = () => {
             </ul>
           </div>
 
-          {/* Visual Representation of the Grid */}
+          {/* Visual Representation */}
           <div className="bg-slate-900 rounded-lg p-8 relative overflow-hidden h-80 flex items-center justify-center">
             <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
             <div className="relative z-10 text-center">
@@ -186,7 +185,7 @@ const ImpactPage = () => {
           </div>
         </section>
 
-        {/* --- SECTION 3: MUNICIPAL PARTNERSHIP --- */}
+        {/* SECTION 3: MUNICIPAL PARTNERSHIP */}
         <section className="bg-white border border-slate-200 rounded-xl p-8 md:p-12 shadow-sm">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="max-w-xl space-y-4">
@@ -194,7 +193,7 @@ const ImpactPage = () => {
               <p className="text-slate-600 text-sm leading-relaxed">
                 We are currently accepting inquiries from the <strong>Office of the Mayor</strong>, 
                 <strong> Department of Sanitation</strong>, and <strong>City Council</strong> members. 
-                Let's discuss how Maslow can integrate into your district's 2025 roadmap.
+                Let's discuss how Maslow can integrate into your district's 2026 roadmap.
               </p>
             </div>
             
@@ -210,28 +209,31 @@ const ImpactPage = () => {
           </div>
         </section>
 
-      {/* --- SECTION 4: OPERATIONAL INTELLIGENCE --- */}
-      <section className="py-20 px-4 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-serif text-[#3B5998] mb-12 text-center">Operational Simulation</h2>
-          {/* Efficiency Leak Card */}
-          <Card className="border-l-4 border-l-red-500 bg-red-50 max-w-lg mx-auto mb-8">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-red-900 text-sm uppercase tracking-widest">Efficiency Leak</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-red-600">
-                -{formatNumber(revenueVariance.annualLoss, { type: 'currency' })} / year
-              </div>
-              <p className="text-xs text-red-700 mt-2">
-                Actual turnover is {(actuals.avgStay + actuals.turnaroundTime).toFixed(2)} min. Shaving 2 minutes off cleaning would fund an additional {revenueVariance.annualLoss > 0 ? Math.floor(revenueVariance.annualLoss / 50000) : 0} community suites.
-              </p>
-            </CardContent>
-          </Card>
-          {/* Revenue Simulator Knobs */}
-          <RevenueSimulator />
-        </div>
-      </section>
+        {/* SECTION 4: OPERATIONAL INTELLIGENCE */}
+        <section className="py-20 px-4 bg-gray-50">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-3xl font-serif text-[#3B5998] mb-12 text-center">Operational Simulation</h2>
+            
+            {/* Efficiency Leak Card */}
+            <Card className="border-l-4 border-l-red-500 bg-red-50 max-w-lg mx-auto mb-8">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-red-900 text-sm uppercase tracking-widest">Efficiency Leak</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-red-600">
+                  {/* Safe handling if formatNumber isn't available, though we imported it */}
+                  {formatNumber ? formatNumber(revenueVariance.annualLoss, { type: 'currency' }) : `$${revenueVariance.annualLoss}`} / year
+                </div>
+                <p className="text-xs text-red-700 mt-2">
+                  Actual turnover is {(actuals.avgStay + actuals.turnaroundTime).toFixed(2)} min. Shaving 2 minutes off cleaning would fund an additional {revenueVariance.annualLoss > 0 ? Math.floor(revenueVariance.annualLoss / 50000) : 0} community suites.
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Revenue Simulator Knobs */}
+            <RevenueSimulator />
+          </div>
+        </section>
       </main>
     </div>
   );
