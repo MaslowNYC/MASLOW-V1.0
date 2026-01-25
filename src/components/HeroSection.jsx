@@ -39,28 +39,32 @@ const HeroSection = ({ variant = 'default' }) => {
   }, [isSanctuary]);
 
   return (
-    <section className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-slate-900">
+    <section className={`relative h-screen w-full flex flex-col items-center justify-center overflow-hidden transition-colors duration-1000 ${isSanctuary ? 'bg-white' : 'bg-[#0F172A]'}`}>
       
       {/* =========================================
-          BACKGROUND LAYER (The visual difference)
+          BACKGROUND LAYER
          ========================================= */}
       
       {isSanctuary ? (
-        // --- SANCTUARY MODE (The Spa) ---
-        // Colors: Stone-50, Slate-100, and a hint of Emerald-50 (Sage)
-        <motion.div 
-          className="absolute inset-0 z-0 bg-[size:400%_400%] bg-gradient-to-br from-[#FAFAF9] via-[#F1F5F9] to-[#ECFDF5]"
-          animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        />
+        // --- SANCTUARY MODE (The Cloud) ---
+        // Pure White -> Very Pale Sky -> White. Moving slowly.
+        <>
+          <motion.div 
+            className="absolute inset-0 z-0 bg-[size:400%_400%] bg-gradient-to-br from-[#FFFFFF] via-[#F0F9FF] to-[#FFFFFF]"
+            animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+          />
+          {/* A soft white radial gradient in the center to make it feel like a light source */}
+          <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,1)_0%,_rgba(255,255,255,0)_70%)]" />
+        </>
       ) : (
         // --- VELVET ROPE MODE (The Nightclub) ---
-        // Colors: Deep Slate, Midnight, Void
+        // Deep Slate, Midnight, Void
         <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1E293B] via-[#0F172A] to-[#020617]" />
       )}
 
       {/* Common Texture Overlay (Subtle noise) */}
-      <div className={`absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] ${isSanctuary ? 'opacity-[0.03]' : 'opacity-10'} z-0`}></div>
+      <div className={`absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] ${isSanctuary ? 'opacity-[0.05] invert' : 'opacity-10'} z-0`}></div>
 
       {/* =========================================
           CONTENT LAYER
@@ -75,10 +79,10 @@ const HeroSection = ({ variant = 'default' }) => {
           className="relative"
         >
           {/* The Pulse/Glow */}
-          <div className={`absolute inset-0 blur-[80px] rounded-full animate-pulse ${isSanctuary ? 'bg-[#94A3B8] opacity-20' : 'bg-[#C5A059] opacity-10'}`}></div>
+          <div className={`absolute inset-0 blur-[60px] rounded-full animate-pulse ${isSanctuary ? 'bg-[#3B5998] opacity-10' : 'bg-[#C5A059] opacity-10'}`}></div>
           
           {/* Logo */}
-          <HeroImage className="w-56 h-56 md:w-72 md:h-72 drop-shadow-2xl" />
+          <HeroImage className={`w-56 h-56 md:w-72 md:h-72 drop-shadow-2xl transition-all duration-1000 ${isSanctuary ? 'brightness-110 contrast-125' : ''}`} />
         </motion.div>
 
         {/* TEXT AREA */}
@@ -89,10 +93,10 @@ const HeroSection = ({ variant = 'default' }) => {
           className="text-center space-y-8 w-full"
         >
           <div>
-            <h1 className={`${isSanctuary ? 'text-[#475569]' : 'text-[#F5F1E8]'} text-lg md:text-xl font-serif tracking-[0.25em] uppercase mb-3 opacity-90`}>
+            <h1 className={`${isSanctuary ? 'text-[#3B5998]' : 'text-[#F5F1E8]'} text-lg md:text-xl font-serif tracking-[0.25em] uppercase mb-3 opacity-90 transition-colors duration-1000`}>
               {isSanctuary ? "Welcome Home" : "The Infrastructure of Dignity"}
             </h1>
-            <div className={`w-8 h-0.5 mx-auto opacity-60 ${isSanctuary ? 'bg-[#94A3B8]' : 'bg-[#C5A059]'}`}></div>
+            <div className={`w-8 h-0.5 mx-auto opacity-60 transition-colors duration-1000 ${isSanctuary ? 'bg-[#C5A059]' : 'bg-[#C5A059]'}`}></div>
           </div>
 
           {/* PUBLIC: Member Count */}
@@ -124,7 +128,7 @@ const HeroSection = ({ variant = 'default' }) => {
                 transition={{ duration: 2, repeat: Infinity }}
                 className="pt-12 opacity-30"
              >
-                <ChevronDown className="w-6 h-6 text-[#475569]" />
+                <ChevronDown className="w-6 h-6 text-[#3B5998]" />
              </motion.div>
           )}
         </motion.div>
