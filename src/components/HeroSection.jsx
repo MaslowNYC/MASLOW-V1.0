@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import HeroImage from '@/components/HeroImage';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useNavigate } from 'react-router-dom';
-import { Lock, ArrowRight } from 'lucide-react';
+import { Lock, ArrowRight } from 'lucide-react'; // Fixed: Removed ChevronDown
 
 const HeroSection = ({ variant = 'default', children }) => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const HeroSection = ({ variant = 'default', children }) => {
   return (
     <section className={`relative h-screen w-full flex flex-col items-center justify-center overflow-hidden transition-colors duration-1000 ${isSanctuary ? 'bg-white' : 'bg-[#0F172A]'}`}>
       
-      {/* --- BACKGROUND LAYER --- */}
+      {/* BACKGROUND */}
       {isSanctuary ? (
         <>
           <motion.div 
@@ -43,13 +43,11 @@ const HeroSection = ({ variant = 'default', children }) => {
         <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1E293B] via-[#0F172A] to-[#020617]" />
       )}
 
-      {/* Texture */}
+      {/* TEXTURE */}
       <div className={`absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] ${isSanctuary ? 'opacity-[0.05] invert' : 'opacity-10'} z-0`}></div>
 
-      {/* --- CONTENT LAYER --- */}
+      {/* CONTENT */}
       <div className="relative z-20 flex flex-col items-center gap-8 max-w-md w-full px-6">
-        
-        {/* LOGO */}
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -60,7 +58,6 @@ const HeroSection = ({ variant = 'default', children }) => {
           <HeroImage className={`w-48 h-48 md:w-64 md:h-64 drop-shadow-2xl transition-all duration-1000 ${isSanctuary ? 'brightness-110 contrast-125' : ''}`} />
         </motion.div>
 
-        {/* HEADER TEXT */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -72,17 +69,14 @@ const HeroSection = ({ variant = 'default', children }) => {
           </h1>
           <div className={`w-8 h-0.5 mx-auto opacity-60 mb-8 transition-colors duration-1000 ${isSanctuary ? 'bg-[#C5A059]' : 'bg-[#C5A059]'}`}></div>
 
-          {/* --- INJECTED MENU / CHILDREN --- */}
           {children ? (
              <div className="space-y-4">{children}</div>
           ) : (
-            /* DEFAULT PUBLIC VIEW */
             <>
               <div className="space-y-1 mb-8">
                 <p className="text-[#94A3B8] text-[10px] uppercase tracking-[0.3em] font-medium">Current Member Count</p>
                 <div className="text-4xl md:text-5xl font-serif text-white font-medium tracking-tighter tabular-nums">#{memberCount}</div>
               </div>
-              
               <div className="flex flex-col gap-4">
                 <Button 
                     onClick={() => navigate('/login?mode=signup')}
@@ -90,7 +84,6 @@ const HeroSection = ({ variant = 'default', children }) => {
                 >
                     Join The Waitlist <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
-                
                 <Button 
                   variant="link" 
                   onClick={() => navigate('/vision')}
@@ -103,7 +96,6 @@ const HeroSection = ({ variant = 'default', children }) => {
           )}
         </motion.div>
 
-        {/* Login Link (Public Only) */}
         {!isSanctuary && !children && (
           <motion.div 
             initial={{ opacity: 0 }}
@@ -115,7 +107,6 @@ const HeroSection = ({ variant = 'default', children }) => {
             </Button>
           </motion.div>
         )}
-
       </div>
     </section>
   );

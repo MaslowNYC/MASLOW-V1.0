@@ -5,14 +5,13 @@ import HeroSection from '@/components/HeroSection';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
-import { User, MapPin, BookOpen, Heart, Sparkles } from 'lucide-react';
+import { User, MapPin, BookOpen, Heart } from 'lucide-react'; // Fixed: Removed Sparkles
 import { motion } from 'framer-motion';
 
 const HomePage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // THE SUITE MENU ITEMS
   const menuItems = [
     { label: "My Concierge", icon: <User className="w-4 h-4" />, path: "/profile" },
     { label: "The Hull", icon: <MapPin className="w-4 h-4" />, path: "/hull" },
@@ -27,7 +26,6 @@ const HomePage = () => {
       </Helmet>
       
       {user ? (
-        /* --- LOGGED IN: THE SUITE VIEW --- */
         <HeroSection variant="sanctuary">
           <motion.div 
             initial={{ opacity: 0 }}
@@ -53,14 +51,11 @@ const HomePage = () => {
               </Button>
             ))}
           </motion.div>
-          
           <p className="mt-8 text-[#3B5998]/40 text-[10px] uppercase tracking-[0.3em]">
             Sanctuary Status: Active
           </p>
         </HeroSection>
       ) : (
-        /* --- PUBLIC: THE VELVET ROPE --- */
-        /* HeroSection handles the default view internally, so we pass nothing */
         <HeroSection variant="default" />
       )}
     </div>
