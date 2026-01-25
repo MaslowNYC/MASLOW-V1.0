@@ -22,7 +22,7 @@ const VisionPage = () => {
           Why We Built This.
         </motion.h1>
         <p className="text-[#94A3B8] max-w-xl mx-auto uppercase tracking-widest text-xs">
-          The Manifesto of Dignity
+          The Blueprint for Dignity {/* <--- CHANGED FROM "The Manifesto..." */}
         </p>
       </div>
 

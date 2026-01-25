@@ -22,8 +22,8 @@ const HomePage = () => {
   // THE NEW "CLOUDS" MENU
   const menuItems = [
     { 
-      label: "My Preferences",  // Changed from "My Requisites"
-      sub: "Your Personal Setup", // Changed from "Concierge Profile"
+      label: "My Preferences",  
+      sub: "Your Personal Setup", 
       icon: <UserCheck className="w-5 h-5" />, 
       path: "/profile" 
     },
@@ -53,7 +53,7 @@ const HomePage = () => {
     },
     { 
       label: "Our Vision", 
-      sub: "The Manifesto", 
+      sub: "The Blueprint", // <--- CHANGED FROM "The Manifesto"
       icon: <BookOpen className="w-5 h-5" />, 
       path: "/vision" 
     },
@@ -66,7 +66,6 @@ const HomePage = () => {
       </Helmet>
       
       {user ? (
-        /* --- LOGGED IN: THE CLOUD MENU --- */
         <HeroSection variant="sanctuary">
           <motion.div 
             initial={{ opacity: 0 }}
@@ -96,13 +95,11 @@ const HomePage = () => {
             ))}
           </motion.div>
           
-          {/* Footer Status */}
           <p className="mt-8 text-slate-400 text-[9px] uppercase tracking-[0.3em]">
             System Status: Nominal
           </p>
         </HeroSection>
       ) : (
-        /* --- PUBLIC: THE VELVET ROPE --- */
         <HeroSection variant="default" />
       )}
     </div>
