@@ -181,14 +181,14 @@ import Button from '@/components/ui/button';
 
 ## Files to Know
 
-- **Entry Point**: src/main.jsx → src/App.jsx
-- **Context Setup**: src/contexts/ (Auth, Stripe, Cart)
-- **Pages**: src/pages/ (route targets)
-- **Shared UI**: src/components/ui/ (Radix-wrapped components)
-- **Config**: src/config/featureFlags.js, src/config/stripePaymentLinks.js
-- **API**: src/api/EcommerceApi.js (Hostinger integration)
-- **Build Config**: vite.config.js (includes plugin setup)
-- **Tailwind Theme**: tailwind.config.js (color system)
+- Entry Point: src/main.jsx, src/App.jsx
+- Context Setup: src/contexts/ (Auth, Stripe, Cart)
+- Pages: src/pages/ (route targets)
+- Shared UI: src/components/ui/ (Radix-wrapped components)
+- Config: src/config/featureFlags.js, src/config/stripePaymentLinks.js
+- API: src/api/EcommerceApi.js (Hostinger integration)
+- Build Config: vite.config.js (includes plugin setup)
+- Tailwind Theme: tailwind.config.js (color system)
 
 ---
 
