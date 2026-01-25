@@ -13,6 +13,8 @@ import { SpeedInsights } from "@vercel/speed-insights/react"
 import ConciergeDashboard from '@/pages/ConciergeDashboard'; // New Import
 // ... imports
 import MissionPage from '@/pages/MissionPage';
+// Near other imports
+import DrMaslowPage from './pages/DrMaslowPage';
 
 // Components
 import Header from '@/components/Header';
@@ -59,6 +61,7 @@ const AppContent = () => {
           <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} /> {/* NEW ROUTE */}
           <Route path="/mission" element={<MissionPage />} />
+          <Route path="/dr-maslow" element={<DrMaslowPage />} />
           {/* Staff Route - Needs Founder/Admin Access */}
           <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} />
           {/* COMMERCE */}
