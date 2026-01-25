@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
   const checkFounderStatus = async (userId) => {
     try {
         const { data, error } = await supabase
-            .from('user_profiles')
+            .from('profiles')
             .select('is_admin')
             .eq('id', userId)
             .single();

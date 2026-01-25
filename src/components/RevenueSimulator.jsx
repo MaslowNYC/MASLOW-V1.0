@@ -188,10 +188,10 @@ const RevenueSimulator = () => {
   // Calculations
   
   const metrics = useMemo(() => {
+
     // 1. Hull Revenue
-    // Capacity = (Minutes Open / Duration) * Num Hulls
-    // 2. Find the metrics calculation (around line 144) and replace it with this:
-    const totalCycleTime = (formData.avg_duration || 30) + (formData.turnaround_time || 5); 
+    // Capacity = (Minutes Open / Duration + Turnaround) * Num Hulls
+    const totalCycleTime = (formData.avg_duration || 30) + (formData.turnaround_time || 5);
     const dailySessionsCapacity = Math.floor(1440 / totalCycleTime) * formData.suites;
 
     // OMNY integration boost

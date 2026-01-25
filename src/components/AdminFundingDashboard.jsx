@@ -36,7 +36,7 @@ const AdminFundingDashboard = () => {
 
       // Check the 'is_admin' flag in Supabase
       const { data, error } = await supabase
-        .from('user_profiles')
+        .from('profiles')
         .select('is_admin')
         .eq('id', user.id)
         .single();
@@ -58,7 +58,7 @@ const AdminFundingDashboard = () => {
   const fetchData = async () => {
     try {
       const { data: profiles, error } = await supabase
-        .from('user_profiles')
+        .from('profiles')
         .select('*')
         .order('created_at', { ascending: false });
 
