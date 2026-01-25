@@ -6,12 +6,12 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { 
-  UserCheck,    // My Requisites
-  PanelTop,     // The Hull (Bracket shape)
-  Armchair,     // Sanctuary Suites
-  Landmark,     // Civic Outreach
-  BookOpen,     // Vision
-  Handshake     // Partners
+  UserCheck,    
+  PanelTop,     
+  Armchair,     
+  Landmark,     
+  BookOpen,     
+  Handshake     
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -22,8 +22,8 @@ const HomePage = () => {
   // THE NEW "CLOUDS" MENU
   const menuItems = [
     { 
-      label: "My Requisites", 
-      sub: "Concierge Profile", 
+      label: "My Preferences",  // Changed from "My Requisites"
+      sub: "Your Personal Setup", // Changed from "Concierge Profile"
       icon: <UserCheck className="w-5 h-5" />, 
       path: "/profile" 
     },
@@ -37,7 +37,7 @@ const HomePage = () => {
       label: "Sanctuary Suites", 
       sub: "Private Restoration", 
       icon: <Armchair className="w-5 h-5" />, 
-      path: "/hull" // Pointing to Hull for now, or create separate page later
+      path: "/hull" 
     },
     { 
       label: "Civic Outreach", 
@@ -49,7 +49,7 @@ const HomePage = () => {
       label: "Ethical Supply", 
       sub: "Our Partners", 
       icon: <Handshake className="w-5 h-5" />, 
-      path: "/store" // Or /vision
+      path: "/store" 
     },
     { 
       label: "Our Vision", 
