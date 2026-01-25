@@ -1,36 +1,22 @@
+
 import path from 'node:path';
 import react from '@vitejs/plugin-react';
-import { defineConfig, createLogger } from 'vite';
+import { defineConfig } from 'vite';
 
-// Safe logger configuration that ignores specific CSS warnings
-const logger = createLogger();
-const loggerError = logger.error;
-
-logger.error = (msg, options) => {
-    // Ignore PostCSS errors that often clutter the console
-    if (options?.error?.toString().includes('CssSyntaxError: [postcss]')) {
-        return;
-    }
-    loggerError(msg, options);
-}
-
-// https://vitejs.dev/config/
 export default defineConfig({
-    customLogger: logger,
-    plugins: [
-        react(), // The only plugin you strictly need for a React site
-    ],
-    resolve: {
-        alias: {
-            '@': path.resolve(__dirname, './src'), // CRITICAL: Keeps your imports working
-        },
+  // 1. The React Plugin: Essential for your site to work
+  plugins: [react()],
+
+  // 2. Path Alias: Ensures imports like '@/components/Header' work
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
     },
-    server: {
-        allowedHosts: true,
-    },
-    build: {
-        // Ensures standard build settings for Vercel
-        outDir: 'dist',
-        sourcemap: false, 
-    }
+  },
+
+  // 3. Build Settings: Standard settings for Vercel
+  build: {
+    outDir: 'dist',
+    sourcemap: true,
+  }
 });
