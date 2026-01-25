@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import HeroImage from '@/components/HeroImage';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useNavigate } from 'react-router-dom';
-import { Lock, ArrowRight } from 'lucide-react'; // Fixed: Removed ChevronDown
+import { Lock, ArrowRight } from 'lucide-react';
 
 const HeroSection = ({ variant = 'default', children }) => {
   const navigate = useNavigate();
@@ -26,57 +26,73 @@ const HeroSection = ({ variant = 'default', children }) => {
     fetchCount();
   }, [isSanctuary]);
 
+  // STYLES: 
+  // Default = Dark/Nightclub (Velvet Rope)
+  // Sanctuary = Light/Cloud (Member)
+  const textColor = isSanctuary ? 'text-slate-800' : 'text-[#F5F1E8]';
+  const accentColor = isSanctuary ? 'text-[#3B5998]' : 'text-[#C5A059]';
+  const lineColor = isSanctuary ? 'bg-[#3B5998]' : 'bg-[#C5A059]';
+
   return (
     <section className={`relative h-screen w-full flex flex-col items-center justify-center overflow-hidden transition-colors duration-1000 ${isSanctuary ? 'bg-white' : 'bg-[#0F172A]'}`}>
       
-      {/* BACKGROUND */}
+      {/* --- BACKGROUND LAYER --- */}
       {isSanctuary ? (
+        // THE CLOUD: Pure white with a very faint, breathing sky blue pulse
         <>
           <motion.div 
-            className="absolute inset-0 z-0 bg-[size:400%_400%] bg-gradient-to-br from-[#FFFFFF] via-[#F0F9FF] to-[#FFFFFF]"
+            className="absolute inset-0 z-0 bg-[size:400%_400%] bg-gradient-to-br from-white via-slate-50 to-sky-50"
             animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           />
-          <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,1)_0%,_rgba(255,255,255,0)_70%)]" />
+          <div className="absolute inset-0 z-0 bg-white/60" /> {/* Extra whitewash layer */}
         </>
       ) : (
+        // THE VELVET ROPE: Dark Void
         <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1E293B] via-[#0F172A] to-[#020617]" />
       )}
 
-      {/* TEXTURE */}
-      <div className={`absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] ${isSanctuary ? 'opacity-[0.05] invert' : 'opacity-10'} z-0`}></div>
+      {/* Texture */}
+      <div className={`absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] ${isSanctuary ? 'opacity-[0.03] invert' : 'opacity-10'} z-0`}></div>
 
-      {/* CONTENT */}
+      {/* --- CONTENT LAYER --- */}
       <div className="relative z-20 flex flex-col items-center gap-8 max-w-md w-full px-6">
+        
+        {/* LOGO */}
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
           className="relative"
         >
-          <div className={`absolute inset-0 blur-[60px] rounded-full animate-pulse ${isSanctuary ? 'bg-[#3B5998] opacity-10' : 'bg-[#C5A059] opacity-10'}`}></div>
-          <HeroImage className={`w-48 h-48 md:w-64 md:h-64 drop-shadow-2xl transition-all duration-1000 ${isSanctuary ? 'brightness-110 contrast-125' : ''}`} />
+          {/* Pulse Effect */}
+          <div className={`absolute inset-0 blur-[60px] rounded-full animate-pulse ${isSanctuary ? 'bg-sky-200 opacity-40' : 'bg-[#C5A059] opacity-10'}`}></div>
+          <HeroImage className={`w-48 h-48 md:w-64 md:h-64 drop-shadow-2xl transition-all duration-1000 ${isSanctuary ? 'brightness-105 contrast-100' : ''}`} />
         </motion.div>
 
+        {/* HEADER TEXT - ALWAYS "INFRASTRUCTURE" */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
           className="text-center w-full"
         >
-          <h1 className={`${isSanctuary ? 'text-[#3B5998]' : 'text-[#F5F1E8]'} text-lg md:text-xl font-serif tracking-[0.25em] uppercase mb-4 opacity-90 transition-colors duration-1000`}>
-            {isSanctuary ? "Welcome Home" : "The Infrastructure of Dignity"}
+          <h1 className={`${textColor} text-lg md:text-xl font-serif tracking-[0.25em] uppercase mb-4 opacity-90 transition-colors duration-1000`}>
+            The Infrastructure of Dignity
           </h1>
-          <div className={`w-8 h-0.5 mx-auto opacity-60 mb-8 transition-colors duration-1000 ${isSanctuary ? 'bg-[#C5A059]' : 'bg-[#C5A059]'}`}></div>
+          <div className={`w-8 h-0.5 mx-auto opacity-60 mb-8 transition-colors duration-1000 ${lineColor}`}></div>
 
+          {/* --- INJECTED MENU / CHILDREN --- */}
           {children ? (
              <div className="space-y-4">{children}</div>
           ) : (
+            /* DEFAULT PUBLIC VIEW */
             <>
               <div className="space-y-1 mb-8">
                 <p className="text-[#94A3B8] text-[10px] uppercase tracking-[0.3em] font-medium">Current Member Count</p>
                 <div className="text-4xl md:text-5xl font-serif text-white font-medium tracking-tighter tabular-nums">#{memberCount}</div>
               </div>
+              
               <div className="flex flex-col gap-4">
                 <Button 
                     onClick={() => navigate('/login?mode=signup')}
@@ -84,6 +100,7 @@ const HeroSection = ({ variant = 'default', children }) => {
                 >
                     Join The Waitlist <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
+                
                 <Button 
                   variant="link" 
                   onClick={() => navigate('/vision')}
@@ -96,6 +113,7 @@ const HeroSection = ({ variant = 'default', children }) => {
           )}
         </motion.div>
 
+        {/* Login Link (Public Only) */}
         {!isSanctuary && !children && (
           <motion.div 
             initial={{ opacity: 0 }}
@@ -107,6 +125,7 @@ const HeroSection = ({ variant = 'default', children }) => {
             </Button>
           </motion.div>
         )}
+
       </div>
     </section>
   );
