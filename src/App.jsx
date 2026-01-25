@@ -9,34 +9,31 @@ import { CartProvider } from '@/hooks/useCart';
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/react"
 
-// ... other imports
-import ConciergeDashboard from '@/pages/ConciergeDashboard'; // New Import
-// ... imports
-import MissionPage from '@/pages/MissionPage';
-// Near other imports
-//import DrMaslowPage from './pages/DrMaslowPage';
-import DrMaslowPage from '@/pages/DrMaslowPage';
-
 // Components
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ShoppingCart from '@/components/ShoppingCart';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
-// Pages
+// Pages - Core
 import HeroSection from '@/components/HeroSection';
 import HomePage from '@/pages/HomePage';
 import LoginPage from '@/components/LoginPage';
-import TheLotusPage from '@/pages/TheLotusPage';
-import SanctuaryPage from '@/pages/SanctuaryPage';
-import MembershipPage from '@/pages/MembershipPage';
-import ImpactPage from '@/pages/ImpactPage';
-import AdminFundingDashboard from '@/components/AdminFundingDashboard';
 import StorePage from '@/pages/StorePage';
 import ProductDetailPage from '@/pages/ProductDetailPage';
 import CheckoutSuccessPage from '@/pages/CheckoutSuccessPage';
 import LocationDetail from '@/pages/LocationDetail';
-import ProfilePage from '@/pages/ProfilePage'; // NEW IMPORT
+import SanctuaryPage from '@/pages/SanctuaryPage';
+import TheLotusPage from '@/pages/TheLotusPage';
+import MembershipPage from '@/pages/MembershipPage';
+import ImpactPage from '@/pages/ImpactPage';
+import AdminFundingDashboard from '@/components/AdminFundingDashboard';
+
+// --- QUARANTINED IMPORTS (Uncomment one by one to find the crash) ---
+// import MissionPage from '@/pages/MissionPage';
+// import DrMaslowPage from '@/pages/DrMaslowPage';
+// import ProfilePage from '@/pages/ProfilePage';
+// import ConciergeDashboard from '@/pages/ConciergeDashboard';
 
 const AppContent = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -46,33 +43,34 @@ const AppContent = () => {
   const isHideHeaderPath = location.pathname === '/login' || (!user && location.pathname === '/');
 
   return (
-    <div className="min-h-screen bg-[#1D5DA0] flex flex-col">
+    <div className="min-h-screen bg-[#F5F1E8] flex flex-col">
       {!isHideHeaderPath && <Header setIsCartOpen={setIsCartOpen} />}
 
       <main className="flex-grow">
         <Routes>
+          {/* Public & Core Routes */}
           <Route path="/" element={user ? <HomePage /> : <HeroSection />} />
           <Route path="/login" element={<LoginPage />} />
-
-          {/* INSIDER ROUTES */}
+          
+          {/* Protected Routes */}
           <Route path="/hull" element={<ProtectedRoute><SanctuaryPage /></ProtectedRoute>} />
           <Route path="/sanctuary" element={<Navigate to="/hull" replace />} />
           <Route path="/lotus" element={<ProtectedRoute><TheLotusPage /></ProtectedRoute>} />
           <Route path="/impact" element={<ProtectedRoute><ImpactPage /></ProtectedRoute>} />
           <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
-          <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} /> {/* NEW ROUTE */}
-          <Route path="/mission" element={<MissionPage />} />
-          <Route path="/maslow" element={<DrMaslowPage />} />
-          {/* Staff Route - Needs Founder/Admin Access */}
-          <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} />
-          {/* COMMERCE */}
+          
+          {/* Commerce */}
           <Route path="/store" element={<ProtectedRoute><StorePage /></ProtectedRoute>} />
           <Route path="/product/:id" element={<ProtectedRoute><ProductDetailPage /></ProtectedRoute>} />
           <Route path="/checkout-success" element={<ProtectedRoute><CheckoutSuccessPage /></ProtectedRoute>} />
           <Route path="/locations/:slug" element={<ProtectedRoute><LocationDetail /></ProtectedRoute>} />
-
-          {/* ADMIN */}
           <Route path="/admin" element={<ProtectedRoute requireFounder={true}><AdminFundingDashboard /></ProtectedRoute>} />
+
+          {/* --- QUARANTINED ROUTES --- */}
+          {/* <Route path="/mission" element={<MissionPage />} /> */}
+          {/* <Route path="/maslow" element={<DrMaslowPage />} /> */}
+          {/* <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} /> */}
+          {/* <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} /> */}
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
