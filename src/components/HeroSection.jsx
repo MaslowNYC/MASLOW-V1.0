@@ -33,7 +33,8 @@ const HeroSection = ({ variant = 'default', children }) => {
   return (
     // CHANGE 1: min-h-[100dvh] ensures it fits on mobile browsers without address bar issues
     // CHANGE 2: py-24 forces safety space at the top and bottom so logo can't be cut off
-    <section className={`relative min-h-[100dvh] w-full flex flex-col items-center justify-center py-24 overflow-hidden transition-colors duration-1000 ${isSanctuary ? 'bg-white' : 'bg-[#0F172A]'}`}>
+    // Change this line in HeroSection.jsx
+<section className={`relative min-h-[100dvh] w-full flex flex-col items-center justify-center py-12 md:py-24 overflow-hidden ...`}>
       
       {/* BACKGROUND LAYER */}
       {isSanctuary ? (

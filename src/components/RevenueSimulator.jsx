@@ -70,6 +70,9 @@ const RevenueSimulator = () => {
     avg_duration: 30, // Session length in minutes
     avg_price: 35, // Price per session (using avg_price db field)
     occupancy_rate: 45,
+    // 1. Add 'turnaround_time' to the initial formData state (around line 70)
+    turnaround_time: 5, // minutes
+
     
     // Retail & Secondary Revenue
     retail_spend_per_visit: 12,
@@ -183,12 +186,14 @@ const RevenueSimulator = () => {
   };
 
   // Calculations
+  
   const metrics = useMemo(() => {
     // 1. Hull Revenue
     // Capacity = (Minutes Open / Duration) * Num Hulls
-    const dailyMinutes = formData.hours_open * 60;
-    const dailySessionsCapacity = Math.floor(dailyMinutes / (formData.avg_duration || 30)) * formData.suites;
-    
+    // 2. Find the metrics calculation (around line 144) and replace it with this:
+    const totalCycleTime = (formData.avg_duration || 30) + (formData.turnaround_time || 5); 
+    const dailySessionsCapacity = Math.floor(1440 / totalCycleTime) * formData.suites;
+
     // OMNY integration boost
     const omnyMultiplier = formData.has_omny ? 1.10 : 1.0;
     const effectiveOccupancy = (formData.occupancy_rate / 100) * omnyMultiplier;

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
@@ -33,14 +34,6 @@ const StorePage = () => {
       image: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?auto=format&fit=crop&q=80",
       icon: <Zap className="w-4 h-4 text-sky-400" />,
       color: "text-sky-400"
-    },
-    {
-      name: "Farmacy",
-      category: "Interview Ready",
-      description: "Purity for the professional. We stock Farmacy balms to ensure members can transition from the street to the boardroom with confidence.",
-      image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80",
-      icon: <Sparkles className="w-4 h-4 text-lime-400" />,
-      color: "text-lime-400"
     }
   ];
 
@@ -49,20 +42,21 @@ const StorePage = () => {
       <Helmet><title>The Standard | Maslow NYC</title></Helmet>
       <header className="bg-slate-900 text-white pt-24 pb-20 px-6 border-b-4 border-[#C5A059]">
         <div className="max-w-6xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-center md:text-left">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full border border-white/20">
               <ShieldCheck className="w-3 h-3 text-[#C5A059]" />
               <span className="text-[10px] uppercase tracking-[0.2em] font-bold">The Standard of Care</span>
             </div>
             <h1 className="text-4xl md:text-7xl font-serif tracking-tight">Ethical Procurement.</h1>
-            <p className="text-slate-400 max-w-2xl text-lg font-light leading-relaxed mx-auto md:mx-0">
-              Maslow does not operate on a "lowest bidder" model. We only partner with companies that treat their workers and the planet with dignity.
+            <p className="text-slate-400 max-w-2xl text-lg font-light leading-relaxed">
+              We only partner with companies that treat their workers and the planet with dignity.
             </p>
           </motion.div>
         </div>
       </header>
+
       <main className="max-w-6xl mx-auto px-6 py-20 space-y-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {partners.map((partner, i) => (
             <Card key={i} className="bg-white border-slate-100 shadow-xl overflow-hidden group hover:scale-[1.02] transition-transform duration-500">
                 <div className="h-40 overflow-hidden">
@@ -80,7 +74,7 @@ const StorePage = () => {
         </div>
         <section className="bg-slate-900 rounded-2xl p-12 text-center text-white border border-[#C5A059]/30">
           <h2 className="text-3xl font-serif mb-4">Earn The Access.</h2>
-          <Button onClick={() => navigate('/login?mode=signup')} className="bg-[#C5A059] text-slate-900 font-bold px-12 py-6 rounded-none uppercase tracking-widest hover:bg-[#b08d4b]">
+          <Button onClick={() => navigate('/login?mode=signup')} className="bg-[#C5A059] text-slate-900 font-bold px-12 py-6 rounded-none uppercase tracking-widest">
             Join The Mission <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </section>

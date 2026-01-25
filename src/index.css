@@ -60,3 +60,40 @@
   --ring: 39 49% 56%; /* Gold ring */
   --radius: 0.75rem; /* rounded-xl */
 }
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply antialiased overflow-x-hidden; /* Prevents side-scrolling bugs on mobile */
+  }
+
+  /* Force headers to wrap instead of pushing the screen wide */
+  h1, h2, h3, h4, h5, h6 {
+    @apply break-words overflow-wrap-anywhere;
+  }
+}
+@layer base {
+  html, body {
+    /* Prevents side-scrolling on mobile devices */
+    @apply overflow-x-hidden w-full;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Ensures headers wrap properly on small iPhone screens */
+  h1, h2, h3, h4 {
+    @apply break-words;
+    overflow-wrap: anywhere;
+  }
+}
+@layer base {
+  body {
+    @apply antialiased overflow-x-hidden; 
+  }
+  h1, h2, h3, h4 {
+    @apply break-words; /* Prevents long words from pushing screen wide on mobile */
+    overflow-wrap: anywhere;
+  }
+}
