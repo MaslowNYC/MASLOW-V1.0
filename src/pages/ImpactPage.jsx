@@ -8,7 +8,7 @@ import { Heart, Shield, Droplets, Users, Building2, MapPin, TrendingUp } from 'l
 
 const ImpactPage = () => {
   // Static Impact Data (The "North Star" metrics)
-  // TODO: Eventually hook these up to a 'public_impact_stats' table in Supabase
+  // These focus on the human story, not the operational costs
   const impactMetrics = {
     peopleServed: "12,450",
     dignityScore: "98/100",

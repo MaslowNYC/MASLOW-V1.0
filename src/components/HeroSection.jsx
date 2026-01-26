@@ -1,128 +1,80 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
+import { ArrowRight, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import HeroImage from '@/components/HeroImage';
-import { supabase } from '@/lib/customSupabaseClient';
-import { useNavigate } from 'react-router-dom';
-import { Lock, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-const HeroSection = ({ variant = 'default', children }) => {
-  const navigate = useNavigate();
-  const isSanctuary = variant === 'sanctuary';
-  
-  const FOUNDER_SEED_COUNT = 254; 
-  const [memberCount, setMemberCount] = useState(FOUNDER_SEED_COUNT);
-
-  useEffect(() => {
-    if (isSanctuary) return;
-    const fetchCount = async () => {
-      try {
-        const { count: userCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
-        const { count: betaCount } = await supabase.from('beta_signups').select('*', { count: 'exact', head: true });
-        setMemberCount(FOUNDER_SEED_COUNT + (userCount || 0) + (betaCount || 0));
-      } catch (err) { console.error(err); }
-    };
-    fetchCount();
-  }, [isSanctuary]);
-
-  // STYLES
-  const textColor = isSanctuary ? 'text-slate-800' : 'text-[#F5F1E8]';
-  const lineColor = isSanctuary ? 'bg-[#3B5998]' : 'bg-[#C5A059]';
-
+const HeroSection = () => {
   return (
-    // CHANGE 1: min-h-[100dvh] ensures it fits on mobile browsers without address bar issues
-    // CHANGE 2: py-24 forces safety space at the top and bottom so logo can't be cut off
-    // Change this line in HeroSection.jsx
-<section className={`relative min-h-[100dvh] w-full flex flex-col items-center justify-center py-12 md:py-24 overflow-hidden ...`}>
-      
-      {/* BACKGROUND LAYER */}
-      {isSanctuary ? (
-        <>
-          <motion.div 
-            className="absolute inset-0 z-0 bg-[size:400%_400%] bg-gradient-to-br from-white via-slate-50 to-sky-50"
-            animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <div className="absolute inset-0 z-0 bg-white/60" />
-        </>
-      ) : (
-        <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1E293B] via-[#0F172A] to-[#020617]" />
-      )}
-
-      {/* TEXTURE */}
-      <div className={`absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] ${isSanctuary ? 'opacity-[0.03] invert' : 'opacity-10'} z-0`}></div>
-
-      {/* CONTENT LAYER */}
-      <div className="relative z-20 flex flex-col items-center gap-6 md:gap-8 max-w-md w-full px-6">
+    <section className="relative bg-[#F5F1E8] pt-32 pb-20 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
         
-        {/* LOGO */}
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="relative"
+        {/* LEFT COLUMN: Text Content */}
+        <motion.div 
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          className="space-y-8 relative z-10"
         >
-          <div className={`absolute inset-0 blur-[60px] rounded-full animate-pulse ${isSanctuary ? 'bg-sky-200 opacity-40' : 'bg-[#C5A059] opacity-10'}`}></div>
-          {/* CHANGE 3: Smaller logo on mobile (w-32) to prevent crowding */}
-          <HeroImage className={`w-32 h-32 md:w-64 md:h-64 drop-shadow-2xl transition-all duration-1000 ${isSanctuary ? 'brightness-105 contrast-100' : ''}`} />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#3B5998]/10 text-[#3B5998] text-xs font-bold tracking-widest uppercase">
+            <span className="w-2 h-2 rounded-full bg-[#C5A059] animate-pulse"></span>
+            Live in NYC
+          </div>
+          
+          <h1 className="text-5xl md:text-7xl font-serif text-[#3B5998] leading-[1.1] tracking-tight">
+            The city is <br/>
+            <span className="italic text-slate-800">relentless.</span><br/>
+            Your sanctuary <br/>
+            <span className="text-[#C5A059]">is here.</span>
+          </h1>
+          
+          <p className="text-lg text-slate-600 max-w-md leading-relaxed">
+            Maslow provides a network of private, hospital-grade smart suites for rest and sanitation. 
+            Access dignity on demand, right from your phone.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Link to="/membership">
+              <Button className="h-14 px-8 bg-[#3B5998] hover:bg-[#2d4475] text-white rounded-full text-lg shadow-lg hover:shadow-xl transition-all flex items-center gap-2">
+                Get Access <ArrowRight className="w-5 h-5" />
+              </Button>
+            </Link>
+            <Link to="/locations">
+              <Button variant="outline" className="h-14 px-8 border-2 border-[#3B5998] text-[#3B5998] hover:bg-[#3B5998]/5 rounded-full text-lg flex items-center gap-2">
+                <MapPin className="w-5 h-5" /> Find a Suite
+              </Button>
+            </Link>
+          </div>
         </motion.div>
 
-        {/* HEADER TEXT */}
+        {/* RIGHT COLUMN: The Hero Image (Elevated & Backlit) */}
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-          className="text-center w-full"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, delay: 0.2 }}
+          className="relative z-0"
         >
-          <h1 className={`${textColor} text-lg md:text-xl font-serif tracking-[0.25em] uppercase mb-4 opacity-90 transition-colors duration-1000`}>
-            The Infrastructure of Dignity
-          </h1>
-          <div className={`w-8 h-0.5 mx-auto opacity-60 mb-8 transition-colors duration-1000 ${lineColor}`}></div>
+          {/* THE BACKLIGHT GLOW */}
+          <div className="absolute -inset-4 bg-[#C5A059] opacity-30 blur-3xl rounded-full pointer-events-none"></div>
 
-          {/* INJECTED MENU (LOGGED IN) OR PUBLIC CONTENT */}
-          {children ? (
-             <div className="space-y-4">{children}</div>
-          ) : (
-            /* DEFAULT PUBLIC VIEW */
-            <>
-              <div className="space-y-1 mb-8">
-                <p className="text-[#94A3B8] text-[10px] uppercase tracking-[0.3em] font-medium">Current Member Count</p>
-                <div className="text-4xl md:text-5xl font-serif text-white font-medium tracking-tighter tabular-nums">#{memberCount}</div>
-              </div>
-              
-              {/* CHANGE 4: All buttons in one flex container with consistent gap */}
-              <div className="flex flex-col gap-4 w-full max-w-xs mx-auto">
-                {/* 1. Waitlist Button */}
-                <Button 
-                    onClick={() => navigate('/login?mode=signup')}
-                    className="w-full bg-transparent border border-[#C5A059]/50 text-[#C5A059] hover:bg-[#C5A059] hover:text-[#0F172A] text-xs font-bold py-6 uppercase tracking-[0.2em] rounded-sm transition-all duration-500"
-                >
-                    Join The Waitlist <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-                
-                {/* 2. Blueprint Link */}
-                <Button 
-                  variant="link" 
-                  onClick={() => navigate('/vision')}
-                  className="w-full text-[#94A3B8]/50 hover:text-white text-[10px] uppercase tracking-widest h-auto py-2"
-                >
-                  Read The Blueprint
-                </Button>
-
-                {/* 3. Member Access (Now seamlessly integrated) */}
-                {!isSanctuary && (
-                  <Button 
-                    variant="link" 
-                    onClick={() => navigate('/login')}
-                    className="w-full text-[#94A3B8]/30 hover:text-[#C5A059] text-[10px] uppercase tracking-widest h-auto py-2 p-0"
-                  >
-                    <Lock className="w-3 h-3 mr-2" /> Member Access
-                  </Button>
-                )}
-              </div>
-            </>
-          )}
+          {/* THE IMAGE CONTAINER */}
+          <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white transform hover:scale-[1.01] transition-transform duration-700">
+            <img 
+              src="https://images.unsplash.com/photo-1551525091-64d8a0cb8b32?q=80&w=1974&auto=format&fit=crop" 
+              alt="Maslow Sanctuary Suite Interior" 
+              className="w-full h-[600px] object-cover"
+            />
+            
+            {/* Subtle Gradient Overlay for Depth */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+            
+            {/* Floating Badge */}
+            <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-md p-4 rounded-xl shadow-lg border border-white/50">
+              <div className="text-[#3B5998] font-bold text-sm uppercase tracking-wider">Sanctuary Suite</div>
+              <div className="text-slate-600 text-xs">Hygiene • Rest • Dignity</div>
+            </div>
+          </div>
         </motion.div>
 
       </div>

@@ -167,7 +167,22 @@ const AdminFundingDashboard = () => {
   return (
     <div className="max-w-7xl mx-auto p-8 bg-[#F5F1E8] min-h-screen">
       
-      {/* Header */}
+      {/* HERO IMAGE SECTION */}
+      <div className="relative mb-12 rounded-2xl shadow-2xl overflow-hidden z-0">
+        <img
+          src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop"
+          alt="Dashboard Hero"
+          className="w-full h-64 md:h-80 object-cover"
+        />
+        {/* Backlit Glow Overlay */}
+        <div className="absolute inset-0 ring-1 ring-white/20 rounded-2xl pointer-events-none bg-gradient-to-t from-black/40 to-transparent"></div>
+        <div className="absolute bottom-6 left-8 text-white z-10">
+          <h2 className="text-3xl font-serif font-bold tracking-wide">Operational Command</h2>
+          <p className="text-white/80 font-light">Status: Active Monitoring</p>
+        </div>
+      </div>
+      
+      {/* Header Row */}
       <div className="flex justify-between items-end mb-12 border-b-4 border-[#C5A059] pb-6">
         <div>
           <h1 className="text-4xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Revenue Command</h1>
