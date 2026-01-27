@@ -25,7 +25,7 @@ const HeroImage = ({ className }) => {
     >
       <div className="relative w-full h-full shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] rounded-3xl overflow-hidden border border-white/20 bg-[#1D5DA0]">
         <img 
-          src="https://horizons-cdn.hostinger.com/7adf1ef9-c634-4976-bcba-ad9bbe695f8b/9c4c906df2c0b34ec97d6bf4be82d8c3.png" 
+          src="/maslow-logo.png" 
           alt="Maslow Sign"
           className="w-full h-full object-cover scale-[1.05]" 
         />
