@@ -53,7 +53,7 @@ const HeroSection = ({ variant = 'default', children }) => {
           {/* The Pulse/Glow behind the logo */}
           <div className={`absolute inset-0 blur-[60px] rounded-full animate-pulse ${isSanctuary ? 'bg-sky-200 opacity-40' : 'bg-[#C5A059] opacity-10'}`}></div>
           
-          {/* This is the key component we were missing! */}
+          {/* This uses your custom HeroImage component to render the Logo */}
           <HeroImage className={`w-32 h-32 md:w-56 md:h-56 drop-shadow-2xl transition-all duration-1000 ${isSanctuary ? 'brightness-105 contrast-100' : ''}`} />
         </motion.div>
 
