@@ -23,11 +23,10 @@ const Header = ({ setIsCartOpen }) => {
   };
 
   const navLinks = [
-    { name: 'IMPACT', path: '/impact' }, 
-    { name: 'THE HULL', path: '/hull' },
-    { name: 'THE LOTUS', path: '/lotus' },
-    { name: 'MEMBERSHIP', path: '/membership' },
-    { name: 'STORE', path: '/store' },
+    { name: 'Maslow', path: '/maslow' },
+    { name: 'The Mission', path: '/mission' },
+    { name: 'Join Maslow', path: '/membership' },
+    { name: 'Store', path: '/store' },
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -35,33 +34,19 @@ const Header = ({ setIsCartOpen }) => {
   return (
     <header className="sticky top-0 z-50 w-full bg-[#F5F1E8]/90 backdrop-blur-md border-b border-[#3B5998]/10 shadow-sm transition-all duration-300">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between w-full">
-        {/* Logo -> Points to Home (/) */}
-        <Link to="/" className="flex items-center gap-3 group shrink-0">
-          <div className="w-12 h-12 rounded-full overflow-hidden border border-[#3B5998]/20 group-hover:border-[#C5A059] transition-colors shadow-sm">
-            <img 
-              src="https://horizons-cdn.hostinger.com/7adf1ef9-c634-4976-bcba-ad9bbe695f8b/3c7aa64b62346b6f961bc303f289feac.png" 
-              alt="Maslow Logo" 
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <span className="text-xl font-serif font-bold text-[#3B5998] tracking-widest group-hover:text-[#C5A059] transition-colors uppercase hidden sm:block">
-            Maslow
+        <Link to="/" className="shrink-0 group">
+          <span className="text-xl font-serif font-bold text-[#3B5998] tracking-widest group-hover:text-[#C5A059] transition-colors uppercase">
+            MASLOW
           </span>
         </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
-          <Link 
-            to="/" 
-            className={`text-xs font-bold tracking-widest transition-colors uppercase ${isActive('/') ? 'text-[#C5A059]' : 'text-[#3B5998] hover:text-[#C5A059]'}`}
-          >
-            Home
-          </Link>
           {navLinks.map((link) => (
             <Link 
               key={link.name}
               to={link.path} 
-              className={`text-xs font-bold tracking-widest transition-colors uppercase ${isActive(link.path) ? 'text-[#C5A059]' : 'text-[#3B5998] hover:text-[#C5A059]'}`}
+              className={`text-xs font-bold tracking-widest transition-colors normal-case ${isActive(link.path) ? 'text-[#C5A059]' : 'text-[#3B5998] hover:text-[#C5A059]'}`}
             >
               {link.name}
             </Link>
@@ -138,18 +123,11 @@ const Header = ({ setIsCartOpen }) => {
       {mobileMenuOpen && (
         <div className="md:hidden bg-[#F5F1E8] border-t border-[#3B5998]/10 py-6 absolute w-full shadow-xl left-0 right-0 h-screen z-50">
           <div className="container mx-auto px-4 flex flex-col gap-6">
-            <Link 
-              to="/" 
-              className={`text-lg font-bold tracking-widest uppercase ${isActive('/') ? 'text-[#C5A059]' : 'text-[#3B5998]'}`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Home
-            </Link>
             {navLinks.map((link) => (
               <Link 
                 key={link.name}
                 to={link.path} 
-                className={`text-lg font-bold tracking-widest uppercase ${isActive(link.path) ? 'text-[#C5A059]' : 'text-[#3B5998]'}`}
+                className={`text-lg font-bold tracking-widest normal-case ${isActive(link.path) ? 'text-[#C5A059]' : 'text-[#3B5998]'}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.name}

@@ -95,7 +95,7 @@ const MembershipPage = () => {
     <div className="min-h-screen bg-[#F5F1E8] pt-12 pb-24">
       <Helmet>
         <title>Membership | Maslow NYC</title>
-        <meta name="description" content="Join the Maslow movement. Become a Builder or join The Advisory Circle." />
+        <meta name="description" content="Get your Maslow Pass. Everyone deserves access. Start free at The Hull; upgrade anytime for private suite access." />
       </Helmet>
 
       <div className="max-w-6xl mx-auto px-4">
@@ -106,9 +106,12 @@ const MembershipPage = () => {
           className="text-center mb-16"
         >
           <h1 className="text-5xl md:text-6xl font-serif text-[#3B5998] mb-6">
-            Join the Club
+            Get Your Maslow Pass
           </h1>
-          <p className="text-xl text-[#3B5998]/80 max-w-2xl mx-auto font-light font-sans">
+          <p className="text-xl text-[#3B5998]/80 max-w-2xl mx-auto font-light font-sans mb-4">
+            Everyone deserves access. Start with a free Maslow Pass to use The Hull — refill water, recharge your phone, wash your hands. Upgrade anytime for private suite access.
+          </p>
+          <p className="text-lg text-[#3B5998]/70 max-w-2xl mx-auto font-light font-sans">
             Pre-buy your access. Help us build the sanctuary NYC deserves.
           </p>
         </motion.div>
