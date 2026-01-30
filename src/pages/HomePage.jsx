@@ -1,71 +1,115 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
+import { useNavigate } from 'react-router-dom';
 import HeroSection from '@/components/HeroSection';
+import RotatingLogo from '@/components/RotatingLogo';
+import PowderRoomInterior from '@/components/PowderRoomInterior';
+import WelcomeMessages from '@/components/WelcomeMessages';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { motion } from 'framer-motion';
 
 const HomePage = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const [doorOpen, setDoorOpen] = useState(false);
+  const [hasSeenAnimation, setHasSeenAnimation] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      // Check if user has seen the door animation in this session
+      const seenAnimation = sessionStorage.getItem('hasSeenDoorAnimation');
+      if (seenAnimation) {
+        setDoorOpen(true);
+        setHasSeenAnimation(true);
+      } else {
+        // Trigger door opening after 1 second
+        setTimeout(() => {
+          setDoorOpen(true);
+          sessionStorage.setItem('hasSeenDoorAnimation', 'true');
+        }, 1000);
+      }
+    }
+  }, [user]);
+
+  const handleDoorClick = () => {
+    if (!user) {
+      navigate('/login');
+    }
+  };
 
   return (
-    <div className="w-full h-screen overflow-hidden">
+    <div className="w-full min-h-screen overflow-x-hidden">
       <Helmet>
         <title>Maslow NYC</title>
       </Helmet>
 
       {user ? (
-        <div className="relative min-h-screen w-full flex flex-col items-center justify-start bg-gradient-to-b from-[#F5F1E8] to-[#E8DCC8] py-16 px-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="relative flex flex-col items-center mb-12"
-          >
-            {/* Restroom Door */}
-            <div className="relative w-64 h-96 bg-gradient-to-b from-[#3B5998] to-[#2A406E] rounded-lg shadow-2xl border-4 border-[#C5A059]/30 overflow-hidden">
-              {/* Door Frame Detail */}
-              <div className="absolute inset-0 border-8 border-[#2A406E]/20 rounded-lg"></div>
+        /* LOGGED IN - Door Opens to Powder Room */
+        <div className="relative min-h-screen w-full bg-gradient-to-b from-[#F5F1E8] to-[#E8DCC8]">
+          {/* Door Opening Animation Section */}
+          <div className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
+            <div className="relative" style={{ perspective: '1200px' }}>
+              {/* Restroom Door with Opening Animation */}
+              <motion.div
+                initial={{ rotateY: 0 }}
+                animate={{ rotateY: doorOpen ? -120 : 0 }}
+                transition={{ duration: hasSeenAnimation ? 0 : 1.2, ease: 'easeInOut' }}
+                style={{
+                  transformOrigin: 'left center',
+                  transformStyle: 'preserve-3d'
+                }}
+                className="relative w-64 md:w-80 h-96 md:h-[28rem]"
+              >
+                <div className="relative w-full h-full bg-gradient-to-b from-[#3B5998] to-[#2A406E] rounded-lg shadow-2xl border-4 border-[#C5A059]/30 overflow-hidden">
+                  {/* Door Frame Detail */}
+                  <div className="absolute inset-0 border-8 border-[#2A406E]/20 rounded-lg"></div>
 
-              {/* Logo Circle - Centered */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full bg-white/95 shadow-xl flex items-center justify-center border-4 border-[#C5A059]/50">
-                <img
-                  src="/MASLOW - Round.png"
-                  alt="Maslow Logo"
-                  className="w-28 h-28 object-contain"
-                />
-              </div>
+                  {/* Rotating Logo in Center */}
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <RotatingLogo className="w-40 h-40 md:w-48 md:h-48" />
+                  </div>
 
-              {/* Door Handle */}
-              <div className="absolute right-6 top-1/2 transform -translate-y-1/2">
-                <div className="w-3 h-12 bg-[#C5A059] rounded-full shadow-lg"></div>
-                <div className="w-6 h-6 bg-[#C5A059] rounded-full -mt-3 -ml-1.5 shadow-lg"></div>
-              </div>
+                  {/* Door Handle */}
+                  <div className="absolute right-6 top-1/2 transform -translate-y-1/2">
+                    <div className="w-3 h-12 bg-[#C5A059] rounded-full shadow-lg"></div>
+                    <div className="w-6 h-6 bg-[#C5A059] rounded-full -mt-3 -ml-1.5 shadow-lg"></div>
+                  </div>
 
-              {/* Door Panels */}
-              <div className="absolute inset-0 flex flex-col p-6 gap-4 opacity-20">
-                <div className="flex-1 border-2 border-white/30 rounded"></div>
-                <div className="flex-1 border-2 border-white/30 rounded"></div>
-              </div>
+                  {/* Door Panels */}
+                  <div className="absolute inset-0 flex flex-col p-6 gap-4 opacity-20">
+                    <div className="flex-1 border-2 border-white/30 rounded"></div>
+                    <div className="flex-1 border-2 border-white/30 rounded"></div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Powder Room Interior - Revealed Behind Door */}
+              {doorOpen && (
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -z-10">
+                  <PowderRoomInterior />
+                </div>
+              )}
             </div>
 
-            {/* Subtitle */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="mt-8 text-[#3B5998]/70 text-sm uppercase tracking-[0.3em] font-light"
-            >
-              Welcome Home
-            </motion.p>
-          </motion.div>
+            {/* Welcome Messages - Below the powder room */}
+            {doorOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: hasSeenAnimation ? 0 : 1.5, duration: 0.8 }}
+                className="mt-12"
+              >
+                <WelcomeMessages />
+              </motion.div>
+            )}
+          </div>
 
-          {/* Dr. Maslow Biography Section */}
+          {/* Dr. Maslow Biography Section - Scrollable Below */}
           <motion.article
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.8 }}
-            className="max-w-3xl mx-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: hasSeenAnimation ? 0 : 2, duration: 0.8 }}
+            className="max-w-3xl mx-auto px-4 py-16"
           >
             <header className="mb-8 text-center">
               <h1 className="text-3xl md:text-4xl font-serif font-bold text-[#3B5998] tracking-tight mb-2">
@@ -110,7 +154,54 @@ const HomePage = () => {
           </motion.article>
         </div>
       ) : (
-        <HeroSection variant="default" />
+        /* LOGGED OUT - Door with Rotating Logo + Click to Enter */
+        <div className="relative h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b from-[#F5F1E8] to-[#E8DCC8] overflow-hidden">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="relative flex flex-col items-center cursor-pointer group"
+            onClick={handleDoorClick}
+          >
+            {/* Restroom Door */}
+            <div className="relative w-64 md:w-80 h-96 md:h-[28rem] bg-gradient-to-b from-[#3B5998] to-[#2A406E] rounded-lg shadow-2xl border-4 border-[#C5A059]/30 overflow-hidden transition-all duration-300 group-hover:shadow-[0_0_40px_rgba(197,160,89,0.5)]">
+              {/* Door Frame Detail */}
+              <div className="absolute inset-0 border-8 border-[#2A406E]/20 rounded-lg"></div>
+
+              {/* Rotating Logo in Center */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <RotatingLogo className="w-40 h-40 md:w-48 md:h-48" />
+              </div>
+
+              {/* Door Handle - Glows on Hover */}
+              <div className="absolute right-6 top-1/2 transform -translate-y-1/2 transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(197,160,89,0.8)]">
+                <div className="w-3 h-12 bg-[#C5A059] rounded-full shadow-lg group-hover:bg-[#d4b36a]"></div>
+                <div className="w-6 h-6 bg-[#C5A059] rounded-full -mt-3 -ml-1.5 shadow-lg group-hover:bg-[#d4b36a]"></div>
+              </div>
+
+              {/* Door Panels */}
+              <div className="absolute inset-0 flex flex-col p-6 gap-4 opacity-20">
+                <div className="flex-1 border-2 border-white/30 rounded"></div>
+                <div className="flex-1 border-2 border-white/30 rounded"></div>
+              </div>
+            </div>
+
+            {/* Enter Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="mt-8 text-center"
+            >
+              <p className="text-[#3B5998]/80 text-sm uppercase tracking-[0.3em] font-light mb-2">
+                Click to
+              </p>
+              <p className="text-[#3B5998] text-2xl font-serif font-bold group-hover:text-[#C5A059] transition-colors">
+                ENTER
+              </p>
+            </motion.div>
+          </motion.div>
+        </div>
       )}
     </div>
   );

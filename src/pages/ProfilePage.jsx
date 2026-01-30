@@ -98,40 +98,55 @@ const ProfilePage = () => {
     try {
       const { data, error } = await supabase.storage.from('avatars').download(path);
       if (error) throw error;
-      const url = URL.createObjectURL(data);
+      // Add cache buster to URL
+      const url = URL.createObjectURL(data) + '?t=' + Date.now();
       setAvatarUrl(url);
     } catch (error) {
       console.error('Error downloading image:', error);
+      setAvatarUrl(null);
     }
   };
 
   const uploadAvatar = async (event) => {
     try {
       setSaving(true);
-      if (!event.target.files || event.target.files.length === 0) return;
+      if (!event.target.files || event.target.files.length === 0) {
+        setSaving(false);
+        return;
+      }
 
       const file = event.target.files[0];
       const fileExt = file.name.split('.').pop();
-      const fileName = `${user.id}-${Date.now()}.${fileExt}`;
-      const filePath = `${fileName}`;
+      const timestamp = Date.now();
+      const fileName = `${user.id}-${timestamp}.${fileExt}`;
+      const filePath = fileName;
 
       // Delete old avatar if it exists
       if (profile.photo_url) {
-        await supabase.storage.from('avatars').remove([profile.photo_url]);
+        try {
+          await supabase.storage.from('avatars').remove([profile.photo_url]);
+        } catch (deleteError) {
+          console.warn('Could not delete old avatar:', deleteError);
+        }
       }
 
+      // Upload new avatar (upsert: false to ensure new file)
       const { error: uploadError } = await supabase.storage
         .from('avatars')
-        .upload(filePath, file, { upsert: true });
+        .upload(filePath, file, { upsert: false });
 
       if (uploadError) throw uploadError;
 
-      // Ensure profile row exists first, then update photo_url
-      const { data: existingProfile } = await supabase
+      // Ensure profile row exists first
+      const { data: existingProfile, error: fetchError } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
+
+      if (fetchError) throw fetchError;
+
+      const now = new Date().toISOString();
 
       if (!existingProfile) {
         // Create profile if it doesn't exist
@@ -141,8 +156,8 @@ const ProfilePage = () => {
             id: user.id,
             email: user.email,
             photo_url: filePath,
-            created_at: new Date(),
-            updated_at: new Date()
+            created_at: now,
+            updated_at: now
           });
         if (insertError) throw insertError;
       } else {
@@ -151,20 +166,31 @@ const ProfilePage = () => {
           .from('profiles')
           .update({
             photo_url: filePath,
-            updated_at: new Date()
+            updated_at: now
           })
           .eq('id', user.id);
         if (updateError) throw updateError;
       }
 
-      // Update local state
+      // Update local state immediately
       setProfile(prev => ({ ...prev, photo_url: filePath }));
+
+      // Download and display new image with cache buster
       await downloadImage(filePath);
-      toast({ title: "Photo Updated", className: "bg-[#3B5998] text-white" });
+
+      toast({
+        title: "Photo Updated",
+        description: "Your profile picture has been saved.",
+        className: "bg-[#3B5998] text-white"
+      });
 
     } catch (error) {
-      console.error(error);
-      toast({ title: "Upload Failed", description: error.message, variant: "destructive" });
+      console.error('Avatar upload error:', error);
+      toast({
+        title: "Upload Failed",
+        description: error.message || "Could not upload photo. Please try again.",
+        variant: "destructive"
+      });
     } finally {
       setSaving(false);
     }
