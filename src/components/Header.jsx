@@ -23,12 +23,10 @@ const Header = ({ setIsCartOpen }) => {
   };
 
   const navLinks = [
-    { name: 'Maslow', path: '/maslow' },
-    { name: 'The Mission', path: '/mission' },
-    { name: 'The Hull', path: '/hull' },
+    { name: 'Mission', path: '/mission' },
+    { name: 'Hull', path: '/hull' },
     { name: 'Sanctuary Suites', path: '/lotus' },
-    { name: 'Join Maslow', path: '/membership' },
-    { name: 'Store', path: '/store' },
+    { name: 'Join', path: '/membership' },
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -40,9 +38,11 @@ const Header = ({ setIsCartOpen }) => {
     <header className="sticky top-0 z-50 w-full bg-[#F5F1E8]/90 backdrop-blur-md border-b border-[#3B5998]/10 shadow-sm transition-all duration-300">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between w-full">
         <Link to="/" className="shrink-0 group">
-          <span className="text-xl font-serif font-bold text-[#3B5998] tracking-widest group-hover:text-[#C5A059] transition-colors uppercase">
-            MASLOW
-          </span>
+          <img
+            src="/MASLOW - Square.png"
+            alt="Maslow"
+            className="h-12 w-auto transition-opacity group-hover:opacity-80"
+          />
         </Link>
 
         {/* Desktop Navigation */}

@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
-import { Loader2, User, Save, Upload, Sparkles, Wind, Coffee } from 'lucide-react';
+import { Loader2, User, Save, Upload, Sparkles, Wind, Coffee, X, ZoomIn } from 'lucide-react';
 
 const ProfilePage = () => {
   const { user } = useAuth();
@@ -17,6 +17,7 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState(null);
+  const [isZoomed, setIsZoomed] = useState(false);
 
   // --- FORM STATE ---
   const [profile, setProfile] = useState({
@@ -111,8 +112,13 @@ const ProfilePage = () => {
 
       const file = event.target.files[0];
       const fileExt = file.name.split('.').pop();
-      const fileName = `${user.id}.${fileExt}`;
+      const fileName = `${user.id}-${Date.now()}.${fileExt}`;
       const filePath = `${fileName}`;
+
+      // Delete old avatar if it exists
+      if (profile.photo_url) {
+        await supabase.storage.from('avatars').remove([profile.photo_url]);
+      }
 
       const { error: uploadError } = await supabase.storage
         .from('avatars')
@@ -120,18 +126,39 @@ const ProfilePage = () => {
 
       if (uploadError) throw uploadError;
 
-      // Update profile with new path
-      const { error: updateError } = await supabase
+      // Ensure profile row exists first, then update photo_url
+      const { data: existingProfile } = await supabase
         .from('profiles')
-        .upsert({ 
-            id: user.id, 
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (!existingProfile) {
+        // Create profile if it doesn't exist
+        const { error: insertError } = await supabase
+          .from('profiles')
+          .insert({
+            id: user.id,
             email: user.email,
             photo_url: filePath,
+            created_at: new Date(),
             updated_at: new Date()
-        });
+          });
+        if (insertError) throw insertError;
+      } else {
+        // Update existing profile
+        const { error: updateError } = await supabase
+          .from('profiles')
+          .update({
+            photo_url: filePath,
+            updated_at: new Date()
+          })
+          .eq('id', user.id);
+        if (updateError) throw updateError;
+      }
 
-      if (updateError) throw updateError;
-
+      // Update local state
+      setProfile(prev => ({ ...prev, photo_url: filePath }));
       await downloadImage(filePath);
       toast({ title: "Photo Updated", className: "bg-[#3B5998] text-white" });
 
@@ -198,7 +225,10 @@ const ProfilePage = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row items-center gap-6 mb-8">
           <div className="relative group">
-            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-[#C5A059] shadow-lg bg-white">
+            <div
+              className="w-32 h-32 rounded-full overflow-hidden border-4 border-[#C5A059] shadow-lg bg-white cursor-pointer hover:border-[#b08d4b] transition-all"
+              onClick={() => avatarUrl && setIsZoomed(true)}
+            >
               {avatarUrl ? (
                 <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
@@ -207,15 +237,20 @@ const ProfilePage = () => {
                 </div>
               )}
             </div>
+            {avatarUrl && (
+              <div className="absolute top-0 left-0 bg-[#3B5998]/80 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer" onClick={() => setIsZoomed(true)}>
+                <ZoomIn className="w-4 h-4" />
+              </div>
+            )}
             <label className="absolute bottom-0 right-0 bg-[#C5A059] text-white p-2 rounded-full cursor-pointer hover:bg-[#b08d4b] transition-colors shadow-md" htmlFor="avatar-upload">
               <Upload className="w-4 h-4" />
             </label>
-            <input 
-              type="file" 
-              id="avatar-upload" 
-              accept="image/*" 
-              onChange={uploadAvatar} 
-              className="hidden" 
+            <input
+              type="file"
+              id="avatar-upload"
+              accept="image/*"
+              onChange={uploadAvatar}
+              className="hidden"
               disabled={saving}
             />
           </div>
@@ -224,6 +259,27 @@ const ProfilePage = () => {
             <p className="text-[#3B5998]/60 mt-2 font-light text-lg">Manage your digital concierge preferences.</p>
           </div>
         </div>
+
+        {/* Zoomed Avatar Modal */}
+        {isZoomed && (
+          <div
+            className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 cursor-zoom-out"
+            onClick={() => setIsZoomed(false)}
+          >
+            <button
+              className="absolute top-4 right-4 text-white bg-[#3B5998] rounded-full p-2 hover:bg-[#2A406E] transition-colors"
+              onClick={() => setIsZoomed(false)}
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <img
+              src={avatarUrl}
+              alt="Avatar Zoomed"
+              className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           
