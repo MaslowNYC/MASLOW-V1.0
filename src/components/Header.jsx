@@ -25,11 +25,16 @@ const Header = ({ setIsCartOpen }) => {
   const navLinks = [
     { name: 'Maslow', path: '/maslow' },
     { name: 'The Mission', path: '/mission' },
+    { name: 'The Hull', path: '/hull' },
+    { name: 'Sanctuary Suites', path: '/lotus' },
     { name: 'Join Maslow', path: '/membership' },
     { name: 'Store', path: '/store' },
   ];
 
   const isActive = (path) => location.pathname === path;
+
+  // Filter out the current page from navigation
+  const visibleNavLinks = navLinks.filter(link => !isActive(link.path));
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[#F5F1E8]/90 backdrop-blur-md border-b border-[#3B5998]/10 shadow-sm transition-all duration-300">
@@ -42,11 +47,11 @@ const Header = ({ setIsCartOpen }) => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link 
+          {visibleNavLinks.map((link) => (
+            <Link
               key={link.name}
-              to={link.path} 
-              className={`text-xs font-bold tracking-widest transition-colors normal-case ${isActive(link.path) ? 'text-[#C5A059]' : 'text-[#3B5998] hover:text-[#C5A059]'}`}
+              to={link.path}
+              className="text-xs font-bold tracking-widest transition-colors normal-case text-[#3B5998] hover:text-[#C5A059]"
             >
               {link.name}
             </Link>
@@ -123,11 +128,11 @@ const Header = ({ setIsCartOpen }) => {
       {mobileMenuOpen && (
         <div className="md:hidden bg-[#F5F1E8] border-t border-[#3B5998]/10 py-6 absolute w-full shadow-xl left-0 right-0 h-screen z-50">
           <div className="container mx-auto px-4 flex flex-col gap-6">
-            {navLinks.map((link) => (
-              <Link 
+            {visibleNavLinks.map((link) => (
+              <Link
                 key={link.name}
-                to={link.path} 
-                className={`text-lg font-bold tracking-widest normal-case ${isActive(link.path) ? 'text-[#C5A059]' : 'text-[#3B5998]'}`}
+                to={link.path}
+                className="text-lg font-bold tracking-widest normal-case text-[#3B5998]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.name}
