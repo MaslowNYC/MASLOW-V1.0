@@ -30,27 +30,37 @@ const HomePage = () => {
             {/* Elegant overlay */}
             <div className="absolute inset-0 bg-black/20"></div>
 
-            {/* Logo Placeholder - Will be replaced with vanity image */}
+            {/* Luxury Vanity Hero Image */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
-              className="relative z-10 flex flex-col items-center"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="relative z-10 flex flex-col items-center max-w-4xl mx-auto px-4"
             >
-              {/* Logo with subtle glow */}
-              <div className="relative">
-                <div className="absolute inset-0 blur-3xl bg-[#C5A059]/30 rounded-full"></div>
-                <img
-                  src="/MASLOW - Round.png"
-                  alt="Maslow"
-                  className="relative w-48 h-48 md:w-64 md:h-64 object-contain drop-shadow-2xl"
-                />
-              </div>
+              {/* Vanity Image with Sophisticated Styling */}
+              <div className="relative w-full">
+                {/* Ambient glow effect */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#C5A059]/20 via-transparent to-transparent blur-2xl"></div>
 
-              {/* Optional: Add text indicating this is a placeholder */}
-              <p className="mt-8 text-white/40 text-xs uppercase tracking-[0.3em]">
-                Vanity Image Coming Soon
-              </p>
+                {/* Main vanity image */}
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-[#C5A059]/20">
+                  <img
+                    src="/vanity-hero.jpg"
+                    alt="Maslow Sanctuary Suite Vanity"
+                    className="w-full h-auto object-cover"
+                    style={{
+                      filter: 'brightness(1.05) contrast(1.1) saturate(1.1)',
+                    }}
+                  />
+                  {/* Subtle gradient overlay for depth */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none"></div>
+                </div>
+
+                {/* Elegant caption */}
+                <p className="mt-6 text-center text-white/70 text-sm font-light tracking-widest uppercase">
+                  The Sanctuary Experience
+                </p>
+              </div>
             </motion.div>
 
             {/* Welcome Messages */}
