@@ -97,11 +97,11 @@ const ProfilePage = () => {
   // --- AVATAR HANDLING ---
   const downloadImage = async (path) => {
     try {
-      const { data, error } = await supabase.storage.from('avatars').download(path);
-      if (error) throw error;
-      // Add cache buster to URL
-      const url = URL.createObjectURL(data) + '?t=' + Date.now();
-      setAvatarUrl(url);
+      // Get the public URL directly (no download needed)
+      const { data } = supabase.storage.from('avatars').getPublicUrl(path);
+      // Add cache buster to force reload
+      const urlWithCache = `${data.publicUrl}?t=${Date.now()}`;
+      setAvatarUrl(urlWithCache);
     } catch (error) {
       console.error('Error downloading image:', error);
       setAvatarUrl(null);
@@ -173,11 +173,13 @@ const ProfilePage = () => {
         if (updateError) throw updateError;
       }
 
-      // Update local state immediately
-      setProfile(prev => ({ ...prev, photo_url: filePath }));
+    // Update local state
+    setProfile(prev => ({ ...prev, photo_url: filePath }));
 
-      // Download and display new image with cache buster
-      await downloadImage(filePath);
+      // Force immediate display with cache buster
+    const { data } = supabase.storage.from('avatars').getPublicUrl(filePath);
+    const freshUrl = `${data.publicUrl}?t=${Date.now()}`;
+    setAvatarUrl(freshUrl);
 
       toast({
         title: "Photo Updated",
