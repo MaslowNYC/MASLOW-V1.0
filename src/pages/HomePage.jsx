@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
-import HeroSection from '@/components/HeroSection';
 import RotatingLogo from '@/components/RotatingLogo';
-import PowderRoomInterior from '@/components/PowderRoomInterior';
 import WelcomeMessages from '@/components/WelcomeMessages';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { motion } from 'framer-motion';
@@ -11,25 +9,6 @@ import { motion } from 'framer-motion';
 const HomePage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [doorOpen, setDoorOpen] = useState(false);
-  const [hasSeenAnimation, setHasSeenAnimation] = useState(false);
-
-  useEffect(() => {
-    if (user) {
-      // Check if user has seen the door animation in this session
-      const seenAnimation = sessionStorage.getItem('hasSeenDoorAnimation');
-      if (seenAnimation) {
-        setDoorOpen(true);
-        setHasSeenAnimation(true);
-      } else {
-        // Trigger door opening after 1 second
-        setTimeout(() => {
-          setDoorOpen(true);
-          sessionStorage.setItem('hasSeenDoorAnimation', 'true');
-        }, 1000);
-      }
-    }
-  }, [user]);
 
   const handleDoorClick = () => {
     if (!user) {
@@ -44,72 +23,82 @@ const HomePage = () => {
       </Helmet>
 
       {user ? (
-        /* LOGGED IN - Door Opens to Powder Room */
-        <div className="relative min-h-screen w-full bg-gradient-to-b from-[#F5F1E8] to-[#E8DCC8]">
-          {/* Door Opening Animation Section */}
+        /* LOGGED IN - Luxury Vanity Hero */
+        <div className="relative min-h-screen w-full">
+          {/* Hero Section with Vanity Background */}
           <div className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
-            <div className="relative" style={{ perspective: '1200px' }}>
-              {/* Restroom Door with Opening Animation */}
-              <motion.div
-                initial={{ rotateY: 0 }}
-                animate={{ rotateY: doorOpen ? -120 : 0 }}
-                transition={{ duration: hasSeenAnimation ? 0 : 1.2, ease: 'easeInOut' }}
-                style={{
-                  transformOrigin: 'left center',
-                  transformStyle: 'preserve-3d'
-                }}
-                className="relative w-64 md:w-80 h-96 md:h-[28rem]"
-              >
-                <div className="relative w-full h-full bg-gradient-to-b from-[#3B5998] to-[#2A406E] rounded-lg shadow-2xl border-4 border-[#C5A059]/30 overflow-hidden">
-                  {/* Door Frame Detail */}
-                  <div className="absolute inset-0 border-8 border-[#2A406E]/20 rounded-lg"></div>
+            {/* Background Image - Luxury Vanity */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#2A406E] via-[#3B5998] to-[#1a2744]">
+              {/* Overlay for better text readability */}
+              <div className="absolute inset-0 bg-black/30"></div>
 
-                  {/* Rotating Logo in Center */}
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <RotatingLogo className="w-40 h-40 md:w-48 md:h-48" />
+              {/* CSS-based luxury vanity illustration */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="relative w-full max-w-4xl h-96 mx-auto px-4">
+                  {/* Marble Countertop */}
+                  <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-[#E8DCC8] to-[#D4C4A8] rounded-t-3xl shadow-2xl border-t-4 border-[#C5A059]/30">
+                    {/* Countertop texture */}
+                    <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.8),transparent_50%),radial-gradient(circle_at_70%_30%,rgba(255,255,255,0.6),transparent_40%)]"></div>
+
+                    {/* Luxury Items on Counter */}
+                    <div className="absolute top-4 left-1/4 w-16 h-20 bg-gradient-to-b from-amber-100 to-amber-200 rounded-lg shadow-lg opacity-80">
+                      <div className="absolute top-2 left-1/2 -translate-x-1/2 w-8 h-2 bg-[#C5A059] rounded-full"></div>
+                    </div>
+                    <div className="absolute top-4 right-1/4 w-12 h-16 bg-gradient-to-b from-emerald-100 to-emerald-200 rounded-full shadow-lg opacity-80"></div>
+                    <div className="absolute top-6 left-1/2 -translate-x-1/2 w-20 h-12 bg-gradient-to-br from-rose-100 to-rose-200 rounded-2xl shadow-lg opacity-80"></div>
                   </div>
 
-                  {/* Door Handle */}
-                  <div className="absolute right-6 top-1/2 transform -translate-y-1/2">
-                    <div className="w-3 h-12 bg-[#C5A059] rounded-full shadow-lg"></div>
-                    <div className="w-6 h-6 bg-[#C5A059] rounded-full -mt-3 -ml-1.5 shadow-lg"></div>
+                  {/* Elegant Mirror */}
+                  <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 w-80 md:w-96 h-64 bg-gradient-to-br from-gray-100 via-white to-gray-200 rounded-2xl shadow-2xl border-4 border-[#C5A059]">
+                    {/* Mirror reflection effect */}
+                    <div className="absolute inset-4 bg-gradient-to-br from-white/40 via-transparent to-white/20 rounded-xl"></div>
+
+                    {/* Subtle logo reflection in mirror */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-5">
+                      <img src="/MASLOW - Round.png" alt="Reflection" className="w-32 h-32 object-contain" />
+                    </div>
+
+                    {/* Elegant light fixtures on sides */}
+                    <div className="absolute -left-8 top-1/2 -translate-y-1/2 w-4 h-24 bg-gradient-to-r from-[#C5A059] to-[#d4b36a] rounded-full shadow-lg">
+                      <div className="absolute inset-0 bg-gradient-radial from-yellow-200/50 to-transparent blur-xl"></div>
+                    </div>
+                    <div className="absolute -right-8 top-1/2 -translate-y-1/2 w-4 h-24 bg-gradient-to-l from-[#C5A059] to-[#d4b36a] rounded-full shadow-lg">
+                      <div className="absolute inset-0 bg-gradient-radial from-yellow-200/50 to-transparent blur-xl"></div>
+                    </div>
                   </div>
 
-                  {/* Door Panels */}
-                  <div className="absolute inset-0 flex flex-col p-6 gap-4 opacity-20">
-                    <div className="flex-1 border-2 border-white/30 rounded"></div>
-                    <div className="flex-1 border-2 border-white/30 rounded"></div>
+                  {/* Sink Basin */}
+                  <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 w-48 h-16 bg-gradient-to-b from-white to-gray-100 rounded-[50%] shadow-inner border-2 border-gray-300">
+                    {/* Faucet */}
+                    <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center">
+                      <div className="w-3 h-10 bg-gradient-to-b from-[#C5A059] to-[#b08d4b] rounded-full shadow-md"></div>
+                      <div className="w-8 h-4 bg-gradient-to-b from-[#C5A059] to-[#b08d4b] rounded-t-full -mt-1 shadow-md"></div>
+                    </div>
                   </div>
+
+                  {/* Ambient lighting glow */}
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-64 bg-gradient-radial from-[#C5A059]/20 via-transparent to-transparent blur-3xl"></div>
                 </div>
-              </motion.div>
-
-              {/* Powder Room Interior - Revealed Behind Door */}
-              {doorOpen && (
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -z-10">
-                  <PowderRoomInterior />
-                </div>
-              )}
+              </div>
             </div>
 
-            {/* Welcome Messages - Below the powder room */}
-            {doorOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: hasSeenAnimation ? 0 : 1.5, duration: 0.8 }}
-                className="mt-12"
-              >
-                <WelcomeMessages />
-              </motion.div>
-            )}
+            {/* Welcome Messages - Centered over vanity */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="relative z-10 mt-auto mb-16"
+            >
+              <WelcomeMessages />
+            </motion.div>
           </div>
 
           {/* Dr. Maslow Biography Section - Scrollable Below */}
           <motion.article
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: hasSeenAnimation ? 0 : 2, duration: 0.8 }}
-            className="max-w-3xl mx-auto px-4 py-16"
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="max-w-3xl mx-auto px-4 py-16 bg-gradient-to-b from-[#E8DCC8] to-[#F5F1E8]"
           >
             <header className="mb-8 text-center">
               <h1 className="text-3xl md:text-4xl font-serif font-bold text-[#3B5998] tracking-tight mb-2">
