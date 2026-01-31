@@ -110,7 +110,7 @@ const Dashboard = () => {
                   <FileText className="w-5 h-5 text-[#C5A059]" />
                   Strategic Documents
                 </h3>
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <DocCard
                     title="The Maslow Master Map"
                     description="Complete project overview - everything in one mind map"
@@ -148,7 +148,7 @@ const Dashboard = () => {
                   <Calculator className="w-5 h-5 text-[#C5A059]" />
                   Technical & Operational
                 </h3>
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <DocCard
                     title="Construction & Code Compliance"
                     description="Technical specs for architects/contractors"
@@ -186,7 +186,7 @@ const Dashboard = () => {
                   <FileText className="w-5 h-5 text-[#C5A059]" />
                   Legal & Financial
                 </h3>
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <DocCard
                     title="LLC Formation Documents"
                     description="Articles of Organization (Sept 2025)"
@@ -222,7 +222,7 @@ const Dashboard = () => {
             {/* Quick Stats Card */}
             <div className="bg-gradient-to-br from-[#3B5998] to-[#2A406E] text-white rounded-2xl p-8 shadow-lg">
               <h3 className="text-2xl font-bold mb-6">Project Status</h3>
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                 <div>
                   <div className="text-sm opacity-80 mb-1">Legal Status</div>
                   <div className="text-2xl font-bold">Active LLC</div>

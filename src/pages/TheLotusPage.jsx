@@ -173,7 +173,7 @@ const TheLotusPage = () => {
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#3B5998] mb-12 text-center">
             Technology & Features
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {features.map((feature, index) => (
               <motion.div
                 key={index}
@@ -199,7 +199,7 @@ const TheLotusPage = () => {
             What's Inside
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-12">
             {/* Standard in Every Suite */}
             <div>
               <h3 className="text-2xl font-serif font-bold text-[#3B5998] mb-6 flex items-center gap-2">
@@ -246,7 +246,7 @@ const TheLotusPage = () => {
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#3B5998] mb-12 text-center">
             However You Need It
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {useCases.map((useCase, index) => (
               <motion.div
                 key={index}
@@ -278,7 +278,7 @@ const TheLotusPage = () => {
           <p className="text-lg text-[#3B5998]/90 mb-8 leading-relaxed">
             Every Sanctuary Suite exceeds ADA requirements. We don't have "accessible" suites and "regular" suites. We have suites that work for everyone.
           </p>
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             {accessibilityFeatures.map((feature, index) => (
               <div key={index} className="flex items-start gap-3 p-3 bg-[#F5F1E8] rounded-lg">
                 <CheckCircle className="w-5 h-5 text-[#C5A059] mt-0.5 flex-shrink-0" />

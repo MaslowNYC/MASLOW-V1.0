@@ -124,7 +124,7 @@ const HomePage = () => {
             onClick={handleDoorClick}
           >
             {/* Restroom Door */}
-            <div className="relative w-64 md:w-80 h-96 md:h-[28rem] bg-gradient-to-b from-[#3B5998] to-[#2A406E] rounded-lg shadow-2xl border-4 border-[#C5A059]/30 overflow-hidden transition-all duration-300 group-hover:shadow-[0_0_40px_rgba(197,160,89,0.5)]">
+            <div className="relative w-56 sm:w-64 md:w-80 h-80 sm:h-96 md:h-[28rem] bg-gradient-to-b from-[#3B5998] to-[#2A406E] rounded-lg shadow-2xl border-4 border-[#C5A059]/30 overflow-hidden transition-all duration-300 group-hover:shadow-[0_0_40px_rgba(197,160,89,0.5)]">
               {/* Door Frame Detail */}
               <div className="absolute inset-0 border-8 border-[#2A406E]/20 rounded-lg"></div>
 

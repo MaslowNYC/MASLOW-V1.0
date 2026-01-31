@@ -42,7 +42,8 @@
     font-family: 'Lato', sans-serif;
     /* Prevent mobile side-scrolling */
     overflow-x: hidden;
-    width: 100vw;
+    width: 100%;
+    max-width: 100%;
     position: relative;
   }
 

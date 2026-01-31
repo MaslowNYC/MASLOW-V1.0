@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
-import { Loader2, User, Save, Upload, Sparkles, Wind, Coffee, X, ZoomIn } from 'lucide-react';
+import { Loader2, User, Save, Upload, Sparkles, Wind, Coffee, X, ZoomIn, RotateCw, Image as ImageIcon } from 'lucide-react';
 
 const ProfilePage = () => {
   const { user } = useAuth();
@@ -77,6 +77,7 @@ const ProfilePage = () => {
             bio: data.bio || '',
             dob: data.dob || '',
             phone: data.phone || '',
+            photo_url: data.photo_url || null,
             preferences_amenities: data.preferences_amenities || [],
             preferences_usage: data.preferences_usage || [],
             preferences_products: data.preferences_products || [],
@@ -289,21 +290,61 @@ const ProfilePage = () => {
         {/* Zoomed Avatar Modal */}
         {isZoomed && (
           <div
-            className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 cursor-zoom-out"
+            className="fixed inset-0 z-[100] bg-black/95 flex flex-col items-center justify-center p-4"
             onClick={() => setIsZoomed(false)}
           >
-            <button
-              className="absolute top-4 right-4 text-white bg-[#3B5998] rounded-full p-2 hover:bg-[#2A406E] transition-colors"
-              onClick={() => setIsZoomed(false)}
-            >
-              <X className="w-6 h-6" />
-            </button>
+            {/* Header */}
+            <div className="absolute top-0 left-0 right-0 p-4 bg-gradient-to-b from-black/80 to-transparent">
+              <div className="max-w-4xl mx-auto flex items-center justify-between">
+                <div className="text-white">
+                  <h3 className="font-bold text-lg">Profile Picture Preview</h3>
+                  <p className="text-sm text-white/70">Make sure your face is centered and visible</p>
+                </div>
+                <button
+                  className="text-white bg-[#3B5998] rounded-full p-2 hover:bg-[#2A406E] transition-colors"
+                  onClick={() => setIsZoomed(false)}
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+            </div>
+
+            {/* Image */}
             <img
               src={avatarUrl}
               alt="Avatar Zoomed"
-              className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+              className="max-w-full max-h-[70vh] object-contain rounded-lg shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             />
+
+            {/* Footer Actions */}
+            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+              <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-4">
+                <label
+                  htmlFor="avatar-upload-modal"
+                  className="cursor-pointer bg-[#C5A059] hover:bg-[#b08d4b] text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-colors"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <RotateCw className="w-5 h-5" />
+                  Upload New Photo
+                </label>
+                <input
+                  type="file"
+                  id="avatar-upload-modal"
+                  accept="image/*"
+                  onChange={(e) => {
+                    uploadAvatar(e);
+                    setIsZoomed(false);
+                  }}
+                  className="hidden"
+                  disabled={saving}
+                />
+                <div className="text-white/70 text-sm text-center">
+                  <ImageIcon className="w-4 h-4 inline mr-1" />
+                  Tip: Use a well-lit photo with your face clearly visible
+                </div>
+              </div>
+            </div>
           </div>
         )}
 

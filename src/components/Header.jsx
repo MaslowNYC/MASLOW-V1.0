@@ -33,7 +33,7 @@ const Header = ({ setIsCartOpen }) => {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[#F5F1E8]/90 backdrop-blur-md border-b border-[#3B5998]/10 shadow-sm transition-all duration-300">
-      <div className="container mx-auto px-4 h-20 flex items-center justify-between w-full">
+      <div className="container mx-auto px-3 sm:px-4 h-16 sm:h-20 flex items-center justify-between w-full">
         <Link to="/" className="shrink-0 group">
           <img
             src="/MASLOW - Square.png"
@@ -43,7 +43,7 @@ const Header = ({ setIsCartOpen }) => {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-4 lg:gap-8">
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -69,7 +69,7 @@ const Header = ({ setIsCartOpen }) => {
           </Button>
 
           {/* User Controls */}
-          <div className="flex items-center gap-2 border-l border-[#3B5998]/20 pl-6">
+          <div className="flex items-center gap-2 border-l border-[#3B5998]/20 pl-3 sm:pl-6">
             <Link to="/profile">
                 <Button
                     variant="ghost"
