@@ -28,6 +28,7 @@ import TheLotusPage from '@/pages/TheLotusPage';
 import MembershipPage from '@/pages/MembershipPage';
 import ImpactPage from '@/pages/ImpactPage';
 import AdminFundingDashboard from '@/components/AdminFundingDashboard';
+import Dashboard from '@/pages/Dashboard';
 
 // --- RESTORED IMPORTS (Waking them up!) ---
 import ProfilePage from '@/pages/ProfilePage';
@@ -65,6 +66,7 @@ const AppContent = () => {
           <Route path="/checkout-success" element={<ProtectedRoute><CheckoutSuccessPage /></ProtectedRoute>} />
           <Route path="/locations/:slug" element={<ProtectedRoute><LocationDetail /></ProtectedRoute>} />
           <Route path="/admin" element={<ProtectedRoute requireFounder={true}><AdminFundingDashboard /></ProtectedRoute>} />
+          <Route path="/dashboard" element={<ProtectedRoute requireFounder={true}><Dashboard /></ProtectedRoute>} />
 
           {/* --- RESTORED ROUTES --- */}
           <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />

@@ -82,8 +82,8 @@ const Header = ({ setIsCartOpen }) => {
             </Link>
 
             {isFounder && (
-              <Link to="/admin">
-                <Button variant="ghost" size="sm" className="text-[#3B5998] hover:text-[#C5A059] hover:bg-[#3B5998]/5 h-8 text-xs uppercase tracking-wider">
+              <Link to="/dashboard">
+                <Button variant="ghost" size="sm" className={`h-8 text-xs uppercase tracking-wider ${isActive('/dashboard') ? 'text-[#C5A059]' : 'text-[#3B5998] hover:text-[#C5A059]'} hover:bg-[#3B5998]/5`}>
                   <LayoutDashboard className="w-4 h-4 mr-2" />
                   Dashboard
                 </Button>
