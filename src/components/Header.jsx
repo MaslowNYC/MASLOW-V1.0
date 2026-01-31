@@ -31,9 +31,6 @@ const Header = ({ setIsCartOpen }) => {
 
   const isActive = (path) => location.pathname === path;
 
-  // Filter out the current page from navigation
-  const visibleNavLinks = navLinks.filter(link => !isActive(link.path));
-
   return (
     <header className="sticky top-0 z-50 w-full bg-[#F5F1E8]/90 backdrop-blur-md border-b border-[#3B5998]/10 shadow-sm transition-all duration-300">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between w-full">
@@ -47,11 +44,11 @@ const Header = ({ setIsCartOpen }) => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
-          {visibleNavLinks.map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.name}
               to={link.path}
-              className="text-xs font-bold tracking-widest transition-colors normal-case text-[#3B5998] hover:text-[#C5A059]"
+              className={`text-xs font-bold tracking-widest transition-colors normal-case ${isActive(link.path) ? 'text-[#C5A059]' : 'text-[#3B5998] hover:text-[#C5A059]'}`}
             >
               {link.name}
             </Link>
@@ -74,9 +71,9 @@ const Header = ({ setIsCartOpen }) => {
           {/* User Controls */}
           <div className="flex items-center gap-2 border-l border-[#3B5998]/20 pl-6">
             <Link to="/profile">
-                <Button 
-                    variant="ghost" 
-                    size="sm" 
+                <Button
+                    variant="ghost"
+                    size="sm"
                     className={`h-8 text-xs uppercase tracking-wider ${isActive('/profile') ? 'text-[#C5A059]' : 'text-[#3B5998] hover:text-[#C5A059]'}`}
                 >
                     <User className="w-4 h-4 mr-2" />
@@ -84,7 +81,7 @@ const Header = ({ setIsCartOpen }) => {
                 </Button>
             </Link>
 
-            {user && (
+            {isFounder && (
               <Link to="/admin">
                 <Button variant="ghost" size="sm" className="text-[#3B5998] hover:text-[#C5A059] hover:bg-[#3B5998]/5 h-8 text-xs uppercase tracking-wider">
                   <LayoutDashboard className="w-4 h-4 mr-2" />
@@ -92,7 +89,7 @@ const Header = ({ setIsCartOpen }) => {
                 </Button>
               </Link>
             )}
-            
+
             <Button variant="ghost" size="sm" onClick={handleLogout} className="text-[#3B5998]/60 hover:text-red-600 hover:bg-red-50 h-8">
               <LogOut className="w-4 h-4" />
             </Button>
@@ -128,11 +125,11 @@ const Header = ({ setIsCartOpen }) => {
       {mobileMenuOpen && (
         <div className="md:hidden bg-[#F5F1E8] border-t border-[#3B5998]/10 py-6 absolute w-full shadow-xl left-0 right-0 h-screen z-50">
           <div className="container mx-auto px-4 flex flex-col gap-6">
-            {visibleNavLinks.map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
-                className="text-lg font-bold tracking-widest normal-case text-[#3B5998]"
+                className={`text-lg font-bold tracking-widest normal-case ${isActive(link.path) ? 'text-[#C5A059]' : 'text-[#3B5998]'}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.name}
