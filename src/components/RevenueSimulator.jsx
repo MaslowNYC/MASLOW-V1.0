@@ -64,8 +64,8 @@ const RevenueSimulator = () => {
 
   // Financial Projection State
   const [formData, setFormData] = useState({
-    // Hull Operations
-    suites: 8, // Using 'suites' database field for Hulls
+    // Sanctuary Suite Operations
+    suites: 8, // Number of paid Sanctuary Suites
     hours_open: 14,
     avg_duration: 30, // Session length in minutes
     avg_price: 35, // Price per session (using avg_price db field)
@@ -189,8 +189,8 @@ const RevenueSimulator = () => {
   
   const metrics = useMemo(() => {
 
-    // 1. Hull Revenue
-    // Capacity = (Minutes Open / Duration + Turnaround) * Num Hulls
+    // 1. Sanctuary Suite Revenue (Paid Sessions)
+    // Capacity = (Minutes Open / Duration + Turnaround) * Num Suites
     const totalCycleTime = (formData.avg_duration || 30) + (formData.turnaround_time || 5);
     const dailySessionsCapacity = Math.floor(1440 / totalCycleTime) * formData.suites;
 
@@ -199,8 +199,8 @@ const RevenueSimulator = () => {
     const effectiveOccupancy = (formData.occupancy_rate / 100) * omnyMultiplier;
     
     const dailySessions = Math.round(dailySessionsCapacity * effectiveOccupancy);
-    const dailyHullRevenue = dailySessions * formData.avg_price;
-    const monthlyHullRevenue = dailyHullRevenue * 30;
+    const dailySuiteRevenue = dailySessions * formData.avg_price;
+    const monthlySuiteRevenue = dailySuiteRevenue * 30;
 
     // 2. Retail Revenue (driven by foot traffic/sessions)
     // Assuming each session is a distinct visit for simplicity, or 1 visit = 1 session
@@ -210,7 +210,7 @@ const RevenueSimulator = () => {
     const monthlyMembershipRevenue = formData.active_members * formData.monthly_fee;
     const monthlySponsorshipRevenue = formData.brand_partners * formData.fee_per_partner;
 
-    const totalMonthlyRevenue = monthlyHullRevenue + monthlyRetailRevenue + monthlyMembershipRevenue + monthlySponsorshipRevenue;
+    const totalMonthlyRevenue = monthlySuiteRevenue + monthlyRetailRevenue + monthlyMembershipRevenue + monthlySponsorshipRevenue;
     
     // 4. Expenses
     const annualRent = formData.total_sq_ft * formData.rent_per_sq_ft;
@@ -245,7 +245,7 @@ const RevenueSimulator = () => {
     return {
       dailySessionsCapacity,
       dailySessions,
-      monthlyHullRevenue,
+      monthlySuiteRevenue,
       monthlyRetailRevenue,
       monthlyMembershipRevenue,
       monthlySponsorshipRevenue,
@@ -281,7 +281,7 @@ const RevenueSimulator = () => {
             Maslow Revenue Simulator
           </h2>
           <p className="text-gray-500 mt-2 max-w-2xl">
-            Project the financial performance of a Maslow Sanctuary location. Adjust hull density, operational hours, and revenue streams to calculate EBITDA.
+            Project the financial performance of a Maslow Sanctuary location. Adjust suite count, operational hours, and revenue streams to calculate EBITDA.
           </p>
         </div>
         <div className="flex gap-3">
@@ -306,13 +306,13 @@ const RevenueSimulator = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-[#3B5998]">
                 <Building2 className="w-5 h-5" />
-                Hull Configuration & Ops
+                Sanctuary Suite Configuration & Ops
               </CardTitle>
               <CardDescription>Define the physical capacity and operational hours.</CardDescription>
             </CardHeader>
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label>Number of Hulls</Label>
+                <Label>Number of Suites</Label>
                 <FormattedInput 
                   value={formData.suites}
                   onChange={(val) => handleInputChange('suites', val)}
@@ -537,8 +537,8 @@ const RevenueSimulator = () => {
                 </div>
                 <div className="pl-4 space-y-1 text-sm text-gray-500">
                   <div className="flex justify-between">
-                    <span>Hull Sessions</span>
-                    <span>{formatNumber(metrics.monthlyHullRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span>
+                    <span>Suite Sessions (Paid)</span>
+                    <span>{formatNumber(metrics.monthlySuiteRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Retail</span>
