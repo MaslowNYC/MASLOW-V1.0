@@ -70,8 +70,8 @@ const RevenueSimulator = () => {
     avg_duration: 30, // Session length in minutes
     avg_price: 35, // Price per session (using avg_price db field)
     occupancy_rate: 45,
-    // 1. Add 'turnaround_time' to the initial formData state (around line 70)
-    turnaround_time: 5, // minutes
+    // Turnaround time in seconds (15-second increments)
+    turnaround_time: 90, // seconds (1.5 minutes default)
 
     
     // Retail & Secondary Revenue
@@ -191,7 +191,9 @@ const RevenueSimulator = () => {
 
     // 1. Sanctuary Suite Revenue (Paid Sessions)
     // Capacity = (Minutes Open / Duration + Turnaround) * Num Suites
-    const totalCycleTime = (formData.avg_duration || 30) + (formData.turnaround_time || 5);
+    // Convert turnaround_time from seconds to minutes
+    const turnaroundMinutes = (formData.turnaround_time || 90) / 60;
+    const totalCycleTime = (formData.avg_duration || 30) + turnaroundMinutes;
     const dailySessionsCapacity = Math.floor(1440 / totalCycleTime) * formData.suites;
 
     // OMNY integration boost
@@ -334,17 +336,25 @@ const RevenueSimulator = () => {
                   suffix="min"
                 />
               </div>
-              <div className="space-y-2">
-                <Label>Turnaround Time (Cleaning)</Label>
-                <Slider 
-                  value={[formData.turnaround_time]} 
+              <div className="space-y-2 col-span-1 md:col-span-2">
+                <div className="flex justify-between items-baseline mb-2">
+                  <Label>Turnaround Time (Cleaning)</Label>
+                  <span className="text-[#C5A059] font-bold text-lg">{formData.turnaround_time}s</span>
+                </div>
+                <Slider
+                  value={[formData.turnaround_time]}
                   onValueChange={(val) => handleInputChange('turnaround_time', val[0])}
                   min={0}
-                  max={30}
-                  step={1}
+                  max={600}
+                  step={15}
                   className="py-2"
                 />
-                <div className="text-xs text-gray-500">Minutes between sessions for cleaning/reset</div>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-gray-500">Seconds between sessions for cleaning/reset</span>
+                  <span className="text-[#3B5998] font-semibold">
+                    ≈ {Math.floor(1440 / ((formData.avg_duration || 30) + (formData.turnaround_time || 90) / 60))} sessions/day per suite
+                  </span>
+                </div>
               </div>
               <div className="space-y-2">
                 <Label>Price per Session</Label>
