@@ -65,14 +65,12 @@ const RevenueSimulator = () => {
   // Financial Projection State
   const [formData, setFormData] = useState({
     // Sanctuary Suite Operations
-    suites: 8, // Number of paid Sanctuary Suites
+    suites: 8,
     hours_open: 14,
-    avg_duration: 30, // Session length in minutes
-    avg_price: 35, // Price per session (using avg_price db field)
+    avg_duration: 30,
+    avg_price: 35,
     occupancy_rate: 45,
-    // Turnaround time in seconds (15-second increments)
-    turnaround_time: 90, // seconds (1.5 minutes default)
-
+    turnaround_time: 90,
     
     // Retail & Secondary Revenue
     retail_spend_per_visit: 12,
@@ -186,14 +184,12 @@ const RevenueSimulator = () => {
   };
 
   // Calculations
-  
   const metrics = useMemo(() => {
-
     // 1. Sanctuary Suite Revenue (Paid Sessions)
-    // Capacity = (Minutes Open / Duration + Turnaround) * Num Suites
-    // Convert turnaround_time from seconds to minutes
     const turnaroundMinutes = (formData.turnaround_time || 90) / 60;
     const totalCycleTime = (formData.avg_duration || 30) + turnaroundMinutes;
+    
+    // FIX: Use actual hours_open instead of hardcoded 1440
     const minutesOpen = (formData.hours_open || 24) * 60;
     const dailySessionsCapacity = Math.floor(minutesOpen / totalCycleTime) * formData.suites;
 
@@ -205,11 +201,10 @@ const RevenueSimulator = () => {
     const dailySuiteRevenue = dailySessions * formData.avg_price;
     const monthlySuiteRevenue = dailySuiteRevenue * 30;
 
-    // 2. Retail Revenue (driven by foot traffic/sessions)
-    // Assuming each session is a distinct visit for simplicity, or 1 visit = 1 session
+    // 2. Retail Revenue
     const monthlyRetailRevenue = dailySessions * 30 * formData.retail_spend_per_visit;
 
-    // 3. Recurring Revenue (Memberships + Sponsors)
+    // 3. Recurring Revenue
     const monthlyMembershipRevenue = formData.active_members * formData.monthly_fee;
     const monthlySponsorshipRevenue = formData.brand_partners * formData.fee_per_partner;
 
@@ -228,14 +223,7 @@ const RevenueSimulator = () => {
     
     const profitMargin = totalMonthlyRevenue > 0 ? (monthlyProfit / totalMonthlyRevenue) * 100 : 0;
 
-    // 6. Break Even Point (Occupancy)
-    // Fixed Costs = Rent + Staff + Utilities + Sponsor/Member offset?
-    // We want to find occupancy where Revenue = Expenses
-    // Rev = (Capacity * Occ * 30 * Price) + (Capacity * Occ * 30 * Retail) + FixedRev
-    // Exp = FixedExp
-    // FixedRev + (Capacity * 30 * (Price + Retail)) * Occ = FixedExp
-    // Occ = (FixedExp - FixedRev) / (Capacity * 30 * (Price + Retail))
-    
+    // 6. Break Even Point
     const monthlyFixedExpenses = totalMonthlyExpenses;
     const monthlyFixedRevenue = monthlyMembershipRevenue + monthlySponsorshipRevenue;
     const variableRevenuePotential = dailySessionsCapacity * 30 * (formData.avg_price + formData.retail_spend_per_visit);
@@ -288,7 +276,7 @@ const RevenueSimulator = () => {
           </p>
         </div>
         <div className="flex gap-3">
-             <Button 
+          <Button 
             onClick={handleSave} 
             disabled={saving}
             className="bg-[#C5A059] hover:bg-[#b08d4b] text-white shadow-lg min-w-[140px]"
@@ -304,7 +292,7 @@ const RevenueSimulator = () => {
         {/* INPUTS COLUMN */}
         <div className="xl:col-span-7 space-y-6">
           
-          {/* 1. Space & Operations */}
+          {/* Space & Operations */}
           <Card className="border-t-4 border-t-[#3B5998] shadow-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-[#3B5998]">
@@ -353,8 +341,7 @@ const RevenueSimulator = () => {
                 <div className="flex justify-between items-center text-xs">
                   <span className="text-gray-500">Seconds between sessions for cleaning/reset</span>
                   <span className="text-[#3B5998] font-semibold">
-                  ≈ {Math.floor(((formData.hours_open || 24) * 60) / ((formData.avg_duration || 30) + (formData.turnaround_time || 90) / 60))} sessions/day per suite
-                  <br />
+                    ≈ {Math.floor(((formData.hours_open || 24) * 60) / ((formData.avg_duration || 30) + (formData.turnaround_time || 90) / 60))} sessions/day per suite
                   </span>
                 </div>
               </div>
@@ -388,7 +375,7 @@ const RevenueSimulator = () => {
             </CardContent>
           </Card>
 
-          {/* 2. Secondary Revenue Streams */}
+          {/* Secondary Revenue */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card className="shadow-sm">
               <CardHeader className="pb-3">
@@ -465,7 +452,7 @@ const RevenueSimulator = () => {
             </CardContent>
           </Card>
 
-          {/* 3. Costs & Expenses */}
+          {/* Expenses */}
           <Card className="border-t-4 border-t-red-400 shadow-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-red-700">
@@ -513,35 +500,13 @@ const RevenueSimulator = () => {
         {/* OUTPUTS COLUMN */}
         <div className="xl:col-span-5 space-y-6">
           
-          {/* Main Hero Card */}
-          <Card className="bg-[#3B5998] text-white border-none shadow-xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-32 bg-[#C5A059] opacity-10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
-            <CardHeader>
-              <CardTitle className="text-[#C5A059] uppercase tracking-wider text-sm font-semibold">Annual Net Profit</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-5xl font-serif font-bold mb-2">
-                {formatNumber(metrics.annualProfit, { type: 'currency', maximumFractionDigits: 0 })}
-              </div>
-              <div className="flex gap-4 mt-4">
-                <div className="bg-white/10 px-3 py-1 rounded text-sm font-medium">
-                  Margin: <span className={metrics.profitMargin > 20 ? "text-green-300" : "text-yellow-300"}>{formatNumber(metrics.profitMargin, { type: 'percent' })}</span>
-                </div>
-                <div className="bg-white/10 px-3 py-1 rounded text-sm font-medium">
-                  Break-even Occ: <span className="text-white">{formatNumber(metrics.breakEvenOccupancy, { maximumFractionDigits: 1 })}%</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Monthly P&L Summary */}
+          {/* 1. Monthly P&L - TOP */}
           <Card className="shadow-lg border-t-4 border-t-[#C5A059]">
             <CardHeader>
               <CardTitle className="text-[#3B5998]">Monthly P&L</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               
-              {/* Revenue Section */}
               <div className="space-y-2">
                 <div className="flex justify-between items-end border-b pb-1">
                   <span className="font-bold text-gray-700">Total Revenue</span>
@@ -567,7 +532,6 @@ const RevenueSimulator = () => {
                 </div>
               </div>
 
-              {/* Expense Section */}
               <div className="space-y-2 pt-2">
                 <div className="flex justify-between items-end border-b pb-1">
                   <span className="font-bold text-gray-700">Total Expenses</span>
@@ -589,7 +553,6 @@ const RevenueSimulator = () => {
                 </div>
               </div>
 
-              {/* Net Result */}
               <div className="flex justify-between items-center pt-4 border-t-2 border-gray-100">
                 <span className="text-lg font-bold text-gray-900">Net Monthly</span>
                 <span className={`text-xl font-bold ${metrics.monthlyProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
@@ -600,7 +563,28 @@ const RevenueSimulator = () => {
             </CardContent>
           </Card>
 
-           {/* Capacity Stats */}
+          {/* 2. Annual Net Profit - SECOND */}
+          <Card className="bg-[#3B5998] text-white border-none shadow-xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-32 bg-[#C5A059] opacity-10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+            <CardHeader>
+              <CardTitle className="text-[#C5A059] uppercase tracking-wider text-sm font-semibold">Annual Net Profit</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-5xl font-serif font-bold mb-2">
+                {formatNumber(metrics.annualProfit, { type: 'currency', maximumFractionDigits: 0 })}
+              </div>
+              <div className="flex gap-4 mt-4">
+                <div className="bg-white/10 px-3 py-1 rounded text-sm font-medium">
+                  Margin: <span className={metrics.profitMargin > 20 ? "text-green-300" : "text-yellow-300"}>{formatNumber(metrics.profitMargin, { type: 'percent' })}</span>
+                </div>
+                <div className="bg-white/10 px-3 py-1 rounded text-sm font-medium">
+                  Break-even Occ: <span className="text-white">{formatNumber(metrics.breakEvenOccupancy, { maximumFractionDigits: 1 })}%</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+           {/* 3. Capacity Stats - THIRD */}
            <Card className="bg-[#3B5998]/5 border-none">
             <CardContent className="p-6">
               <h4 className="font-bold text-[#3B5998] mb-4 flex items-center gap-2">
