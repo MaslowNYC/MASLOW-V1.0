@@ -194,7 +194,8 @@ const RevenueSimulator = () => {
     // Convert turnaround_time from seconds to minutes
     const turnaroundMinutes = (formData.turnaround_time || 90) / 60;
     const totalCycleTime = (formData.avg_duration || 30) + turnaroundMinutes;
-    const dailySessionsCapacity = Math.floor(1440 / totalCycleTime) * formData.suites;
+    const minutesOpen = (formData.hours_open || 24) * 60;
+    const dailySessionsCapacity = Math.floor(minutesOpen / totalCycleTime) * formData.suites;
 
     // OMNY integration boost
     const omnyMultiplier = formData.has_omny ? 1.10 : 1.0;
@@ -352,7 +353,8 @@ const RevenueSimulator = () => {
                 <div className="flex justify-between items-center text-xs">
                   <span className="text-gray-500">Seconds between sessions for cleaning/reset</span>
                   <span className="text-[#3B5998] font-semibold">
-                    ≈ {Math.floor(1440 / ((formData.avg_duration || 30) + (formData.turnaround_time || 90) / 60))} sessions/day per suite
+                  ≈ {Math.floor(((formData.hours_open || 24) * 60) / ((formData.avg_duration || 30) + (formData.turnaround_time || 90) / 60))} sessions/day per suite
+                  <br />
                   </span>
                 </div>
               </div>
