@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
@@ -189,13 +188,15 @@ const LoginPage = () => {
 
     try {
       // Get the stored code and expiration
-      const { data: profile, error: fetchError } = await supabase
+      const { data, error: fetchError } = await supabase
         .from('profiles')
         .select('verification_code, code_expires_at')
-        .eq('id', pendingUserId)
-        .single();
+        .eq('id', pendingUserId);
 
       if (fetchError) throw fetchError;
+      if (!data || data.length === 0) throw new Error('Profile not found');
+      
+      const profile = data[0];
 
       // Check if code expired
       if (new Date(profile.code_expires_at) < new Date()) {
