@@ -9,6 +9,7 @@ import { AuthProvider, useAuth } from '@/contexts/SupabaseAuthContext';
 import { CartProvider } from '@/hooks/useCart';
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/react"
+import StaffInventory from '@/pages/StaffInventory'
 
 // Components
 import Header from '@/components/Header';
@@ -54,6 +55,7 @@ const AppContent = () => {
           <Route path="/" element={user ? <HomePage /> : <HeroSection />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/maslow" element={<MaslowPage />} />
+          <Route path="/staff/inventory" element={<StaffInventory />} />
           
           {/* Protected Routes */}
           <Route path="/hull" element={<ProtectedRoute><SanctuaryPage /></ProtectedRoute>} />
