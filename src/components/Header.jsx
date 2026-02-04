@@ -70,27 +70,35 @@ const Header = ({ setIsCartOpen }) => {
 
           {/* User Controls */}
           <div className="flex items-center gap-2 border-l border-[#3B5998]/20 pl-3 sm:pl-6">
+            {/* Profile Icon Only */}
             <Link to="/profile">
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    className={`h-8 text-xs uppercase tracking-wider ${isActive('/profile') ? 'text-[#C5A059]' : 'text-[#3B5998] hover:text-[#C5A059]'}`}
-                >
-                    <User className="w-4 h-4 mr-2" />
-                    Profile
-                </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className={`${isActive('/profile') ? 'text-[#C5A059] bg-[#C5A059]/10' : 'text-[#3B5998] hover:text-[#C5A059]'} hover:bg-[#3B5998]/5`}
+              >
+                <User className="w-5 h-5" />
+              </Button>
             </Link>
 
             {isFounder && (
               <Link to="/dashboard">
-                <Button variant="ghost" size="sm" className={`h-8 text-xs uppercase tracking-wider ${isActive('/dashboard') ? 'text-[#C5A059]' : 'text-[#3B5998] hover:text-[#C5A059]'} hover:bg-[#3B5998]/5`}>
-                  <LayoutDashboard className="w-4 h-4 mr-2" />
-                  Dashboard
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className={`${isActive('/dashboard') ? 'text-[#C5A059] bg-[#C5A059]/10' : 'text-[#3B5998] hover:text-[#C5A059]'} hover:bg-[#3B5998]/5`}
+                >
+                  <LayoutDashboard className="w-5 h-5" />
                 </Button>
               </Link>
             )}
 
-            <Button variant="ghost" size="sm" onClick={handleLogout} className="text-[#3B5998]/60 hover:text-red-600 hover:bg-red-50 h-8">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={handleLogout} 
+              className="text-[#3B5998]/60 hover:text-red-600 hover:bg-red-50"
+            >
               <LogOut className="w-4 h-4" />
             </Button>
           </div>
@@ -98,7 +106,7 @@ const Header = ({ setIsCartOpen }) => {
 
         {/* Mobile Navigation */}
         <div className="md:hidden flex items-center gap-4">
-            <Button 
+          <Button 
             variant="ghost" 
             size="icon" 
             className="relative text-[#3B5998] hover:text-[#C5A059]"
@@ -137,18 +145,18 @@ const Header = ({ setIsCartOpen }) => {
             ))}
             
             <Link 
-                to="/profile" 
-                className={`text-lg font-bold tracking-widest uppercase ${isActive('/profile') ? 'text-[#C5A059]' : 'text-[#3B5998]'}`}
-                onClick={() => setMobileMenuOpen(false)}
+              to="/profile" 
+              className={`text-lg font-bold tracking-widest uppercase ${isActive('/profile') ? 'text-[#C5A059]' : 'text-[#3B5998]'}`}
+              onClick={() => setMobileMenuOpen(false)}
             >
-                My Profile
+              My Profile
             </Link>
 
             <div className="h-px bg-[#3B5998]/10 my-2" />
             
             {isFounder && (
               <Link 
-                to="/admin" 
+                to="/dashboard" 
                 className="text-[#3B5998] hover:text-[#C5A059] font-medium tracking-wide transition-colors uppercase text-sm"
                 onClick={() => setMobileMenuOpen(false)}
               >

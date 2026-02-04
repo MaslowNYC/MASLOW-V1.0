@@ -1,4 +1,5 @@
 
+import MaslowPage from '@/pages/MaslowPage';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -52,6 +53,7 @@ const AppContent = () => {
           {/* Public & Core Routes */}
           <Route path="/" element={user ? <HomePage /> : <HeroSection />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/maslow" element={<MaslowPage />} />
           
           {/* Protected Routes */}
           <Route path="/hull" element={<ProtectedRoute><SanctuaryPage /></ProtectedRoute>} />
