@@ -286,6 +286,20 @@ const ProfilePage = () => {
           <div className="text-center md:text-left">
             <h1 className="text-4xl font-serif font-bold text-[#3B5998]">Welcome Home, {profile.first_name || 'Member'}.</h1>
             <p className="text-[#3B5998]/60 mt-2 font-light text-lg">Manage your digital concierge preferences.</p>
+            
+            {/* Member Badge */}
+            <div className="mt-4 inline-flex items-center gap-3 bg-gradient-to-r from-[#3B5998] to-[#2a4070] text-white px-6 py-3 rounded-full shadow-lg">
+              <div className="flex items-center gap-2">
+                <span className="text-[#C5A059] font-bold text-sm uppercase tracking-wider">Member</span>
+                <span className="text-white font-mono text-lg font-bold">
+                  #{user?.id?.slice(0, 8).toUpperCase()}
+                </span>
+              </div>
+              <div className="h-4 w-px bg-white/30"></div>
+              <div className="text-sm font-light">
+                Since {new Date(user?.created_at || Date.now()).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+              </div>
+            </div>
           </div>
         </div>
 
