@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import HeroCarousel from '@/components/HeroCarousel';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
 
 const HomePage = () => {
   const { user } = useAuth();
@@ -26,7 +25,7 @@ const HomePage = () => {
         {/* Content Overlay */}
         <div className="relative z-10 text-center text-white px-6 max-w-4xl">
           {user ? (
-            // Logged in view
+            // Logged in view - clean, no buttons
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -35,26 +34,9 @@ const HomePage = () => {
               <h1 className="text-6xl md:text-7xl font-serif font-bold mb-4 drop-shadow-lg">
                 Welcome back, {user.user_metadata?.full_name?.split(' ')[0] || 'Friend'}
               </h1>
-              <p className="text-xl md:text-2xl text-white/90 mb-8 font-light drop-shadow">
+              <p className="text-xl md:text-2xl text-white/90 font-light drop-shadow">
                 Your sanctuary awaits.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button 
-                  size="lg" 
-                  className="bg-[#C5A059] hover:bg-[#b08d4b] text-white shadow-xl text-lg px-8 py-6"
-                  onClick={() => navigate('/pass')}
-                >
-                  View Your Pass
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-2 border-white text-white hover:bg-white/20 shadow-xl text-lg px-8 py-6"
-                  onClick={() => navigate('/locations')}
-                >
-                  Find a Location
-                </Button>
-              </div>
             </motion.div>
           ) : (
             // Logged out view
@@ -69,13 +51,6 @@ const HomePage = () => {
               <p className="text-2xl md:text-3xl text-white/90 mb-8 font-light drop-shadow">
                 The Infrastructure of Dignity.
               </p>
-              <Button 
-                size="lg" 
-                className="bg-[#C5A059] hover:bg-[#b08d4b] text-white shadow-xl text-lg px-10 py-7"
-                onClick={() => navigate('/signup')}
-              >
-                Join the Waitlist
-              </Button>
             </motion.div>
           )}
         </div>
@@ -91,9 +66,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
-      {/* Rest of your content goes here */}
-      {/* Keep any other sections you have below the hero */}
     </>
   );
 };
