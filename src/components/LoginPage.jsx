@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
@@ -187,26 +188,46 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
+      console.log('🔍 Checking verification for user:', pendingUserId);
+      
       // Get the stored code and expiration
       const { data, error: fetchError } = await supabase
         .from('profiles')
         .select('verification_code, code_expires_at')
         .eq('id', pendingUserId);
 
-      if (fetchError) throw fetchError;
-      if (!data || data.length === 0) throw new Error('Profile not found');
+      console.log('📊 Query result:', { data, error: fetchError });
+
+      if (fetchError) {
+        console.error('❌ Fetch error:', fetchError);
+        throw fetchError;
+      }
+      
+      if (!data || data.length === 0) {
+        console.error('❌ No profile found for user:', pendingUserId);
+        throw new Error('Profile not found. Please try signing up again.');
+      }
       
       const profile = data[0];
+      console.log('✅ Profile found:', profile);
 
       // Check if code expired
       if (new Date(profile.code_expires_at) < new Date()) {
+        console.error('⏰ Code expired');
         throw new Error('Verification code expired. Please request a new one.');
       }
 
       // Check if code matches
+      console.log('🔑 Comparing codes:', { 
+        entered: verificationCode, 
+        stored: profile.verification_code 
+      });
+      
       if (profile.verification_code !== verificationCode) {
         throw new Error('Invalid verification code');
       }
+
+      console.log('✅ Code matched! Updating profile...');
 
       // Mark phone as verified
       const { error: updateError } = await supabase
@@ -218,7 +239,12 @@ const LoginPage = () => {
         })
         .eq('id', pendingUserId);
 
-      if (updateError) throw updateError;
+      if (updateError) {
+        console.error('❌ Update error:', updateError);
+        throw updateError;
+      }
+
+      console.log('✅ Phone verified successfully!');
 
       safeToast({
         title: "Phone Verified! ✓",
@@ -228,6 +254,7 @@ const LoginPage = () => {
       // Proceed to profile setup or home
       navigate('/profile');
     } catch (error) {
+      console.error('❌ Verification error:', error);
       safeToast({
         title: "Verification Failed",
         description: error.message,
