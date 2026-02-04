@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 
 export default function StaffInventory() {
@@ -105,10 +106,52 @@ export default function StaffInventory() {
         padding: '20px',
         borderRadius: '12px',
         marginBottom: '20px',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '20px'
       }}>
-        <h1 style={{ fontSize: '24px', color: '#333', marginBottom: '5px' }}>📦 Inventory Management</h1>
-        <p style={{ color: '#666', fontSize: '14px', margin: 0 }}>Track and restock sample products</p>
+        {/* Icon */}
+        <div style={{
+          width: '60px',
+          height: '60px',
+          flexShrink: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <svg width="60" height="60" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* Circular arrows */}
+            <path d="M100 20 A80 80 0 1 1 100 180" stroke="#333" strokeWidth="6" fill="none" strokeLinecap="round"/>
+            <path d="M100 180 A80 80 0 1 1 100 20" stroke="#333" strokeWidth="6" fill="none" strokeLinecap="round"/>
+            {/* Arrow heads */}
+            <path d="M110 25 L100 15 L90 25" stroke="#333" strokeWidth="6" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M90 175 L100 185 L110 175" stroke="#333" strokeWidth="6" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+            
+            {/* Box - front face */}
+            <path d="M100 65 L140 85 L140 125 L100 145 L60 125 L60 85 Z" fill="#E8945F" stroke="#333" strokeWidth="4"/>
+            
+            {/* Box - top face */}
+            <path d="M100 65 L140 85 L100 105 L60 85 Z" fill="#C77A4D" stroke="#333" strokeWidth="4"/>
+            
+            {/* Box - side face */}
+            <path d="M100 65 L100 105 L60 85 Z" fill="#A66439" stroke="#333" strokeWidth="4"/>
+            
+            {/* Red stripe on box */}
+            <path d="M100 65 L115 73 L115 133 L100 145 Z" fill="#B83B3B" stroke="#333" strokeWidth="3"/>
+            
+            {/* Checkmark circle */}
+            <circle cx="145" cy="135" r="22" fill="white" stroke="#333" strokeWidth="4"/>
+            {/* Checkmark */}
+            <path d="M135 135 L142 142 L155 125" stroke="#333" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+        
+        {/* Text */}
+        <div style={{ flex: 1 }}>
+          <h1 style={{ fontSize: '24px', color: '#333', marginBottom: '5px', margin: 0 }}>Inventory Management</h1>
+          <p style={{ color: '#666', fontSize: '14px', margin: 0 }}>Track and restock sample products</p>
+        </div>
       </div>
 
       {/* Location Selector */}
