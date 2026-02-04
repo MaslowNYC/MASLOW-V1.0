@@ -1,179 +1,100 @@
+
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
-import RotatingLogo from '@/components/RotatingLogo';
-import WelcomeMessages from '@/components/WelcomeMessages';
+import HeroCarousel from '@/components/HeroCarousel';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
 
 const HomePage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const handleDoorClick = () => {
-    if (!user) {
-      navigate('/login');
-    }
-  };
-
   return (
-    <div className="w-full min-h-screen overflow-x-hidden">
+    <>
       <Helmet>
-        <title>Maslow NYC</title>
+        <title>Maslow NYC | The Infrastructure of Dignity</title>
       </Helmet>
 
-      {user ? (
-        /* LOGGED IN - Hero Placeholder (awaiting vanity image) */
-        <div className="relative min-h-screen w-full">
-          {/* Hero Section - Placeholder */}
-          <div className="relative h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#2A406E] via-[#3B5998] to-[#1a2744]">
-            {/* Elegant overlay */}
-            <div className="absolute inset-0 bg-black/20"></div>
+      {/* Full-screen hero with carousel background */}
+      <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+        
+        {/* Background Carousel */}
+        <HeroCarousel />
 
-            {/* Luxury Vanity Hero Image */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              className="relative z-10 flex flex-col items-center max-w-4xl mx-auto px-4"
-            >
-              {/* Vanity Image with Sophisticated Styling */}
-              <div className="relative w-full">
-                {/* Ambient glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#C5A059]/20 via-transparent to-transparent blur-2xl"></div>
-
-                {/* Main vanity image */}
-                <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-[#C5A059]/20">
-                  <img
-                    src="/vanity-hero.jpg"
-                    alt="Maslow Sanctuary Suite Vanity"
-                    className="w-full h-auto object-cover"
-                    style={{
-                      filter: 'brightness(1.05) contrast(1.1) saturate(1.1)',
-                    }}
-                  />
-                  {/* Subtle gradient overlay for depth */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none"></div>
-                </div>
-
-                {/* Elegant caption */}
-                <p className="mt-6 text-center text-white/70 text-sm font-light tracking-widest uppercase">
-                  The Sanctuary Experience
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Welcome Messages */}
+        {/* Content Overlay */}
+        <div className="relative z-10 text-center text-white px-6 max-w-4xl">
+          {user ? (
+            // Logged in view
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="relative z-10 mt-auto mb-16"
+              transition={{ duration: 0.8 }}
             >
-              <WelcomeMessages />
-            </motion.div>
-          </div>
-
-          {/* Dr. Maslow Biography Section - Scrollable Below */}
-          <motion.article
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 0.8 }}
-            className="max-w-3xl mx-auto px-4 py-16 bg-gradient-to-b from-[#E8DCC8] to-[#F5F1E8]"
-          >
-            <header className="mb-8 text-center">
-              <h1 className="text-3xl md:text-4xl font-serif font-bold text-[#3B5998] tracking-tight mb-2">
-                Dr. Abraham Maslow
+              <h1 className="text-6xl md:text-7xl font-serif font-bold mb-4 drop-shadow-lg">
+                Welcome back, {user.user_metadata?.full_name?.split(' ')[0] || 'Friend'}
               </h1>
-              <p className="text-md text-[#3B5998]/70 font-medium">
-                April 1, 1908 – June 8, 1970
+              <p className="text-xl md:text-2xl text-white/90 mb-8 font-light drop-shadow">
+                Your sanctuary awaits.
               </p>
-            </header>
-
-            <p className="text-lg text-[#3B5998]/90 font-light leading-relaxed mb-6">
-              Abraham Maslow was an American psychologist best known for creating <strong className="text-[#3B5998]">Maslow's hierarchy of needs</strong>, a theory of human motivation that places our most basic physical and emotional needs at the foundation, and the need for meaning and fulfillment at the top.
-            </p>
-
-            <h2 className="text-xl font-serif font-bold text-[#3B5998] mt-10 mb-3">
-              The five levels of the hierarchy
-            </h2>
-            <p className="text-[#3B5998]/90 leading-relaxed mb-3">
-              Maslow described human needs in five levels, often shown as a pyramid. Until the lower levels are reasonably met, the higher ones are harder to reach.
-            </p>
-            <ol className="list-decimal pl-6 space-y-2 text-[#3B5998]/90 leading-relaxed mb-6">
-              <li><strong className="text-[#3B5998]">Physiological</strong> — Air, water, food, shelter, sleep, basic bodily function. Without these, little else is possible.</li>
-              <li><strong className="text-[#3B5998]">Safety</strong> — Security, stability, freedom from fear and harm. We need to feel safe before we can fully engage with others or ourselves.</li>
-              <li><strong className="text-[#3B5998]">Belongingness and love</strong> — Connection, family, friendship, community. We are social beings who need to belong.</li>
-              <li><strong className="text-[#3B5998]">Esteem</strong> — Respect, recognition, achievement, a sense of competence. We need to feel valued by others and by ourselves.</li>
-              <li><strong className="text-[#3B5998]">Self-actualization</strong> — Becoming who we are capable of being: creativity, meaning, growth, and the pursuit of our highest potential.</li>
-            </ol>
-
-            <h2 className="text-xl font-serif font-bold text-[#3B5998] mt-10 mb-3">
-              Why we bear his name
-            </h2>
-            <p className="text-[#3B5998]/90 leading-relaxed mb-6">
-              Maslow understood that <strong className="text-[#3B5998]">dignity begins with meeting basic needs</strong>. You cannot ask someone to thrive, create, or participate fully in community if they don't have a safe place to rest, wash, or use the bathroom. Public restrooms are not a luxury; they are the base of the pyramid. Maslow NYC exists to meet that need with care—so that everyone in the city can move up the pyramid from a foundation of dignity.
-            </p>
-
-            <h2 className="text-xl font-serif font-bold text-[#3B5998] mt-10 mb-3">
-              A digital memorial
-            </h2>
-            <p className="text-[#3B5998]/90 leading-relaxed mb-12">
-              We hope one day to acquire <strong className="text-[#3B5998]">maslow.com</strong> and turn it into a proper digital memorial to Dr. Maslow—his life, his work, and his lasting influence on psychology and on how we think about human need and dignity. Until then, we carry his name and his insight into everything we build.
-            </p>
-          </motion.article>
-        </div>
-      ) : (
-        /* LOGGED OUT - Door with Rotating Logo + Click to Enter */
-        <div className="relative h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b from-[#F5F1E8] to-[#E8DCC8] overflow-hidden">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="relative flex flex-col items-center cursor-pointer group"
-            onClick={handleDoorClick}
-          >
-            {/* Restroom Door */}
-            <div className="relative w-56 sm:w-64 md:w-80 h-80 sm:h-96 md:h-[28rem] bg-gradient-to-b from-[#3B5998] to-[#2A406E] rounded-lg shadow-2xl border-4 border-[#C5A059]/30 overflow-hidden transition-all duration-300 group-hover:shadow-[0_0_40px_rgba(197,160,89,0.5)]">
-              {/* Door Frame Detail */}
-              <div className="absolute inset-0 border-8 border-[#2A406E]/20 rounded-lg"></div>
-
-              {/* Rotating Logo in Center */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                <RotatingLogo className="w-40 h-40 md:w-48 md:h-48" />
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button 
+                  size="lg" 
+                  className="bg-[#C5A059] hover:bg-[#b08d4b] text-white shadow-xl text-lg px-8 py-6"
+                  onClick={() => navigate('/pass')}
+                >
+                  View Your Pass
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="border-2 border-white text-white hover:bg-white/20 shadow-xl text-lg px-8 py-6"
+                  onClick={() => navigate('/locations')}
+                >
+                  Find a Location
+                </Button>
               </div>
-
-              {/* Door Handle - Glows on Hover */}
-              <div className="absolute right-6 top-1/2 transform -translate-y-1/2 transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(197,160,89,0.8)]">
-                <div className="w-3 h-12 bg-[#C5A059] rounded-full shadow-lg group-hover:bg-[#d4b36a]"></div>
-                <div className="w-6 h-6 bg-[#C5A059] rounded-full -mt-3 -ml-1.5 shadow-lg group-hover:bg-[#d4b36a]"></div>
-              </div>
-
-              {/* Door Panels */}
-              <div className="absolute inset-0 flex flex-col p-6 gap-4 opacity-20">
-                <div className="flex-1 border-2 border-white/30 rounded"></div>
-                <div className="flex-1 border-2 border-white/30 rounded"></div>
-              </div>
-            </div>
-
-            {/* Enter Button */}
+            </motion.div>
+          ) : (
+            // Logged out view
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="mt-8 text-center"
+              transition={{ duration: 0.8 }}
             >
-              <p className="text-[#3B5998]/80 text-sm uppercase tracking-[0.3em] font-light mb-2">
-                Click to
+              <h1 className="text-7xl md:text-8xl font-serif font-bold mb-6 drop-shadow-lg">
+                MASLOW
+              </h1>
+              <p className="text-2xl md:text-3xl text-white/90 mb-8 font-light drop-shadow">
+                The Infrastructure of Dignity.
               </p>
-              <p className="text-[#3B5998] text-2xl font-serif font-bold group-hover:text-[#C5A059] transition-colors">
-                ENTER
-              </p>
+              <Button 
+                size="lg" 
+                className="bg-[#C5A059] hover:bg-[#b08d4b] text-white shadow-xl text-lg px-10 py-7"
+                onClick={() => navigate('/signup')}
+              >
+                Join the Waitlist
+              </Button>
             </motion.div>
-          </motion.div>
+          )}
         </div>
-      )}
-    </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+          <div className="w-6 h-10 border-2 border-white/40 rounded-full flex items-start justify-center p-2">
+            <motion.div
+              className="w-1.5 h-1.5 bg-white/60 rounded-full"
+              animate={{ y: [0, 16, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Rest of your content goes here */}
+      {/* Keep any other sections you have below the hero */}
+    </>
   );
 };
 
