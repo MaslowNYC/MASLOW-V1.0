@@ -78,6 +78,7 @@ const ProfilePage = () => {
             dob: data.dob || '',
             phone: data.phone || '',
             photo_url: data.photo_url || null,
+            member_number: data.member_number || null, // <-- ADD THIS LINE
             preferences_amenities: data.preferences_amenities || [],
             preferences_usage: data.preferences_usage || [],
             preferences_products: data.preferences_products || [],
@@ -292,7 +293,7 @@ const ProfilePage = () => {
               <div className="flex items-center gap-2">
                 <span className="text-[#C5A059] font-bold text-sm uppercase tracking-wider">Member</span>
                 <span className="text-white font-mono text-lg font-bold">
-                  #{user?.id?.slice(0, 8).toUpperCase()}
+                #{user?.id?.slice(0, 8).toUpperCase()}
                 </span>
               </div>
               <div className="h-4 w-px bg-white/30"></div>
