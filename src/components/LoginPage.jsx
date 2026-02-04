@@ -2,19 +2,30 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
-import { supabase } from '@/lib/customSupabaseClient'; // Added for profile check
+import { supabase } from '@/lib/customSupabaseClient';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { Loader2, Lock, ArrowLeft } from 'lucide-react';
+import { Loader2, Lock, ArrowLeft, Phone } from 'lucide-react';
 
 const LoginPage = () => {
+  // Login/Signup state
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
+  
+  // SMS Verification state
+  const [showVerification, setShowVerification] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
+  const [pendingUserId, setPendingUserId] = useState(null);
+  const [generatedCode, setGeneratedCode] = useState(null); // For test mode
+  
   const [searchParams] = useSearchParams();
   const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
@@ -35,17 +46,26 @@ const LoginPage = () => {
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .select('first_name')
+        .select('first_name, phone_verified')
         .eq('id', userId)
         .single();
 
+      // If phone not verified, show verification screen
+      if (data && !data.phone_verified) {
+        setShowVerification(true);
+        setPendingUserId(userId);
+        return;
+      }
+
+      // If profile complete, go home
       if (data && data.first_name) {
-        navigate('/'); // Profile complete -> Go to Home
+        navigate('/');
       } else {
-        navigate('/profile'); // Incomplete -> Go to Setup
+        // Profile incomplete, go to setup
+        navigate('/profile');
       }
     } catch (e) {
-      navigate('/'); // Fallback
+      navigate('/');
     }
   };
 
@@ -67,37 +87,95 @@ const LoginPage = () => {
     }
   };
 
+  const formatPhoneNumber = (value) => {
+    // Remove all non-digits
+    const cleaned = value.replace(/\D/g, '');
+    
+    // Format as (XXX) XXX-XXXX
+    if (cleaned.length <= 3) {
+      return cleaned;
+    } else if (cleaned.length <= 6) {
+      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3)}`;
+    } else {
+      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`;
+    }
+  };
+
+  const handlePhoneChange = (e) => {
+    const formatted = formatPhoneNumber(e.target.value);
+    setPhone(formatted);
+  };
+
   const handleSignUp = async (e) => {
     e.preventDefault();
     setLoading(true);
+    
     try {
-      const { data, error } = await signUp({ email, password });
+      // Validate phone number
+      const cleanedPhone = phone.replace(/\D/g, '');
+      if (cleanedPhone.length !== 10) {
+        throw new Error('Please enter a valid 10-digit phone number');
+      }
+
+      // Validate required fields
+      if (!firstName.trim() || !lastName.trim()) {
+        throw new Error('Please enter your first and last name');
+      }
+
+      const { data, error } = await signUp({ 
+        email, 
+        password,
+        options: {
+          data: {
+            first_name: firstName,
+            last_name: lastName,
+            phone: cleanedPhone,
+            phone_verified: false
+          }
+        }
+      });
       
       if (error) {
         if (error.message?.includes('already registered') || error.status === 422) {
-           safeToast({
+          safeToast({
             title: "Account Exists",
             description: "That email is already in use. Please log in.",
-            className: "bg-[#3B5998] text-[#F5F1E8] border-[#C5A059]",
+            variant: "destructive",
           });
           return;
         }
         throw error;
       }
       
-      safeToast({
-        title: "Welcome to Maslow",
-        description: "Let's set up your preferences.",
-        className: "bg-[#3B5998] text-[#F5F1E8] border-[#C5A059]",
-      });
-      
-      if (data?.user) navigate('/profile'); // New users ALWAYS go to profile first
-
+      if (data?.user) {
+        // Generate verification code (in production, send via SMS)
+        const code = Math.floor(100000 + Math.random() * 900000).toString();
+        setGeneratedCode(code);
+        
+        // Store code in database with expiration
+        await supabase
+          .from('profiles')
+          .update({ 
+            verification_code: code,
+            code_expires_at: new Date(Date.now() + 10 * 60 * 1000).toISOString() // 10 min expiry
+          })
+          .eq('id', data.user.id);
+        
+        setPendingUserId(data.user.id);
+        setShowVerification(true);
+        
+        // In production, send SMS here
+        console.log(`📱 SMS VERIFICATION CODE: ${code}`); // Remove this in production
+        
+        safeToast({
+          title: "Verification Code Sent",
+          description: `We've sent a code to ${phone}`,
+        });
+      }
     } catch (error) {
-      console.error("Signup Error:", error);
       safeToast({
-        title: "Registration Failed",
-        description: error.message || "Could not create account.",
+        title: "Signup Failed",
+        description: error.message,
         variant: "destructive",
       });
     } finally {
@@ -105,123 +183,312 @@ const LoginPage = () => {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-[#1a1a1a] flex items-center justify-center p-4">
-      
-      <Button 
-        variant="ghost" 
-        onClick={() => navigate('/')}
-        className="absolute top-8 left-8 text-white/50 hover:text-white hover:bg-white/10"
-      >
-        <ArrowLeft className="w-4 h-4 mr-2" />
-        Back to Maslow
-      </Button>
+  const handleVerifyCode = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-      <Card className="w-full max-w-md bg-white/5 backdrop-blur-md border-white/10 text-white shadow-2xl">
-        <CardHeader className="space-y-1 text-center pb-8">
-          <div className="mx-auto w-12 h-12 bg-[#C5A059] rounded-full flex items-center justify-center mb-4 text-[#1a1a1a]">
-            <Lock className="w-6 h-6" />
-          </div>
-          <CardTitle className="text-2xl font-serif tracking-wide">Member Access</CardTitle>
-          <CardDescription className="text-white/50">
-            {defaultTab === 'signup' ? 'Create your account to secure your spot.' : 'Enter your credentials to access the facility.'}
+    try {
+      // Get the stored code and expiration
+      const { data: profile, error: fetchError } = await supabase
+        .from('profiles')
+        .select('verification_code, code_expires_at')
+        .eq('id', pendingUserId)
+        .single();
+
+      if (fetchError) throw fetchError;
+
+      // Check if code expired
+      if (new Date(profile.code_expires_at) < new Date()) {
+        throw new Error('Verification code expired. Please request a new one.');
+      }
+
+      // Check if code matches
+      if (profile.verification_code !== verificationCode) {
+        throw new Error('Invalid verification code');
+      }
+
+      // Mark phone as verified
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ 
+          phone_verified: true,
+          verification_code: null,
+          code_expires_at: null
+        })
+        .eq('id', pendingUserId);
+
+      if (updateError) throw updateError;
+
+      safeToast({
+        title: "Phone Verified! ✓",
+        description: "Welcome to Maslow",
+      });
+
+      // Proceed to profile setup or home
+      navigate('/profile');
+    } catch (error) {
+      safeToast({
+        title: "Verification Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResendCode = async () => {
+    setLoading(true);
+    try {
+      // Generate new code
+      const code = Math.floor(100000 + Math.random() * 900000).toString();
+      setGeneratedCode(code);
+      
+      // Update database
+      await supabase
+        .from('profiles')
+        .update({ 
+          verification_code: code,
+          code_expires_at: new Date(Date.now() + 10 * 60 * 1000).toISOString()
+        })
+        .eq('id', pendingUserId);
+      
+      console.log(`📱 NEW SMS CODE: ${code}`); // Remove in production
+      
+      safeToast({
+        title: "Code Resent",
+        description: "Check your phone for the new code",
+      });
+    } catch (error) {
+      safeToast({
+        title: "Resend Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // If showing verification screen
+  if (showVerification) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#F5F1E8] p-4">
+        <Card className="w-full max-w-md border-[#3B5998]">
+          <CardHeader className="space-y-2">
+            <button
+              onClick={() => setShowVerification(false)}
+              className="flex items-center text-sm text-[#3B5998] hover:text-[#2d4373] mb-2"
+            >
+              <ArrowLeft className="mr-1 h-4 w-4" />
+              Back
+            </button>
+            <div className="flex items-center gap-2">
+              <Phone className="h-6 w-6 text-[#3B5998]" />
+              <CardTitle className="text-2xl text-[#3B5998]">Verify Your Phone</CardTitle>
+            </div>
+            <CardDescription>
+              Enter the 6-digit code we sent to {phone}
+            </CardDescription>
+            {/* TESTING ONLY - REMOVE IN PRODUCTION */}
+            {generatedCode && (
+              <div className="mt-4 p-3 bg-yellow-100 border border-yellow-400 rounded text-sm">
+                <strong>TEST MODE:</strong> Your code is <strong>{generatedCode}</strong>
+              </div>
+            )}
+          </CardHeader>
+          <form onSubmit={handleVerifyCode}>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="code">Verification Code</Label>
+                <Input
+                  id="code"
+                  type="text"
+                  placeholder="000000"
+                  value={verificationCode}
+                  onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                  maxLength={6}
+                  className="text-center text-2xl tracking-widest"
+                  required
+                />
+              </div>
+            </CardContent>
+            <CardFooter className="flex flex-col space-y-2">
+              <Button
+                type="submit"
+                className="w-full bg-[#3B5998] hover:bg-[#2d4373]"
+                disabled={loading || verificationCode.length !== 6}
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Verifying...
+                  </>
+                ) : (
+                  'Verify Phone'
+                )}
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={handleResendCode}
+                disabled={loading}
+                className="w-full text-[#3B5998]"
+              >
+                Resend Code
+              </Button>
+            </CardFooter>
+          </form>
+        </Card>
+      </div>
+    );
+  }
+
+  // Normal login/signup screen
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[#F5F1E8] p-4">
+      <Card className="w-full max-w-md border-[#3B5998]">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl text-center text-[#3B5998]">Maslow</CardTitle>
+          <CardDescription className="text-center">
+            The Infrastructure of Dignity
           </CardDescription>
         </CardHeader>
-        
-        <Tabs defaultValue={defaultTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 bg-white/5 border-b border-white/10 rounded-none p-0 h-12">
-            <TabsTrigger 
-              value="login" 
-              className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-[#C5A059] data-[state=active]:text-[#C5A059] rounded-none h-full transition-all text-white/50 hover:text-white"
-            >
-              Log In
-            </TabsTrigger>
-            <TabsTrigger 
-              value="signup" 
-              className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-[#C5A059] data-[state=active]:text-[#C5A059] rounded-none h-full transition-all text-white/50 hover:text-white"
-            >
-              Join Waitlist
-            </TabsTrigger>
-          </TabsList>
-          
-          <CardContent className="pt-8">
+        <CardContent>
+          <Tabs defaultValue={defaultTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="login">Sign In</TabsTrigger>
+              <TabsTrigger value="signup">Sign Up</TabsTrigger>
+            </TabsList>
+
+            {/* LOGIN TAB */}
             <TabsContent value="login">
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input 
-                    id="email" 
-                    type="email" 
-                    placeholder="member@maslownyc.com" 
+                  <Label htmlFor="login-email">Email</Label>
+                  <Input
+                    id="login-email"
+                    type="email"
+                    placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
                     required
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
-                  <Input 
-                    id="password" 
-                    type="password" 
+                  <Label htmlFor="login-password">Password</Label>
+                  <Input
+                    id="login-password"
+                    type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
                     required
                   />
                 </div>
-                <Button 
-                  type="submit" 
-                  disabled={loading} 
-                  className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold mt-4"
+                <Button
+                  type="submit"
+                  className="w-full bg-[#3B5998] hover:bg-[#2d4373]"
+                  disabled={loading}
                 >
-                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Enter Dashboard"}
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Signing in...
+                    </>
+                  ) : (
+                    <>
+                      <Lock className="mr-2 h-4 w-4" />
+                      Sign In
+                    </>
+                  )}
                 </Button>
               </form>
             </TabsContent>
 
+            {/* SIGNUP TAB */}
             <TabsContent value="signup">
               <form onSubmit={handleSignUp} className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName">First Name</Label>
+                    <Input
+                      id="firstName"
+                      type="text"
+                      placeholder="John"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName">Last Name</Label>
+                    <Input
+                      id="lastName"
+                      type="text"
+                      placeholder="Doe"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
                 <div className="space-y-2">
                   <Label htmlFor="signup-email">Email</Label>
-                  <Input 
-                    id="signup-email" 
-                    type="email" 
-                    placeholder="you@example.com" 
+                  <Input
+                    id="signup-email"
+                    type="email"
+                    placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
                     required
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-password">Create Password</Label>
-                  <Input 
-                    id="signup-password" 
-                    type="password" 
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
+                  <Label htmlFor="phone">Phone Number</Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    placeholder="(555) 123-4567"
+                    value={phone}
+                    onChange={handlePhoneChange}
                     required
                   />
+                  <p className="text-xs text-gray-500">
+                    We'll send a verification code to this number
+                  </p>
                 </div>
-                <Button 
-                  type="submit" 
-                  disabled={loading} 
-                  className="w-full bg-[#3B5998] hover:bg-[#2d4475] text-white font-bold mt-4 border border-white/10"
+                <div className="space-y-2">
+                  <Label htmlFor="signup-password">Password</Label>
+                  <Input
+                    id="signup-password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    minLength={6}
+                  />
+                  <p className="text-xs text-gray-500">
+                    Minimum 6 characters
+                  </p>
+                </div>
+                <Button
+                  type="submit"
+                  className="w-full bg-[#3B5998] hover:bg-[#2d4373]"
+                  disabled={loading}
                 >
-                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Reserve My Spot"}
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Creating account...
+                    </>
+                  ) : (
+                    'Create Account'
+                  )}
                 </Button>
               </form>
             </TabsContent>
-          </CardContent>
-        </Tabs>
-        
-        <CardFooter className="flex justify-center pb-8">
-          <p className="text-xs text-white/30 text-center max-w-[200px]">
-            By reserving your spot, you agree to the Maslow Privacy Protocol.
-          </p>
-        </CardFooter>
+          </Tabs>
+        </CardContent>
       </Card>
     </div>
   );
