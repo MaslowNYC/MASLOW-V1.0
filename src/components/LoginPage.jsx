@@ -122,6 +122,8 @@ const LoginPage = () => {
         throw new Error('Please enter your first and last name');
       }
 
+      console.log('📝 Starting signup...');
+
       const { data, error } = await signUp({ 
         email, 
         password,
@@ -148,18 +150,55 @@ const LoginPage = () => {
       }
       
       if (data?.user) {
-        // Generate verification code (in production, send via SMS)
+        console.log('✅ User created:', data.user.id);
+        
+        // Generate verification code
         const code = Math.floor(100000 + Math.random() * 900000).toString();
         setGeneratedCode(code);
         
-        // Store code in database with expiration
-        await supabase
+        console.log('🔑 Generated code:', code);
+        console.log('⏳ Waiting for profile to be created by trigger...');
+        
+        // Wait for the profile to be created by the trigger (give it up to 5 seconds)
+        let attempts = 0;
+        let profileExists = false;
+        
+        while (attempts < 10 && !profileExists) {
+          await new Promise(resolve => setTimeout(resolve, 500)); // Wait 500ms
+          
+          const { data: checkData, error: checkError } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('id', data.user.id);
+          
+          if (checkData && checkData.length > 0) {
+            profileExists = true;
+            console.log('✅ Profile exists! Storing verification code...');
+          } else {
+            attempts++;
+            console.log(`⏳ Profile not ready yet... attempt ${attempts}/10`);
+          }
+        }
+        
+        if (!profileExists) {
+          throw new Error('Profile creation timed out. Please try logging in instead.');
+        }
+        
+        // Now store the verification code
+        const { error: updateError } = await supabase
           .from('profiles')
           .update({ 
             verification_code: code,
-            code_expires_at: new Date(Date.now() + 10 * 60 * 1000).toISOString() // 10 min expiry
+            code_expires_at: new Date(Date.now() + 10 * 60 * 1000).toISOString()
           })
           .eq('id', data.user.id);
+        
+        if (updateError) {
+          console.error('❌ Failed to store verification code:', updateError);
+          throw updateError;
+        }
+        
+        console.log('✅ Verification code stored successfully');
         
         setPendingUserId(data.user.id);
         setShowVerification(true);
@@ -173,6 +212,7 @@ const LoginPage = () => {
         });
       }
     } catch (error) {
+      console.error('❌ Signup error:', error);
       safeToast({
         title: "Signup Failed",
         description: error.message,
