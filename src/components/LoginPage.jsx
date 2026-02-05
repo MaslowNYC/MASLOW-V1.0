@@ -179,8 +179,27 @@ const LoginPage = () => {
           }
         }
         
+        // If trigger didn't work, create profile manually
         if (!profileExists) {
-          throw new Error('Profile creation timed out. Please try logging in instead.');
+          console.log('⚠️ Trigger failed, creating profile manually...');
+          
+          const { error: insertError } = await supabase
+            .from('profiles')
+            .insert({
+              id: data.user.id,
+              email: email,
+              first_name: firstName,
+              last_name: lastName,
+              phone: cleanedPhone,
+              phone_verified: false
+            });
+          
+          if (insertError) {
+            console.error('❌ Manual profile creation failed:', insertError);
+            throw new Error('Failed to create profile. Please contact support.');
+          }
+          
+          console.log('✅ Profile created manually');
         }
         
         // Now store the verification code
