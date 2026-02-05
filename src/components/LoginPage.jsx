@@ -188,7 +188,7 @@ const LoginPage = () => {
           .from('profiles')
           .update({ 
             verification_code: code,
-            code_expires_at: new Date(Date.now() + 10 * 60 * 1000).toISOString()
+            code_expires_at: new Date(Date.now() + 60 * 60 * 1000).toISOString()
           })
           .eq('id', data.user.id);
         
@@ -251,7 +251,15 @@ const LoginPage = () => {
       console.log('✅ Profile found:', profile);
 
       // Check if code expired
-      if (new Date(profile.code_expires_at) < new Date()) {
+      const expiresAt = new Date(profile.code_expires_at);
+      const now = new Date();
+      console.log('⏰ Time check:', { 
+        expiresAt: expiresAt.toISOString(), 
+        now: now.toISOString(),
+        expired: expiresAt < now 
+      });
+      
+      if (expiresAt < now) {
         console.error('⏰ Code expired');
         throw new Error('Verification code expired. Please request a new one.');
       }
@@ -316,7 +324,7 @@ const LoginPage = () => {
         .from('profiles')
         .update({ 
           verification_code: code,
-          code_expires_at: new Date(Date.now() + 10 * 60 * 1000).toISOString()
+          code_expires_at: new Date(Date.now() + 60 * 60 * 1000).toISOString()
         })
         .eq('id', pendingUserId);
       
@@ -344,23 +352,33 @@ const LoginPage = () => {
         <Card className="w-full max-w-md border-[#3B5998]">
           <CardHeader className="space-y-2">
             <button
-              onClick={() => setShowVerification(false)}
+              onClick={() => {
+                setShowVerification(false);
+                setPendingUserId(null);
+                setVerificationCode('');
+                setGeneratedCode(null);
+              }}
               className="flex items-center text-sm text-[#3B5998] hover:text-[#2d4373] mb-2"
             >
               <ArrowLeft className="mr-1 h-4 w-4" />
-              Back
+              Back to Signup
             </button>
             <div className="flex items-center gap-2">
               <Phone className="h-6 w-6 text-[#3B5998]" />
               <CardTitle className="text-2xl text-[#3B5998]">Verify Your Phone</CardTitle>
             </div>
             <CardDescription>
-              Enter the 6-digit code we sent to {phone}
+              Enter the 6-digit code we sent to {phone || 'your phone'}
             </CardDescription>
             {/* TESTING ONLY - REMOVE IN PRODUCTION */}
             {generatedCode && (
               <div className="mt-4 p-3 bg-yellow-100 border border-yellow-400 rounded text-sm">
                 <strong>TEST MODE:</strong> Your code is <strong>{generatedCode}</strong>
+              </div>
+            )}
+            {!generatedCode && (
+              <div className="mt-4 p-3 bg-red-100 border border-red-400 rounded text-sm">
+                <strong>No code found.</strong> Click "Back to Signup" and try again.
               </div>
             )}
           </CardHeader>
