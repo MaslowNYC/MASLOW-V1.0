@@ -408,17 +408,6 @@ const LoginPage = () => {
             <CardDescription>
               Enter the 6-digit code we sent to {phone || 'your phone'}
             </CardDescription>
-            {/* TESTING ONLY - REMOVE IN PRODUCTION */}
-            {generatedCode && (
-              <div className="mt-4 p-3 bg-yellow-100 border border-yellow-400 rounded text-sm">
-                <strong>TEST MODE:</strong> Your code is <strong>{generatedCode}</strong>
-              </div>
-            )}
-            {!generatedCode && (
-              <div className="mt-4 p-3 bg-red-100 border border-red-400 rounded text-sm">
-                <strong>No code found.</strong> Click "Back to Signup" and try again.
-              </div>
-            )}
           </CardHeader>
           <form onSubmit={handleVerifyCode}>
             <CardContent className="space-y-4">
