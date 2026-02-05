@@ -202,24 +202,13 @@ const LoginPage = () => {
           console.log('✅ Profile created manually');
         }
         
-        // CRITICAL: Refresh the session to ensure auth.uid() is set for RLS
-        console.log('🔄 Refreshing session...');
-        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-        
-        if (sessionError) {
-          console.error('❌ Session refresh failed:', sessionError);
-        } else {
-          console.log('✅ Session refreshed:', sessionData.session?.user?.id);
-        }
-        
-        // Now store the verification code
-        const { error: updateError } = await supabase
-          .from('profiles')
-          .update({ 
-            verification_code: code,
-            code_expires_at: new Date(Date.now() + 60 * 60 * 1000).toISOString()
-          })
-          .eq('id', data.user.id);
+        // Store verification code using secure RPC function (bypasses RLS)
+        console.log('💾 Storing verification code via RPC...');
+        const { error: updateError } = await supabase.rpc('store_verification_code', {
+          user_id: data.user.id,
+          code: code,
+          expires_at: new Date(Date.now() + 60 * 60 * 1000).toISOString()
+        });
         
         if (updateError) {
           console.error('❌ Failed to store verification code:', updateError);
@@ -348,14 +337,14 @@ const LoginPage = () => {
       const code = Math.floor(100000 + Math.random() * 900000).toString();
       setGeneratedCode(code);
       
-      // Update database
-      await supabase
-        .from('profiles')
-        .update({ 
-          verification_code: code,
-          code_expires_at: new Date(Date.now() + 60 * 60 * 1000).toISOString()
-        })
-        .eq('id', pendingUserId);
+      // Update database using RPC
+      const { error } = await supabase.rpc('store_verification_code', {
+        user_id: pendingUserId,
+        code: code,
+        expires_at: new Date(Date.now() + 60 * 60 * 1000).toISOString()
+      });
+      
+      if (error) throw error;
       
       console.log(`📱 NEW SMS CODE: ${code}`); // Remove in production
       
