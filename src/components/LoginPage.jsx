@@ -151,6 +151,16 @@ const LoginPage = () => {
       if (data?.user) {
         console.log('✅ User created:', data.user.id);
         
+        // CRITICAL: Get the session token into the client
+        console.log('🔄 Refreshing session to get auth token...');
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          console.error('❌ Session refresh failed:', sessionError);
+        } else {
+          console.log('✅ Session established:', sessionData.session ? 'Yes' : 'No');
+        }
+        
         // Generate verification code
         const code = Math.floor(100000 + Math.random() * 900000).toString();
         setGeneratedCode(code);
@@ -182,8 +192,16 @@ const LoginPage = () => {
         // If trigger didn't work, create profile manually
         if (!profileExists) {
           console.log('⚠️ Trigger failed, creating profile manually...');
+          console.log('📋 Profile data to insert:', {
+            id: data.user.id,
+            email: email,
+            first_name: firstName,
+            last_name: lastName,
+            phone: cleanedPhone,
+            phone_verified: false
+          });
           
-          const { error: insertError } = await supabase
+          const { data: insertData, error: insertError } = await supabase
             .from('profiles')
             .insert({
               id: data.user.id,
@@ -192,14 +210,16 @@ const LoginPage = () => {
               last_name: lastName,
               phone: cleanedPhone,
               phone_verified: false
-            });
+            })
+            .select(); // Return the inserted row
           
           if (insertError) {
             console.error('❌ Manual profile creation failed:', insertError);
-            throw new Error('Failed to create profile. Please contact support.');
+            console.error('❌ Error details:', JSON.stringify(insertError, null, 2));
+            throw new Error(`Failed to create profile: ${insertError.message}`);
           }
           
-          console.log('✅ Profile created manually');
+          console.log('✅ Profile created manually:', insertData);
         }
         
         // Store verification code using secure RPC function (bypasses RLS)
