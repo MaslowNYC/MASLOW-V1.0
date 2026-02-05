@@ -202,6 +202,16 @@ const LoginPage = () => {
           console.log('✅ Profile created manually');
         }
         
+        // CRITICAL: Refresh the session to ensure auth.uid() is set for RLS
+        console.log('🔄 Refreshing session...');
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          console.error('❌ Session refresh failed:', sessionError);
+        } else {
+          console.log('✅ Session refreshed:', sessionData.session?.user?.id);
+        }
+        
         // Now store the verification code
         const { error: updateError } = await supabase
           .from('profiles')
