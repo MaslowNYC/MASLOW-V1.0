@@ -53,16 +53,15 @@ export default async function handler(req, res) {
         }),
       });
     } else {
-      // V3 API - create subscriber directly
-      console.log('Using Kit V3 API with api_secret');
+      // V3 API - api_secret goes in URL query param
+      console.log('Using Kit V3 API with api_secret in URL');
 
-      response = await fetch('https://api.convertkit.com/v3/subscribers', {
+      response = await fetch(`https://api.convertkit.com/v3/subscribers?api_secret=${apiSecret}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          api_secret: apiSecret,
           email: email,
           first_name: firstName || '',
         }),
