@@ -293,7 +293,7 @@ const ProfilePage = () => {
               <div className="flex items-center gap-2">
                 <span className="text-[#C5A059] font-bold text-sm uppercase tracking-wider">Member</span>
                 <span className="text-white font-mono text-lg font-bold">
-                #{user?.id?.slice(0, 8).toUpperCase()}
+                #{String(profile?.member_number || 0).padStart(4, '0')}
                 </span>
               </div>
               <div className="h-4 w-px bg-white/30"></div>
