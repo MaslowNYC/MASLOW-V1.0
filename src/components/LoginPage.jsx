@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { supabase } from '@/lib/customSupabaseClient';
@@ -8,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { Loader2, Lock, ArrowLeft, Phone } from 'lucide-react';
+import { Loader2, ArrowLeft } from 'lucide-react';
 
 const LoginPage = () => {
   // Login/Signup state
@@ -23,7 +24,6 @@ const LoginPage = () => {
   const [showVerification, setShowVerification] = useState(false);
   const [verificationCode, setVerificationCode] = useState('');
   const [pendingUserId, setPendingUserId] = useState(null);
-  const [generatedCode, setGeneratedCode] = useState(null); // For test mode
   
   const [searchParams] = useSearchParams();
   const { signIn, signUp } = useAuth();
@@ -40,57 +40,8 @@ const LoginPage = () => {
     }
   };
 
-  // Helper to decide where to send them
-  const checkProfileAndRedirect = async (userId) => {
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('first_name, phone_verified')
-        .eq('id', userId)
-        .single();
-
-      // If phone not verified, show verification screen
-      if (data && !data.phone_verified) {
-        setShowVerification(true);
-        setPendingUserId(userId);
-        return;
-      }
-
-      // If profile complete, go home
-      if (data && data.first_name) {
-        navigate('/');
-      } else {
-        // Profile incomplete, go to setup
-        navigate('/profile');
-      }
-    } catch (e) {
-      navigate('/');
-    }
-  };
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const { data, error } = await signIn({ email, password });
-      if (error) throw error;
-      if (data?.user) await checkProfileAndRedirect(data.user.id);
-    } catch (error) {
-      safeToast({
-        title: "Access Denied",
-        description: error.message || "Invalid credentials.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const formatPhoneNumber = (value) => {
-    // Remove all non-digits
     const cleaned = value.replace(/\D/g, '');
-    
-    // Format as (XXX) XXX-XXXX
     if (cleaned.length <= 3) {
       return cleaned;
     } else if (cleaned.length <= 6) {
@@ -105,18 +56,54 @@ const LoginPage = () => {
     setPhone(formatted);
   };
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const { data, error } = await signIn({ email, password });
+      if (error) throw error;
+      
+      if (data?.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('first_name, phone_verified')
+          .eq('id', data.user.id)
+          .single();
+
+        if (profile && !profile.phone_verified) {
+          setShowVerification(true);
+          setPendingUserId(data.user.id);
+          return;
+        }
+
+        if (profile && profile.first_name) {
+          navigate('/');
+        } else {
+          navigate('/profile');
+        }
+      }
+    } catch (error) {
+      safeToast({
+        title: "Access Denied",
+        description: error.message || "Invalid credentials.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSignUp = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+
     try {
-      // Validate phone number
       const cleanedPhone = phone.replace(/\D/g, '');
+
       if (cleanedPhone.length !== 10) {
         throw new Error('Please enter a valid 10-digit phone number');
       }
 
-      // Validate required fields
       if (!firstName.trim() || !lastName.trim()) {
         throw new Error('Please enter your first and last name');
       }
@@ -151,38 +138,23 @@ const LoginPage = () => {
       if (data?.user) {
         console.log('✅ User created:', data.user.id);
         
-        // CRITICAL: Get the session token into the client
-        console.log('🔄 Refreshing session to get auth token...');
-        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-        
-        if (sessionError) {
-          console.error('❌ Session refresh failed:', sessionError);
-        } else {
-          console.log('✅ Session established:', sessionData.session ? 'Yes' : 'No');
-        }
-        
-        // Generate verification code
-        const code = Math.floor(100000 + Math.random() * 900000).toString();
-        setGeneratedCode(code);
-        
-        console.log('🔑 Generated code:', code);
         console.log('⏳ Waiting for profile to be created by trigger...');
         
-        // Wait for the profile to be created by the trigger (give it up to 5 seconds)
+        // Wait for the profile to be created by the trigger
         let attempts = 0;
         let profileExists = false;
         
         while (attempts < 10 && !profileExists) {
-          await new Promise(resolve => setTimeout(resolve, 500)); // Wait 500ms
+          await new Promise(resolve => setTimeout(resolve, 500));
           
-          const { data: checkData, error: checkError } = await supabase
+          const { data: checkData } = await supabase
             .from('profiles')
             .select('id')
             .eq('id', data.user.id);
           
           if (checkData && checkData.length > 0) {
             profileExists = true;
-            console.log('✅ Profile exists! Storing verification code...');
+            console.log('✅ Profile exists!');
           } else {
             attempts++;
             console.log(`⏳ Profile not ready yet... attempt ${attempts}/10`);
@@ -192,16 +164,8 @@ const LoginPage = () => {
         // If trigger didn't work, create profile manually
         if (!profileExists) {
           console.log('⚠️ Trigger failed, creating profile manually...');
-          console.log('📋 Profile data to insert:', {
-            id: data.user.id,
-            email: email,
-            first_name: firstName,
-            last_name: lastName,
-            phone: cleanedPhone,
-            phone_verified: false
-          });
           
-          const { data: insertData, error: insertError } = await supabase
+          const { error: insertError } = await supabase
             .from('profiles')
             .insert({
               id: data.user.id,
@@ -210,42 +174,34 @@ const LoginPage = () => {
               last_name: lastName,
               phone: cleanedPhone,
               phone_verified: false
-            })
-            .select(); // Return the inserted row
+            });
           
           if (insertError) {
             console.error('❌ Manual profile creation failed:', insertError);
-            console.error('❌ Error details:', JSON.stringify(insertError, null, 2));
             throw new Error(`Failed to create profile: ${insertError.message}`);
           }
           
-          console.log('✅ Profile created manually:', insertData);
+          console.log('✅ Profile created manually');
         }
         
-        // Store verification code using secure RPC function (bypasses RLS)
-        console.log('💾 Storing verification code via RPC...');
-        const { error: updateError } = await supabase.rpc('store_verification_code', {
-          user_id: data.user.id,
-          code: code,
-          expires_at: new Date(Date.now() + 60 * 60 * 1000).toISOString()
-        });
-        
-        if (updateError) {
-          console.error('❌ Failed to store verification code:', updateError);
-          throw updateError;
+        // Send SMS verification via Twilio Verify API
+        console.log('📱 Sending verification code via Twilio...');
+        const { sendVerificationSMS } = await import('../utils/sendSMS');
+        const smsResult = await sendVerificationSMS(cleanedPhone);
+
+        if (!smsResult.success) {
+          console.error('⚠️ SMS failed to send:', smsResult.error);
+          throw new Error('Failed to send verification code. Please try again.');
         }
-        
-        console.log('✅ Verification code stored successfully');
-        
+
+        console.log('✅ Verification SMS sent via Twilio');
+
         setPendingUserId(data.user.id);
         setShowVerification(true);
-        
-        // In production, send SMS here
-        console.log(`📱 SMS VERIFICATION CODE: ${code}`); // Remove this in production
-        
+
         safeToast({
           title: "Verification Code Sent",
-          description: `We've sent a code to ${phone}`,
+          description: `We've sent a 6-digit code to ${phone}`,
         });
       }
     } catch (error) {
@@ -265,63 +221,23 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      console.log('🔍 Checking verification for user:', pendingUserId);
+      console.log('🔍 Verifying code with Twilio...');
       
-      // Get the stored code and expiration
-      const { data, error: fetchError } = await supabase
-        .from('profiles')
-        .select('verification_code, code_expires_at')
-        .eq('id', pendingUserId);
+      // Verify code using Twilio Verify API
+      const { verifyCode } = await import('../utils/sendSMS');
+      const cleanedPhone = phone.replace(/\D/g, '');
+      const verifyResult = await verifyCode(cleanedPhone, verificationCode);
 
-      console.log('📊 Query result:', { data, error: fetchError });
-
-      if (fetchError) {
-        console.error('❌ Fetch error:', fetchError);
-        throw fetchError;
-      }
-      
-      if (!data || data.length === 0) {
-        console.error('❌ No profile found for user:', pendingUserId);
-        throw new Error('Profile not found. Please try signing up again.');
-      }
-      
-      const profile = data[0];
-      console.log('✅ Profile found:', profile);
-
-      // Check if code expired
-      const expiresAt = new Date(profile.code_expires_at);
-      const now = new Date();
-      console.log('⏰ Time check:', { 
-        expiresAt: expiresAt.toISOString(), 
-        now: now.toISOString(),
-        expired: expiresAt < now 
-      });
-      
-      if (expiresAt < now) {
-        console.error('⏰ Code expired');
-        throw new Error('Verification code expired. Please request a new one.');
+      if (!verifyResult.success) {
+        throw new Error(verifyResult.error || 'Invalid verification code');
       }
 
-      // Check if code matches
-      console.log('🔑 Comparing codes:', { 
-        entered: verificationCode, 
-        stored: profile.verification_code 
-      });
-      
-      if (profile.verification_code !== verificationCode) {
-        throw new Error('Invalid verification code');
-      }
+      console.log('✅ Code verified by Twilio!');
 
-      console.log('✅ Code matched! Updating profile...');
-
-      // Mark phone as verified
+      // Update profile to mark phone as verified
       const { error: updateError } = await supabase
         .from('profiles')
-        .update({ 
-          phone_verified: true,
-          verification_code: null,
-          code_expires_at: null
-        })
+        .update({ phone_verified: true })
         .eq('id', pendingUserId);
 
       if (updateError) {
@@ -329,14 +245,11 @@ const LoginPage = () => {
         throw updateError;
       }
 
-      console.log('✅ Phone verified successfully!');
-
       safeToast({
         title: "Phone Verified! ✓",
         description: "Welcome to Maslow",
       });
 
-      // Proceed to profile setup or home
       navigate('/profile');
     } catch (error) {
       console.error('❌ Verification error:', error);
@@ -353,23 +266,21 @@ const LoginPage = () => {
   const handleResendCode = async () => {
     setLoading(true);
     try {
-      // Generate new code
-      const code = Math.floor(100000 + Math.random() * 900000).toString();
-      setGeneratedCode(code);
+      console.log('📱 Resending verification code...');
       
-      // Update database using RPC
-      const { error } = await supabase.rpc('store_verification_code', {
-        user_id: pendingUserId,
-        code: code,
-        expires_at: new Date(Date.now() + 60 * 60 * 1000).toISOString()
-      });
-      
-      if (error) throw error;
-      
-      console.log(`📱 NEW SMS CODE: ${code}`); // Remove in production
+      // Resend via Twilio Verify API
+      const { sendVerificationSMS } = await import('../utils/sendSMS');
+      const cleanedPhone = phone.replace(/\D/g, '');
+      const smsResult = await sendVerificationSMS(cleanedPhone);
+
+      if (!smsResult.success) {
+        throw new Error('Failed to resend code. Please try again.');
+      }
+
+      console.log('✅ New code sent via Twilio');
       
       safeToast({
-        title: "Code Resent",
+        title: "New Code Sent",
         description: "Check your phone for the new code",
       });
     } catch (error) {
@@ -383,224 +294,206 @@ const LoginPage = () => {
     }
   };
 
-  // If showing verification screen
+  const handleBackToSignup = () => {
+    setShowVerification(false);
+    setVerificationCode('');
+    setPendingUserId(null);
+  };
+
+  // SMS Verification Screen
   if (showVerification) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F5F1E8] p-4">
-        <Card className="w-full max-w-md border-[#3B5998]">
-          <CardHeader className="space-y-2">
-            <button
-              onClick={() => {
-                setShowVerification(false);
-                setPendingUserId(null);
-                setVerificationCode('');
-                setGeneratedCode(null);
-              }}
-              className="flex items-center text-sm text-[#3B5998] hover:text-[#2d4373] mb-2"
+      <div className="min-h-screen bg-gradient-to-br from-[#1a1a1a] via-[#2C5F8D] to-[#1a1a1a] flex items-center justify-center p-4">
+        <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C5A059]/30">
+          <CardHeader className="space-y-1 pb-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleBackToSignup}
+              className="w-fit mb-2 text-white/60 hover:text-white"
             >
-              <ArrowLeft className="mr-1 h-4 w-4" />
+              <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Signup
-            </button>
-            <div className="flex items-center gap-2">
-              <Phone className="h-6 w-6 text-[#3B5998]" />
-              <CardTitle className="text-2xl text-[#3B5998]">Verify Your Phone</CardTitle>
-            </div>
-            <CardDescription>
+            </Button>
+            <CardTitle className="text-2xl font-bold text-center text-[#C5A059]">
+              Verify Your Phone
+            </CardTitle>
+            <CardDescription className="text-center text-white/60">
               Enter the 6-digit code we sent to {phone || 'your phone'}
             </CardDescription>
           </CardHeader>
-          <form onSubmit={handleVerifyCode}>
-            <CardContent className="space-y-4">
+          <CardContent>
+            <form onSubmit={handleVerifyCode} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="code">Verification Code</Label>
+                <Label htmlFor="code" className="text-white">Verification Code</Label>
                 <Input
                   id="code"
                   type="text"
-                  placeholder="000000"
+                  placeholder="123456"
                   value={verificationCode}
                   onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                   maxLength={6}
-                  className="text-center text-2xl tracking-widest"
+                  className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white text-center text-2xl tracking-widest"
                   required
                 />
               </div>
-            </CardContent>
-            <CardFooter className="flex flex-col space-y-2">
               <Button
                 type="submit"
-                className="w-full bg-[#3B5998] hover:bg-[#2d4373]"
                 disabled={loading || verificationCode.length !== 6}
+                className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold"
               >
-                {loading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Verifying...
-                  </>
-                ) : (
-                  'Verify Phone'
-                )}
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Verify Code"}
               </Button>
               <Button
                 type="button"
                 variant="ghost"
                 onClick={handleResendCode}
                 disabled={loading}
-                className="w-full text-[#3B5998]"
+                className="w-full text-white/60 hover:text-white"
               >
-                Resend Code
+                Didn't receive a code? Resend
               </Button>
-            </CardFooter>
-          </form>
+            </form>
+          </CardContent>
         </Card>
       </div>
     );
   }
 
-  // Normal login/signup screen
+  // Login/Signup Screen
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F5F1E8] p-4">
-      <Card className="w-full max-w-md border-[#3B5998]">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl text-center text-[#3B5998]">Maslow</CardTitle>
-          <CardDescription className="text-center">
-            The Infrastructure of Dignity
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue={defaultTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="login">Sign In</TabsTrigger>
-              <TabsTrigger value="signup">Sign Up</TabsTrigger>
+    <div className="min-h-screen bg-gradient-to-br from-[#1a1a1a] via-[#2C5F8D] to-[#1a1a1a] flex items-center justify-center p-4">
+      <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C5A059]/30">
+        <Tabs defaultValue={defaultTab} className="w-full">
+          <CardHeader className="space-y-1 pb-4">
+            <div className="flex flex-col items-center mb-4">
+              <h1 className="text-4xl font-bold text-[#C5A059] mb-2">Maslow</h1>
+              <p className="text-white/60 text-sm">The Infrastructure of Dignity</p>
+            </div>
+            <TabsList className="grid w-full grid-cols-2 bg-white/5">
+              <TabsTrigger value="login" className="data-[state=active]:bg-white/10">
+                Sign In
+              </TabsTrigger>
+              <TabsTrigger value="signup" className="data-[state=active]:bg-white/10">
+                Sign Up
+              </TabsTrigger>
             </TabsList>
+          </CardHeader>
 
-            {/* LOGIN TAB */}
+          <CardContent>
+            {/* LOGIN FORM */}
             <TabsContent value="login">
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="login-email">Email</Label>
+                  <Label htmlFor="login-email" className="text-white">Email</Label>
                   <Input
                     id="login-email"
                     type="email"
                     placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
                     required
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="login-password">Password</Label>
+                  <Label htmlFor="login-password" className="text-white">Password</Label>
                   <Input
                     id="login-password"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
                     required
                   />
                 </div>
                 <Button
                   type="submit"
-                  className="w-full bg-[#3B5998] hover:bg-[#2d4373]"
                   disabled={loading}
+                  className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold mt-4"
                 >
-                  {loading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Signing in...
-                    </>
-                  ) : (
-                    <>
-                      <Lock className="mr-2 h-4 w-4" />
-                      Sign In
-                    </>
-                  )}
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Sign In"}
                 </Button>
               </form>
             </TabsContent>
 
-            {/* SIGNUP TAB */}
+            {/* SIGNUP FORM */}
             <TabsContent value="signup">
               <form onSubmit={handleSignUp} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName">First Name</Label>
+                    <Label htmlFor="first-name" className="text-white">First Name</Label>
                     <Input
-                      id="firstName"
+                      id="first-name"
                       type="text"
-                      placeholder="John"
+                      placeholder="Patrick"
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
+                      className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
                       required
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="lastName">Last Name</Label>
+                    <Label htmlFor="last-name" className="text-white">Last Name</Label>
                     <Input
-                      id="lastName"
+                      id="last-name"
                       type="text"
-                      placeholder="Doe"
+                      placeholder="May"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
+                      className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
                       required
                     />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-email">Email</Label>
+                  <Label htmlFor="signup-email" className="text-white">Email</Label>
                   <Input
                     id="signup-email"
                     type="email"
                     placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
                     required
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Phone Number</Label>
+                  <Label htmlFor="phone" className="text-white">Phone Number</Label>
                   <Input
                     id="phone"
                     type="tel"
                     placeholder="(555) 123-4567"
                     value={phone}
                     onChange={handlePhoneChange}
+                    className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
                     required
                   />
-                  <p className="text-xs text-gray-500">
-                    We'll send a verification code to this number
-                  </p>
+                  <p className="text-xs text-white/40">We'll send a verification code to this number</p>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-password">Password</Label>
+                  <Label htmlFor="signup-password" className="text-white">Password</Label>
                   <Input
                     id="signup-password"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
                     required
-                    minLength={6}
                   />
-                  <p className="text-xs text-gray-500">
-                    Minimum 6 characters
-                  </p>
+                  <p className="text-xs text-white/40">Minimum 6 characters</p>
                 </div>
                 <Button
                   type="submit"
-                  className="w-full bg-[#3B5998] hover:bg-[#2d4373]"
                   disabled={loading}
+                  className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold mt-4"
                 >
-                  {loading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Creating account...
-                    </>
-                  ) : (
-                    'Create Account'
-                  )}
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Create Account"}
                 </Button>
               </form>
             </TabsContent>
-          </Tabs>
-        </CardContent>
+          </CardContent>
+        </Tabs>
       </Card>
     </div>
   );
