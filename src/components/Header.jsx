@@ -4,7 +4,7 @@ import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { Button } from '@/components/ui/button';
 import { LayoutDashboard, LogOut, Menu, X, User } from 'lucide-react';
 
-const Header = () => {
+const Header = ({ setIsCartOpen }) => {
   const { user, signOut, isFounder } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
