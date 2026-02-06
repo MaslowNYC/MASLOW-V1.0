@@ -1,14 +1,33 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 import HeroCarousel from '@/components/HeroCarousel';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { motion } from 'framer-motion';
+import '@/styles/kit-overrides.css';
 
 const HomePage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  // Kit (ConvertKit) email signup: load script via useEffect (React doesn't execute <script> in JSX)
+  useEffect(() => {
+    if (user) return;
+    const script = document.createElement('script');
+    script.src = 'https://maslownyc.kit.com/5d27517f5d/index.js';
+    script.async = true;
+    script.setAttribute('data-uid', '5d27517f5d');
+    const container = document.getElementById('kit-form');
+    if (container) {
+      container.appendChild(script);
+    }
+    return () => {
+      if (container?.contains(script)) {
+        container.removeChild(script);
+      }
+    };
+  }, [user]);
 
   return (
     <>
@@ -51,6 +70,11 @@ const HomePage = () => {
               <p className="text-2xl md:text-3xl text-white/90 mb-8 font-light drop-shadow">
                 The Infrastructure of Dignity.
               </p>
+              {/* Kit Email Signup - script loaded via useEffect */}
+              <div
+                id="kit-form"
+                className="mt-8 max-w-md mx-auto bg-white/95 text-[#1a1a1a] p-6 md:p-8 rounded-lg shadow-lg"
+              />
             </motion.div>
           )}
         </div>
