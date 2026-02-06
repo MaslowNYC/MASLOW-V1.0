@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { Loader2, ArrowLeft } from 'lucide-react';
+import { subscribeToKit } from '@/utils/kitSubscribe';
 
 const LoginPage = () => {
   // Login/Signup state
@@ -183,7 +184,11 @@ const LoginPage = () => {
           
           console.log('✅ Profile created manually');
         }
-        
+
+        // Auto-subscribe to Kit mailing list (don't block signup if it fails)
+        console.log('📧 Subscribing to Kit mailing list...');
+        await subscribeToKit(email, firstName);
+
         // Send SMS verification via Twilio Verify API
         console.log('📱 Sending verification code via Twilio...');
         const { sendVerificationSMS } = await import('../utils/sendSMS');

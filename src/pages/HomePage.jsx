@@ -49,19 +49,9 @@ const HomePage = () => {
               <p className="text-2xl md:text-3xl text-white/90 mb-8 font-light drop-shadow">
                 The Infrastructure of Dignity.
               </p>
-              {/* Kit Email Signup - only for logged out users */}
-              <div className="mt-8 max-w-md mx-auto bg-white/95 text-[#1a1a1a] p-6 md:p-8 rounded-lg shadow-lg overflow-hidden">
-                <iframe
-                  src="https://maslownyc.kit.com/5d27517f5d"
-                  style={{
-                    width: '100%',
-                    minHeight: '280px',
-                    border: 'none',
-                  }}
-                  title="Join the Maslow Waitlist"
-                  loading="lazy"
-                />
-              </div>
+              <p className="text-sm text-white/50 mt-4">
+                Sign up to join our community and receive updates.
+              </p>
             </motion.div>
           )}
         </div>
