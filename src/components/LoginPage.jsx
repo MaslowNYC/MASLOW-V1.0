@@ -247,8 +247,18 @@ const LoginPage = () => {
 
       safeToast({
         title: "Phone Verified! ✓",
-        description: "Welcome to Maslow",
+        description: "Signing you in...",
       });
+
+      // Sign them in automatically
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
+
+      if (signInError) {
+        throw signInError;
+      }
 
       navigate('/profile');
     } catch (error) {
