@@ -18,6 +18,7 @@ const ProfilePage = () => {
   const [saving, setSaving] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [isZoomed, setIsZoomed] = useState(false);
+  const [expandedKit, setExpandedKit] = useState(null);
 
   // --- FORM STATE ---
   const [profile, setProfile] = useState({
@@ -33,11 +34,36 @@ const ProfilePage = () => {
 
   // --- DATA OPTIONS ---
   const usageOptions = [
-    { id: 'prayer', label: 'Prayer / Meditation', icon: '🙏' },
-    { id: 'pumping', label: 'Nursing / Pumping', icon: '🍼' },
-    { id: 'interview', label: 'Interview Prep', icon: '👔' },
-    { id: 'decompress', label: 'Sensory Decompression', icon: '🧠' },
-    { id: 'change', label: 'Outfit Change', icon: '👕' },
+    {
+      id: 'prayer',
+      label: 'Prayer / Meditation',
+      icon: '🙏',
+      description: 'Prayer rug, qibla compass, ablution station, meditation cushion',
+    },
+    {
+      id: 'pumping',
+      label: 'Nursing / Pumping',
+      icon: '🍼',
+      description: 'Breast pump accessories, nursing pillow, privacy screen, cleaning supplies',
+    },
+    {
+      id: 'interview',
+      label: 'Interview Prep',
+      icon: '👔',
+      description: 'Full-length mirror, iron & steamer, lint roller, emergency sewing kit',
+    },
+    {
+      id: 'decompress',
+      label: 'Sensory Decompression',
+      icon: '🧠',
+      description: 'Noise-canceling headphones, weighted blanket, dim lighting, white noise options',
+    },
+    {
+      id: 'change',
+      label: 'Outfit Change',
+      icon: '👕',
+      description: 'Garment steamer, full-length mirror, privacy curtain, clothing hooks',
+    },
   ];
 
   const amenityOptions = [
@@ -434,16 +460,35 @@ const ProfilePage = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               {usageOptions.map(item => (
-                <div key={item.id} className="flex items-center space-x-3 p-2 rounded hover:bg-gray-50 transition-colors">
-                  <Checkbox 
-                    id={item.id} 
-                    checked={(profile.preferences_usage || []).includes(item.id)}
-                    onCheckedChange={() => togglePreference('preferences_usage', item.id)}
-                    className="border-[#C5A059] data-[state=checked]:bg-[#C5A059]"
-                  />
-                  <Label htmlFor={item.id} className="cursor-pointer flex-grow text-[#3B5998] font-medium flex items-center gap-2">
-                    <span className="text-xl">{item.icon}</span> {item.label}
-                  </Label>
+                <div key={item.id} className="border-b border-gray-100 pb-3 last:border-0">
+                  <div className="flex items-center space-x-3 p-2 rounded hover:bg-gray-50 transition-colors">
+                    <Checkbox
+                      id={item.id}
+                      checked={(profile.preferences_usage || []).includes(item.id)}
+                      onCheckedChange={() => togglePreference('preferences_usage', item.id)}
+                      className="border-[#C5A059] data-[state=checked]:bg-[#C5A059]"
+                    />
+                    <Label
+                      htmlFor={item.id}
+                      className="cursor-pointer flex-grow text-[#3B5998] font-medium flex items-center gap-2"
+                    >
+                      <span className="text-xl">{item.icon}</span> {item.label}
+                    </Label>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setExpandedKit(expandedKit === item.id ? null : item.id)}
+                      className="text-[#3B5998]/60 hover:text-[#3B5998]"
+                    >
+                      {expandedKit === item.id ? '−' : '+'}
+                    </Button>
+                  </div>
+                  {expandedKit === item.id && item.description && (
+                    <div className="mt-2 ml-9 text-sm text-[#3B5998]/70 bg-[#F5F1E8] p-3 rounded">
+                      {item.description}
+                    </div>
+                  )}
                 </div>
               ))}
             </CardContent>
