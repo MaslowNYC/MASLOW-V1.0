@@ -1,6 +1,6 @@
 /**
- * Vercel Serverless Function - Kit V4 API
- * Handles email subscriptions securely (API key stays server-side)
+ * Vercel Serverless Function - Kit V3 Forms API
+ * Handles email subscriptions securely (API secret stays server-side)
  */
 
 export default async function handler(req, res) {
@@ -15,30 +15,31 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Email is required' });
   }
 
-  const apiKey = process.env.KIT_API_KEY;
+  const apiSecret = process.env.KIT_API_SECRET;
+  const formId = process.env.KIT_FORM_ID || '5d27517f5d';
 
-  if (!apiKey) {
-    console.error('KIT_API_KEY not configured');
-    return res.status(500).json({ error: 'Server configuration error', hint: 'Set KIT_API_KEY env var' });
+  if (!apiSecret) {
+    console.error('KIT_API_SECRET not configured');
+    return res.status(500).json({ error: 'Server configuration error', hint: 'Set KIT_API_SECRET env var' });
   }
 
   // Log key prefix for debugging
-  console.log('Kit API key starts with:', apiKey.substring(0, 6) + '...');
+  console.log('Kit API secret starts with:', apiSecret.substring(0, 6) + '...');
+  console.log('Using form ID:', formId);
 
   try {
-    // Kit V4 API
-    console.log('Calling Kit V4 API...');
+    // Kit V3 Forms API
+    console.log('Calling Kit V3 Forms API...');
 
-    const response = await fetch('https://api.kit.com/v4/subscribers', {
+    const response = await fetch(`https://api.convertkit.com/v3/forms/${formId}/subscribe`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        email_address: email,
+        api_secret: apiSecret,
+        email: email,
         first_name: firstName || '',
-        state: 'active',
       }),
     });
 
