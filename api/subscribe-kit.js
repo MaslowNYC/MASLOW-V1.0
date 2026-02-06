@@ -53,10 +53,11 @@ export default async function handler(req, res) {
         }),
       });
     } else {
-      // V3 API - uses api_secret in body
-      console.log('Using Kit V3 API with api_secret');
+      // V3 API - uses forms endpoint with api_secret in body
+      const formId = process.env.KIT_FORM_ID || '5d27517f5d';
+      console.log('Using Kit V3 API with api_secret, form:', formId);
 
-      response = await fetch('https://api.convertkit.com/v3/subscribers', {
+      response = await fetch(`https://api.convertkit.com/v3/forms/${formId}/subscribe`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
