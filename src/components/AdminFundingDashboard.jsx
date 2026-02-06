@@ -15,7 +15,6 @@ const AdminFundingDashboard = () => {
   // Security State
   const [verifying, setVerifying] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
-
   // Data State
   const [stats, setStats] = useState({
     totalUsers: 0,
