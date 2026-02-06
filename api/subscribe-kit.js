@@ -1,8 +1,6 @@
 /**
- * Vercel Serverless Function - Kit (ConvertKit) API
+ * Vercel Serverless Function - Kit V4 API
  * Handles email subscriptions securely (API key stays server-side)
- *
- * Supports both V3 (api_secret) and V4 (kit_ Bearer token) keys
  */
 
 export default async function handler(req, res) {
@@ -17,58 +15,34 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Email is required' });
   }
 
-  // Check for API secret (try multiple env var names)
-  const apiSecret = process.env.KIT_API_SECRET || process.env.CONVERTKIT_API_SECRET || process.env.KIT_API_KEY;
+  const apiKey = process.env.KIT_API_KEY;
 
-  if (!apiSecret) {
-    console.error('No Kit API secret found. Checked: KIT_API_SECRET, CONVERTKIT_API_SECRET, KIT_API_KEY');
-    return res.status(500).json({
-      error: 'Server configuration error',
-      hint: 'Set KIT_API_SECRET env var with your ConvertKit API Secret (not API Key)'
-    });
+  if (!apiKey) {
+    console.error('KIT_API_KEY not configured');
+    return res.status(500).json({ error: 'Server configuration error', hint: 'Set KIT_API_KEY env var' });
   }
 
   // Log key prefix for debugging
-  console.log('Kit API secret starts with:', apiSecret.substring(0, 6) + '...');
-  console.log('Key type:', apiSecret.startsWith('kit_') ? 'V4 (kit_)' : 'V3 (legacy)');
+  console.log('Kit API key starts with:', apiKey.substring(0, 6) + '...');
 
   try {
-    let response;
-    let data;
+    // Kit V4 API
+    console.log('Calling Kit V4 API...');
 
-    if (apiSecret.startsWith('kit_')) {
-      // V4 API - uses Bearer token auth
-      console.log('Using Kit V4 API with Bearer auth');
+    const response = await fetch('https://api.kit.com/v4/subscribers', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        email_address: email,
+        first_name: firstName || '',
+        state: 'active',
+      }),
+    });
 
-      response = await fetch('https://api.kit.com/v4/subscribers', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiSecret}`,
-        },
-        body: JSON.stringify({
-          email_address: email,
-          first_name: firstName || '',
-          state: 'active',
-        }),
-      });
-    } else {
-      // V3 API - api_secret goes in URL query param
-      console.log('Using Kit V3 API with api_secret in URL');
-
-      response = await fetch(`https://api.convertkit.com/v3/subscribers?api_secret=${apiSecret}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email,
-          first_name: firstName || '',
-        }),
-      });
-    }
-
-    data = await response.json();
+    const data = await response.json();
     console.log('Kit API response status:', response.status);
     console.log('Kit API response:', JSON.stringify(data).substring(0, 200));
 
