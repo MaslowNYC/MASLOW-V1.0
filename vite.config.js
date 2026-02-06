@@ -1,4 +1,3 @@
-
 import path from 'node:path';
 import react from '@vitejs/plugin-react';
 import { defineConfig, createLogger } from 'vite';
@@ -17,7 +16,7 @@ logger.error = (msg, options) => {
 export default defineConfig({
     customLogger: logger,
     plugins: [
-        react(), // The only plugin you need
+        react(),
     ],
     resolve: {
         alias: {
@@ -27,5 +26,10 @@ export default defineConfig({
     build: {
         outDir: 'dist',
         sourcemap: true,
+    },
+    server: {
+        headers: {
+            'Content-Security-Policy': "connect-src 'self' https://*.supabase.co https://api.stripe.com https://verify.twilio.com"
+        }
     }
 });
