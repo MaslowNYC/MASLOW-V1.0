@@ -105,8 +105,7 @@ const HeroSection = ({ variant = 'default', children }) => {
         </motion.div>
 
       </div>
-      <script async data-uid="5d27517f5d" src="https://maslownyc.kit.com/5d27517f5d/index.js"></script>
-    </section>
+         </section>
   );
 };
 
