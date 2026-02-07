@@ -19,8 +19,9 @@ const Header = ({ setIsCartOpen }) => {
   };
 
   const navLinks = [
-    { name: 'IMPACT', path: '/impact' }, 
+    { name: 'IMPACT', path: '/impact' },
     { name: 'THE HULL', path: '/hull' },
+    { name: 'SUITES', path: '/suites' },
     //{ name: 'THE LOTUS', path: '/lotus' },
     //{ name: 'MEMBERSHIP', path: '/membership' },
     //{ name: 'STORE', path: '/store' },

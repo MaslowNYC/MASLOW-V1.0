@@ -29,6 +29,8 @@ import SanctuaryPage from '@/pages/SanctuaryPage';
 import TheLotusPage from '@/pages/TheLotusPage';
 import MembershipPage from '@/pages/MembershipPage';
 import ImpactPage from '@/pages/ImpactPage';
+import HullPage from '@/pages/HullPage';
+import SanctuarySuitesPage from '@/pages/SanctuarySuitesPage';
 import AdminFundingDashboard from '@/components/AdminFundingDashboard';
 import Dashboard from '@/pages/Dashboard';
 
@@ -58,7 +60,8 @@ const AppContent = () => {
           <Route path="/staff/inventory" element={<StaffInventory />} />
           
           {/* Protected Routes */}
-          <Route path="/hull" element={<ProtectedRoute><SanctuaryPage /></ProtectedRoute>} />
+          <Route path="/hull" element={<ProtectedRoute><HullPage /></ProtectedRoute>} />
+          <Route path="/suites" element={<ProtectedRoute><SanctuarySuitesPage /></ProtectedRoute>} />
           <Route path="/sanctuary" element={<Navigate to="/hull" replace />} />
           <Route path="/lotus" element={<ProtectedRoute><TheLotusPage /></ProtectedRoute>} />
           <Route path="/impact" element={<ProtectedRoute><ImpactPage /></ProtectedRoute>} />
