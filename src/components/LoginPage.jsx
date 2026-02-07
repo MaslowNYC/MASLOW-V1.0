@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { Loader2, ArrowLeft } from 'lucide-react';
 import { subscribeToKit } from '@/utils/kitSubscribe';
+import { identifyUser } from '@/utils/customerio';
 
 const LoginPage = () => {
   // Login/Signup state
@@ -156,12 +157,19 @@ const LoginPage = () => {
           if (checkData && checkData.length > 0) {
             profileExists = true;
             console.log('✅ Profile exists!');
+
+            // Identify user in Customer.io
+            try {
+              await identifyUser(data.user, { member_number: null, first_name: firstName });
+            } catch (error) {
+              console.error('Customer.io failed, continuing signup:', error);
+            }
           } else {
             attempts++;
             console.log(`⏳ Profile not ready yet... attempt ${attempts}/10`);
           }
         }
-        
+
         // If trigger didn't work, create profile manually
         if (!profileExists) {
           console.log('⚠️ Trigger failed, creating profile manually...');
