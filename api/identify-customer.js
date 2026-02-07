@@ -1,14 +1,9 @@
-// Force redeploy with new env vars - 2026-02-07
-import { TrackClient } from 'customerio-node';
+// Customer.io CDP API - 2026-02-07
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
-
-  // Log to verify env vars are loading
-  console.log('Site ID exists?', !!process.env.CUSTOMERIO_SITE_ID);
-  console.log('API Key exists?', !!process.env.CUSTOMERIO_API_KEY);
 
   const { userId, email, memberNumber, memberTier, firstName } = req.body;
 
@@ -21,25 +16,32 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'userId and email are required' });
   }
 
-  const SITE_ID = process.env.CUSTOMERIO_SITE_ID;
-  const API_KEY = process.env.CUSTOMERIO_API_KEY;
-
-  if (!SITE_ID || !API_KEY) {
-    console.error('Customer.io credentials missing');
-    return res.status(500).json({ error: 'Server configuration error' });
-  }
-
-  const cio = new TrackClient(SITE_ID, API_KEY);
-
   try {
-    await cio.identify({
-      id: userId,  // Make sure this is a string
-      email: email,
-      created_at: Math.floor(Date.now() / 1000),
-      member_number: memberNumber,
-      member_tier: memberTier || 'free',
-      name: firstName || ''
+    const response = await fetch('https://cdp.customer.io/v1/identify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic NTllOTRjYzJkYjA3ZDkyY2I4NzM6'
+      },
+      body: JSON.stringify({
+        userId: userId,
+        traits: {
+          email: email,
+          member_number: memberNumber || null,
+          member_tier: memberTier || 'free',
+          name: firstName || '',
+          created_at: Math.floor(Date.now() / 1000)
+        }
+      })
     });
+
+    console.log('Customer.io CDP response status:', response.status);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Customer.io CDP error:', errorText);
+      return res.status(response.status).json({ error: 'Customer.io failed', details: errorText });
+    }
 
     console.log('✅ User identified in Customer.io:', email);
     return res.status(200).json({ success: true });
