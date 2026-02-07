@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { Button } from '@/components/ui/button';
 import { LayoutDashboard, LogOut, Menu, X, CircleUser } from 'lucide-react';
+import { resetIdentity } from '@/utils/customerio';
 
 const ADMIN_EMAILS = [
   'patrick@maslownyc.com',
@@ -21,6 +22,7 @@ const Header = ({ setIsCartOpen }) => {
   const isAdmin = user?.email && ADMIN_EMAILS.includes(user.email.toLowerCase());
 
   const handleLogout = async () => {
+    resetIdentity(); // Reset Customer.io identity
     await signOut();
     navigate('/login');
     setMobileMenuOpen(false);

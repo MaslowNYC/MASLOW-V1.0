@@ -77,6 +77,9 @@ const LoginPage = () => {
           return;
         }
 
+        // Identify user in Customer.io on login
+        identifyUser(data.user, { first_name: profile?.first_name });
+
         if (profile && profile.first_name) {
           navigate('/');
         } else {
