@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, LogOut, Menu, X, User } from 'lucide-react';
+import { LayoutDashboard, LogOut, Menu, X, CircleUser } from 'lucide-react';
+
+const ADMIN_EMAILS = [
+  'patrick@maslownyc.com',
+  'cat@maslownyc.com',
+  'dayna@maslownyc.com'
+];
 
 const Header = ({ setIsCartOpen }) => {
   const { user, signOut, isFounder } = useAuth();
@@ -11,6 +17,8 @@ const Header = ({ setIsCartOpen }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   if (!user) return null;
+
+  const isAdmin = user?.email && ADMIN_EMAILS.includes(user.email.toLowerCase());
 
   const handleLogout = async () => {
     await signOut();
@@ -67,17 +75,17 @@ const Header = ({ setIsCartOpen }) => {
           {/* User Controls */}
           <div className="flex items-center gap-2 border-l border-[#3B5998]/20 pl-6">
             <Link to="/profile">
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 className={`h-8 text-xs uppercase tracking-wider ${isActive('/profile') ? 'text-[#C5A059]' : 'text-[#3B5998] hover:text-[#C5A059]'}`}
               >
-                <User className="w-4 h-4 mr-2" />
+                <CircleUser className="w-4 h-4 mr-2" />
                 Profile
               </Button>
             </Link>
 
-            {user && (
+            {isAdmin && (
               <Link to="/admin">
                 <Button variant="ghost" size="sm" className="text-[#3B5998] hover:text-[#C5A059] hover:bg-[#3B5998]/5 h-8 text-xs uppercase tracking-wider">
                   <LayoutDashboard className="w-4 h-4 mr-2" />
@@ -134,9 +142,9 @@ const Header = ({ setIsCartOpen }) => {
               Profile
             </Link>
             
-            {user && (
-              <Link 
-                to="/admin" 
+            {isAdmin && (
+              <Link
+                to="/admin"
                 className="text-lg font-bold tracking-widest uppercase text-[#3B5998]"
                 onClick={() => setMobileMenuOpen(false)}
               >
