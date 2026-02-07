@@ -447,7 +447,7 @@ const LoginPage = () => {
                     <Input
                       id="first-name"
                       type="text"
-                      placeholder="Patrick"
+                      placeholder="First name"
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                       className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
@@ -459,7 +459,7 @@ const LoginPage = () => {
                     <Input
                       id="last-name"
                       type="text"
-                      placeholder="May"
+                      placeholder="Last name"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
                       className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
