@@ -1,3 +1,4 @@
+// Force redeploy with new env vars - 2026-02-07
 import { TrackClient } from 'customerio-node';
 
 export default async function handler(req, res) {
