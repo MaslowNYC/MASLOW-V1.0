@@ -25,7 +25,6 @@ import StorePage from '@/pages/StorePage';
 import ProductDetailPage from '@/pages/ProductDetailPage';
 import CheckoutSuccessPage from '@/pages/CheckoutSuccessPage';
 import LocationDetail from '@/pages/LocationDetail';
-import SanctuaryPage from '@/pages/SanctuaryPage';
 import TheLotusPage from '@/pages/TheLotusPage';
 import MembershipPage from '@/pages/MembershipPage';
 import ImpactPage from '@/pages/ImpactPage';
