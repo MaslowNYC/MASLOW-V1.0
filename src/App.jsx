@@ -39,6 +39,7 @@ import ProfilePage from '@/pages/ProfilePage';
 import MissionPage from '@/pages/MissionPage';
 import DrMaslowPage from '@/pages/DrMaslowPage';
 import ConciergeDashboard from '@/pages/ConciergeDashboard';
+import CityPartnerships from '@/pages/CityPartnerships';
 
 const AppContent = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -78,6 +79,7 @@ const AppContent = () => {
           {/* --- RESTORED ROUTES --- */}
           <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="/mission" element={<MissionPage />} />
+          <Route path="/partnerships" element={<CityPartnerships />} />
           <Route path="/maslow" element={<DrMaslowPage />} />
           <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} />
 
