@@ -32,9 +32,6 @@ const Header = ({ setIsCartOpen }) => {
     { name: 'IMPACT', path: '/impact' },
     { name: 'THE HULL', path: '/hull' },
     { name: 'SUITES', path: '/suites' },
-    //{ name: 'THE LOTUS', path: '/lotus' },
-    //{ name: 'MEMBERSHIP', path: '/membership' },
-    //{ name: 'STORE', path: '/store' },
   ];
 
   const isActive = (path) => location.pathname === path;

@@ -37,7 +37,6 @@ import Dashboard from '@/pages/Dashboard';
 // --- RESTORED IMPORTS (Waking them up!) ---
 import ProfilePage from '@/pages/ProfilePage';
 import MissionPage from '@/pages/MissionPage';
-import DrMaslowPage from '@/pages/DrMaslowPage';
 import ConciergeDashboard from '@/pages/ConciergeDashboard';
 import CityPartnerships from '@/pages/CityPartnerships';
 
@@ -80,8 +79,7 @@ const AppContent = () => {
           <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="/mission" element={<MissionPage />} />
           <Route path="/partnerships" element={<CityPartnerships />} />
-          <Route path="/maslow" element={<DrMaslowPage />} />
-          <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} />
+                    <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
