@@ -37,7 +37,7 @@ import Dashboard from '@/pages/Dashboard';
 import ProfilePage from '@/pages/ProfilePage';
 import MissionPage from '@/pages/MissionPage';
 import ConciergeDashboard from '@/pages/ConciergeDashboard';
-import CityPartnerships from '@/pages/CityPartnerships';
+import Partnerships from '@/pages/Partnerships';
 
 const AppContent = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -77,7 +77,7 @@ const AppContent = () => {
           {/* --- RESTORED ROUTES --- */}
           <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="/mission" element={<MissionPage />} />
-          <Route path="/partnerships" element={<CityPartnerships />} />
+          <Route path="/partnerships" element={<Partnerships />} />
                     <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
