@@ -129,7 +129,7 @@ const MembershipPage = () => {
     <div className="space-y-4 mb-8">
       <p className="text-[#3B5998]/80 font-light italic">"A literal key to the city."</p>
       <ul className="text-sm text-[#3B5998] space-y-2">
-        <li>• Unlimited Sanctuary Suite Access + 1 Guest</li>
+        <li>• Unlimited Maslow Suite Access + 1 Guest</li>
         <li>• Permanent Name on Founding Plaque</li>
         <li>• 24/7 Private Key Access</li>
         <li>• Equity-Free Patronage</li>

@@ -64,7 +64,7 @@ const RevenueSimulator = () => {
 
   // Financial Projection State
   const [formData, setFormData] = useState({
-    // Sanctuary Suite Operations
+    // Maslow Suite Operations
     suites: 8,
     hours_open: 14,
     avg_duration: 30,
@@ -185,7 +185,7 @@ const RevenueSimulator = () => {
 
   // Calculations
   const metrics = useMemo(() => {
-    // 1. Sanctuary Suite Revenue (Paid Sessions)
+    // 1. Maslow Suite Revenue (Paid Sessions)
     const turnaroundMinutes = (formData.turnaround_time || 90) / 60;
     const totalCycleTime = (formData.avg_duration || 30) + turnaroundMinutes;
     
@@ -297,7 +297,7 @@ const RevenueSimulator = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-[#3B5998]">
                 <Building2 className="w-5 h-5" />
-                Sanctuary Suite Configuration & Ops
+                Maslow Suite Configuration & Ops
               </CardTitle>
               <CardDescription>Define the physical capacity and operational hours.</CardDescription>
             </CardHeader>

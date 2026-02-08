@@ -36,7 +36,7 @@ const HeroCarousel = () => {
         >
           <img
             src={images[currentIndex]}
-            alt="Maslow Sanctuary Suite"
+            alt="Maslow Suite"
             className="w-full h-full object-cover"
           />
           {/* Dark gradient overlay for text readability */}

@@ -30,7 +30,7 @@ const StorePage = () => {
     {
       name: "Dr. Bronner's",
       category: "Foundation Clean",
-      description: "The gold standard for fair-trade, organic soap. 18-in-1 formulas that respect the worker and the user in every Sanctuary Suite.",
+      description: "The gold standard for fair-trade, organic soap. 18-in-1 formulas that respect the worker and the user in every Maslow Suite.",
       image: "https://images.unsplash.com/photo-1559181567-c3190ca9959b?auto=format&fit=crop&q=80",
       icon: <Zap className="w-4 h-4 text-sky-400" />,
       color: "text-sky-400"

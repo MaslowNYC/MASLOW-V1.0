@@ -47,7 +47,7 @@ const HullPage = () => {
                 Scan your Maslow Pass at the refurbished turnstile and step into The Hull—a respite from the heat, cold, noise, smells, and relentless energy of the city outside.
               </p>
               <p>
-                Here, you can catch your breath. Refill your ice water. Wash your hands. Grab something you forgot—a phone charger, a water bottle, essentials you didn't know you'd need. It's the gathering space before and after you use a sanctuary suite. It's where we host cultural programming, art exhibits, and community events. It's the calm before you step back into the chaos.
+                Here, you can catch your breath. Refill your ice water. Wash your hands. Grab something you forgot—a phone charger, a water bottle, essentials you didn't know you'd need. It's the gathering space before and after you use a Maslow suite. It's where we host cultural programming, art exhibits, and community events. It's the calm before you step back into the chaos.
               </p>
               <p>
                 The name comes from ship architecture—the hull is what holds everything together, the structural heart that makes the vessel work. That's what this space is meant to be: the heart of Maslow locations that have one.
@@ -83,16 +83,16 @@ const HullPage = () => {
                 The Hull requires an active Maslow account, which generates your Maslow Pass—a QR code you scan at our refurbished turnstile to enter.
               </p>
               <p>
-                Once inside, you can relax, refill your water, or wait for your sanctuary suite session (which you can book anytime, anywhere through the app or website—even from home before your trip to NYC). When your suite is ready, scan your Maslow Pass again to access the guest hallway.
+                Once inside, you can relax, refill your water, or wait for your Maslow suite session (which you can book anytime, anywhere through the app or website—even from home before your trip to NYC). When your suite is ready, scan your Maslow Pass again to access the guest hallway.
               </p>
               <p>
-                Sanctuary suites can also be accessed directly from the street entrance, so you never have to enter The Hull if you just need to use a suite quickly. The Hull is for those who want the community space—it's never mandatory.
+                Maslow suites can also be accessed directly from the street entrance, so you never have to enter The Hull if you just need to use a suite quickly. The Hull is for those who want the community space—it's never mandatory.
               </p>
             </div>
 
             <div className="mt-10 p-6 bg-[#3B5998]/5 rounded-xl border border-[#3B5998]/10">
               <p className="text-[#3B5998] font-medium">
-                <strong>Hours:</strong> The Hull operates during daytime and evening hours (specific times vary by location). After The Hull closes, sanctuary suites remain accessible via the street entrance 24/7.
+                <strong>Hours:</strong> The Hull operates during daytime and evening hours (specific times vary by location). After The Hull closes, Maslow suites remain accessible via the street entrance 24/7.
               </p>
             </div>
           </motion.div>

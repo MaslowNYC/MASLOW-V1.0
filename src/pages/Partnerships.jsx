@@ -256,7 +256,7 @@ const Partnerships = () => {
                 </div>
               </div>
               <p className="text-center text-lg text-[#3C5999] font-semibold mt-8">
-                City partnerships can accelerate Phase 2. We're ready to bring sanctuary suites to the communities that need them most.
+                City partnerships can accelerate Phase 2. We're ready to bring Maslow suites to the communities that need them most.
               </p>
             </div>
           </section>
@@ -343,7 +343,7 @@ const Partnerships = () => {
                 <a href="https://maslownyc.org" className="text-[#3C5999] hover:text-[#C49F58] font-semibold">
                   maslownyc.org
                 </a>
-                . We're MWBE-eligible (64% women-owned) and committed to bringing sanctuary suites to 
+                . We're MWBE-eligible (64% women-owned) and committed to bringing Maslow suites to 
                 every neighborhood—not just the profitable ones.
               </p>
             </div>
@@ -361,7 +361,7 @@ const Partnerships = () => {
                 Partner with Maslow
               </h1>
               <p className="text-xl text-[#F5F0E6]/90 mb-8 max-w-2xl mx-auto">
-                Bring your products to our sanctuary suites. Reach discerning New Yorkers where they need you most.
+                Bring your products to our Maslow suites. Reach discerning New Yorkers where they need you most.
               </p>
               <a 
                 href="#vendor-contact" 

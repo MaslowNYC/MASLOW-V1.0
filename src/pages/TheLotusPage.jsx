@@ -124,7 +124,7 @@ const TheLotusPage = () => {
   return (
     <div className="min-h-screen bg-[#F5F1E8]">
       <Helmet>
-        <title>Sanctuary Suites | Maslow NYC</title>
+        <title>Maslow Suites | Maslow NYC</title>
         <meta name="description" content="Premium private restroom suites in NYC. More than a bathroom - your sanctuary for nursing, prayer, meetings, anxiety relief, and whatever you need. Smart locks, custom music, UV cleaning, and complete privacy." />
       </Helmet>
 
@@ -137,7 +137,7 @@ const TheLotusPage = () => {
             transition={{ duration: 0.8 }}
             className="text-4xl md:text-6xl font-serif font-bold text-[#3B5998] mb-6"
           >
-            The Sanctuary Suites
+            The Maslow Suites
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -158,7 +158,7 @@ const TheLotusPage = () => {
           </h2>
           <div className="space-y-4 text-lg text-[#3B5998]/90 leading-relaxed">
             <p>
-              The Sanctuary Suites are premium, private spaces designed for whatever your moment requires. Need to nurse your baby in peace? Prepare for prayer? Change for a meeting? Take a breath after a panic attack? Recharge between appointments? The Suite adapts to you.
+              The Maslow Suites are premium, private spaces designed for whatever your moment requires. Need to nurse your baby in peace? Prepare for prayer? Change for a meeting? Take a breath after a panic attack? Recharge between appointments? The Suite adapts to you.
             </p>
             <p>
               Every Suite features a universal design toilet, sink, full-height mirror, seating, and a suite of technologies and amenities that transform a basic need into a dignified experience.
@@ -276,7 +276,7 @@ const TheLotusPage = () => {
             </h2>
           </div>
           <p className="text-lg text-[#3B5998]/90 mb-8 leading-relaxed">
-            Every Sanctuary Suite exceeds ADA requirements. We don't have "accessible" suites and "regular" suites. We have suites that work for everyone.
+            Every Maslow Suite exceeds ADA requirements. We don't have "accessible" suites and "regular" suites. We have suites that work for everyone.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             {accessibilityFeatures.map((feature, index) => (
@@ -297,7 +297,7 @@ const TheLotusPage = () => {
           </h2>
           <div className="space-y-6 text-lg mb-12">
             <p className="font-bold text-xl text-[#C5A059]">For Suite Access:</p>
-            <p>Sanctuary Suites are included with all paid Maslow memberships:</p>
+            <p>Maslow Suites are included with all paid Maslow memberships:</p>
             <ul className="space-y-3 pl-6">
               <li>• <strong>Founding Member ($500/year):</strong> 50 suite sessions</li>
               <li>• <strong>The Sovereign ($25,000 lifetime):</strong> Unlimited suite access + priority booking</li>

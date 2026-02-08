@@ -6,7 +6,7 @@ const SanctuarySuitesPage = () => {
   return (
     <div className="min-h-screen bg-[#F5F1E8]">
       <Helmet>
-        <title>Sanctuary Suites | Maslow NYC</title>
+        <title>Maslow Suites | Maslow NYC</title>
         <meta name="description" content="Private, safe, thoughtfully designed spaces for bathroom access, nursing, prayer, changing—whatever you need." />
       </Helmet>
 
@@ -19,7 +19,7 @@ const SanctuarySuitesPage = () => {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-5xl md:text-7xl font-serif font-bold text-[#3B5998] mb-6">
-              Sanctuary Suites
+              Maslow Suites
             </h1>
             <p className="text-xl md:text-2xl text-[#1a1a1a]/80 font-light max-w-3xl mx-auto">
               Private, safe, thoughtfully designed spaces for bathroom access, nursing, prayer, changing—whatever you need.
@@ -43,7 +43,7 @@ const SanctuarySuitesPage = () => {
             <div className="w-16 h-0.5 bg-[#C5A059] mb-8"></div>
 
             <p className="text-xl text-[#3B5998] font-medium mb-6">
-              Every Maslow sanctuary suite is designed with one goal: give you back your dignity.
+              Every Maslow suite is designed with one goal: give you back your dignity.
             </p>
 
             <p className="text-lg text-[#1a1a1a]/70 leading-relaxed mb-6">
@@ -289,13 +289,13 @@ const SanctuarySuitesPage = () => {
                 Most public bathrooms are designed to deter use. Uncomfortable seats. Harsh lighting. No privacy. Minimal amenities. The message is clear: Get in, get out, don't stay.
               </p>
               <p>
-                We designed sanctuary suites with the opposite philosophy: <strong className="text-[#3B5998]">Stay as long as you need. Be comfortable. Feel safe.</strong>
+                We designed Maslow suites with the opposite philosophy: <strong className="text-[#3B5998]">Stay as long as you need. Be comfortable. Feel safe.</strong>
               </p>
               <p>
                 Because needing a bathroom isn't something to be ashamed of. Needing to nurse your baby isn't an inconvenience. Needing to pray isn't a disruption. These are basic human needs, and infrastructure should treat them that way.
               </p>
               <p className="text-xl text-[#3B5998] font-medium border-l-4 border-[#C5A059] pl-6 my-8">
-                That's why we call them sanctuary suites, not bathrooms. Because they're more than a toilet and a sink. They're a moment of peace in a city that doesn't give you many.
+                That's why we call them Maslow suites, not bathrooms. Because they're more than a toilet and a sink. They're a moment of peace in a city that doesn't give you many.
               </p>
             </div>
           </motion.div>

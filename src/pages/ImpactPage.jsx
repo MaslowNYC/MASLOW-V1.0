@@ -7,7 +7,7 @@ const ImpactPage = () => {
     <div className="min-h-screen bg-[#F5F1E8]">
       <Helmet>
         <title>Impact | Maslow NYC</title>
-        <meta name="description" content="The Infrastructure of Dignity - Private sanctuary suites across NYC." />
+        <meta name="description" content="The Infrastructure of Dignity - Private Maslow suites across NYC." />
       </Helmet>
 
       {/* Hero Section */}
@@ -22,7 +22,7 @@ const ImpactPage = () => {
               The Infrastructure of Dignity
             </h1>
             <p className="text-xl md:text-2xl text-[#1a1a1a]/80 font-light max-w-3xl mx-auto mb-8">
-              Private sanctuary suites across NYC where everyone—from tourists to delivery workers to new parents—can use the bathroom, change, nurse, pray, or simply breathe.
+              Private Maslow suites across NYC where everyone—from tourists to delivery workers to new parents—can use the bathroom, change, nurse, pray, or simply breathe.
             </p>
             <p className="text-lg text-[#1a1a1a]/60 max-w-2xl mx-auto leading-relaxed">
               We're building what cities should have built decades ago: dignified, accessible, safe spaces for basic human needs. No questions asked. No judgment. Just infrastructure that treats people like people.
@@ -66,7 +66,7 @@ const ImpactPage = () => {
                     <span className="text-sm font-bold uppercase tracking-widest text-[#C5A059]">Today</span>
                   </div>
                   <p className="text-[#1a1a1a]/70">
-                    Launch our first location with sanctuary suites available for $5 per session, while exploring partnerships with the city to accept OMNY passes for those in need
+                    Launch our first location with Maslow suites available for $5 per session, while exploring partnerships with the city to accept OMNY passes for those in need
                   </p>
                 </div>
                 <div className="flex gap-4">
