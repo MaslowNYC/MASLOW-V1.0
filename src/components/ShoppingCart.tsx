@@ -1,35 +1,11 @@
 import React, { useCallback, MouseEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingCart as ShoppingCartIcon, X, Trash2, ArrowRight, Lock } from 'lucide-react';
-import { useCart } from '@/hooks/useCart';
+import { useCart, CartItem } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
-import { initializeCheckout } from '@/api/EcommerceApi';
+import { initializeCheckout, formatCurrency } from '@/api/EcommerceApi';
 import { useToast } from '@/components/ui/use-toast';
 import { featureFlags } from '@/config/featureFlags';
-
-// Types for cart items based on the useCart hook
-interface ProductVariant {
-  id: number;
-  title: string;
-  price_formatted: string;
-  sale_price_formatted?: string;
-  price_in_cents: number;
-  sale_price_in_cents?: number;
-  currency_info?: unknown;
-  manage_inventory?: boolean;
-}
-
-interface Product {
-  id: number | string;
-  title: string;
-  image: string;
-}
-
-interface CartItem {
-  product: Product;
-  variant: ProductVariant;
-  quantity: number;
-}
 
 interface ShoppingCartProps {
   isCartOpen: boolean;
@@ -38,12 +14,7 @@ interface ShoppingCartProps {
 
 const ShoppingCart: React.FC<ShoppingCartProps> = ({ isCartOpen, setIsCartOpen }) => {
   const { toast } = useToast();
-  const { cartItems, removeFromCart, updateQuantity, getCartTotal } = useCart() as {
-    cartItems: CartItem[];
-    removeFromCart: (variantId: number) => void;
-    updateQuantity: (variantId: number, quantity: number) => void;
-    getCartTotal: () => string;
-  };
+  const { cartItems, removeFromCart, updateQuantity, getCartTotal } = useCart();
 
   const handleCheckout = useCallback(async () => {
     // UPDATED CHECK
@@ -139,18 +110,14 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isCartOpen, setIsCartOpen }
               ) : (
                 cartItems.map(item => (
                   <div key={item.variant.id} className="flex gap-4 bg-white p-4 rounded-xl shadow-sm border border-[#3B5998]/5">
-                    <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-[#F5F1E8]">
-                      <img
-                        src={item.product.image}
-                        alt={item.product.title}
-                        className="h-full w-full object-cover"
-                      />
+                    <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-[#F5F1E8] bg-[#3B5998]/10 flex items-center justify-center">
+                      <span className="text-[#3B5998] font-serif text-xs text-center px-1">{item.product.title.slice(0, 20)}</span>
                     </div>
 
                     <div className="flex flex-1 flex-col">
                       <div className="flex justify-between text-base font-medium text-[#3B5998]">
                         <h3 className="line-clamp-1 font-serif">{item.product.title}</h3>
-                        <p className="ml-4">{item.variant.sale_price_formatted || item.variant.price_formatted}</p>
+                        <p className="ml-4">{formatCurrency(item.variant.sale_price_in_cents ?? item.variant.price_in_cents, item.variant.currency_info)}</p>
                       </div>
                       <p className="mt-1 text-sm text-[#3B5998]/60">{item.variant.title}</p>
 

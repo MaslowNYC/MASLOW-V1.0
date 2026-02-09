@@ -18,25 +18,27 @@ interface ProductImage {
 }
 
 interface ProductVariant {
-  id: number;
+  id: string;
   title: string;
   price_formatted: string;
   sale_price_formatted?: string;
   sale_price_in_cents?: number;
+  price_in_cents: number;
   inventory_quantity: number;
   manage_inventory?: boolean;
   image_url?: string;
+  currency_info?: unknown;
 }
 
 interface AdditionalInfo {
-  id: number;
+  id: string;
   title: string;
   description: string;
   order: number;
 }
 
 interface Product {
-  id: number;
+  id: string;
   title: string;
   subtitle?: string;
   description?: string;
@@ -49,7 +51,7 @@ interface Product {
 
 const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const productId = parseInt(id || '', 10);
+  const productId = id || '';
   const navigate = useNavigate();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -64,7 +66,20 @@ const ProductDetailPage: React.FC = () => {
     if (product && selectedVariant) {
       const availableQuantity = selectedVariant.inventory_quantity;
       try {
-        await addToCart(product, selectedVariant, quantity, availableQuantity);
+        // Convert to cart item types
+        const cartProduct = {
+          id: product.id,
+          title: product.title,
+        };
+        const cartVariant = {
+          id: selectedVariant.id,
+          title: selectedVariant.title,
+          price_in_cents: selectedVariant.price_in_cents,
+          sale_price_in_cents: selectedVariant.sale_price_in_cents || null,
+          currency_info: selectedVariant.currency_info,
+          manage_inventory: selectedVariant.manage_inventory || false,
+        };
+        await addToCart(cartProduct, cartVariant, quantity, availableQuantity);
 
         const description = !featureFlags.enablePayments
           ? `${quantity} x ${product.title} added. Note: Checkout is currently disabled.`
@@ -119,7 +134,7 @@ const ProductDetailPage: React.FC = () => {
 
   useEffect(() => {
     const fetchProductData = async () => {
-      if (isNaN(productId)) {
+      if (!productId) {
         setError("Invalid Product ID");
         setLoading(false);
         return;
@@ -131,7 +146,34 @@ const ProductDetailPage: React.FC = () => {
 
         let fetchedProduct: Product;
         try {
-          fetchedProduct = await getProduct(productId);
+          const apiProduct = await getProduct(productId);
+          fetchedProduct = {
+            id: apiProduct.id,
+            title: apiProduct.title,
+            subtitle: apiProduct.subtitle || undefined,
+            description: apiProduct.description,
+            images: apiProduct.images.map(img => ({ url: img.url })),
+            variants: apiProduct.variants.map(v => ({
+              id: v.id,
+              title: v.title,
+              price_formatted: v.price_formatted,
+              sale_price_formatted: v.sale_price_formatted,
+              sale_price_in_cents: v.sale_price_in_cents || undefined,
+              price_in_cents: v.price_in_cents,
+              inventory_quantity: v.inventory_quantity || 0,
+              manage_inventory: v.manage_inventory,
+              image_url: v.image_url || undefined,
+              currency_info: v.currency_info,
+            })),
+            ribbon_text: apiProduct.ribbon_text || undefined,
+            purchasable: apiProduct.purchasable,
+            additional_info: apiProduct.additional_info?.map(info => ({
+              id: info.id,
+              title: info.title,
+              description: info.description,
+              order: info.order,
+            })),
+          };
         } catch (apiError) {
           console.error("API Error fetching product:", apiError);
           throw new Error("Product not found");
@@ -147,9 +189,9 @@ const ProductDetailPage: React.FC = () => {
             product_ids: [fetchedProduct.id]
           });
 
-          const variantQuantityMap = new Map<number, number>();
+          const variantQuantityMap = new Map<string, number>();
           if (quantitiesResponse.variants) {
-            quantitiesResponse.variants.forEach((variant: { id: number; inventory_quantity: number }) => {
+            quantitiesResponse.variants.forEach((variant) => {
               variantQuantityMap.set(variant.id, variant.inventory_quantity);
             });
           }

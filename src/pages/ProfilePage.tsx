@@ -120,8 +120,8 @@ const ProfilePage: React.FC = () => {
       try {
         if (!user) return;
 
-        const { data, error } = await supabase
-          .from('profiles')
+        const { data, error } = await (supabase
+          .from('profiles') as any)
           .select('*')
           .eq('id', user.id)
           .single();
@@ -139,9 +139,9 @@ const ProfilePage: React.FC = () => {
             phone: profileData.phone || '',
             photo_url: profileData.photo_url || null,
             member_number: profileData.member_number || null,
-            preferences_amenities: (profileData.preferences_amenities as string[]) || [],
-            preferences_usage: (profileData.preferences_usage as string[]) || [],
-            preferences_products: (profileData.preferences_products as string[]) || [],
+            preferences_amenities: (profileData.preferences_amenities as unknown as string[]) || [],
+            preferences_usage: (profileData.preferences_usage as unknown as string[]) || [],
+            preferences_products: (profileData.preferences_products as unknown as string[]) || [],
           });
           if (profileData.photo_url) downloadImage(profileData.photo_url);
         }
@@ -205,8 +205,8 @@ const ProfilePage: React.FC = () => {
       if (uploadError) throw uploadError;
 
       // Ensure profile row exists first
-      const { data: existingProfile, error: fetchError } = await supabase
-        .from('profiles')
+      const { data: existingProfile, error: fetchError } = await (supabase
+        .from('profiles') as any)
         .select('*')
         .eq('id', user.id)
         .maybeSingle();
@@ -217,8 +217,8 @@ const ProfilePage: React.FC = () => {
 
       if (!existingProfile) {
         // Create profile if it doesn't exist
-        const { error: insertError } = await supabase
-          .from('profiles')
+        const { error: insertError } = await (supabase
+          .from('profiles') as any)
           .insert({
             id: user.id,
             email: user.email,
@@ -229,8 +229,8 @@ const ProfilePage: React.FC = () => {
         if (insertError) throw insertError;
       } else {
         // Update existing profile
-        const { error: updateError } = await supabase
-          .from('profiles')
+        const { error: updateError } = await (supabase
+          .from('profiles') as any)
           .update({
             photo_url: filePath,
             updated_at: now
@@ -280,8 +280,8 @@ const ProfilePage: React.FC = () => {
         updated_at: new Date().toISOString(),
       };
 
-      const { error } = await supabase
-        .from('profiles')
+      const { error } = await (supabase
+        .from('profiles') as any)
         .upsert({
           id: user.id,
           email: user.email,
