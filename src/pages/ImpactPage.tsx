@@ -84,7 +84,7 @@ const ImpactPage: React.FC = () => {
                     <span className="text-sm font-bold uppercase tracking-widest text-[#C5A059]">Tomorrow</span>
                   </div>
                   <p className="text-[#1a1a1a]/70">
-                    Prove the model works—sustainable, scalable, dignified
+                    Prove the model works—sustainable, scalable, dignified!
                   </p>
                 </div>
                 <div className="flex gap-4">
