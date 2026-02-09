@@ -54,8 +54,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const checkFounderStatus = async (userId: string) => {
     try {
-      const { data } = await supabase
-        .from('profiles')
+      const { data } = await (supabase
+        .from('profiles') as any)
         .select('is_admin')
         .eq('id', userId)
         .single();

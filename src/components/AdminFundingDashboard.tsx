@@ -51,8 +51,8 @@ const AdminFundingDashboard: React.FC = () => {
         navigate('/');
         return;
       }
-      const { data, error } = await supabase
-        .from('profiles')
+      const { data, error } = await (supabase
+        .from('profiles') as any)
         .select('is_admin')
         .eq('id', user.id)
         .single();
@@ -73,8 +73,8 @@ const AdminFundingDashboard: React.FC = () => {
   const fetchData = async (): Promise<void> => {
     try {
       // A. Fetch Users
-      const { data: profiles } = await supabase
-        .from('profiles')
+      const { data: profiles } = await (supabase
+        .from('profiles') as any)
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -96,8 +96,8 @@ const AdminFundingDashboard: React.FC = () => {
       setRecentPledges((profiles?.slice(0, 10) as Profile[]) || []);
 
       // B. Fetch Operational Logs (The Efficiency Leak)
-      const { data: logs } = await supabase
-        .from('usage_logs')
+      const { data: logs } = await (supabase
+        .from('usage_logs') as any)
         .select('turnaround_time, created_at')
         .order('created_at', { ascending: false })
         .limit(100);

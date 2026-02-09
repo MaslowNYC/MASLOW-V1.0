@@ -70,8 +70,8 @@ const LoginPage = () => {
       if (error) throw error;
 
       if (data?.user) {
-        const { data: profile } = await supabase
-          .from('profiles')
+        const { data: profile } = await (supabase
+          .from('profiles') as any)
           .select('first_name, phone_verified')
           .eq('id', data.user.id)
           .single();
@@ -148,8 +148,8 @@ const LoginPage = () => {
         while (attempts < 10 && !profileExists) {
           await new Promise(resolve => setTimeout(resolve, 500));
 
-          const { data: checkData } = await supabase
-            .from('profiles')
+          const { data: checkData } = await (supabase
+            .from('profiles') as any)
             .select('id')
             .eq('id', data.user.id);
 
@@ -173,8 +173,8 @@ const LoginPage = () => {
         if (!profileExists) {
           console.log('⚠️ Trigger failed, creating profile manually...');
 
-          const { error: insertError } = await supabase
-            .from('profiles')
+          const { error: insertError } = await (supabase
+            .from('profiles') as any)
             .insert({
               id: data.user.id,
               email: email,
@@ -243,8 +243,8 @@ const LoginPage = () => {
       console.log('✅ Code verified by Twilio!');
 
       // Update profile to mark phone as verified
-      const { error: updateError } = await supabase
-        .from('profiles')
+      const { error: updateError } = await (supabase
+        .from('profiles') as any)
         .update({ phone_verified: true })
         .eq('id', pendingUserId);
 
