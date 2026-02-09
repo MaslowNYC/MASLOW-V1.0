@@ -4,32 +4,30 @@ import type { Database } from '@/types/database.types';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-type CustomSupabaseClient = SupabaseClient<Database> | {
-  from: (table: string) => {
-    select: () => Promise<{ data: never[]; error: string }>;
-    insert: () => Promise<{ data: null; error: string }>;
-  };
-  auth: {
-    onAuthStateChange: () => { data: { subscription: { unsubscribe: () => void } } };
-    getSession: () => Promise<{ data: { session: null }; error: null }>;
-  };
-};
-
-let customSupabaseClient: CustomSupabaseClient;
+let customSupabaseClient: SupabaseClient<Database>;
 
 if (!supabaseUrl || !supabaseAnonKey) {
   console.warn('⚠️ Supabase environment variables are missing! Database features will not work.');
-  // Create a dummy client so the app doesn't crash on import
+  // Create a minimal dummy client for development without env vars
+  // In production, env vars should always be present
   customSupabaseClient = {
     from: () => ({
-      select: () => Promise.resolve({ data: [], error: 'Missing API Keys' }),
-      insert: () => Promise.resolve({ data: null, error: 'Missing API Keys' }),
+      select: () => Promise.resolve({ data: [], error: null }),
+      insert: () => Promise.resolve({ data: null, error: null }),
+      update: () => ({ eq: () => Promise.resolve({ data: null, error: null }) }),
+      upsert: () => Promise.resolve({ data: null, error: null }),
     }),
     auth: {
       onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
       getSession: () => Promise.resolve({ data: { session: null }, error: null }),
-    }
-  };
+      signUp: () => Promise.resolve({ data: { user: null, session: null }, error: null }),
+      signInWithPassword: () => Promise.resolve({ data: { user: null, session: null }, error: null }),
+      signOut: () => Promise.resolve({ error: null }),
+    },
+    functions: {
+      invoke: () => Promise.resolve({ data: null, error: null }),
+    },
+  } as unknown as SupabaseClient<Database>;
 } else {
   customSupabaseClient = createClient<Database>(supabaseUrl, supabaseAnonKey);
 }

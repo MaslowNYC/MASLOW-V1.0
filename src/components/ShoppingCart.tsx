@@ -67,8 +67,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isCartOpen, setIsCartOpen }
 
     try {
       const items = cartItems.map(item => ({
-        product_id: Number(item.product.id),
-        variant_id: item.variant.id,
+        variant_id: String(item.variant.id),
         quantity: item.quantity,
       }));
 

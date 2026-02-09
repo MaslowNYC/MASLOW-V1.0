@@ -1,10 +1,12 @@
 ## Pages
 - [- Maslow Store](/productdetail): No description available
-- [Locations | Maslow NYC](/locations): Visit our flagship SoHo location. The first of many sanctuaries.
-- [Maslow Store - Support The Cause](/store): Purchase Maslow merchandise and support our mission to provide dignified public restrooms in NYC.
-- [Membership | Maslow NYC](/membership): Join the Maslow movement. Become a Builder or join The Advisory Circle.
-- [Our Mission | Maslow NYC](/mission): We do not use
-- [Reactor Core | Maslow NYC](/reactorcore): Operational metrics and financial simulation.
-- [SoHo Flagship | Maslow NYC](/locationdetail): Experience the Maslow Flagship at 74 Grand Street. The future of public sanitation.
-- [The Maslow Impact | Maslow NYC](/impact): Business for good. Maslow
-- [The Sanctuary | Maslow NYC](/sanctuary): Experience the Artificial Sky, the Maslow Console, and invisible hygiene technology.
+- [About Abraham Maslow | Maslow NYC](/maslow): No description available
+- [Dashboard | Maslow NYC](/dashboard): No description available
+- [Dr. Abraham Maslow | MASLOW](/drmaslow): The life and work of Abraham Maslow, and why Maslow NYC bears his name.
+- [Impact | Maslow NYC](/impact): The Infrastructure of Dignity - Private Maslow suites across NYC.
+- [Maslow NYC | The Infrastructure of Dignity](/home): No description available
+- [Maslow Suites | Maslow NYC](/sanctuarysuites): Private, safe, thoughtfully designed spaces for bathroom access, nursing, prayer, changing—whatever you need.
+- [Membership | Maslow NYC](/membership): Get your Maslow Pass. Everyone deserves access. Start free at The Hull; upgrade anytime for private suite access.
+- [SoHo Flagship | Maslow NYC](/locationdetail): Experience the Maslow Flagship at SoHo Historic District. The future of public sanitation.
+- [The Hull | Maslow NYC](/hull): The Hull - The gathering space at the heart of select Maslow locations.
+- [The Vision | Maslow NYC](/mission): No description available

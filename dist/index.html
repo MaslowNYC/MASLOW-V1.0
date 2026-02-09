@@ -24,159 +24,16 @@
 		<link rel="icon" type="image/png" href="/favicon.png" />
 		<link rel="apple-touch-icon" href="/favicon.png" />
 		<link rel="manifest" href="/manifest.json" />
-		<script type="module" crossorigin src="/assets/index-Dz5BfODL.js"></script>
-		<link rel="stylesheet" crossorigin href="/assets/index-JSOjrF7Q.css">
-		<script type="module">
-window.onerror = (message, source, lineno, colno, errorObj) => {
-	const errorDetails = errorObj ? JSON.stringify({
-		name: errorObj.name,
-		message: errorObj.message,
-		stack: errorObj.stack,
-		source,
-		lineno,
-		colno,
-	}) : null;
 
-	window.parent.postMessage({
-		type: 'horizons-runtime-error',
-		message,
-		error: errorDetails
-	}, '*');
-};
-</script>
-		<script type="module">
-const observer = new MutationObserver((mutations) => {
-	for (const mutation of mutations) {
-		for (const addedNode of mutation.addedNodes) {
-			if (
-				addedNode.nodeType === Node.ELEMENT_NODE &&
-				(
-					addedNode.tagName?.toLowerCase() === 'vite-error-overlay' ||
-					addedNode.classList?.contains('backdrop')
-				)
-			) {
-				handleViteOverlay(addedNode);
-			}
-		}
-	}
-});
-
-observer.observe(document.documentElement, {
-	childList: true,
-	subtree: true
-});
-
-function handleViteOverlay(node) {
-	if (!node.shadowRoot) {
-		return;
-	}
-
-	const backdrop = node.shadowRoot.querySelector('.backdrop');
-
-	if (backdrop) {
-		const overlayHtml = backdrop.outerHTML;
-		const parser = new DOMParser();
-		const doc = parser.parseFromString(overlayHtml, 'text/html');
-		const messageBodyElement = doc.querySelector('.message-body');
-		const fileElement = doc.querySelector('.file');
-		const messageText = messageBodyElement ? messageBodyElement.textContent.trim() : '';
-		const fileText = fileElement ? fileElement.textContent.trim() : '';
-		const error = messageText + (fileText ? ' File:' + fileText : '');
-
-		window.parent.postMessage({
-			type: 'horizons-vite-error',
-			error,
-		}, '*');
-	}
-}
-</script>
-		<script type="module">
-const originalConsoleError = console.error;
-console.error = function(...args) {
-	originalConsoleError.apply(console, args);
-
-	let errorString = '';
-
-	for (let i = 0; i < args.length; i++) {
-		const arg = args[i];
-		if (arg instanceof Error) {
-			errorString = arg.stack || `${arg.name}: ${arg.message}`;
-			break;
-		}
-	}
-
-	if (!errorString) {
-		errorString = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : String(arg)).join(' ');
-	}
-
-	window.parent.postMessage({
-		type: 'horizons-console-error',
-		error: errorString
-	}, '*');
-};
-</script>
-		<script type="module">
-const originalFetch = window.fetch;
-
-window.fetch = function(...args) {
-	const url = args[0] instanceof Request ? args[0].url : args[0];
-
-	// Skip WebSocket URLs
-	if (url.startsWith('ws:') || url.startsWith('wss:')) {
-		return originalFetch.apply(this, args);
-	}
-
-	return originalFetch.apply(this, args)
-		.then(async response => {
-			const contentType = response.headers.get('Content-Type') || '';
-
-			// Exclude HTML document responses
-			const isDocumentResponse =
-				contentType.includes('text/html') ||
-				contentType.includes('application/xhtml+xml');
-
-			if (!response.ok && !isDocumentResponse) {
-					const responseClone = response.clone();
-					const errorFromRes = await responseClone.text();
-					const requestUrl = response.url;
-					console.error(`Fetch error from ${requestUrl}: ${errorFromRes}`);
-			}
-
-			return response;
-		})
-		.catch(error => {
-			if (!url.match(/.html?$/i)) {
-				console.error(error);
-			}
-
-			throw error;
-		});
-};
-</script>
-		<script type="module">
-if (window.navigation && window.self !== window.top) {
-	window.navigation.addEventListener('navigate', (event) => {
-		const url = event.destination.url;
-
-		try {
-			const destinationUrl = new URL(url);
-			const destinationOrigin = destinationUrl.origin;
-			const currentOrigin = window.location.origin;
-
-			if (destinationOrigin === currentOrigin) {
-				return;
-			}
-		} catch (error) {
-			return;
-		}
-
-		window.parent.postMessage({
-			type: 'horizons-navigation-error',
-			url,
-		}, '*');
-	});
-}
-</script>
+		<!-- Customer.io CDP Analytics -->
+		<script>
+			!function(){var i="cioanalytics", analytics=(window[i]=window[i]||[]);if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.setAttribute('data-global-customerio-analytics-key', i);t.src="https://cdp.customer.io/v1/analytics-js/snippet/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._writeKey=key;analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.15.3";
+			analytics.load("a2cc88aa485616a53a08");
+			analytics.page();
+			}}();
+		</script>
+		<script type="module" crossorigin src="/assets/index-DiY7dRHs.js"></script>
+		<link rel="stylesheet" crossorigin href="/assets/index-DOv1avEW.css">
 	</head>
 	<body>
 		<div id="root"></div>
