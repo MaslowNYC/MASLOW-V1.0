@@ -3,11 +3,17 @@ import { supabase } from '@/lib/customSupabaseClient';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Download, Users, DollarSign, Shield, Lock, AlertTriangle, Activity } from 'lucide-react';
+import { Download, Users, DollarSign, Shield, Lock, AlertTriangle, Activity, CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatNumber } from '@/utils/formatting';
 import type { Profile } from '@/types/database.types';
+
+// Import additional dashboard components
+import RevenueSimulator from '@/components/RevenueSimulator';
+import PricingCalculator from '@/components/PricingCalculator';
+import PaymentModal from '@/components/PaymentModal';
+import PaymentOptionsModal from '@/components/PaymentOptionsModal';
 
 interface Stats {
   totalUsers: number;
@@ -43,6 +49,11 @@ const AdminFundingDashboard: React.FC = () => {
   const [recentPledges, setRecentPledges] = useState<Profile[]>([]);
   const [allUsers, setAllUsers] = useState<Profile[]>([]);
   const [loadingData, setLoadingData] = useState<boolean>(true);
+
+  // Payment Modal State
+  const [showPaymentOptions, setShowPaymentOptions] = useState<boolean>(false);
+  const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
+  const [selectedTier, setSelectedTier] = useState<{ name: string; price: number }>({ name: 'Test Tier', price: 100 });
 
   // 1. SECURITY CHECK
   useEffect(() => {
@@ -335,6 +346,88 @@ const AdminFundingDashboard: React.FC = () => {
           </table>
         </div>
       </div>
+
+      {/* DIVIDER - Financial Tools Section */}
+      <div className="mt-16 mb-8 border-t-4 border-[#C5A059] pt-8">
+        <h2 className="text-3xl font-serif font-black text-[#3B5998] uppercase tracking-widest mb-2">Financial Tools</h2>
+        <p className="text-[#3B5998]/60">Revenue projections, pricing models, and payment testing.</p>
+      </div>
+
+      {/* Revenue Simulator */}
+      <div className="mb-12">
+        <RevenueSimulator />
+      </div>
+
+      {/* Pricing Calculator */}
+      <div className="mb-12">
+        <PricingCalculator />
+      </div>
+
+      {/* Payment Test Section */}
+      <Card className="mb-12 border-t-4 border-t-green-500">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-[#3B5998]">
+            <CreditCard className="h-5 w-5" />
+            Payment Flow Testing
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-gray-600 mb-4">
+            Test the payment modals with different tier configurations.
+          </p>
+          <div className="flex flex-wrap gap-4">
+            <Button
+              onClick={() => {
+                setSelectedTier({ name: 'THE BUILDER', price: 100 });
+                setShowPaymentOptions(true);
+              }}
+              variant="outline"
+              className="border-[#3B5998] text-[#3B5998] hover:bg-[#3B5998] hover:text-white"
+            >
+              Test $100 Tier
+            </Button>
+            <Button
+              onClick={() => {
+                setSelectedTier({ name: 'THE FOUNDING MEMBER', price: 500 });
+                setShowPaymentOptions(true);
+              }}
+              variant="outline"
+              className="border-[#C5A059] text-[#C5A059] hover:bg-[#C5A059] hover:text-white"
+            >
+              Test $500 Tier
+            </Button>
+            <Button
+              onClick={() => {
+                setSelectedTier({ name: 'THE ARCHITECT', price: 10000 });
+                setShowPaymentOptions(true);
+              }}
+              variant="outline"
+              className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
+            >
+              Test $10,000 Tier
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Payment Modals */}
+      <PaymentOptionsModal
+        isOpen={showPaymentOptions}
+        onClose={() => setShowPaymentOptions(false)}
+        tierName={selectedTier.name}
+        price={selectedTier.price}
+        onPayWithCard={() => {
+          setShowPaymentOptions(false);
+          setShowPaymentModal(true);
+        }}
+      />
+
+      <PaymentModal
+        isOpen={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+        tierName={selectedTier.name}
+        price={selectedTier.price}
+      />
     </div>
   );
 };
