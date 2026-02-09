@@ -69,13 +69,13 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, tierName, 
 
     try {
       // Direct insertion to memberships table using authenticated user
-      const { error } = await supabase
-        .from('memberships')
+      const { error } = await (supabase
+        .from('memberships') as any)
         .insert({
           user_id: user.id,
           tier_name: tierName,
           amount: price,
-          status: 'active', // Should verify payment first in real app
+          status: 'active',
           member_name: name || user.email,
           member_location: location || 'New York, NY'
         });

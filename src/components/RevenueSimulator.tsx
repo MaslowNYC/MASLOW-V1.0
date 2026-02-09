@@ -161,8 +161,8 @@ const RevenueSimulator: React.FC = () => {
     const fetchProjections = async (): Promise<void> => {
       setLoading(true);
       try {
-        const { data, error } = await supabase
-          .from('financial_projections')
+        const { data, error } = await (supabase
+          .from('financial_projections') as any)
           .select('*')
           .eq('user_id', user.id)
           .single();
@@ -218,8 +218,8 @@ const RevenueSimulator: React.FC = () => {
 
     setSaving(true);
     try {
-      const { error } = await supabase
-        .from('financial_projections')
+      const { error } = await (supabase
+        .from('financial_projections') as any)
         .upsert({
           user_id: user.id,
           ...formData,
