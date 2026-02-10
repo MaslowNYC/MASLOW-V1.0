@@ -73,7 +73,23 @@ const PrototypesPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] p-8">
+    <div className="min-h-screen bg-[#F5F1E8] p-4 md:p-8">
+      {/* Navigation */}
+      <div className="max-w-7xl mx-auto flex flex-wrap gap-3 mb-6">
+        <Link to="/prototypes" className="px-4 py-2 bg-[#C5A059] text-white rounded-lg text-sm font-semibold">
+          📋 Systems
+        </Link>
+        <Link to="/prototypes/boxes" className="px-4 py-2 bg-[#3B5998] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
+          📦 Boxes
+        </Link>
+        <Link to="/prototypes/shopping" className="px-4 py-2 bg-[#3B5998] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
+          🛒 Shopping
+        </Link>
+        <Link to="/prototypes/shopping-cart" className="px-4 py-2 bg-[#3B5998]/20 text-[#3B5998] rounded-lg text-sm font-semibold hover:bg-[#3B5998]/30 transition">
+          🛒 Cart
+        </Link>
+      </div>
+
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
@@ -84,14 +100,6 @@ const PrototypesPage: React.FC = () => {
             <p className="text-lg text-[#3B5998]/60">
               {systems.length} Systems | {totalPrototypes} Prototypes | ${totalBudget.toLocaleString()} Budget
             </p>
-          </div>
-          <div className="flex gap-4">
-            <Link
-              to="/prototypes/shopping-cart"
-              className="px-6 py-3 bg-[#C5A059] text-white rounded-lg hover:bg-[#b08d4b] transition font-bold"
-            >
-              Shopping Cart
-            </Link>
           </div>
         </div>
       </div>

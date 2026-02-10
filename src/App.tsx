@@ -43,6 +43,8 @@ import PrototypesPage from '@/pages/prototypes/PrototypesPage';
 import PrototypeSystemDetailPage from '@/pages/prototypes/SystemDetailPage';
 import PrototypeDetailPage from '@/pages/prototypes/PrototypeDetailPage';
 import PrototypeShoppingCartPage from '@/pages/prototypes/ShoppingCartPage';
+import PrototypeBoxViewPage from '@/pages/prototypes/BoxViewPage';
+import PrototypeShoppingListPage from '@/pages/prototypes/ShoppingListPage';
 
 const AppContent: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
@@ -90,6 +92,8 @@ const AppContent: React.FC = () => {
           <Route path="/prototypes/system/:id" element={<ProtectedRoute requireFounder={true}><PrototypeSystemDetailPage /></ProtectedRoute>} />
           <Route path="/prototypes/prototype/:id" element={<ProtectedRoute requireFounder={true}><PrototypeDetailPage /></ProtectedRoute>} />
           <Route path="/prototypes/shopping-cart" element={<ProtectedRoute requireFounder={true}><PrototypeShoppingCartPage /></ProtectedRoute>} />
+          <Route path="/prototypes/boxes" element={<ProtectedRoute requireFounder={true}><PrototypeBoxViewPage /></ProtectedRoute>} />
+          <Route path="/prototypes/shopping" element={<ProtectedRoute requireFounder={true}><PrototypeShoppingListPage /></ProtectedRoute>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
