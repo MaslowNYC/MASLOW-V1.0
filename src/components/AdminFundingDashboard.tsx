@@ -3,7 +3,7 @@ import { supabase } from '@/lib/customSupabaseClient';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Download, Users, DollarSign, Shield, Lock, AlertTriangle, Activity, CreditCard } from 'lucide-react';
+import { Download, Users, DollarSign, Shield, Lock, AlertTriangle, Activity, CreditCard, Calculator, TrendingUp, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatNumber } from '@/utils/formatting';
@@ -14,6 +14,8 @@ import RevenueSimulator from '@/components/RevenueSimulator';
 import PricingCalculator from '@/components/PricingCalculator';
 import PaymentModal from '@/components/PaymentModal';
 import PaymentOptionsModal from '@/components/PaymentOptionsModal';
+
+type TabType = 'financial' | 'pricing' | 'command';
 
 interface Stats {
   totalUsers: number;
@@ -54,6 +56,9 @@ const AdminFundingDashboard: React.FC = () => {
   const [showPaymentOptions, setShowPaymentOptions] = useState<boolean>(false);
   const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
   const [selectedTier, setSelectedTier] = useState<{ name: string; price: number }>({ name: 'Test Tier', price: 100 });
+
+  // Tab State
+  const [activeTab, setActiveTab] = useState<TabType>('financial');
 
   // 1. SECURITY CHECK
   useEffect(() => {
@@ -191,226 +196,277 @@ const AdminFundingDashboard: React.FC = () => {
 
   if (!isAdmin) return null;
 
+  const tabs: { id: TabType; label: string; icon: React.ReactNode }[] = [
+    { id: 'financial', label: 'Financial Tools', icon: <TrendingUp className="w-4 h-4" /> },
+    { id: 'pricing', label: 'Session Pricing', icon: <Calculator className="w-4 h-4" /> },
+    { id: 'command', label: 'Revenue Command', icon: <BarChart3 className="w-4 h-4" /> },
+  ];
+
   return (
     <div className="max-w-7xl mx-auto p-8 bg-[#F5F1E8] min-h-screen">
 
-      {/* HERO IMAGE SECTION */}
-      <div className="relative mb-12 rounded-2xl shadow-2xl overflow-hidden z-0">
-        <img
-          src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop"
-          alt="Dashboard Hero"
-          className="w-full h-64 md:h-80 object-cover"
-        />
-        {/* Backlit Glow Overlay */}
-        <div className="absolute inset-0 ring-1 ring-white/20 rounded-2xl pointer-events-none bg-gradient-to-t from-black/40 to-transparent"></div>
-        <div className="absolute bottom-6 left-8 text-white z-10">
-          <h2 className="text-3xl font-serif font-bold tracking-wide">Operational Command</h2>
-          <p className="text-white/80 font-light">Status: Active Monitoring</p>
+      {/* TAB NAVIGATION */}
+      <div className="mb-8">
+        <div className="flex gap-2 border-b-2 border-[#3B5998]/20">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-2 px-6 py-4 font-semibold text-sm uppercase tracking-wider transition-all duration-200 border-b-4 -mb-[2px] ${
+                activeTab === tab.id
+                  ? 'border-[#C5A059] text-[#3B5998] bg-white rounded-t-lg'
+                  : 'border-transparent text-[#3B5998]/60 hover:text-[#3B5998] hover:bg-white/50'
+              }`}
+            >
+              {tab.icon}
+              {tab.label}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Header Row */}
-      <div className="flex justify-between items-end mb-12 border-b-4 border-[#C5A059] pb-6">
-        <div>
-          <h1 className="text-4xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Revenue Command</h1>
-          <p className="text-[#C5A059] font-bold mt-2">Maslow Administrative Command</p>
-        </div>
-        <Button
-          onClick={downloadCSV}
-          className="bg-[#3B5998] text-white hover:bg-[#2d4475] flex items-center gap-2"
+      {/* TAB 1: FINANCIAL TOOLS */}
+      {activeTab === 'financial' && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
         >
-          <Download size={18} /> Export CSV
-        </Button>
-      </div>
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Financial Tools</h1>
+            <p className="text-[#3B5998]/60 mt-2">Revenue projections, pricing models, and payment testing.</p>
+          </div>
 
-      {/* OPERATIONAL INTELLIGENCE ROW */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          {/* Revenue Simulator */}
+          <div className="mb-12">
+            <RevenueSimulator />
+          </div>
 
-        {/* The Efficiency Leak Card */}
-        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-          <Card className={`h-full border-l-8 ${efficiencyData?.leakDetected ? 'border-l-red-500 bg-red-50' : 'border-l-green-500 bg-green-50'}`}>
-            <CardHeader>
-              <CardTitle className={`flex items-center gap-2 ${efficiencyData?.leakDetected ? 'text-red-800' : 'text-green-800'}`}>
-                <AlertTriangle className="h-5 w-5" />
-                {efficiencyData?.leakDetected ? 'Efficiency Leak Detected' : 'Operations Optimal'}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className={`text-4xl font-black mb-2 ${efficiencyData?.leakDetected ? 'text-red-600' : 'text-green-600'}`}>
-                 -${efficiencyData?.annualLoss || '0'}/yr
-              </div>
-              <p className="text-sm text-slate-600 mb-4">
-                Projected revenue loss per suite due to cleaning delays.
-              </p>
-              <div className="text-sm font-medium bg-white/50 p-2 rounded inline-block">
-                Avg Turnaround: <span className="text-slate-900 font-bold">{efficiencyData?.avgTurnaround || '0'} min</span>
-                <span className="text-slate-500 ml-2">(Target: 1.5 min)</span>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Real-Time Grid Status */}
-        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-          <Card className="h-full bg-white border border-[#3B5998]/10">
+          {/* Payment Test Section */}
+          <Card className="mb-12 border-t-4 border-t-green-500">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-[#3B5998]">
-                <Activity className="h-5 w-5" />
-                Live Grid Utilization
+                <CreditCard className="h-5 w-5" />
+                Payment Flow Testing
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex items-baseline gap-2">
-                <div className="text-4xl font-black text-[#3B5998]">82%</div>
-                <span className="text-green-500 font-bold text-sm">+4% vs avg</span>
-              </div>
-              <p className="text-sm text-slate-500 mt-2">
-                Current active sessions across all suites.
+              <p className="text-sm text-gray-600 mb-4">
+                Test the payment modals with different tier configurations.
               </p>
+              <div className="flex flex-wrap gap-4">
+                <Button
+                  onClick={() => {
+                    setSelectedTier({ name: 'THE BUILDER', price: 100 });
+                    setShowPaymentOptions(true);
+                  }}
+                  variant="outline"
+                  className="border-[#3B5998] text-[#3B5998] hover:bg-[#3B5998] hover:text-white"
+                >
+                  Test $100 Tier
+                </Button>
+                <Button
+                  onClick={() => {
+                    setSelectedTier({ name: 'THE FOUNDING MEMBER', price: 500 });
+                    setShowPaymentOptions(true);
+                  }}
+                  variant="outline"
+                  className="border-[#C5A059] text-[#C5A059] hover:bg-[#C5A059] hover:text-white"
+                >
+                  Test $500 Tier
+                </Button>
+                <Button
+                  onClick={() => {
+                    setSelectedTier({ name: 'THE ARCHITECT', price: 10000 });
+                    setShowPaymentOptions(true);
+                  }}
+                  variant="outline"
+                  className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
+                >
+                  Test $10,000 Tier
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </motion.div>
-      </div>
+      )}
 
-      {/* EXISTING METRICS ROW */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+      {/* TAB 2: SESSION PRICING CALCULATOR */}
+      {activeTab === 'pricing' && (
         <motion.div
-          className="bg-white p-8 rounded-xl shadow-lg border border-[#3B5998]/10"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
         >
-          <div className="flex items-center gap-4 mb-2">
-            <Users className="text-[#C5A059] w-8 h-8" />
-            <h3 className="text-sm font-bold text-[#3B5998] uppercase">Total Members</h3>
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Session Pricing Calculator</h1>
+            <p className="text-[#3B5998]/60 mt-2">Configure and simulate session pricing models.</p>
           </div>
-          <p className="text-5xl font-black text-[#3B5998]">{stats.totalUsers}</p>
+
+          {/* Pricing Calculator */}
+          <div className="mb-12">
+            <PricingCalculator />
+          </div>
         </motion.div>
+      )}
 
+      {/* TAB 3: REVENUE COMMAND */}
+      {activeTab === 'command' && (
         <motion.div
-          className="bg-white p-8 rounded-xl shadow-lg border border-[#3B5998]/10"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
         >
-          <div className="flex items-center gap-4 mb-2">
-            <DollarSign className="text-green-600 w-8 h-8" />
-            <h3 className="text-sm font-bold text-[#3B5998] uppercase">Total Pledged</h3>
+          {/* HERO IMAGE SECTION */}
+          <div className="relative mb-12 rounded-2xl shadow-2xl overflow-hidden z-0">
+            <img
+              src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop"
+              alt="Dashboard Hero"
+              className="w-full h-64 md:h-80 object-cover"
+            />
+            <div className="absolute inset-0 ring-1 ring-white/20 rounded-2xl pointer-events-none bg-gradient-to-t from-black/40 to-transparent"></div>
+            <div className="absolute bottom-6 left-8 text-white z-10">
+              <h2 className="text-3xl font-serif font-bold tracking-wide">Operational Command</h2>
+              <p className="text-white/80 font-light">Status: Active Monitoring</p>
+            </div>
           </div>
-          <p className="text-5xl font-black text-[#3B5998]">{formatNumber(stats.totalFunding)}</p>
-        </motion.div>
 
-        <motion.div
-          className="bg-white p-8 rounded-xl shadow-lg border border-[#3B5998]/10"
-        >
-          <div className="flex items-center gap-4 mb-2">
-            <Shield className="text-[#3B5998] w-8 h-8" />
-            <h3 className="text-sm font-bold text-[#3B5998] uppercase">Top Tier</h3>
+          {/* Header Row */}
+          <div className="flex justify-between items-end mb-12 border-b-4 border-[#C5A059] pb-6">
+            <div>
+              <h1 className="text-4xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Revenue Command</h1>
+              <p className="text-[#C5A059] font-bold mt-2">Maslow Administrative Command</p>
+            </div>
+            <Button
+              onClick={downloadCSV}
+              className="bg-[#3B5998] text-white hover:bg-[#2d4475] flex items-center gap-2"
+            >
+              <Download size={18} /> Export CSV
+            </Button>
           </div>
-          <div className="text-sm space-y-1">
-            {Object.entries(stats.tierBreakdown).map(([tier, count]) => (
-              <div key={tier} className="flex justify-between border-b border-gray-100 pb-1 last:border-0">
-                <span className="font-medium text-[#3B5998]">{tier}</span>
-                <span className="font-bold text-[#C5A059]">{count}</span>
+
+          {/* OPERATIONAL INTELLIGENCE ROW */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            {/* The Efficiency Leak Card */}
+            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+              <Card className={`h-full border-l-8 ${efficiencyData?.leakDetected ? 'border-l-red-500 bg-red-50' : 'border-l-green-500 bg-green-50'}`}>
+                <CardHeader>
+                  <CardTitle className={`flex items-center gap-2 ${efficiencyData?.leakDetected ? 'text-red-800' : 'text-green-800'}`}>
+                    <AlertTriangle className="h-5 w-5" />
+                    {efficiencyData?.leakDetected ? 'Efficiency Leak Detected' : 'Operations Optimal'}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className={`text-4xl font-black mb-2 ${efficiencyData?.leakDetected ? 'text-red-600' : 'text-green-600'}`}>
+                     -${efficiencyData?.annualLoss || '0'}/yr
+                  </div>
+                  <p className="text-sm text-slate-600 mb-4">
+                    Projected revenue loss per suite due to cleaning delays.
+                  </p>
+                  <div className="text-sm font-medium bg-white/50 p-2 rounded inline-block">
+                    Avg Turnaround: <span className="text-slate-900 font-bold">{efficiencyData?.avgTurnaround || '0'} min</span>
+                    <span className="text-slate-500 ml-2">(Target: 1.5 min)</span>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Real-Time Grid Status */}
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
+              <Card className="h-full bg-white border border-[#3B5998]/10">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-[#3B5998]">
+                    <Activity className="h-5 w-5" />
+                    Live Grid Utilization
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-baseline gap-2">
+                    <div className="text-4xl font-black text-[#3B5998]">82%</div>
+                    <span className="text-green-500 font-bold text-sm">+4% vs avg</span>
+                  </div>
+                  <p className="text-sm text-slate-500 mt-2">
+                    Current active sessions across all suites.
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
+
+          {/* EXISTING METRICS ROW */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <motion.div className="bg-white p-8 rounded-xl shadow-lg border border-[#3B5998]/10">
+              <div className="flex items-center gap-4 mb-2">
+                <Users className="text-[#C5A059] w-8 h-8" />
+                <h3 className="text-sm font-bold text-[#3B5998] uppercase">Total Members</h3>
               </div>
-            ))}
+              <p className="text-5xl font-black text-[#3B5998]">{stats.totalUsers}</p>
+            </motion.div>
+
+            <motion.div className="bg-white p-8 rounded-xl shadow-lg border border-[#3B5998]/10">
+              <div className="flex items-center gap-4 mb-2">
+                <DollarSign className="text-green-600 w-8 h-8" />
+                <h3 className="text-sm font-bold text-[#3B5998] uppercase">Total Pledged</h3>
+              </div>
+              <p className="text-5xl font-black text-[#3B5998]">{formatNumber(stats.totalFunding)}</p>
+            </motion.div>
+
+            <motion.div className="bg-white p-8 rounded-xl shadow-lg border border-[#3B5998]/10">
+              <div className="flex items-center gap-4 mb-2">
+                <Shield className="text-[#3B5998] w-8 h-8" />
+                <h3 className="text-sm font-bold text-[#3B5998] uppercase">Top Tier</h3>
+              </div>
+              <div className="text-sm space-y-1">
+                {Object.entries(stats.tierBreakdown).map(([tier, count]) => (
+                  <div key={tier} className="flex justify-between border-b border-gray-100 pb-1 last:border-0">
+                    <span className="font-medium text-[#3B5998]">{tier}</span>
+                    <span className="font-bold text-[#C5A059]">{count}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Recent Activity Table */}
+          <div className="bg-white rounded-xl shadow-lg border border-[#3B5998]/10 overflow-hidden">
+            <div className="bg-[#3B5998] p-4">
+              <h3 className="text-white font-bold uppercase tracking-wider">Recent Accessions</h3>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead className="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th className="p-4 text-xs font-bold text-[#3B5998] uppercase">Email</th>
+                    <th className="p-4 text-xs font-bold text-[#3B5998] uppercase">Tier</th>
+                    <th className="p-4 text-xs font-bold text-[#3B5998] uppercase">Date</th>
+                    <th className="p-4 text-xs font-bold text-[#3B5998] uppercase text-right">Value</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {recentPledges.map((profile) => (
+                    <tr key={profile.id} className="hover:bg-gray-50 transition-colors">
+                      <td className="p-4 text-[#3B5998] font-medium">{profile.email}</td>
+                      <td className="p-4 text-sm text-gray-600">
+                        <span className="bg-[#F5F1E8] px-2 py-1 rounded text-[#3B5998] font-bold text-xs border border-[#C5A059]/30">
+                          {profile.membership_tier || 'Guest'}
+                        </span>
+                      </td>
+                      <td className="p-4 text-sm text-gray-500">{new Date(profile.created_at || '').toLocaleDateString()}</td>
+                      <td className="p-4 text-right font-bold text-[#3B5998]">
+                        {formatNumber(profile.contribution_amount || getTierPrice(profile.membership_tier))}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </motion.div>
-      </div>
+      )}
 
-      {/* Recent Activity Table */}
-      <div className="bg-white rounded-xl shadow-lg border border-[#3B5998]/10 overflow-hidden">
-        <div className="bg-[#3B5998] p-4">
-          <h3 className="text-white font-bold uppercase tracking-wider">Recent Accessions</h3>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead className="bg-gray-50 border-b border-gray-200">
-              <tr>
-                <th className="p-4 text-xs font-bold text-[#3B5998] uppercase">Email</th>
-                <th className="p-4 text-xs font-bold text-[#3B5998] uppercase">Tier</th>
-                <th className="p-4 text-xs font-bold text-[#3B5998] uppercase">Date</th>
-                <th className="p-4 text-xs font-bold text-[#3B5998] uppercase text-right">Value</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {recentPledges.map((profile) => (
-                <tr key={profile.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="p-4 text-[#3B5998] font-medium">{profile.email}</td>
-                  <td className="p-4 text-sm text-gray-600">
-                    <span className="bg-[#F5F1E8] px-2 py-1 rounded text-[#3B5998] font-bold text-xs border border-[#C5A059]/30">
-                      {profile.membership_tier || 'Guest'}
-                    </span>
-                  </td>
-                  <td className="p-4 text-sm text-gray-500">{new Date(profile.created_at || '').toLocaleDateString()}</td>
-                  <td className="p-4 text-right font-bold text-[#3B5998]">
-                    {formatNumber(profile.contribution_amount || getTierPrice(profile.membership_tier))}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* DIVIDER - Financial Tools Section */}
-      <div className="mt-16 mb-8 border-t-4 border-[#C5A059] pt-8">
-        <h2 className="text-3xl font-serif font-black text-[#3B5998] uppercase tracking-widest mb-2">Financial Tools</h2>
-        <p className="text-[#3B5998]/60">Revenue projections, pricing models, and payment testing.</p>
-      </div>
-
-      {/* Revenue Simulator */}
-      <div className="mb-12">
-        <RevenueSimulator />
-      </div>
-
-      {/* Pricing Calculator */}
-      <div className="mb-12">
-        <PricingCalculator />
-      </div>
-
-      {/* Payment Test Section */}
-      <Card className="mb-12 border-t-4 border-t-green-500">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-[#3B5998]">
-            <CreditCard className="h-5 w-5" />
-            Payment Flow Testing
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-gray-600 mb-4">
-            Test the payment modals with different tier configurations.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <Button
-              onClick={() => {
-                setSelectedTier({ name: 'THE BUILDER', price: 100 });
-                setShowPaymentOptions(true);
-              }}
-              variant="outline"
-              className="border-[#3B5998] text-[#3B5998] hover:bg-[#3B5998] hover:text-white"
-            >
-              Test $100 Tier
-            </Button>
-            <Button
-              onClick={() => {
-                setSelectedTier({ name: 'THE FOUNDING MEMBER', price: 500 });
-                setShowPaymentOptions(true);
-              }}
-              variant="outline"
-              className="border-[#C5A059] text-[#C5A059] hover:bg-[#C5A059] hover:text-white"
-            >
-              Test $500 Tier
-            </Button>
-            <Button
-              onClick={() => {
-                setSelectedTier({ name: 'THE ARCHITECT', price: 10000 });
-                setShowPaymentOptions(true);
-              }}
-              variant="outline"
-              className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
-            >
-              Test $10,000 Tier
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Payment Modals */}
+      {/* Payment Modals (shared across tabs) */}
       <PaymentOptionsModal
         isOpen={showPaymentOptions}
         onClose={() => setShowPaymentOptions(false)}
