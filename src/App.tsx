@@ -38,6 +38,12 @@ import MissionPage from '@/pages/MissionPage';
 import ConciergeDashboard from '@/pages/ConciergeDashboard';
 import Partnerships from '@/pages/Partnerships';
 
+// Prototypes pages
+import PrototypesPage from '@/pages/prototypes/PrototypesPage';
+import PrototypeSystemDetailPage from '@/pages/prototypes/SystemDetailPage';
+import PrototypeDetailPage from '@/pages/prototypes/PrototypeDetailPage';
+import PrototypeShoppingCartPage from '@/pages/prototypes/ShoppingCartPage';
+
 const AppContent: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   const location = useLocation();
@@ -78,6 +84,12 @@ const AppContent: React.FC = () => {
           <Route path="/mission" element={<MissionPage />} />
           <Route path="/partnerships" element={<Partnerships />} />
           <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} />
+
+          {/* Prototypes - Admin Only */}
+          <Route path="/prototypes" element={<ProtectedRoute requireFounder={true}><PrototypesPage /></ProtectedRoute>} />
+          <Route path="/prototypes/system/:id" element={<ProtectedRoute requireFounder={true}><PrototypeSystemDetailPage /></ProtectedRoute>} />
+          <Route path="/prototypes/prototype/:id" element={<ProtectedRoute requireFounder={true}><PrototypeDetailPage /></ProtectedRoute>} />
+          <Route path="/prototypes/shopping-cart" element={<ProtectedRoute requireFounder={true}><PrototypeShoppingCartPage /></ProtectedRoute>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

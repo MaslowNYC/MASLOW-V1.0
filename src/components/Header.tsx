@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, LogOut, Menu, X, CircleUser } from 'lucide-react';
+import { LayoutDashboard, LogOut, Menu, X, CircleUser, Cpu } from 'lucide-react';
 import { resetIdentity } from '@/utils/customerio';
 
 const ADMIN_EMAILS = [
@@ -98,6 +98,15 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
               </Link>
             )}
 
+            {isAdmin && (
+              <Link to="/prototypes">
+                <Button variant="ghost" size="sm" className="text-[#3B5998] hover:text-[#C5A059] hover:bg-[#3B5998]/5 h-8 text-xs uppercase tracking-wider">
+                  <Cpu className="w-4 h-4 mr-2" />
+                  Prototypes
+                </Button>
+              </Link>
+            )}
+
             <Button variant="ghost" size="sm" onClick={handleLogout} className="text-[#3B5998]/60 hover:text-red-600 hover:bg-red-50 h-8">
               <LogOut className="w-4 h-4" />
             </Button>
@@ -153,6 +162,16 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Dashboard
+              </Link>
+            )}
+
+            {isAdmin && (
+              <Link
+                to="/prototypes"
+                className="text-lg font-bold tracking-widest uppercase text-[#3B5998]"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Prototypes
               </Link>
             )}
 
