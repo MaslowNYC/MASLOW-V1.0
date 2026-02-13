@@ -37,6 +37,7 @@ interface ProfileFormState {
   phone: string;
   photo_url?: string | null;
   member_number?: number | null;
+  credits?: number | null;
   preferences_amenities: string[];
   preferences_usage: string[];
   preferences_products: string[];
@@ -139,6 +140,7 @@ const ProfilePage: React.FC = () => {
             phone: profileData.phone || '',
             photo_url: profileData.photo_url || null,
             member_number: profileData.member_number || null,
+            credits: profileData.credits || 0,
             preferences_amenities: (profileData.preferences_amenities as unknown as string[]) || [],
             preferences_usage: (profileData.preferences_usage as unknown as string[]) || [],
             preferences_products: (profileData.preferences_products as unknown as string[]) || [],
@@ -368,6 +370,34 @@ const ProfilePage: React.FC = () => {
                 Since {new Date(user?.created_at || Date.now()).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Credits Banner - Prominent Placement */}
+        <div className="bg-gradient-to-r from-[#C5A059] to-[#B39149] rounded-lg p-8 shadow-lg mb-6 text-white">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm opacity-90 uppercase tracking-wide mb-2">
+                Your Credit Balance
+              </p>
+              <div className="flex items-baseline gap-3">
+                <p className="text-5xl font-bold">
+                  {profile?.credits || 0}
+                </p>
+                <p className="text-xl opacity-90">
+                  credits
+                </p>
+              </div>
+              <p className="text-sm opacity-80 mt-2">
+                = {((profile?.credits || 0) * 10)} minutes of sanctuary
+              </p>
+            </div>
+            <a
+              href="/buy-credits"
+              className="bg-white text-[#C5A059] px-6 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-opacity"
+            >
+              + Buy More
+            </a>
           </div>
         </div>
 

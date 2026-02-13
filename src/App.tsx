@@ -7,6 +7,8 @@ import { AuthProvider, useAuth } from '@/contexts/SupabaseAuthContext';
 import { CartProvider } from '@/hooks/useCart';
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import BuyCreditsPage from '@/pages/BuyCreditsPage';
+
 
 // Components
 import Header from '@/components/Header';
@@ -64,6 +66,8 @@ const AppContent: React.FC = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/maslow" element={<MaslowPage />} />
           <Route path="/staff/inventory" element={<StaffInventory />} />
+          <Route path="/buy-credits" element={<ProtectedRoute><BuyCreditsPage /></ProtectedRoute>} />
+          
 
           {/* Protected Routes */}
           <Route path="/hull" element={<ProtectedRoute><HullPage /></ProtectedRoute>} />

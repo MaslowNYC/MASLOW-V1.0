@@ -130,6 +130,7 @@ export interface Profile {
   membership_tier: string | null;
   contribution_amount: number | null;
   member_number: number | null;
+  credits: number | null;
   phone_verified: boolean | null;
   verification_code: string | null;
   code_expires_at: string | null;
