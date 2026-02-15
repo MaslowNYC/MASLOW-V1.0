@@ -450,7 +450,7 @@ const AdminFundingDashboard: React.FC = () => {
                       <td className="p-4 text-[#3B5998] font-medium">{profile.email}</td>
                       <td className="p-4 text-sm text-gray-600">
                         <span className="bg-[#F5F1E8] px-2 py-1 rounded text-[#3B5998] font-bold text-xs border border-[#C5A059]/30">
-                          {profile.membership_tier || 'Guest'}
+                          {profile.membership_tier || 'Member'}
                         </span>
                       </td>
                       <td className="p-4 text-sm text-gray-500">{new Date(profile.created_at || '').toLocaleDateString()}</td>

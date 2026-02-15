@@ -96,7 +96,7 @@ const HullPage: React.FC = () => {
                 The Hull requires an active Maslow account, which generates your Maslow Pass—a QR code you scan at our refurbished turnstile to enter.
               </p>
               <p>
-                Once inside, you can relax, refill your water, or wait for your Maslow suite session (which you can book anytime, anywhere through the app or website—even from home before your trip to NYC). When your suite is ready, scan your Maslow Pass again to access the guest hallway.
+                Once inside, you can relax, refill your water, or wait for your Maslow suite session (which you can book anytime, anywhere through the app or website—even from home before your trip to NYC). When your suite is ready, scan your Maslow Pass again to access the member hallway.
               </p>
               <p>
                 Maslow suites can also be accessed directly from the street entrance, so you never have to enter The Hull if you just need to use a suite quickly. The Hull is for those who want the community space—it's never mandatory.

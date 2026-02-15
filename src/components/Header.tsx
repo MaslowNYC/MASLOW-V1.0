@@ -35,6 +35,7 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
   const navLinks = [
     { name: 'IMPACT', path: '/impact' },
     { name: 'THE HULL', path: '/hull' },
+    { name: 'EVENTS', path: '/events' },
     { name: 'SUITES', path: '/suites' },
     { name: 'PARTNERSHIPS', path: '/partnerships' },
   ];

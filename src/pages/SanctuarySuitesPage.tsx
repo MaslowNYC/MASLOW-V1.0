@@ -66,7 +66,7 @@ const SanctuarySuitesPage: React.FC = () => {
     { num: "2", text: "Find a Maslow location (map shows availability in real-time)" },
     { num: "3", text: "Book a session (15 or 30 minutes, $5-10 depending on location)" },
     { num: "4", text: "Get your QR code (displays on your phone)" },
-    { num: "5", text: "Scan at the door (opens guest hallway; proximity sensors unlock your suite door automatically when you arrive)" },
+    { num: "5", text: "Scan at the door (opens member hallway; proximity sensors unlock your suite door automatically when you arrive)" },
     { num: "6", text: "Use the suite (do what you came to do)" },
     { num: "7", text: "Leave when ready (door locks automatically behind you)" }
   ];

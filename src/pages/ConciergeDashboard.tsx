@@ -43,7 +43,7 @@ const ConciergeDashboard: React.FC = () => {
     setSearch(e.target.value);
   };
 
-  if (loading) return <div className="p-8 text-center">Loading Guest List...</div>;
+  if (loading) return <div className="p-8 text-center">Loading Member List...</div>;
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
@@ -53,7 +53,7 @@ const ConciergeDashboard: React.FC = () => {
           <div className="relative w-64">
             <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
             <Input
-              placeholder="Search guests..."
+              placeholder="Search members..."
               className="pl-10 bg-white"
               value={search}
               onChange={handleSearchChange}
@@ -67,7 +67,7 @@ const ConciergeDashboard: React.FC = () => {
               <div className="bg-[#3B5998] p-4 flex items-center gap-4">
                  <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center overflow-hidden">
                    {profile.photo_url ? (
-                     <img src={`https://your-supabase-url.supabase.co/storage/v1/object/public/avatars/${profile.photo_url}`} className="w-full h-full object-cover" alt={`${profile.first_name || 'Guest'} avatar`} />
+                     <img src={supabase.storage.from('avatars').getPublicUrl(profile.photo_url).data.publicUrl} className="w-full h-full object-cover" alt={`${profile.first_name || 'Member'} avatar`} />
                    ) : (
                      <User className="text-white" />
                    )}

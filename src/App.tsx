@@ -29,6 +29,7 @@ import MembershipPage from '@/pages/MembershipPage';
 import ImpactPage from '@/pages/ImpactPage';
 import HullPage from '@/pages/HullPage';
 import SanctuarySuitesPage from '@/pages/SanctuarySuitesPage';
+import EventsPage from '@/pages/EventsPage';
 import AdminFundingDashboard from '@/components/AdminFundingDashboard';
 import Dashboard from '@/pages/Dashboard';
 import MaslowPage from '@/pages/MaslowPage';
@@ -70,6 +71,7 @@ const AppContent: React.FC = () => {
           
 
           {/* Protected Routes */}
+          <Route path="/events" element={<ProtectedRoute><EventsPage /></ProtectedRoute>} />
           <Route path="/hull" element={<ProtectedRoute><HullPage /></ProtectedRoute>} />
           <Route path="/suites" element={<ProtectedRoute><SanctuarySuitesPage /></ProtectedRoute>} />
           <Route path="/sanctuary" element={<Navigate to="/hull" replace />} />
