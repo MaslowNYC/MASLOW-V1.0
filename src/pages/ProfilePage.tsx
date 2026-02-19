@@ -318,21 +318,21 @@ const ProfilePage: React.FC = () => {
   if (loading) return <div className="min-h-screen flex items-center justify-center bg-[#F5F1E8]"><Loader2 className="animate-spin w-8 h-8 text-[#3B5998]" /></div>;
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] pb-24 pt-8 px-4">
-      <div className="max-w-4xl mx-auto space-y-8">
+    <div className="min-h-screen bg-[#F5F1E8] pb-16 pt-4 px-3 md:pb-24 md:pt-8 md:px-4">
+      <div className="max-w-4xl mx-auto space-y-4 md:space-y-8">
 
         {/* Header */}
-        <div className="flex flex-col md:flex-row items-center gap-6 mb-8">
+        <div className="flex flex-col md:flex-row items-center gap-4 mb-4 md:gap-6 md:mb-8">
           <div className="relative group">
             <div
-              className="w-32 h-32 rounded-full overflow-hidden border-4 border-[#C5A059] shadow-lg bg-white cursor-pointer hover:border-[#b08d4b] transition-all"
+              className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-[#C5A059] shadow-lg bg-white cursor-pointer hover:border-[#b08d4b] transition-all"
               onClick={() => avatarUrl && setIsZoomed(true)}
             >
               {avatarUrl ? (
                 <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-[#3B5998] text-white">
-                  <User className="w-16 h-16" />
+                  <User className="w-12 h-12 md:w-16 md:h-16" />
                 </div>
               )}
             </div>
@@ -354,19 +354,19 @@ const ProfilePage: React.FC = () => {
             />
           </div>
           <div className="text-center md:text-left">
-            <h1 className="text-4xl font-serif font-bold text-[#3B5998]">Welcome Home, {profile.first_name || 'Member'}.</h1>
-            <p className="text-[#3B5998]/60 mt-2 font-light text-lg">Manage your digital concierge preferences.</p>
+            <h1 className="text-2xl md:text-4xl font-serif font-bold text-[#3B5998]">Welcome Home, {profile.first_name || 'Member'}.</h1>
+            <p className="text-[#3B5998]/60 mt-1 md:mt-2 font-light text-sm md:text-lg">Manage your digital concierge preferences.</p>
 
             {/* Member Badge */}
-            <div className="mt-4 inline-flex items-center gap-3 bg-gradient-to-r from-[#3B5998] to-[#2a4070] text-white px-6 py-3 rounded-full shadow-lg">
-              <div className="flex items-center gap-2">
-                <span className="text-[#C5A059] font-bold text-sm uppercase tracking-wider">Member</span>
-                <span className="text-white font-mono text-lg font-bold">
+            <div className="mt-3 md:mt-4 inline-flex items-center gap-2 md:gap-3 bg-gradient-to-r from-[#3B5998] to-[#2a4070] text-white px-4 py-2 md:px-6 md:py-3 rounded-full shadow-lg">
+              <div className="flex items-center gap-1 md:gap-2">
+                <span className="text-[#C5A059] font-bold text-xs md:text-sm uppercase tracking-wider">Member</span>
+                <span className="text-white font-mono text-sm md:text-lg font-bold">
                 #{String(profile?.member_number || 0).padStart(4, '0')}
                 </span>
               </div>
-              <div className="h-4 w-px bg-white/30"></div>
-              <div className="text-sm font-light">
+              <div className="h-3 md:h-4 w-px bg-white/30"></div>
+              <div className="text-xs md:text-sm font-light">
                 Since {new Date(user?.created_at || Date.now()).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
               </div>
             </div>
@@ -374,27 +374,27 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {/* Credits Banner - Prominent Placement */}
-        <div className="bg-gradient-to-r from-[#C5A059] to-[#B39149] rounded-lg p-8 shadow-lg mb-6 text-white">
-          <div className="flex items-center justify-between">
+        <div className="bg-gradient-to-r from-[#C5A059] to-[#B39149] rounded-lg p-4 md:p-8 shadow-lg mb-4 md:mb-6 text-white">
+          <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="text-sm opacity-90 uppercase tracking-wide mb-2">
+              <p className="text-xs md:text-sm opacity-90 uppercase tracking-wide mb-1 md:mb-2">
                 Your Credit Balance
               </p>
-              <div className="flex items-baseline gap-3">
-                <p className="text-5xl font-bold">
+              <div className="flex items-baseline gap-2 md:gap-3">
+                <p className="text-3xl md:text-5xl font-bold">
                   {profile?.credits || 0}
                 </p>
-                <p className="text-xl opacity-90">
+                <p className="text-base md:text-xl opacity-90">
                   credits
                 </p>
               </div>
-              <p className="text-sm opacity-80 mt-2">
+              <p className="text-xs md:text-sm opacity-80 mt-1 md:mt-2">
                 = {((profile?.credits || 0) * 10)} minutes of sanctuary
               </p>
             </div>
             <a
               href="/buy-credits"
-              className="bg-white text-[#C5A059] px-6 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-opacity"
+              className="bg-white text-[#C5A059] px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-opacity-90 transition-opacity whitespace-nowrap"
             >
               + Buy More
             </a>
@@ -462,7 +462,7 @@ const ProfilePage: React.FC = () => {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
 
           {/* 1. IDENTITY CARD */}
           <Card className="border-[#3B5998]/10 bg-white shadow-sm">
@@ -591,14 +591,14 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {/* Save Bar */}
-        <div className="sticky bottom-4 z-50 flex justify-center">
+        <div className="sticky bottom-3 md:bottom-4 z-50 flex justify-center">
           <Button
             onClick={handleSave}
             disabled={saving}
-            className="bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold py-6 px-12 rounded-full shadow-2xl text-lg transition-all transform hover:scale-105"
+            className="bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold py-4 px-8 md:py-6 md:px-12 rounded-full shadow-2xl text-base md:text-lg transition-all transform hover:scale-105"
           >
-            {saving ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <Save className="w-5 h-5 mr-2" />}
-            Save Concierge Profile
+            {saving ? <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin mr-2" /> : <Save className="w-4 h-4 md:w-5 md:h-5 mr-2" />}
+            Save Profile
           </Button>
         </div>
 

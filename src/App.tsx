@@ -41,7 +41,10 @@ import MissionPage from '@/pages/MissionPage';
 import ConciergeDashboard from '@/pages/ConciergeDashboard';
 import Partnerships from '@/pages/Partnerships';
 
-// Prototypes pages
+// Future Innovations (public showcase)
+import FuturePrototypesPage from '@/pages/FuturePrototypesPage';
+
+// Prototypes pages (admin)
 import PrototypesPage from '@/pages/prototypes/PrototypesPage';
 import PrototypeSystemDetailPage from '@/pages/prototypes/SystemDetailPage';
 import PrototypeDetailPage from '@/pages/prototypes/PrototypeDetailPage';
@@ -78,6 +81,7 @@ const AppContent: React.FC = () => {
           <Route path="/lotus" element={<ProtectedRoute><TheLotusPage /></ProtectedRoute>} />
           <Route path="/impact" element={<ProtectedRoute><ImpactPage /></ProtectedRoute>} />
           <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
+          <Route path="/future" element={<ProtectedRoute><FuturePrototypesPage /></ProtectedRoute>} />
 
           {/* Commerce */}
           <Route path="/store" element={<ProtectedRoute><StorePage /></ProtectedRoute>} />
