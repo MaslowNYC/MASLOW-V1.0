@@ -10,6 +10,8 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { Loader2, ArrowLeft } from 'lucide-react';
 import { identifyUser } from '@/utils/customerio';
+import LanguageBubble from '@/components/LanguageBubble';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface ToastProps {
   title: string;
@@ -30,6 +32,9 @@ const LoginPage = () => {
   const [showVerification, setShowVerification] = useState(false);
   const [verificationCode, setVerificationCode] = useState('');
   const [pendingUserId, setPendingUserId] = useState<string | null>(null);
+
+  // Language selection
+  const { language, setLanguage } = useLanguage();
 
   const [searchParams] = useSearchParams();
   const { signIn, signUp } = useAuth();
@@ -381,6 +386,12 @@ const LoginPage = () => {
   // Login/Signup Screen
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#1a1a1a] via-[#2C5F8D] to-[#1a1a1a] flex items-center justify-center p-4">
+      {/* Language Selection Bubble */}
+      <LanguageBubble
+        onLanguageSelect={setLanguage}
+        selectedLanguage={language}
+      />
+
       <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C5A059]/30">
         <Tabs defaultValue={defaultTab} className="w-full">
           <CardHeader className="space-y-1 pb-4">

@@ -15,6 +15,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ShoppingCart from '@/components/ShoppingCart';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import ConciergeBubble from '@/components/ConciergeBubble';
 
 // Pages - Core
 import HeroSection from '@/components/HeroSection';
@@ -115,6 +116,9 @@ const AppContent: React.FC = () => {
       {!isHideHeaderPath && <Footer />}
       <ShoppingCart isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} />
       <Toaster />
+
+      {/* AI Concierge - only show when logged in */}
+      {user && <ConciergeBubble userId={user.id} />}
     </div>
   );
 };

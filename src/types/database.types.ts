@@ -134,6 +134,7 @@ export interface Profile {
   phone_verified: boolean | null;
   verification_code: string | null;
   code_expires_at: string | null;
+  preferred_language: string | null;
   created_at?: string;
 }
 

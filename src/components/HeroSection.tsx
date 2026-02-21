@@ -6,6 +6,8 @@ import HeroImage from '@/components/HeroImage';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useNavigate } from 'react-router-dom';
 import { Lock, ArrowRight } from 'lucide-react';
+import LanguageBubble from '@/components/LanguageBubble';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface HeroSectionProps {
   variant?: 'default' | 'sanctuary';
@@ -17,6 +19,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ variant = 'default', children
   const isSanctuary = variant === 'sanctuary';
   const FOUNDER_SEED_COUNT = 254;
   const [memberCount, setMemberCount] = useState<number>(FOUNDER_SEED_COUNT);
+  const { language, setLanguage } = useLanguage();
 
   // Fetch the live member count to show "Scarcity/Demand"
   useEffect(() => {
@@ -33,6 +36,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({ variant = 'default', children
 
   return (
     <section className={`relative min-h-[100dvh] w-full flex flex-col items-center justify-center py-24 overflow-hidden`}>
+      {/* Language Selection Bubble - only show on public view */}
+      {!isSanctuary && (
+        <LanguageBubble
+          onLanguageSelect={setLanguage}
+          selectedLanguage={language}
+        />
+      )}
 
       {/* BACKGROUND LAYER - "The Vibe" */}
       {isSanctuary ? (
