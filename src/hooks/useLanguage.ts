@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { supabase } from '@/lib/customSupabaseClient';
 
 const STORAGE_KEY = 'maslow_preferred_language';
@@ -11,6 +12,7 @@ interface UseLanguageReturn {
 }
 
 export function useLanguage(userId?: string): UseLanguageReturn {
+  const { i18n } = useTranslation();
   const [language, setLanguageState] = useState<string>(() => {
     // Initialize from localStorage
     if (typeof window !== 'undefined') {
@@ -19,6 +21,14 @@ export function useLanguage(userId?: string): UseLanguageReturn {
     return DEFAULT_LANGUAGE;
   });
   const [isLoading, setIsLoading] = useState(false);
+
+  // Sync i18n with stored language on mount
+  useEffect(() => {
+    const storedLang = localStorage.getItem(STORAGE_KEY);
+    if (storedLang && storedLang !== i18n.language) {
+      i18n.changeLanguage(storedLang);
+    }
+  }, [i18n]);
 
   // Load language from profile on mount (if user is logged in)
   useEffect(() => {
@@ -40,6 +50,7 @@ export function useLanguage(userId?: string): UseLanguageReturn {
         if (data?.preferred_language) {
           setLanguageState(data.preferred_language);
           localStorage.setItem(STORAGE_KEY, data.preferred_language);
+          i18n.changeLanguage(data.preferred_language);
         }
       } catch (err) {
         console.error('Failed to load language:', err);
@@ -47,13 +58,16 @@ export function useLanguage(userId?: string): UseLanguageReturn {
     };
 
     loadUserLanguage();
-  }, [userId]);
+  }, [userId, i18n]);
 
   // Set language and persist to Supabase + localStorage
   const setLanguage = useCallback(async (code: string) => {
     setIsLoading(true);
     setLanguageState(code);
     localStorage.setItem(STORAGE_KEY, code);
+
+    // Update i18next language
+    i18n.changeLanguage(code);
 
     // If user is logged in, save to profile
     if (userId) {
