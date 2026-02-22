@@ -55,7 +55,7 @@ export default function LanguageModal({
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] border border-[#C5A059]/30 rounded-2xl w-full max-w-md max-h-[80vh] overflow-hidden shadow-2xl"
+              className="bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] border border-[#C5A059]/30 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl"
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
@@ -65,12 +65,12 @@ export default function LanguageModal({
               aria-labelledby="language-modal-title"
             >
               {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-white/10">
-                <div className="flex items-center gap-3">
-                  <Globe className="w-5 h-5 text-[#C5A059]" />
+              <div className="flex items-center justify-between px-5 py-3 border-b border-white/10">
+                <div className="flex items-center gap-2">
+                  <Globe className="w-4 h-4 text-[#C5A059]" />
                   <h2
                     id="language-modal-title"
-                    className="text-xl font-semibold text-white"
+                    className="text-lg font-semibold text-white"
                   >
                     Select Language
                   </h2>
@@ -84,34 +84,34 @@ export default function LanguageModal({
                 </button>
               </div>
 
-              {/* Language List */}
-              <div className="overflow-y-auto max-h-[calc(80vh-120px)] p-2">
-                <div className="grid gap-1">
+              {/* Language Grid - 2 columns */}
+              <div className="p-3">
+                <div className="grid grid-cols-2 gap-1.5">
                   {languages.map((lang, index) => (
                     <motion.button
                       key={lang.code}
                       onClick={() => onSelect(lang.code)}
                       onKeyDown={(e) => handleKeyDown(e, lang.code)}
                       className={`
-                        w-full flex items-center justify-between p-4 rounded-xl transition-all
+                        flex items-center justify-between px-3 py-2.5 rounded-lg transition-all
                         ${selectedLanguage === lang.code
                           ? 'bg-[#C5A059]/20 border border-[#C5A059]/50'
                           : 'hover:bg-white/5 border border-transparent'
                         }
                       `}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.03 }}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.02 }}
                       role="option"
                       aria-selected={selectedLanguage === lang.code}
                     >
-                      <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2 min-w-0">
                         {/* Native welcome text */}
-                        <span className="text-2xl font-medium text-white min-w-[100px] text-left">
+                        <span className="text-lg font-medium text-white">
                           {lang.text}
                         </span>
                         {/* Language name */}
-                        <span className="text-white/50 text-sm">
+                        <span className="text-white/40 text-xs truncate">
                           {lang.language}
                         </span>
                       </div>
@@ -121,9 +121,9 @@ export default function LanguageModal({
                         <motion.div
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
-                          className="bg-[#C5A059] rounded-full p-1"
+                          className="bg-[#C5A059] rounded-full p-0.5 ml-1 flex-shrink-0"
                         >
-                          <Check className="w-4 h-4 text-black" />
+                          <Check className="w-3 h-3 text-black" />
                         </motion.div>
                       )}
                     </motion.button>
@@ -132,9 +132,9 @@ export default function LanguageModal({
               </div>
 
               {/* Footer */}
-              <div className="p-4 border-t border-white/10">
-                <p className="text-white/40 text-xs text-center">
-                  Your preference will be saved to your profile
+              <div className="px-4 py-2 border-t border-white/10">
+                <p className="text-white/40 text-[10px] text-center">
+                  Saved to your profile
                 </p>
               </div>
             </motion.div>
