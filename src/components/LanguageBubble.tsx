@@ -1,8 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import LanguageModal from './LanguageModal';
+import { useToast } from '@/components/ui/use-toast';
+import { useTranslation } from 'react-i18next';
 
 // Welcome in different languages
 const WELCOME_TRANSLATIONS = [
@@ -33,6 +35,9 @@ export default function LanguageBubble({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const previousLanguageRef = useRef<string>(selectedLanguage || 'en');
+  const { toast } = useToast();
+  const { i18n } = useTranslation();
 
   // Rotate through languages every 1.5 seconds
   useEffect(() => {
@@ -56,8 +61,35 @@ export default function LanguageBubble({
   };
 
   const handleSelectLanguage = (code: string) => {
+    // Store previous language before changing
+    const prevLang = selectedLanguage || previousLanguageRef.current;
+    previousLanguageRef.current = prevLang;
+
+    // Apply the new language
     onLanguageSelect?.(code);
     handleCloseModal();
+
+    // Find language name for toast
+    const langName = WELCOME_TRANSLATIONS.find(l => l.code === code)?.language || code;
+
+    // Show toast with undo option
+    toast({
+      title: 'Language changed',
+      description: `Now using ${langName}`,
+      duration: 4000,
+      action: (
+        <button
+          onClick={() => {
+            // Revert to previous language
+            onLanguageSelect?.(prevLang);
+            i18n.changeLanguage(prevLang);
+          }}
+          className="bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded text-sm font-medium transition-colors"
+        >
+          Undo
+        </button>
+      ),
+    });
   };
 
   const currentWelcome = WELCOME_TRANSLATIONS[currentIndex];
