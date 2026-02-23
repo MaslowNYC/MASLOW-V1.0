@@ -1,5 +1,6 @@
 import { useState, FormEvent, ChangeEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { supabase } from '@/lib/customSupabaseClient';
 import { Button } from '@/components/ui/button';
@@ -35,6 +36,7 @@ const LoginPage = () => {
 
   // Language selection
   const { language, setLanguage } = useLanguage();
+  const { t } = useTranslation();
 
   const [searchParams] = useSearchParams();
   const { signIn, signUp } = useAuth();
@@ -98,7 +100,7 @@ const LoginPage = () => {
       }
     } catch (error) {
       safeToast({
-        title: "Access Denied",
+        title: t('login.accessDenied'),
         description: error instanceof Error ? error.message : "Invalid credentials.",
         variant: "destructive",
       });
@@ -132,8 +134,8 @@ const LoginPage = () => {
       if (error) {
         if (error.message?.includes('already registered')) {
           safeToast({
-            title: "Account Exists",
-            description: "That email is already in use. Please log in.",
+            title: t('login.accountExists'),
+            description: t('login.accountExistsDesc'),
             variant: "destructive",
           });
           return;
@@ -213,14 +215,14 @@ const LoginPage = () => {
         setShowVerification(true);
 
         safeToast({
-          title: "Verification Code Sent",
-          description: `We've sent a 6-digit code to ${phone}`,
+          title: t('login.codeSent'),
+          description: `${t('login.codeSentDesc')} ${phone}`,
         });
       }
     } catch (error) {
       console.error('❌ Signup error:', error);
       safeToast({
-        title: "Signup Failed",
+        title: t('login.signupFailed'),
         description: error instanceof Error ? error.message : 'Unknown error',
         variant: "destructive",
       });
@@ -259,8 +261,8 @@ const LoginPage = () => {
       }
 
       safeToast({
-        title: "Phone Verified! ✓",
-        description: "Signing you in...",
+        title: `${t('login.phoneVerified')} ✓`,
+        description: t('login.signingYouIn'),
       });
 
       // Sign them in automatically
@@ -277,7 +279,7 @@ const LoginPage = () => {
     } catch (error) {
       console.error('❌ Verification error:', error);
       safeToast({
-        title: "Verification Failed",
+        title: t('login.verificationFailed'),
         description: error instanceof Error ? error.message : 'Unknown error',
         variant: "destructive",
       });
@@ -303,12 +305,12 @@ const LoginPage = () => {
       console.log('✅ New code sent via Twilio');
 
       safeToast({
-        title: "New Code Sent",
-        description: "Check your phone for the new code",
+        title: t('login.newCodeSent'),
+        description: t('login.checkYourPhone'),
       });
     } catch (error) {
       safeToast({
-        title: "Resend Failed",
+        title: t('login.resendFailed'),
         description: error instanceof Error ? error.message : 'Unknown error',
         variant: "destructive",
       });
@@ -336,10 +338,10 @@ const LoginPage = () => {
               className="w-fit mb-2 text-white/60 hover:text-white"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Signup
+              {t('login.backToSignup')}
             </Button>
             <CardTitle className="text-2xl font-bold text-center text-[#C5A059]">
-              Verify Your Phone
+              {t('login.verifyPhone')}
             </CardTitle>
             <CardDescription className="text-center text-white/60">
               Enter the 6-digit code we sent to {phone || 'your phone'}
@@ -348,7 +350,7 @@ const LoginPage = () => {
           <CardContent>
             <form onSubmit={handleVerifyCode} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="code" className="text-white">Verification Code</Label>
+                <Label htmlFor="code" className="text-white">{t('login.verificationCode')}</Label>
                 <Input
                   id="code"
                   type="text"
@@ -365,7 +367,7 @@ const LoginPage = () => {
                 disabled={loading || verificationCode.length !== 6}
                 className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold"
               >
-                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Verify Code"}
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t('login.verifyCode')}
               </Button>
               <Button
                 type="button"
@@ -374,7 +376,7 @@ const LoginPage = () => {
                 disabled={loading}
                 className="w-full text-white/60 hover:text-white"
               >
-                Didn't receive a code? Resend
+                {t('login.resendCode')}
               </Button>
             </form>
           </CardContent>
@@ -401,10 +403,10 @@ const LoginPage = () => {
             </div>
             <TabsList className="grid w-full grid-cols-2 bg-white/5">
               <TabsTrigger value="login" className="data-[state=active]:bg-white/10">
-                Sign In
+                {t('login.signIn')}
               </TabsTrigger>
               <TabsTrigger value="signup" className="data-[state=active]:bg-white/10">
-                Sign Up
+                {t('login.signUp')}
               </TabsTrigger>
             </TabsList>
           </CardHeader>
@@ -414,7 +416,7 @@ const LoginPage = () => {
             <TabsContent value="login">
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="login-email" className="text-white">Email</Label>
+                  <Label htmlFor="login-email" className="text-white">{t('login.email')}</Label>
                   <Input
                     id="login-email"
                     type="email"
@@ -426,7 +428,7 @@ const LoginPage = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="login-password" className="text-white">Password</Label>
+                  <Label htmlFor="login-password" className="text-white">{t('login.password')}</Label>
                   <Input
                     id="login-password"
                     type="password"
@@ -441,7 +443,7 @@ const LoginPage = () => {
                   disabled={loading}
                   className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold mt-4"
                 >
-                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Sign In"}
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t('login.signIn')}
                 </Button>
               </form>
             </TabsContent>
@@ -451,11 +453,11 @@ const LoginPage = () => {
               <form onSubmit={handleSignUp} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="first-name" className="text-white">First Name</Label>
+                    <Label htmlFor="first-name" className="text-white">{t('login.firstName')}</Label>
                     <Input
                       id="first-name"
                       type="text"
-                      placeholder="First name"
+                      placeholder={t('login.firstName')}
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                       className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
@@ -463,11 +465,11 @@ const LoginPage = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="last-name" className="text-white">Last Name</Label>
+                    <Label htmlFor="last-name" className="text-white">{t('login.lastName')}</Label>
                     <Input
                       id="last-name"
                       type="text"
-                      placeholder="Last name"
+                      placeholder={t('login.lastName')}
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
                       className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
@@ -476,7 +478,7 @@ const LoginPage = () => {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-email" className="text-white">Email</Label>
+                  <Label htmlFor="signup-email" className="text-white">{t('login.email')}</Label>
                   <Input
                     id="signup-email"
                     type="email"
@@ -488,7 +490,7 @@ const LoginPage = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone" className="text-white">Phone Number</Label>
+                  <Label htmlFor="phone" className="text-white">{t('login.phone')}</Label>
                   <Input
                     id="phone"
                     type="tel"
@@ -498,10 +500,10 @@ const LoginPage = () => {
                     className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
                     required
                   />
-                  <p className="text-xs text-white/40">We'll send a verification code to this number</p>
+                  <p className="text-xs text-white/40">{t('login.phoneTip')}</p>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-password" className="text-white">Password</Label>
+                  <Label htmlFor="signup-password" className="text-white">{t('login.password')}</Label>
                   <Input
                     id="signup-password"
                     type="password"
@@ -510,14 +512,14 @@ const LoginPage = () => {
                     className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
                     required
                   />
-                  <p className="text-xs text-white/40">Minimum 6 characters</p>
+                  <p className="text-xs text-white/40">{t('login.passwordTip')}</p>
                 </div>
                 <Button
                   type="submit"
                   disabled={loading}
                   className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold mt-4"
                 >
-                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Create Account"}
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t('login.createAccount')}
                 </Button>
               </form>
             </TabsContent>
