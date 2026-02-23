@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import LanguageModal from './LanguageModal';
 import { useToast } from '@/components/ui/use-toast';
+import { ToastAction } from '@/components/ui/toast';
 import { useTranslation } from 'react-i18next';
 
 // Welcome in different languages
@@ -78,16 +79,16 @@ export default function LanguageBubble({
       description: `Now using ${langName}`,
       duration: 4000,
       action: (
-        <button
+        <ToastAction
+          altText="Undo language change"
           onClick={() => {
             // Revert to previous language
             onLanguageSelect?.(prevLang);
             i18n.changeLanguage(prevLang);
           }}
-          className="bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded text-sm font-medium transition-colors"
         >
           Undo
-        </button>
+        </ToastAction>
       ),
     });
   };
