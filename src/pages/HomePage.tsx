@@ -1,11 +1,13 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { useTranslation } from 'react-i18next';
 import HeroCarousel from '@/components/HeroCarousel';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { motion } from 'framer-motion';
 
 const HomePage: React.FC = () => {
   const { user } = useAuth();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -29,10 +31,10 @@ const HomePage: React.FC = () => {
               transition={{ duration: 0.8 }}
             >
               <h1 className="text-6xl md:text-7xl font-serif font-bold mb-4 drop-shadow-lg">
-                Welcome back, {user.user_metadata?.full_name?.split(' ')[0] || 'Friend'}
+                {t('home.welcomeBack')} {user.user_metadata?.full_name?.split(' ')[0] || 'Friend'}
               </h1>
               <p className="text-xl md:text-2xl text-white/90 font-light drop-shadow">
-                Your sanctuary awaits.
+                {t('home.yourSanctuaryAwaits')}
               </p>
             </motion.div>
           ) : (
@@ -49,7 +51,7 @@ const HomePage: React.FC = () => {
                 The Infrastructure of Dignity.
               </p>
               <p className="text-sm text-white/50 mt-4">
-                Sign up to join our community and receive updates.
+                {t('home.signUpCommunity')}
               </p>
             </motion.div>
           )}

@@ -25,6 +25,12 @@ const resources = {
         getInLine: 'Get In Line',
         memberAccess: 'Member Access',
       },
+      // Home Page
+      home: {
+        welcomeBack: 'Welcome back,',
+        yourSanctuaryAwaits: 'Your sanctuary awaits.',
+        signUpCommunity: 'Sign up to join our community and receive updates.',
+      },
       // Login Page
       login: {
         title: 'Maslow',
@@ -112,6 +118,11 @@ const resources = {
         getInLine: 'Únete a la Lista',
         memberAccess: 'Acceso de Miembro',
       },
+      home: {
+        welcomeBack: 'Bienvenido de nuevo,',
+        yourSanctuaryAwaits: 'Tu santuario te espera.',
+        signUpCommunity: 'Regístrate para unirte a nuestra comunidad y recibir actualizaciones.',
+      },
       login: {
         title: 'Maslow',
         subtitle: 'La Infraestructura de la Dignidad',
@@ -193,6 +204,11 @@ const resources = {
         waitlistPosition: '等候位置',
         getInLine: '加入队列',
         memberAccess: '会员入口',
+      },
+      home: {
+        welcomeBack: '欢迎回来，',
+        yourSanctuaryAwaits: '您的圣所正在等待。',
+        signUpCommunity: '注册加入我们的社区并接收更新。',
       },
       login: {
         title: 'Maslow',
@@ -276,6 +292,11 @@ const resources = {
         getInLine: 'Rejoindre la File',
         memberAccess: 'Accès Membre',
       },
+      home: {
+        welcomeBack: 'Bon retour,',
+        yourSanctuaryAwaits: 'Votre sanctuaire vous attend.',
+        signUpCommunity: 'Inscrivez-vous pour rejoindre notre communauté et recevoir des mises à jour.',
+      },
       login: {
         title: 'Maslow',
         subtitle: "L'Infrastructure de la Dignité",
@@ -357,6 +378,11 @@ const resources = {
         waitlistPosition: '待機リスト位置',
         getInLine: '列に並ぶ',
         memberAccess: '会員アクセス',
+      },
+      home: {
+        welcomeBack: 'おかえりなさい、',
+        yourSanctuaryAwaits: 'あなたの聖域がお待ちしています。',
+        signUpCommunity: 'コミュニティに参加して最新情報を受け取りましょう。',
       },
       login: {
         title: 'Maslow',
@@ -440,6 +466,11 @@ const resources = {
         getInLine: 'Einreihen',
         memberAccess: 'Mitgliederzugang',
       },
+      home: {
+        welcomeBack: 'Willkommen zurück,',
+        yourSanctuaryAwaits: 'Ihr Zufluchtsort wartet auf Sie.',
+        signUpCommunity: 'Melden Sie sich an, um unserer Community beizutreten und Updates zu erhalten.',
+      },
       login: {
         title: 'Maslow',
         subtitle: 'Die Infrastruktur der Würde',
@@ -521,6 +552,11 @@ const resources = {
         waitlistPosition: 'Posizione in Lista',
         getInLine: 'Mettiti in Fila',
         memberAccess: 'Accesso Membri',
+      },
+      home: {
+        welcomeBack: 'Bentornato,',
+        yourSanctuaryAwaits: 'Il tuo santuario ti aspetta.',
+        signUpCommunity: 'Iscriviti per unirti alla nostra comunità e ricevere aggiornamenti.',
       },
       login: {
         title: 'Maslow',
@@ -604,6 +640,11 @@ const resources = {
         getInLine: 'Entrar na Fila',
         memberAccess: 'Acesso de Membro',
       },
+      home: {
+        welcomeBack: 'Bem-vindo de volta,',
+        yourSanctuaryAwaits: 'Seu santuário o aguarda.',
+        signUpCommunity: 'Cadastre-se para participar da nossa comunidade e receber atualizações.',
+      },
       login: {
         title: 'Maslow',
         subtitle: 'A Infraestrutura da Dignidade',
@@ -685,6 +726,11 @@ const resources = {
         waitlistPosition: '대기 순번',
         getInLine: '줄서기',
         memberAccess: '회원 접근',
+      },
+      home: {
+        welcomeBack: '다시 오신 것을 환영합니다,',
+        yourSanctuaryAwaits: '당신의 쉼터가 기다리고 있습니다.',
+        signUpCommunity: '커뮤니티에 가입하고 업데이트를 받아보세요.',
       },
       login: {
         title: 'Maslow',
@@ -769,6 +815,11 @@ const resources = {
         getInLine: 'انضم للقائمة',
         memberAccess: 'دخول الأعضاء',
       },
+      home: {
+        welcomeBack: 'مرحباً بعودتك،',
+        yourSanctuaryAwaits: 'ملاذك في انتظارك.',
+        signUpCommunity: 'سجل للانضمام إلى مجتمعنا وتلقي التحديثات.',
+      },
       login: {
         title: 'Maslow',
         subtitle: 'بنية الكرامة التحتية',
@@ -850,6 +901,11 @@ const resources = {
         waitlistPosition: 'Позиция в очереди',
         getInLine: 'Встать в очередь',
         memberAccess: 'Доступ для членов',
+      },
+      home: {
+        welcomeBack: 'С возвращением,',
+        yourSanctuaryAwaits: 'Ваше убежище ждёт вас.',
+        signUpCommunity: 'Зарегистрируйтесь, чтобы присоединиться к нашему сообществу и получать обновления.',
       },
       login: {
         title: 'Maslow',
@@ -933,6 +989,11 @@ const resources = {
         getInLine: 'लाइन में लगें',
         memberAccess: 'सदस्य पहुंच',
       },
+      home: {
+        welcomeBack: 'वापस स्वागत है,',
+        yourSanctuaryAwaits: 'आपका आश्रय आपका इंतज़ार कर रहा है।',
+        signUpCommunity: 'हमारे समुदाय में शामिल होने और अपडेट प्राप्त करने के लिए साइन अप करें।',
+      },
       login: {
         title: 'Maslow',
         subtitle: 'गरिमा का बुनियादी ढांचा',
@@ -1015,6 +1076,11 @@ const resources = {
         waitlistPosition: 'מיקום ברשימת ההמתנה',
         getInLine: 'הצטרף לתור',
         memberAccess: 'גישת חברים',
+      },
+      home: {
+        welcomeBack: 'ברוך שובך,',
+        yourSanctuaryAwaits: 'המקלט שלך מחכה.',
+        signUpCommunity: 'הירשם להצטרף לקהילה שלנו ולקבל עדכונים.',
       },
       login: {
         title: 'Maslow',
