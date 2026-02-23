@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, ChangeEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
-import { Loader2, User, Save, Upload, Sparkles, Wind, Coffee, X, ZoomIn, RotateCw, Image as ImageIcon } from 'lucide-react';
+import { Loader2, User, Save, Upload, Sparkles, Wind, Coffee, X, ZoomIn, RotateCw, Image as ImageIcon, Settings } from 'lucide-react';
 import { Profile } from '@/types/database.types';
 
 interface UsageOption {
@@ -48,6 +49,7 @@ type PreferenceCategory = 'preferences_amenities' | 'preferences_usage' | 'prefe
 const ProfilePage: React.FC = () => {
   const { user } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(true);
   const [saving, setSaving] = useState<boolean>(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
@@ -599,6 +601,18 @@ const ProfilePage: React.FC = () => {
           >
             {saving ? <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin mr-2" /> : <Save className="w-4 h-4 md:w-5 md:h-5 mr-2" />}
             Save Profile
+          </Button>
+        </div>
+
+        {/* Settings Link */}
+        <div className="flex justify-center mt-4">
+          <Button
+            variant="ghost"
+            onClick={() => navigate('/profile/settings')}
+            className="text-[#3B5998]/60 hover:text-[#3B5998]"
+          >
+            <Settings className="w-4 h-4 mr-2" />
+            Settings
           </Button>
         </div>
 

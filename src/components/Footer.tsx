@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import { ShieldCheck } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-[#1D5DA0] text-white pt-16 pb-8 border-t border-white/10 mt-auto">
       <div className="container mx-auto px-4">
@@ -13,13 +16,13 @@ const Footer = () => {
             <p className="text-white/60 text-sm leading-relaxed">
               The Infrastructure of Dignity.
               <br />
-              New York, NY.
+              {t('footer.newYork')}
             </p>
           </div>
 
           {/* SITEMAP */}
           <div>
-            <h4 className="font-bold uppercase tracking-widest text-xs text-[#C5A059] mb-6">Explore</h4>
+            <h4 className="font-bold uppercase tracking-widest text-xs text-[#C5A059] mb-6">{t('footer.explore')}</h4>
             <ul className="space-y-3 text-sm">
               <li><Link to="/hull" className="text-white/70 hover:text-white transition-colors">The Hull</Link></li>
               <li><Link to="/lotus" className="text-white/70 hover:text-white transition-colors">Maslow Suites</Link></li>
@@ -30,16 +33,16 @@ const Footer = () => {
 
           {/* LEGAL */}
           <div>
-            <h4 className="font-bold uppercase tracking-widest text-xs text-[#C5A059] mb-6">Legal</h4>
+            <h4 className="font-bold uppercase tracking-widest text-xs text-[#C5A059] mb-6">{t('footer.legal')}</h4>
             <ul className="space-y-3 text-sm">
-              <li><span className="text-white/40 cursor-not-allowed">Privacy Policy</span></li>
-              <li><span className="text-white/40 cursor-not-allowed">Terms of Service</span></li>
+              <li><span className="text-white/40 cursor-not-allowed">{t('footer.privacyPolicy')}</span></li>
+              <li><span className="text-white/40 cursor-not-allowed">{t('footer.termsOfService')}</span></li>
             </ul>
           </div>
 
           {/* CONNECT */}
           <div>
-            <h4 className="font-bold uppercase tracking-widest text-xs text-[#C5A059] mb-6">Connect</h4>
+            <h4 className="font-bold uppercase tracking-widest text-xs text-[#C5A059] mb-6">{t('footer.connect')}</h4>
             <a href="mailto:hello@maslownyc.com" className="text-white/70 hover:text-white transition-colors text-sm block mb-4">
               hello@maslownyc.com
             </a>
@@ -49,11 +52,11 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-white/30 text-xs">
-            © 2026 Maslow NYC. All rights reserved.
+            © 2026 Maslow NYC. {t('footer.allRightsReserved')}
           </p>
           <div className="flex items-center gap-2 text-white/30 text-xs">
             <ShieldCheck className="w-3 h-3" />
-            <span>Secure Infrastructure</span>
+            <span>{t('footer.secureInfrastructure')}</span>
           </div>
         </div>
       </div>

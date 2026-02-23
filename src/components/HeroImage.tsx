@@ -27,15 +27,15 @@ const HeroImage: React.FC<HeroImageProps> = ({ className }) => {
       }}
       style={{ perspective: 1000 }}
     >
-      <div className="relative w-full h-full shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] rounded-3xl overflow-hidden border border-white/20 bg-[#1D5DA0]">
+      <div className="relative w-full h-full shadow-[0_25px_60px_-10px_rgba(0,0,0,0.6)] rounded-lg overflow-hidden border border-white/10">
         <img
           src="/maslow-logo.png"
           alt="Maslow Sign"
-          className="w-full h-full object-cover scale-[1.05]"
+          className="w-full h-full object-contain"
         />
 
-        {/* Gloss/Sheen Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/0 to-white/10 pointer-events-none rounded-3xl" />
+        {/* Subtle gloss overlay */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/0 to-white/5 pointer-events-none" />
       </div>
     </motion.div>
   );

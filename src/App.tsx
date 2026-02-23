@@ -38,6 +38,7 @@ import StaffInventory from '@/pages/StaffInventory';
 
 // Restored imports
 import ProfilePage from '@/pages/ProfilePage';
+import ProfileSettingsPage from '@/pages/ProfileSettingsPage';
 import MissionPage from '@/pages/MissionPage';
 import ConciergeDashboard from '@/pages/ConciergeDashboard';
 import Partnerships from '@/pages/Partnerships';
@@ -94,6 +95,7 @@ const AppContent: React.FC = () => {
 
           {/* Restored Routes */}
           <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="/profile/settings" element={<ProtectedRoute><ProfileSettingsPage /></ProtectedRoute>} />
           <Route path="/mission" element={<MissionPage />} />
           <Route path="/partnerships" element={<Partnerships />} />
           <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} />
