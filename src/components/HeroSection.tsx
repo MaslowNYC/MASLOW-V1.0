@@ -6,26 +6,27 @@ import HeroImage from '@/components/HeroImage';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useNavigate } from 'react-router-dom';
 import { Lock, ArrowRight } from 'lucide-react';
-import LanguageBubble from '@/components/LanguageBubble';
-import { useLanguage } from '@/hooks/useLanguage';
 import { useTranslation } from 'react-i18next';
 
 // "Get In Line" variations from around the world
 // Each one "corrects" the previous - a celebration of how humans wait
 const LINE_VARIATIONS = [
-  // English variations (marked with isEnglish for interleaving)
+  // Top 10 American English variations (sprinkled every 3rd rotation)
   { text: 'Get In Line', region: 'American English', isEnglish: true },
   { text: 'Get ON Line', region: 'New York City', isEnglish: true },
-  { text: 'Join the Queue', region: 'British English', isEnglish: true },
-  { text: 'Queue Up', region: 'UK / Australia', isEnglish: true },
-  { text: 'Line Up', region: 'Canadian English', isEnglish: true },
-  { text: 'Fall In', region: 'Military English', isEnglish: true },
-  { text: 'Take Your Place', region: 'Formal English', isEnglish: true },
+  { text: 'Line Up', region: 'American English', isEnglish: true },
   { text: 'Hop In Line', region: 'Casual American', isEnglish: true },
-  { text: 'Stand in Line', region: 'Ireland', isEnglish: true },
-  { text: 'Get in the Queue', region: 'Scotland', isEnglish: true },
-  { text: 'Form a Queue', region: 'New Zealand', isEnglish: true },
   { text: 'Wait in Line', region: 'Midwestern US', isEnglish: true },
+  { text: 'Stand in Line', region: 'Southern US', isEnglish: true },
+  { text: 'Fall In', region: 'Military English', isEnglish: true },
+  { text: 'Take Your Place', region: 'Formal American', isEnglish: true },
+  { text: 'Step Right Up', region: 'Classic American', isEnglish: true },
+  { text: 'Join the Line', region: 'American English', isEnglish: true },
+
+  // British/Commonwealth variations (now part of the rotation)
+  { text: 'Join the Queue', region: 'British English' },
+  { text: 'Queue Up', region: 'UK / Australia' },
+  { text: 'Form a Queue', region: 'New Zealand' },
 
   // Spanish variations
   { text: 'Hacer Cola', region: 'España' },
@@ -228,8 +229,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ variant = 'default', children
   const isSanctuary = variant === 'sanctuary';
   const FOUNDER_SEED_COUNT = 254;
   const [memberCount, setMemberCount] = useState<number>(FOUNDER_SEED_COUNT);
-  const { language, setLanguage } = useLanguage();
-
   // Rotating "Get In Line" button state - English every 3 options for NYC
   const [lineVariations] = useState(() => createInterleavedVariations());
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
@@ -260,14 +259,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ variant = 'default', children
 
   return (
     <section className={`relative min-h-[100dvh] w-full flex flex-col items-center justify-center py-24 overflow-hidden`}>
-      {/* Language Selection Bubble - only show on public view */}
-      {!isSanctuary && (
-        <LanguageBubble
-          onLanguageSelect={setLanguage}
-          selectedLanguage={language}
-        />
-      )}
-
       {/* BACKGROUND LAYER - "The Vibe" */}
       {isSanctuary ? (
         <>
