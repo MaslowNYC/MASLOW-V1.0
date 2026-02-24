@@ -115,7 +115,7 @@ export default function ConciergeModal({ userId, onClose }: ConciergeModalProps)
 
         if (todayCount >= DAILY_LIMIT) {
           setIsAtLimit(true);
-          setLimitMessage("You've used your 10 daily chats. Resets at midnight EST. Need help? support@maslownyc.com");
+          setLimitMessage("You've used your 10 daily chats. Resets at midnight EST. Need help? support@maslow.nyc");
         } else if (hourCount >= HOURLY_LIMIT) {
           setIsAtLimit(true);
           setLimitMessage("You've reached your hourly limit. Please wait a bit before sending more messages.");

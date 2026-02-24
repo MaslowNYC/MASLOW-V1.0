@@ -29,8 +29,8 @@ const HeroImage: React.FC<HeroImageProps> = ({ className }) => {
     >
       <div className="relative w-full h-full shadow-[0_25px_60px_-10px_rgba(0,0,0,0.6)] rounded-lg overflow-hidden border border-white/10">
         <img
-          src="/maslow-logo.png"
-          alt="Maslow Sign"
+          src="/Maslow.png"
+          alt="Maslow"
           className="w-full h-full object-contain"
         />
 

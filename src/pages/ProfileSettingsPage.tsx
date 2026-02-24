@@ -180,9 +180,9 @@ const ProfileSettingsPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#F5F1E8] pb-16 pt-4 px-3 md:pb-24 md:pt-8 md:px-4">
-      <div className="max-w-2xl mx-auto space-y-6">
+      <div className="max-w-2xl mx-auto space-y-4">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-4">
           <h1 className="text-2xl md:text-3xl font-serif font-bold text-[#3B5998] flex items-center justify-center gap-2">
             <Settings className="w-6 h-6 md:w-8 md:h-8" />
             {t('settings.title')}
@@ -197,9 +197,9 @@ const ProfileSettingsPage: React.FC = () => {
               {t('settings.preferences')}
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-1">
             {/* Language Selector */}
-            <div className="flex items-center justify-between py-3 border-b border-gray-100">
+            <div className="flex items-center justify-between py-2 border-b border-gray-100">
               <div className="flex items-center gap-3">
                 <Globe className="w-5 h-5 text-[#3B5998]/60" />
                 <div>
@@ -222,7 +222,7 @@ const ProfileSettingsPage: React.FC = () => {
             </div>
 
             {/* Show Concierge Toggle */}
-            <div className="flex items-center justify-between py-3">
+            <div className="flex items-center justify-between py-2">
               <div className="flex items-center gap-3 flex-1">
                 <MessageCircle className="w-5 h-5 text-[#3B5998]/60" />
                 <div>
@@ -248,7 +248,7 @@ const ProfileSettingsPage: React.FC = () => {
           </CardHeader>
           <CardContent className="space-y-1">
             {/* Reduce Animations */}
-            <div className="flex items-center justify-between py-3 border-b border-gray-100">
+            <div className="flex items-center justify-between py-2 border-b border-gray-100">
               <div className="flex items-center gap-3 flex-1">
                 <Sparkles className="w-5 h-5 text-[#3B5998]/60" />
                 <div>
@@ -264,7 +264,7 @@ const ProfileSettingsPage: React.FC = () => {
             </div>
 
             {/* No Haptics */}
-            <div className="flex items-center justify-between py-3 border-b border-gray-100">
+            <div className="flex items-center justify-between py-2 border-b border-gray-100">
               <div className="flex items-center gap-3 flex-1">
                 <Smartphone className="w-5 h-5 text-[#3B5998]/60" />
                 <div>
@@ -280,7 +280,7 @@ const ProfileSettingsPage: React.FC = () => {
             </div>
 
             {/* High Contrast */}
-            <div className="flex items-center justify-between py-3 border-b border-gray-100">
+            <div className="flex items-center justify-between py-2 border-b border-gray-100">
               <div className="flex items-center gap-3 flex-1">
                 <Contrast className="w-5 h-5 text-[#3B5998]/60" />
                 <div>
@@ -296,7 +296,7 @@ const ProfileSettingsPage: React.FC = () => {
             </div>
 
             {/* Larger Text */}
-            <div className="flex items-center justify-between py-3 border-b border-gray-100">
+            <div className="flex items-center justify-between py-2 border-b border-gray-100">
               <div className="flex items-center gap-3 flex-1">
                 <Type className="w-5 h-5 text-[#3B5998]/60" />
                 <div>
@@ -312,7 +312,7 @@ const ProfileSettingsPage: React.FC = () => {
             </div>
 
             {/* Screen Reader */}
-            <div className="flex items-center justify-between py-3">
+            <div className="flex items-center justify-between py-2">
               <div className="flex items-center gap-3 flex-1">
                 <Ear className="w-5 h-5 text-[#3B5998]/60" />
                 <div>
@@ -339,7 +339,7 @@ const ProfileSettingsPage: React.FC = () => {
           <CardContent className="space-y-1">
             {/* Help Center */}
             <button
-              className="flex items-center justify-between py-3 border-b border-gray-100 w-full text-left hover:bg-gray-50 transition-colors rounded"
+              className="flex items-center justify-between py-2 border-b border-gray-100 w-full text-left hover:bg-gray-50 transition-colors rounded"
               onClick={() => {}}
             >
               <div className="flex items-center gap-3">
@@ -351,7 +351,7 @@ const ProfileSettingsPage: React.FC = () => {
 
             {/* Contact Support */}
             <button
-              className="flex items-center justify-between py-3 border-b border-gray-100 w-full text-left hover:bg-gray-50 transition-colors rounded"
+              className="flex items-center justify-between py-2 border-b border-gray-100 w-full text-left hover:bg-gray-50 transition-colors rounded"
               onClick={() => {}}
             >
               <div className="flex items-center gap-3">
@@ -363,7 +363,7 @@ const ProfileSettingsPage: React.FC = () => {
 
             {/* Terms & Conditions */}
             <button
-              className="flex items-center justify-between py-3 border-b border-gray-100 w-full text-left hover:bg-gray-50 transition-colors rounded"
+              className="flex items-center justify-between py-2 border-b border-gray-100 w-full text-left hover:bg-gray-50 transition-colors rounded"
               onClick={() => {}}
             >
               <div className="flex items-center gap-3">
@@ -375,7 +375,7 @@ const ProfileSettingsPage: React.FC = () => {
 
             {/* Privacy Policy */}
             <button
-              className="flex items-center justify-between py-3 w-full text-left hover:bg-gray-50 transition-colors rounded"
+              className="flex items-center justify-between py-2 w-full text-left hover:bg-gray-50 transition-colors rounded"
               onClick={() => {}}
             >
               <div className="flex items-center gap-3">

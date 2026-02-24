@@ -360,8 +360,8 @@ const SanctuarySuitesPage: React.FC = () => {
 
             <div className="mt-10 text-center">
               <p className="text-white/60 text-sm uppercase tracking-widest mb-2">Contact</p>
-              <a href="mailto:hello@maslownyc.com" className="text-2xl text-[#C5A059] hover:text-white transition-colors">
-                hello@maslownyc.com
+              <a href="mailto:hello@maslow.nyc" className="text-2xl text-[#C5A059] hover:text-white transition-colors">
+                hello@maslow.nyc
               </a>
             </div>
           </motion.div>

@@ -186,7 +186,7 @@ export default function BuyCreditsPage() {
             Questions about purchasing credits?
           </p>
           <a 
-            href="mailto:support@maslownyc.com" 
+            href="mailto:support@maslow.nyc" 
             className="text-[#C5A059] hover:text-[#B39149] font-semibold"
           >
             Contact Support →

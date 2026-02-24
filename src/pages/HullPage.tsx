@@ -152,8 +152,8 @@ const HullPage: React.FC = () => {
               <p className="text-[#1a1a1a]/70 leading-relaxed mb-4">
                 But again—we're learning. If you have ideas for programming, artists we should feature, or community needs we're missing, reach out. This space only works if it reflects the people who use it.
               </p>
-              <a href="mailto:hello@maslownyc.com" className="text-[#C5A059] font-bold hover:text-[#3B5998] transition-colors">
-                hello@maslownyc.com
+              <a href="mailto:hello@maslow.nyc" className="text-[#C5A059] font-bold hover:text-[#3B5998] transition-colors">
+                hello@maslow.nyc
               </a>
             </div>
           </motion.div>

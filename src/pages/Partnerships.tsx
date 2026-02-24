@@ -325,10 +325,10 @@ const Partnerships: React.FC = () => {
                 <p className="text-white font-semibold mb-2">Patrick May</p>
                 <p className="text-white/80 mb-4">Founder, Maslow NYC</p>
                 <a
-                  href="mailto:partners@maslownyc.com"
+                  href="mailto:partners@maslow.nyc"
                   className="inline-block bg-[#C49F58] text-[#1a1a1a] px-6 py-3 rounded-lg font-semibold hover:bg-[#B8935C] transition-colors"
                 >
-                  partners@maslownyc.com
+                  partners@maslow.nyc
                 </a>
               </div>
               <p className="text-white/80 text-sm">
@@ -464,10 +464,10 @@ const Partnerships: React.FC = () => {
                 <p className="text-white font-semibold mb-2">Dayna Johnson</p>
                 <p className="text-white/80 mb-4">Partnerships Lead, Maslow NYC</p>
                 <a
-                  href="mailto:partners@maslownyc.com"
+                  href="mailto:partners@maslow.nyc"
                   className="inline-block bg-[#C49F58] text-[#1a1a1a] px-6 py-3 rounded-lg font-semibold hover:bg-[#B8935C] transition-colors"
                 >
-                  partners@maslownyc.com
+                  partners@maslow.nyc
                 </a>
               </div>
             </div>

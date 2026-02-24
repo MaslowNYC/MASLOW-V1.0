@@ -145,7 +145,7 @@ const MembershipPage: React.FC = () => {
 
     <Button
       className="w-full bg-[#3B5998] text-white hover:bg-[#2A406E] uppercase tracking-widest"
-      onClick={() => window.location.href = 'mailto:patrick@maslownyc.com?subject=Sovereign%20Allocation%20Inquiry'}
+      onClick={() => window.location.href = 'mailto:patrick@maslow.nyc?subject=Sovereign%20Allocation%20Inquiry'}
     >
       Request Allocation
     </Button>

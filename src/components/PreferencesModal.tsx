@@ -142,6 +142,11 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({
         .update({ accessibility_settings: updatedSettings })
         .eq('id', user.id);
 
+      // Dispatch event to update concierge visibility immediately
+      window.dispatchEvent(new CustomEvent('concierge-preference-change', {
+        detail: { show_concierge: updatedSettings.show_concierge }
+      }));
+
       onConfirm?.();
       onClose();
     } catch (err) {

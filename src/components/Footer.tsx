@@ -43,8 +43,8 @@ const Footer = () => {
           {/* CONNECT */}
           <div>
             <h4 className="font-bold uppercase tracking-widest text-xs text-[#C5A059] mb-6">{t('footer.connect')}</h4>
-            <a href="mailto:hello@maslownyc.com" className="text-white/70 hover:text-white transition-colors text-sm block mb-4">
-              hello@maslownyc.com
+            <a href="mailto:hello@maslow.nyc" className="text-white/70 hover:text-white transition-colors text-sm block mb-4">
+              hello@maslow.nyc
             </a>
           </div>
         </div>

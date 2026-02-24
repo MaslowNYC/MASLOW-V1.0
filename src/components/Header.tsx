@@ -6,9 +6,9 @@ import { LayoutDashboard, LogOut, Menu, X, CircleUser, Cpu } from 'lucide-react'
 import { resetIdentity } from '@/utils/customerio';
 
 const ADMIN_EMAILS = [
-  'patrick@maslownyc.com',
-  'cat@maslownyc.com',
-  'dayna@maslownyc.com'
+  'patrick@maslow.nyc',
+  'cat@maslow.nyc',
+  'dayna@maslow.nyc'
 ];
 
 interface HeaderProps {
