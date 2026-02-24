@@ -232,6 +232,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ variant = 'default', children
   // Rotating "Get In Line" button state - English every 3 options for NYC
   const [lineVariations] = useState(() => createInterleavedVariations());
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
   // Fetch the live member count to show "Scarcity/Demand"
   useEffect(() => {
@@ -246,14 +247,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({ variant = 'default', children
     fetchCount();
   }, [isSanctuary]);
 
-  // Rotate through line variations every 2.5 seconds
+  // Rotate through line variations every 2.5 seconds (pauses on hover)
   useEffect(() => {
-    if (isSanctuary) return;
+    if (isSanctuary || isHovered) return;
     const interval = setInterval(() => {
       setCurrentLineIndex((prev) => (prev + 1) % lineVariations.length);
     }, 2500);
     return () => clearInterval(interval);
-  }, [isSanctuary, lineVariations.length]);
+  }, [isSanctuary, isHovered, lineVariations.length]);
 
   const currentLine = lineVariations[currentLineIndex];
 
@@ -316,7 +317,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ variant = 'default', children
               {/* The Action Buttons */}
               <div className="flex flex-col gap-4 w-full max-w-xs mx-auto">
                 {/* Rotating "Get In Line" Button */}
-                <div className="relative h-[52px]">
+                <div
+                  className="relative h-[52px]"
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                >
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={currentLineIndex}
