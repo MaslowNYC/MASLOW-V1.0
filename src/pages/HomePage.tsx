@@ -1,13 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import HeroCarousel from '@/components/HeroCarousel';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { motion } from 'framer-motion';
+import { supabase } from '@/lib/customSupabaseClient';
+import PreferencesModal from '@/components/PreferencesModal';
 
 const HomePage: React.FC = () => {
   const { user } = useAuth();
   const { t } = useTranslation();
+  const [showPreferences, setShowPreferences] = useState(false);
+
+  // Check if we should show preferences modal on login
+  useEffect(() => {
+    const checkPreferences = async () => {
+      if (!user) return;
+
+      // Check if user has already seen/skipped the modal this session
+      const sessionKey = `maslow_prefs_shown_${user.id}`;
+      if (sessionStorage.getItem(sessionKey)) return;
+
+      try {
+        const { data } = await (supabase
+          .from('profiles') as any)
+          .select('accessibility_settings')
+          .eq('id', user.id)
+          .single();
+
+        // Show modal if user hasn't opted out
+        const skipModal = data?.accessibility_settings?.skip_preferences_modal;
+        if (!skipModal) {
+          setShowPreferences(true);
+        }
+
+        // Mark as shown for this session
+        sessionStorage.setItem(sessionKey, 'true');
+      } catch (err) {
+        console.error('Error checking preferences:', err);
+      }
+    };
+
+    checkPreferences();
+  }, [user]);
 
   return (
     <>
@@ -68,6 +103,12 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Preferences Modal - shown on first login */}
+      <PreferencesModal
+        isOpen={showPreferences}
+        onClose={() => setShowPreferences(false)}
+      />
     </>
   );
 };

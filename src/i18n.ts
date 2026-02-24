@@ -138,6 +138,13 @@ const resources = {
         languageChanged: 'Language Changed',
         languageChangedDesc: 'Your language preference has been saved',
       },
+      // Preferences Modal
+      preferences: {
+        welcome: 'Welcome to Maslow',
+        subtitle: 'Confirm your preferences',
+        confirm: 'Confirm Preferences',
+        dontShowAgain: "Don't show this again on login",
+      },
     },
   },
   es: {
@@ -263,6 +270,12 @@ const resources = {
         errorDesc: 'No se pudo guardar la configuración',
         languageChanged: 'Idioma Cambiado',
         languageChangedDesc: 'Tu preferencia de idioma ha sido guardada',
+      },
+      preferences: {
+        welcome: 'Bienvenido a Maslow',
+        subtitle: 'Confirma tus preferencias',
+        confirm: 'Confirmar Preferencias',
+        dontShowAgain: 'No mostrar esto de nuevo al iniciar sesión',
       },
     },
   },
@@ -390,6 +403,12 @@ const resources = {
         languageChanged: '语言已更改',
         languageChangedDesc: '您的语言偏好已保存',
       },
+      preferences: {
+        welcome: '欢迎来到Maslow',
+        subtitle: '确认您的偏好',
+        confirm: '确认偏好',
+        dontShowAgain: '登录时不再显示',
+      },
     },
   },
   fr: {
@@ -515,6 +534,12 @@ const resources = {
         errorDesc: 'Impossible d\'enregistrer les paramètres',
         languageChanged: 'Langue Modifiée',
         languageChangedDesc: 'Votre préférence de langue a été enregistrée',
+      },
+      preferences: {
+        welcome: 'Bienvenue chez Maslow',
+        subtitle: 'Confirmez vos préférences',
+        confirm: 'Confirmer les Préférences',
+        dontShowAgain: 'Ne plus afficher lors de la connexion',
       },
     },
   },
@@ -642,6 +667,12 @@ const resources = {
         languageChanged: '言語が変更されました',
         languageChangedDesc: '言語設定が保存されました',
       },
+      preferences: {
+        welcome: 'Maslowへようこそ',
+        subtitle: '設定を確認してください',
+        confirm: '設定を確認',
+        dontShowAgain: 'ログイン時に表示しない',
+      },
     },
   },
   de: {
@@ -767,6 +798,12 @@ const resources = {
         errorDesc: 'Einstellungen konnten nicht gespeichert werden',
         languageChanged: 'Sprache geändert',
         languageChangedDesc: 'Ihre Spracheinstellung wurde gespeichert',
+      },
+      preferences: {
+        welcome: 'Willkommen bei Maslow',
+        subtitle: 'Bestätigen Sie Ihre Einstellungen',
+        confirm: 'Einstellungen Bestätigen',
+        dontShowAgain: 'Bei der Anmeldung nicht mehr anzeigen',
       },
     },
   },
@@ -894,6 +931,12 @@ const resources = {
         languageChanged: 'Lingua Cambiata',
         languageChangedDesc: 'La tua preferenza di lingua è stata salvata',
       },
+      preferences: {
+        welcome: 'Benvenuto in Maslow',
+        subtitle: 'Conferma le tue preferenze',
+        confirm: 'Conferma Preferenze',
+        dontShowAgain: 'Non mostrare più al login',
+      },
     },
   },
   pt: {
@@ -1020,6 +1063,12 @@ const resources = {
         languageChanged: 'Idioma Alterado',
         languageChangedDesc: 'Sua preferência de idioma foi salva',
       },
+      preferences: {
+        welcome: 'Bem-vindo ao Maslow',
+        subtitle: 'Confirme suas preferências',
+        confirm: 'Confirmar Preferências',
+        dontShowAgain: 'Não mostrar novamente no login',
+      },
     },
   },
   ko: {
@@ -1145,6 +1194,12 @@ const resources = {
         errorDesc: '설정을 저장할 수 없습니다',
         languageChanged: '언어 변경됨',
         languageChangedDesc: '언어 설정이 저장되었습니다',
+      },
+      preferences: {
+        welcome: 'Maslow에 오신 것을 환영합니다',
+        subtitle: '환경설정을 확인하세요',
+        confirm: '환경설정 확인',
+        dontShowAgain: '로그인 시 다시 표시하지 않음',
       },
     },
   },
@@ -1273,6 +1328,12 @@ const resources = {
         languageChanged: 'تم تغيير اللغة',
         languageChangedDesc: 'تم حفظ تفضيل اللغة الخاص بك',
       },
+      preferences: {
+        welcome: 'مرحباً بك في Maslow',
+        subtitle: 'قم بتأكيد تفضيلاتك',
+        confirm: 'تأكيد التفضيلات',
+        dontShowAgain: 'لا تظهر هذا مرة أخرى عند تسجيل الدخول',
+      },
     },
   },
   ru: {
@@ -1398,6 +1459,12 @@ const resources = {
         errorDesc: 'Не удалось сохранить настройки',
         languageChanged: 'Язык изменён',
         languageChangedDesc: 'Ваши языковые настройки сохранены',
+      },
+      preferences: {
+        welcome: 'Добро пожаловать в Maslow',
+        subtitle: 'Подтвердите ваши настройки',
+        confirm: 'Подтвердить настройки',
+        dontShowAgain: 'Не показывать при входе',
       },
     },
   },
@@ -1525,6 +1592,12 @@ const resources = {
         languageChanged: 'भाषा बदली गई',
         languageChangedDesc: 'आपकी भाषा प्राथमिकता सहेज ली गई है',
       },
+      preferences: {
+        welcome: 'Maslow में आपका स्वागत है',
+        subtitle: 'अपनी प्राथमिकताएं पुष्टि करें',
+        confirm: 'प्राथमिकताएं पुष्टि करें',
+        dontShowAgain: 'लॉगिन पर फिर से न दिखाएं',
+      },
     },
   },
   // RTL Language - Hebrew: Requires dir="rtl" in layout layer
@@ -1651,6 +1724,12 @@ const resources = {
         errorDesc: 'לא ניתן לשמור את ההגדרות',
         languageChanged: 'השפה שונתה',
         languageChangedDesc: 'העדפת השפה שלך נשמרה',
+      },
+      preferences: {
+        welcome: 'ברוכים הבאים ל-Maslow',
+        subtitle: 'אשר את ההעדפות שלך',
+        confirm: 'אשר העדפות',
+        dontShowAgain: 'אל תציג שוב בהתחברות',
       },
     },
   },
