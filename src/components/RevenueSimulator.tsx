@@ -463,24 +463,18 @@ const RevenueSimulator: React.FC = () => {
                   onChange={(val) => handleInputChange('active_members', val)}
                 />
               </div>
-              <div className="space-y-1 col-span-2 md:col-span-4">
-                <Label className="text-xs">Monthly Member Fee</Label>
+              <div className="space-y-1">
+                <Label className="text-xs">Member Fee</Label>
                 <FormattedInput
                   value={formData.monthly_fee}
                   onChange={(val) => handleInputChange('monthly_fee', val)}
                   prefix="$"
-                  className="max-w-[200px]"
                 />
               </div>
             </CardContent>
           </Card>
-        </div>
 
-
-        {/* OUTPUTS COLUMN */}
-        <div className="xl:col-span-5 space-y-3">
-
-          {/* Expenses & Real Estate - NOW ON RIGHT */}
+          {/* Expenses & Real Estate */}
           <Card className="border-t-2 border-t-red-400 shadow-sm">
             <CardHeader className="py-2 px-4">
               <CardTitle className="flex items-center gap-2 text-red-700 text-sm">
@@ -488,7 +482,7 @@ const RevenueSimulator: React.FC = () => {
                 Expenses & Real Estate
               </CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-2 gap-3 px-4 pb-3">
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-3 px-4 pb-3">
               <div className="space-y-1">
                 <Label className="text-xs">Sq Ft</Label>
                 <FormattedInput
@@ -522,7 +516,10 @@ const RevenueSimulator: React.FC = () => {
               </div>
             </CardContent>
           </Card>
+        </div>
 
+        {/* OUTPUTS COLUMN */}
+        <div className="xl:col-span-5 space-y-3">
           {/* Monthly P&L */}
           <Card className="shadow-md border-t-2 border-t-[#C5A059]">
             <CardHeader className="py-2 px-4">
