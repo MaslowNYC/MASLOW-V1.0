@@ -50,7 +50,7 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
         <Link to="/" className="flex items-center gap-3 group shrink-0">
           <div className="w-12 h-12 rounded-full overflow-hidden border border-[#3B5998]/20 group-hover:border-[#C5A059] transition-colors shadow-sm">
             <img
-              src="/favicon.png"
+              src="/MASLOW - Round.png"
               alt="Maslow Logo"
               className="w-full h-full object-cover"
             />
