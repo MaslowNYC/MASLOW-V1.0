@@ -91,7 +91,7 @@ export default function ConciergeBubble({ userId }: ConciergeBubbleProps) {
     <>
       {/* Floating Bubble */}
       <div
-        className="fixed bottom-6 right-6 z-[9999]"
+        className="fixed bottom-6 right-4 md:right-6 z-[9999]"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >

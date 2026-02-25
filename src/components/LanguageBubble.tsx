@@ -99,7 +99,7 @@ export default function LanguageBubble({
     <>
       {/* Floating Bubble */}
       <motion.button
-        className="fixed bottom-6 right-6 z-50 group"
+        className="fixed bottom-6 right-4 md:right-6 z-50 group"
         onClick={handleBubbleClick}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}

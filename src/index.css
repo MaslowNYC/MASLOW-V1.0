@@ -35,6 +35,9 @@
     @apply scroll-smooth;
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
   }
 
   body {
@@ -43,12 +46,19 @@
     /* Prevent mobile side-scrolling */
     overflow-x: hidden;
     width: 100%;
-    max-width: 100%;
+    max-width: 100vw;
     position: relative;
+    -webkit-overflow-scrolling: touch;
   }
 
   #root {
     @apply w-full overflow-x-hidden;
+    max-width: 100vw;
+  }
+
+  /* Prevent any element from causing horizontal scroll */
+  main, section, header, footer, div {
+    max-width: 100vw;
   }
 
   h1, h2, h3, h4, h5, h6 {

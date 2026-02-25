@@ -63,7 +63,7 @@ const AppContent: React.FC = () => {
   const isHideHeaderPath = location.pathname === '/login' || location.pathname === '/reset-password' || (!user && location.pathname === '/');
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] flex flex-col">
+    <div className="min-h-screen bg-[#F5F1E8] flex flex-col overflow-x-hidden w-full max-w-full">
       {!isHideHeaderPath && <Header setIsCartOpen={setIsCartOpen} />}
 
       <main className="flex-grow">
