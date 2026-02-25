@@ -203,23 +203,23 @@ const AdminFundingDashboard: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto p-8 bg-[#F5F1E8] min-h-screen">
+    <div className="max-w-7xl mx-auto p-4 md:p-6 bg-[#F5F1E8] min-h-screen">
 
       {/* TAB NAVIGATION */}
-      <div className="mb-8">
-        <div className="flex gap-2 border-b-2 border-[#3B5998]/20">
+      <div className="mb-4">
+        <div className="flex gap-1 border-b-2 border-[#3B5998]/20">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-6 py-4 font-semibold text-sm uppercase tracking-wider transition-all duration-200 border-b-4 -mb-[2px] ${
+              className={`flex items-center gap-2 px-3 py-2 md:px-4 md:py-3 font-semibold text-xs md:text-sm uppercase tracking-wider transition-all duration-200 border-b-4 -mb-[2px] ${
                 activeTab === tab.id
                   ? 'border-[#C5A059] text-[#3B5998] bg-white rounded-t-lg'
                   : 'border-transparent text-[#3B5998]/60 hover:text-[#3B5998] hover:bg-white/50'
               }`}
             >
               {tab.icon}
-              {tab.label}
+              <span className="hidden sm:inline">{tab.label}</span>
             </button>
           ))}
         </div>
@@ -233,18 +233,18 @@ const AdminFundingDashboard: React.FC = () => {
           transition={{ duration: 0.2 }}
         >
           {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Financial Tools</h1>
-            <p className="text-[#3B5998]/60 mt-2">Revenue projections, pricing models, and payment testing.</p>
+          <div className="mb-4">
+            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Financial Tools</h1>
+            <p className="text-[#3B5998]/60 mt-1 text-sm">Revenue projections, pricing models, and payment testing.</p>
           </div>
 
           {/* Revenue Simulator */}
-          <div className="mb-12">
+          <div className="mb-6">
             <RevenueSimulator />
           </div>
 
           {/* Payment Test Section */}
-          <Card className="mb-12 border-t-4 border-t-green-500">
+          <Card className="mb-6 border-t-4 border-t-green-500">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-[#3B5998]">
                 <CreditCard className="h-5 w-5" />
@@ -300,13 +300,13 @@ const AdminFundingDashboard: React.FC = () => {
           transition={{ duration: 0.2 }}
         >
           {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Session Pricing Calculator</h1>
-            <p className="text-[#3B5998]/60 mt-2">Configure and simulate session pricing models.</p>
+          <div className="mb-4">
+            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Session Pricing Calculator</h1>
+            <p className="text-[#3B5998]/60 mt-1 text-sm">Configure and simulate session pricing models.</p>
           </div>
 
           {/* Pricing Calculator */}
-          <div className="mb-12">
+          <div className="mb-6">
             <PricingCalculator />
           </div>
         </motion.div>
@@ -320,35 +320,35 @@ const AdminFundingDashboard: React.FC = () => {
           transition={{ duration: 0.2 }}
         >
           {/* HERO IMAGE SECTION */}
-          <div className="relative mb-12 rounded-2xl shadow-2xl overflow-hidden z-0">
+          <div className="relative mb-6 rounded-xl shadow-xl overflow-hidden z-0">
             <img
               src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop"
               alt="Dashboard Hero"
-              className="w-full h-64 md:h-80 object-cover"
+              className="w-full h-40 md:h-56 object-cover"
             />
-            <div className="absolute inset-0 ring-1 ring-white/20 rounded-2xl pointer-events-none bg-gradient-to-t from-black/40 to-transparent"></div>
-            <div className="absolute bottom-6 left-8 text-white z-10">
-              <h2 className="text-3xl font-serif font-bold tracking-wide">Operational Command</h2>
-              <p className="text-white/80 font-light">Status: Active Monitoring</p>
+            <div className="absolute inset-0 ring-1 ring-white/20 rounded-xl pointer-events-none bg-gradient-to-t from-black/40 to-transparent"></div>
+            <div className="absolute bottom-4 left-4 md:left-6 text-white z-10">
+              <h2 className="text-xl md:text-2xl font-serif font-bold tracking-wide">Operational Command</h2>
+              <p className="text-white/80 font-light text-sm">Status: Active Monitoring</p>
             </div>
           </div>
 
           {/* Header Row */}
-          <div className="flex justify-between items-end mb-12 border-b-4 border-[#C5A059] pb-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-6 border-b-4 border-[#C5A059] pb-3">
             <div>
-              <h1 className="text-4xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Revenue Command</h1>
-              <p className="text-[#C5A059] font-bold mt-2">Maslow Administrative Command</p>
+              <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Revenue Command</h1>
+              <p className="text-[#C5A059] font-bold mt-1 text-sm">Maslow Administrative Command</p>
             </div>
             <Button
               onClick={downloadCSV}
-              className="bg-[#3B5998] text-white hover:bg-[#2d4475] flex items-center gap-2"
+              className="bg-[#3B5998] text-white hover:bg-[#2d4475] flex items-center gap-2 text-sm"
             >
-              <Download size={18} /> Export CSV
+              <Download size={16} /> Export CSV
             </Button>
           </div>
 
           {/* OPERATIONAL INTELLIGENCE ROW */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             {/* The Efficiency Leak Card */}
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
               <Card className={`h-full border-l-8 ${efficiencyData?.leakDetected ? 'border-l-red-500 bg-red-50' : 'border-l-green-500 bg-green-50'}`}>
@@ -396,27 +396,27 @@ const AdminFundingDashboard: React.FC = () => {
           </div>
 
           {/* EXISTING METRICS ROW */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <motion.div className="bg-white p-8 rounded-xl shadow-lg border border-[#3B5998]/10">
-              <div className="flex items-center gap-4 mb-2">
-                <Users className="text-[#C5A059] w-8 h-8" />
-                <h3 className="text-sm font-bold text-[#3B5998] uppercase">Total Members</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <motion.div className="bg-white p-4 md:p-5 rounded-lg shadow-md border border-[#3B5998]/10">
+              <div className="flex items-center gap-3 mb-1">
+                <Users className="text-[#C5A059] w-6 h-6" />
+                <h3 className="text-xs font-bold text-[#3B5998] uppercase">Total Members</h3>
               </div>
-              <p className="text-5xl font-black text-[#3B5998]">{stats.totalUsers}</p>
+              <p className="text-3xl md:text-4xl font-black text-[#3B5998]">{stats.totalUsers}</p>
             </motion.div>
 
-            <motion.div className="bg-white p-8 rounded-xl shadow-lg border border-[#3B5998]/10">
-              <div className="flex items-center gap-4 mb-2">
-                <DollarSign className="text-green-600 w-8 h-8" />
-                <h3 className="text-sm font-bold text-[#3B5998] uppercase">Total Pledged</h3>
+            <motion.div className="bg-white p-4 md:p-5 rounded-lg shadow-md border border-[#3B5998]/10">
+              <div className="flex items-center gap-3 mb-1">
+                <DollarSign className="text-green-600 w-6 h-6" />
+                <h3 className="text-xs font-bold text-[#3B5998] uppercase">Total Pledged</h3>
               </div>
-              <p className="text-5xl font-black text-[#3B5998]">{formatNumber(stats.totalFunding)}</p>
+              <p className="text-3xl md:text-4xl font-black text-[#3B5998]">{formatNumber(stats.totalFunding)}</p>
             </motion.div>
 
-            <motion.div className="bg-white p-8 rounded-xl shadow-lg border border-[#3B5998]/10">
-              <div className="flex items-center gap-4 mb-2">
-                <Shield className="text-[#3B5998] w-8 h-8" />
-                <h3 className="text-sm font-bold text-[#3B5998] uppercase">Top Tier</h3>
+            <motion.div className="bg-white p-4 md:p-5 rounded-lg shadow-md border border-[#3B5998]/10">
+              <div className="flex items-center gap-3 mb-1">
+                <Shield className="text-[#3B5998] w-6 h-6" />
+                <h3 className="text-xs font-bold text-[#3B5998] uppercase">Top Tier</h3>
               </div>
               <div className="text-sm space-y-1">
                 {Object.entries(stats.tierBreakdown).map(([tier, count]) => (
@@ -430,31 +430,31 @@ const AdminFundingDashboard: React.FC = () => {
           </div>
 
           {/* Recent Activity Table */}
-          <div className="bg-white rounded-xl shadow-lg border border-[#3B5998]/10 overflow-hidden">
-            <div className="bg-[#3B5998] p-4">
-              <h3 className="text-white font-bold uppercase tracking-wider">Recent Accessions</h3>
+          <div className="bg-white rounded-lg shadow-md border border-[#3B5998]/10 overflow-hidden">
+            <div className="bg-[#3B5998] px-4 py-2">
+              <h3 className="text-white font-bold uppercase tracking-wider text-sm">Recent Accessions</h3>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    <th className="p-4 text-xs font-bold text-[#3B5998] uppercase">Email</th>
-                    <th className="p-4 text-xs font-bold text-[#3B5998] uppercase">Tier</th>
-                    <th className="p-4 text-xs font-bold text-[#3B5998] uppercase">Date</th>
-                    <th className="p-4 text-xs font-bold text-[#3B5998] uppercase text-right">Value</th>
+                    <th className="px-3 py-2 text-xs font-bold text-[#3B5998] uppercase">Email</th>
+                    <th className="px-3 py-2 text-xs font-bold text-[#3B5998] uppercase">Tier</th>
+                    <th className="px-3 py-2 text-xs font-bold text-[#3B5998] uppercase">Date</th>
+                    <th className="px-3 py-2 text-xs font-bold text-[#3B5998] uppercase text-right">Value</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {recentPledges.map((profile) => (
                     <tr key={profile.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="p-4 text-[#3B5998] font-medium">{profile.email}</td>
-                      <td className="p-4 text-sm text-gray-600">
-                        <span className="bg-[#F5F1E8] px-2 py-1 rounded text-[#3B5998] font-bold text-xs border border-[#C5A059]/30">
+                      <td className="px-3 py-2 text-[#3B5998] font-medium text-sm">{profile.email}</td>
+                      <td className="px-3 py-2 text-sm text-gray-600">
+                        <span className="bg-[#F5F1E8] px-2 py-0.5 rounded text-[#3B5998] font-bold text-xs border border-[#C5A059]/30">
                           {profile.membership_tier || 'Member'}
                         </span>
                       </td>
-                      <td className="p-4 text-sm text-gray-500">{new Date(profile.created_at || '').toLocaleDateString()}</td>
-                      <td className="p-4 text-right font-bold text-[#3B5998]">
+                      <td className="px-3 py-2 text-sm text-gray-500">{new Date(profile.created_at || '').toLocaleDateString()}</td>
+                      <td className="px-3 py-2 text-right font-bold text-[#3B5998] text-sm">
                         {formatNumber(profile.contribution_amount || getTierPrice(profile.membership_tier))}
                       </td>
                     </tr>
