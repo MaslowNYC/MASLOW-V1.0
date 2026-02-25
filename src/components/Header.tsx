@@ -5,7 +5,12 @@ import { Button } from '@/components/ui/button';
 import { LayoutDashboard, LogOut, Menu, X, CircleUser, Cpu } from 'lucide-react';
 import { resetIdentity } from '@/utils/customerio';
 
+// Admin emails - add new admins here
 const ADMIN_EMAILS = [
+  'patrick@maslownyc.com',
+  'cat@maslownyc.com',
+  'dayna@maslownyc.com',
+  // Legacy domain fallbacks
   'patrick@maslow.nyc',
   'cat@maslow.nyc',
   'dayna@maslow.nyc'

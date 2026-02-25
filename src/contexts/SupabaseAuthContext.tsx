@@ -2,8 +2,12 @@ import { createContext, useState, useEffect, useContext, ReactNode } from 'react
 import { supabase } from '@/lib/customSupabaseClient';
 import type { User, AuthResponse, AuthError } from '@supabase/supabase-js';
 
-// Fallback admin emails (same as Header.tsx)
+// Admin emails - add new admins here
 const ADMIN_EMAILS = [
+  'patrick@maslownyc.com',
+  'cat@maslownyc.com',
+  'dayna@maslownyc.com',
+  // Legacy domain fallbacks
   'patrick@maslow.nyc',
   'cat@maslow.nyc',
   'dayna@maslow.nyc'
