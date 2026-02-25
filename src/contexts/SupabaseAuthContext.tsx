@@ -2,6 +2,13 @@ import { createContext, useState, useEffect, useContext, ReactNode } from 'react
 import { supabase } from '@/lib/customSupabaseClient';
 import type { User, AuthResponse, AuthError } from '@supabase/supabase-js';
 
+// Fallback admin emails (same as Header.tsx)
+const ADMIN_EMAILS = [
+  'patrick@maslow.nyc',
+  'cat@maslow.nyc',
+  'dayna@maslow.nyc'
+];
+
 interface AuthContextType {
   user: User | null;
   loading: boolean;
@@ -29,7 +36,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         const { data: { session } } = await supabase.auth.getSession();
         setUser(session?.user ?? null);
         if (session?.user) {
-          checkFounderStatus(session.user.id);
+          checkFounderStatus(session.user.id, session.user.email);
         }
       } catch (err) {
         console.error("Session check failed", err);
@@ -44,7 +51,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setUser(session?.user ?? null);
       if (session?.user) {
-        checkFounderStatus(session.user.id);
+        checkFounderStatus(session.user.id, session.user.email);
       }
       setLoading(false);
     });
@@ -52,13 +59,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const checkFounderStatus = async (userId: string) => {
+  const checkFounderStatus = async (userId: string, userEmail?: string | null) => {
+    // First, check email-based admin list as a reliable fallback
+    if (userEmail && ADMIN_EMAILS.includes(userEmail.toLowerCase())) {
+      setIsFounder(true);
+      return;
+    }
+
+    // Then check database
     try {
-      const { data } = await (supabase
+      const { data, error } = await (supabase
         .from('profiles') as any)
         .select('is_admin')
         .eq('id', userId)
         .single();
+
+      if (error) {
+        console.error("Founder check query failed:", error);
+        return;
+      }
 
       if (data && data.is_admin) {
         setIsFounder(true);
