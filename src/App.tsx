@@ -39,6 +39,7 @@ import StaffInventory from '@/pages/StaffInventory';
 // Restored imports
 import ProfilePage from '@/pages/ProfilePage';
 import ProfileSettingsPage from '@/pages/ProfileSettingsPage';
+import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import MissionPage from '@/pages/MissionPage';
 import ConciergeDashboard from '@/pages/ConciergeDashboard';
 import Partnerships from '@/pages/Partnerships';
@@ -59,7 +60,7 @@ const AppContent: React.FC = () => {
   const location = useLocation();
   const { user } = useAuth();
 
-  const isHideHeaderPath = location.pathname === '/login' || (!user && location.pathname === '/');
+  const isHideHeaderPath = location.pathname === '/login' || location.pathname === '/reset-password' || (!user && location.pathname === '/');
 
   return (
     <div className="min-h-screen bg-[#F5F1E8] flex flex-col">
@@ -70,6 +71,7 @@ const AppContent: React.FC = () => {
           {/* Public & Core Routes */}
           <Route path="/" element={user ? <HomePage /> : <HeroSection />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/maslow" element={<MaslowPage />} />
           <Route path="/staff/inventory" element={<StaffInventory />} />
           <Route path="/buy-credits" element={<ProtectedRoute><BuyCreditsPage /></ProtectedRoute>} />

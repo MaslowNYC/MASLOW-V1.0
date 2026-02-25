@@ -34,6 +34,10 @@ const LoginPage = () => {
   const [verificationCode, setVerificationCode] = useState('');
   const [pendingUserId, setPendingUserId] = useState<string | null>(null);
 
+  // Forgot password state
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [resetEmailSent, setResetEmailSent] = useState(false);
+
   // Language selection
   const { language, setLanguage } = useLanguage();
   const { t } = useTranslation();
@@ -325,6 +329,118 @@ const LoginPage = () => {
     setPendingUserId(null);
   };
 
+  const handleForgotPassword = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!email) {
+      safeToast({
+        title: t('login.forgotPassword'),
+        description: t('login.enterEmailFirst'),
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+
+      if (error) throw error;
+
+      setResetEmailSent(true);
+      safeToast({
+        title: t('login.resetEmailSent'),
+        description: t('login.checkYourEmail'),
+      });
+    } catch (error) {
+      safeToast({
+        title: t('login.resetFailed'),
+        description: error instanceof Error ? error.message : 'Unknown error',
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleBackToLogin = () => {
+    setShowForgotPassword(false);
+    setResetEmailSent(false);
+  };
+
+  // Forgot Password Screen
+  if (showForgotPassword) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#1a1a1a] via-[#2C5F8D] to-[#1a1a1a] flex items-center justify-center p-4">
+        <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C5A059]/30">
+          <CardHeader className="space-y-1 pb-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleBackToLogin}
+              className="w-fit mb-2 text-white/60 hover:text-white"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              {t('login.backToLogin')}
+            </Button>
+            <CardTitle className="text-2xl font-bold text-center text-[#C5A059]">
+              {t('login.forgotPassword')}
+            </CardTitle>
+            <CardDescription className="text-center text-white/60">
+              {resetEmailSent
+                ? t('login.resetEmailSentDesc')
+                : t('login.forgotPasswordDesc')
+              }
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {resetEmailSent ? (
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 mx-auto bg-[#C5A059]/20 rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-[#C5A059]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <p className="text-white/60 text-sm">
+                  {t('login.checkYourEmail')}
+                </p>
+                <Button
+                  onClick={handleBackToLogin}
+                  className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold"
+                >
+                  {t('login.backToLogin')}
+                </Button>
+              </div>
+            ) : (
+              <form onSubmit={handleForgotPassword} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="reset-email" className="text-white">{t('login.email')}</Label>
+                  <Input
+                    id="reset-email"
+                    type="email"
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
+                    required
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold"
+                >
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t('login.sendResetLink')}
+                </Button>
+              </form>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   // SMS Verification Screen
   if (showVerification) {
     return (
@@ -438,10 +554,19 @@ const LoginPage = () => {
                     required
                   />
                 </div>
+                <div className="text-right">
+                  <button
+                    type="button"
+                    onClick={() => setShowForgotPassword(true)}
+                    className="text-sm text-[#C5A059]/70 hover:text-[#C5A059] transition-colors"
+                  >
+                    {t('login.forgotPassword')}?
+                  </button>
+                </div>
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold mt-4"
+                  className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold mt-2"
                 >
                   {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t('login.signIn')}
                 </Button>
