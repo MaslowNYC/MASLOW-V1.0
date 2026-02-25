@@ -324,73 +324,79 @@ const RevenueSimulator: React.FC = () => {
   }
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-4 md:p-8 space-y-8 bg-gray-50/50 rounded-xl">
+    <div className="w-full max-w-7xl mx-auto p-3 md:p-4 space-y-4 bg-gray-50/50 rounded-xl">
 
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-gray-200 pb-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-gray-200 pb-3">
         <div>
-          <h2 className="text-3xl font-serif text-[#3B5998] font-bold flex items-center gap-3">
-            <LayoutDashboard className="w-8 h-8 text-[#C5A059]" />
-            Maslow Revenue Simulator
+          <h2 className="text-xl md:text-2xl font-serif text-[#3B5998] font-bold flex items-center gap-2">
+            <LayoutDashboard className="w-5 h-5 text-[#C5A059]" />
+            Revenue Simulator
           </h2>
-          <p className="text-gray-500 mt-2 max-w-2xl">
-            Project the financial performance of a Maslow Sanctuary location. Adjust suite count, operational hours, and revenue streams to calculate EBITDA.
+          <p className="text-gray-500 text-xs mt-1">
+            Project financial performance. Adjust inputs to calculate EBITDA.
           </p>
         </div>
-        <div className="flex gap-3">
-          <Button
-            onClick={handleSave}
-            disabled={saving}
-            className="bg-[#C5A059] hover:bg-[#b08d4b] text-white shadow-lg min-w-[140px]"
-          >
-            {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
-            Save Model
-          </Button>
-        </div>
+        <Button
+          onClick={handleSave}
+          disabled={saving}
+          size="sm"
+          className="bg-[#C5A059] hover:bg-[#b08d4b] text-white shadow-md"
+        >
+          {saving ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <Save className="w-3 h-3 mr-1" />}
+          Save
+        </Button>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-4">
 
         {/* INPUTS COLUMN */}
-        <div className="xl:col-span-7 space-y-6">
+        <div className="xl:col-span-7 space-y-3">
 
           {/* Space & Operations */}
-          <Card className="border-t-4 border-t-[#3B5998] shadow-sm">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-[#3B5998]">
-                <Building2 className="w-5 h-5" />
-                Maslow Suite Configuration & Ops
+          <Card className="border-t-2 border-t-[#3B5998] shadow-sm">
+            <CardHeader className="py-3 px-4">
+              <CardTitle className="flex items-center gap-2 text-[#3B5998] text-sm">
+                <Building2 className="w-4 h-4" />
+                Suite Configuration & Ops
               </CardTitle>
-              <CardDescription>Define the physical capacity and operational hours.</CardDescription>
             </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label>Number of Suites</Label>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-3 px-4 pb-4">
+              <div className="space-y-1">
+                <Label className="text-xs">Suites</Label>
                 <FormattedInput
                   value={formData.suites}
                   onChange={(val) => handleInputChange('suites', val)}
                 />
               </div>
-              <div className="space-y-2">
-                <Label>Hours Open / Day</Label>
+              <div className="space-y-1">
+                <Label className="text-xs">Hours/Day</Label>
                 <FormattedInput
                   value={formData.hours_open}
                   onChange={(val) => handleInputChange('hours_open', val)}
                   suffix="hrs"
                 />
               </div>
-              <div className="space-y-2">
-                <Label>Session Duration</Label>
+              <div className="space-y-1">
+                <Label className="text-xs">Duration</Label>
                 <FormattedInput
                   value={formData.avg_duration}
                   onChange={(val) => handleInputChange('avg_duration', val)}
                   suffix="min"
                 />
               </div>
-              <div className="space-y-2 col-span-1 md:col-span-2">
-                <div className="flex justify-between items-baseline mb-2">
-                  <Label>Turnaround Time (Cleaning)</Label>
-                  <span className="text-[#C5A059] font-bold text-lg">{formData.turnaround_time}s</span>
+              <div className="space-y-1">
+                <Label className="text-xs">Price</Label>
+                <FormattedInput
+                  value={formData.avg_price}
+                  onChange={(val) => handleInputChange('avg_price', val)}
+                  prefix="$"
+                />
+              </div>
+              <div className="space-y-1 col-span-2">
+                <div className="flex justify-between items-baseline">
+                  <Label className="text-xs">Turnaround</Label>
+                  <span className="text-[#C5A059] font-bold text-sm">{formData.turnaround_time}s</span>
                 </div>
                 <Slider
                   value={[formData.turnaround_time]}
@@ -398,160 +404,72 @@ const RevenueSimulator: React.FC = () => {
                   min={0}
                   max={600}
                   step={15}
-                  className="py-2"
-                />
-                <div className="flex justify-between items-center text-xs">
-                  <span className="text-gray-500">Seconds between sessions for cleaning/reset</span>
-                  <span className="text-[#3B5998] font-semibold">
-                    {Math.floor(((formData.hours_open || 24) * 60) / ((formData.avg_duration || 30) + (formData.turnaround_time || 90) / 60))} sessions/day per suite
-                  </span>
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label>Price per Session</Label>
-                <FormattedInput
-                  value={formData.avg_price}
-                  onChange={(val) => handleInputChange('avg_price', val)}
-                  prefix="$"
+                  className="py-1"
                 />
               </div>
-
-              <div className="col-span-1 md:col-span-2 pt-4 border-t border-dashed">
-                <div className="flex justify-between mb-4">
-                  <Label className="text-base font-semibold text-[#3B5998]">Target Occupancy Rate</Label>
-                  <span className="text-[#C5A059] font-bold text-lg">{formData.occupancy_rate}%</span>
+              <div className="col-span-2 pt-2 border-t border-dashed">
+                <div className="flex justify-between mb-1">
+                  <Label className="text-xs font-semibold text-[#3B5998]">Occupancy</Label>
+                  <span className="text-[#C5A059] font-bold text-sm">{formData.occupancy_rate}%</span>
                 </div>
                 <Slider
                   value={[formData.occupancy_rate]}
                   onValueChange={(val: number[]) => handleInputChange('occupancy_rate', val[0])}
                   max={100}
                   step={1}
-                  className="py-4"
+                  className="py-1"
                 />
-                <div className="flex justify-between text-xs text-gray-400 mt-1">
-                  <span>Conservative (30%)</span>
-                  <span>Target (65%)</span>
-                  <span>Peak (90%)</span>
-                </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Secondary Revenue */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="shadow-sm">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base flex items-center gap-2 text-[#3B5998]">
-                  <ShoppingBag className="w-4 h-4" />
-                  Retail & Add-ons
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label className="text-xs uppercase font-bold text-gray-500">Avg Spend / Visit</Label>
-                  <FormattedInput
-                    value={formData.retail_spend_per_visit}
-                    onChange={(val) => handleInputChange('retail_spend_per_visit', val)}
-                    prefix="$"
-                  />
-                  <p className="text-[10px] text-gray-400">Beverages, merch, supplements</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="shadow-sm">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base flex items-center gap-2 text-[#3B5998]">
-                  <DollarSign className="w-4 h-4" />
-                  Sponsorships
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label className="text-xs uppercase font-bold text-gray-500">Monthly Revenue</Label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <FormattedInput
-                      placeholder="Partners"
-                      value={formData.brand_partners}
-                      onChange={(val) => handleInputChange('brand_partners', val)}
-                      suffix="qty"
-                    />
-                    <FormattedInput
-                      placeholder="Fee"
-                      value={formData.fee_per_partner}
-                      onChange={(val) => handleInputChange('fee_per_partner', val)}
-                      prefix="$"
-                    />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
+          {/* Secondary Revenue - Combined Row */}
           <Card className="shadow-sm">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base flex items-center gap-2 text-[#3B5998]">
-                <Users className="w-4 h-4" />
-                Membership Program
+            <CardHeader className="py-2 px-4">
+              <CardTitle className="text-sm flex items-center gap-2 text-[#3B5998]">
+                <ShoppingBag className="w-4 h-4" />
+                Revenue Streams
               </CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label>Active Members</Label>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-3 px-4 pb-3">
+              <div className="space-y-1">
+                <Label className="text-xs">Retail/Visit</Label>
+                <FormattedInput
+                  value={formData.retail_spend_per_visit}
+                  onChange={(val) => handleInputChange('retail_spend_per_visit', val)}
+                  prefix="$"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs">Sponsors</Label>
+                <FormattedInput
+                  value={formData.brand_partners}
+                  onChange={(val) => handleInputChange('brand_partners', val)}
+                  suffix="qty"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs">Fee/Partner</Label>
+                <FormattedInput
+                  value={formData.fee_per_partner}
+                  onChange={(val) => handleInputChange('fee_per_partner', val)}
+                  prefix="$"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs">Members</Label>
                 <FormattedInput
                   value={formData.active_members}
                   onChange={(val) => handleInputChange('active_members', val)}
                 />
               </div>
-              <div className="space-y-2">
-                <Label>Monthly Fee</Label>
+              <div className="space-y-1 col-span-2 md:col-span-4">
+                <Label className="text-xs">Monthly Member Fee</Label>
                 <FormattedInput
                   value={formData.monthly_fee}
                   onChange={(val) => handleInputChange('monthly_fee', val)}
                   prefix="$"
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Expenses */}
-          <Card className="border-t-4 border-t-red-400 shadow-sm">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-red-700">
-                <Wallet className="w-5 h-5" />
-                Expenses & Real Estate
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label>Total Space (sq ft)</Label>
-                <FormattedInput
-                  value={formData.total_sq_ft}
-                  onChange={(val) => handleInputChange('total_sq_ft', val)}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label>Annual Rent / sq ft</Label>
-                <FormattedInput
-                  value={formData.rent_per_sq_ft}
-                  onChange={(val) => handleInputChange('rent_per_sq_ft', val)}
-                  prefix="$"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label>Monthly Staffing</Label>
-                <FormattedInput
-                  value={formData.monthly_staff_cost}
-                  onChange={(val) => handleInputChange('monthly_staff_cost', val)}
-                  prefix="$"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label>Utilities & Misc</Label>
-                <FormattedInput
-                  value={formData.monthly_utilities}
-                  onChange={(val) => handleInputChange('monthly_utilities', val)}
-                  prefix="$"
+                  className="max-w-[200px]"
                 />
               </div>
             </CardContent>
@@ -560,114 +478,119 @@ const RevenueSimulator: React.FC = () => {
 
 
         {/* OUTPUTS COLUMN */}
-        <div className="xl:col-span-5 space-y-6">
+        <div className="xl:col-span-5 space-y-3">
 
-          {/* 1. Monthly P&L - TOP */}
-          <Card className="shadow-lg border-t-4 border-t-[#C5A059]">
-            <CardHeader>
-              <CardTitle className="text-[#3B5998]">Monthly P&L</CardTitle>
+          {/* Expenses & Real Estate - NOW ON RIGHT */}
+          <Card className="border-t-2 border-t-red-400 shadow-sm">
+            <CardHeader className="py-2 px-4">
+              <CardTitle className="flex items-center gap-2 text-red-700 text-sm">
+                <Wallet className="w-4 h-4" />
+                Expenses & Real Estate
+              </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-
-              <div className="space-y-2">
-                <div className="flex justify-between items-end border-b pb-1">
-                  <span className="font-bold text-gray-700">Total Revenue</span>
-                  <span className="font-bold text-[#3B5998]">{formatNumber(metrics.totalMonthlyRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span>
-                </div>
-                <div className="pl-4 space-y-1 text-sm text-gray-500">
-                  <div className="flex justify-between">
-                    <span>Suite Sessions (Paid)</span>
-                    <span>{formatNumber(metrics.monthlySuiteRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Retail</span>
-                    <span>{formatNumber(metrics.monthlyRetailRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Memberships</span>
-                    <span>{formatNumber(metrics.monthlyMembershipRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Sponsorships</span>
-                    <span>{formatNumber(metrics.monthlySponsorshipRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span>
-                  </div>
-                </div>
+            <CardContent className="grid grid-cols-2 gap-3 px-4 pb-3">
+              <div className="space-y-1">
+                <Label className="text-xs">Sq Ft</Label>
+                <FormattedInput
+                  value={formData.total_sq_ft}
+                  onChange={(val) => handleInputChange('total_sq_ft', val)}
+                />
               </div>
-
-              <div className="space-y-2 pt-2">
-                <div className="flex justify-between items-end border-b pb-1">
-                  <span className="font-bold text-gray-700">Total Expenses</span>
-                  <span className="font-bold text-red-600">-{formatNumber(metrics.totalMonthlyExpenses, { type: 'currency', maximumFractionDigits: 0 })}</span>
-                </div>
-                <div className="pl-4 space-y-1 text-sm text-gray-500">
-                  <div className="flex justify-between">
-                    <span>Rent</span>
-                    <span>{formatNumber(metrics.monthlyRent, { type: 'currency', maximumFractionDigits: 0 })}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Staff</span>
-                    <span>{formatNumber(formData.monthly_staff_cost, { type: 'currency', maximumFractionDigits: 0 })}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Utilities & Misc</span>
-                    <span>{formatNumber(formData.monthly_utilities, { type: 'currency', maximumFractionDigits: 0 })}</span>
-                  </div>
-                </div>
+              <div className="space-y-1">
+                <Label className="text-xs">Rent/sqft/yr</Label>
+                <FormattedInput
+                  value={formData.rent_per_sq_ft}
+                  onChange={(val) => handleInputChange('rent_per_sq_ft', val)}
+                  prefix="$"
+                />
               </div>
+              <div className="space-y-1">
+                <Label className="text-xs">Staff/mo</Label>
+                <FormattedInput
+                  value={formData.monthly_staff_cost}
+                  onChange={(val) => handleInputChange('monthly_staff_cost', val)}
+                  prefix="$"
+                />
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs">Utilities/mo</Label>
+                <FormattedInput
+                  value={formData.monthly_utilities}
+                  onChange={(val) => handleInputChange('monthly_utilities', val)}
+                  prefix="$"
+                />
+              </div>
+            </CardContent>
+          </Card>
 
-              <div className="flex justify-between items-center pt-4 border-t-2 border-gray-100">
-                <span className="text-lg font-bold text-gray-900">Net Monthly</span>
-                <span className={`text-xl font-bold ${metrics.monthlyProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+          {/* Monthly P&L */}
+          <Card className="shadow-md border-t-2 border-t-[#C5A059]">
+            <CardHeader className="py-2 px-4">
+              <CardTitle className="text-[#3B5998] text-sm">Monthly P&L</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2 px-4 pb-3">
+              <div className="flex justify-between items-center text-sm">
+                <span className="font-semibold text-gray-700">Revenue</span>
+                <span className="font-bold text-[#3B5998]">{formatNumber(metrics.totalMonthlyRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span>
+              </div>
+              <div className="pl-3 space-y-0.5 text-xs text-gray-500">
+                <div className="flex justify-between"><span>Sessions</span><span>{formatNumber(metrics.monthlySuiteRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                <div className="flex justify-between"><span>Retail</span><span>{formatNumber(metrics.monthlyRetailRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                <div className="flex justify-between"><span>Members</span><span>{formatNumber(metrics.monthlyMembershipRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                <div className="flex justify-between"><span>Sponsors</span><span>{formatNumber(metrics.monthlySponsorshipRevenue, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+              </div>
+              <div className="flex justify-between items-center text-sm pt-1 border-t">
+                <span className="font-semibold text-gray-700">Expenses</span>
+                <span className="font-bold text-red-600">-{formatNumber(metrics.totalMonthlyExpenses, { type: 'currency', maximumFractionDigits: 0 })}</span>
+              </div>
+              <div className="flex justify-between items-center pt-2 border-t-2 border-gray-200">
+                <span className="font-bold text-gray-900">Net Monthly</span>
+                <span className={`text-lg font-bold ${metrics.monthlyProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                    {formatNumber(metrics.monthlyProfit, { type: 'currency', maximumFractionDigits: 0 })}
                 </span>
               </div>
-
             </CardContent>
           </Card>
 
-          {/* 2. Annual Net Profit - SECOND */}
-          <Card className="bg-[#3B5998] text-white border-none shadow-xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-32 bg-[#C5A059] opacity-10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
-            <CardHeader>
-              <CardTitle className="text-[#C5A059] uppercase tracking-wider text-sm font-semibold">Annual Net Profit</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-5xl font-serif font-bold mb-2">
+          {/* Annual Net Profit */}
+          <Card className="bg-[#3B5998] text-white border-none shadow-lg relative overflow-hidden">
+            <CardContent className="p-4">
+              <div className="text-[#C5A059] uppercase tracking-wider text-xs font-semibold mb-1">Annual Net Profit</div>
+              <div className="text-3xl font-serif font-bold">
                 {formatNumber(metrics.annualProfit, { type: 'currency', maximumFractionDigits: 0 })}
               </div>
-              <div className="flex gap-4 mt-4">
-                <div className="bg-white/10 px-3 py-1 rounded text-sm font-medium">
+              <div className="flex gap-2 mt-2 text-xs">
+                <div className="bg-white/10 px-2 py-0.5 rounded">
                   Margin: <span className={metrics.profitMargin > 20 ? "text-green-300" : "text-yellow-300"}>{formatNumber(metrics.profitMargin, { type: 'percent' })}</span>
                 </div>
-                <div className="bg-white/10 px-3 py-1 rounded text-sm font-medium">
-                  Break-even Occ: <span className="text-white">{formatNumber(metrics.breakEvenOccupancy, { maximumFractionDigits: 1 })}%</span>
+                <div className="bg-white/10 px-2 py-0.5 rounded">
+                  Break-even: {formatNumber(metrics.breakEvenOccupancy, { maximumFractionDigits: 1 })}%
                 </div>
               </div>
             </CardContent>
           </Card>
 
-           {/* 3. Capacity Stats - THIRD */}
-           <Card className="bg-[#3B5998]/5 border-none">
-            <CardContent className="p-6">
-              <h4 className="font-bold text-[#3B5998] mb-4 flex items-center gap-2">
-                <TrendingUp className="w-4 h-4" />
+          {/* Capacity Stats */}
+          <Card className="bg-[#3B5998]/5 border-none">
+            <CardContent className="p-3">
+              <h4 className="font-bold text-[#3B5998] mb-2 flex items-center gap-2 text-xs">
+                <TrendingUp className="w-3 h-3" />
                 Operational Metrics
               </h4>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-2 text-xs">
                 <div>
-                  <div className="text-xs text-gray-500 uppercase">Daily Capacity</div>
-                  <div className="text-lg font-bold text-gray-800">{metrics.dailySessionsCapacity} <span className="text-xs font-normal text-gray-500">sessions</span></div>
+                  <div className="text-gray-500 uppercase text-[10px]">Daily Capacity</div>
+                  <div className="font-bold text-gray-800">{metrics.dailySessionsCapacity} sessions</div>
                 </div>
                 <div>
-                  <div className="text-xs text-gray-500 uppercase">Est. Daily Visits</div>
-                  <div className="text-lg font-bold text-[#C5A059]">{metrics.dailySessions} <span className="text-xs font-normal text-gray-500">visits</span></div>
+                  <div className="text-gray-500 uppercase text-[10px]">Est. Daily</div>
+                  <div className="font-bold text-[#C5A059]">{metrics.dailySessions} visits</div>
                 </div>
                 <div className="col-span-2">
-                  <div className="text-xs text-gray-500 uppercase mb-1">Monthly Foot Traffic</div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div className="bg-[#3B5998] h-2.5 rounded-full" style={{ width: `${formData.occupancy_rate}%` }}></div>
+                  <div className="w-full bg-gray-200 rounded-full h-1.5">
+                    <div className="bg-[#3B5998] h-1.5 rounded-full" style={{ width: `${formData.occupancy_rate}%` }}></div>
                   </div>
-                  <div className="text-right text-xs text-gray-500 mt-1">{formatNumber(metrics.dailySessions * 30)} visitors / mo</div>
+                  <div className="text-right text-[10px] text-gray-500 mt-0.5">{formatNumber(metrics.dailySessions * 30)} visitors/mo</div>
                 </div>
               </div>
             </CardContent>

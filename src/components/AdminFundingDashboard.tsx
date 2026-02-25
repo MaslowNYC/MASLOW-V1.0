@@ -239,56 +239,9 @@ const AdminFundingDashboard: React.FC = () => {
           </div>
 
           {/* Revenue Simulator */}
-          <div className="mb-6">
+          <div>
             <RevenueSimulator />
           </div>
-
-          {/* Payment Test Section */}
-          <Card className="mb-6 border-t-4 border-t-green-500">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-[#3B5998]">
-                <CreditCard className="h-5 w-5" />
-                Payment Flow Testing
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-600 mb-4">
-                Test the payment modals with different tier configurations.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Button
-                  onClick={() => {
-                    setSelectedTier({ name: 'THE BUILDER', price: 100 });
-                    setShowPaymentOptions(true);
-                  }}
-                  variant="outline"
-                  className="border-[#3B5998] text-[#3B5998] hover:bg-[#3B5998] hover:text-white"
-                >
-                  Test $100 Tier
-                </Button>
-                <Button
-                  onClick={() => {
-                    setSelectedTier({ name: 'THE FOUNDING MEMBER', price: 500 });
-                    setShowPaymentOptions(true);
-                  }}
-                  variant="outline"
-                  className="border-[#C5A059] text-[#C5A059] hover:bg-[#C5A059] hover:text-white"
-                >
-                  Test $500 Tier
-                </Button>
-                <Button
-                  onClick={() => {
-                    setSelectedTier({ name: 'THE ARCHITECT', price: 10000 });
-                    setShowPaymentOptions(true);
-                  }}
-                  variant="outline"
-                  className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
-                >
-                  Test $10,000 Tier
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
         </motion.div>
       )}
 
