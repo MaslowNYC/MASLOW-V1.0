@@ -64,13 +64,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const checkFounderStatus = async (userId: string, userEmail?: string | null) => {
-    // First, check email-based admin list as a reliable fallback
-    if (userEmail && ADMIN_EMAILS.includes(userEmail.toLowerCase())) {
-      setIsFounder(true);
-      return;
-    }
-
-    // Then check database
+    // Primary: Check database is_admin column
     try {
       const { data, error } = await (supabase
         .from('profiles') as any)
@@ -78,18 +72,24 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         .eq('id', userId)
         .single();
 
-      if (error) {
-        console.error("Founder check query failed:", error);
+      if (!error && data) {
+        setIsFounder(data.is_admin === true);
         return;
       }
 
-      if (data && data.is_admin) {
-        setIsFounder(true);
-      } else {
-        setIsFounder(false);
+      // Database check failed - log it
+      if (error) {
+        console.error("Founder check query failed:", error);
       }
     } catch (error) {
       console.error("Founder check failed:", error);
+    }
+
+    // Fallback: Check email list only if database check failed
+    if (userEmail && ADMIN_EMAILS.includes(userEmail.toLowerCase())) {
+      setIsFounder(true);
+    } else {
+      setIsFounder(false);
     }
   };
 
