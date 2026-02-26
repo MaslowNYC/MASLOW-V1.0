@@ -541,6 +541,11 @@ const RevenueSimulator: React.FC = () => {
                 <span className="font-semibold text-gray-700">Expenses</span>
                 <span className="font-bold text-red-600">-{formatNumber(metrics.totalMonthlyExpenses, { type: 'currency', maximumFractionDigits: 0 })}</span>
               </div>
+              <div className="pl-3 space-y-0.5 text-xs text-gray-500">
+                <div className="flex justify-between"><span>Rent</span><span>-{formatNumber(metrics.monthlyRent, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                <div className="flex justify-between"><span>Staff</span><span>-{formatNumber(formData.monthly_staff_cost, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                <div className="flex justify-between"><span>Utilities</span><span>-{formatNumber(formData.monthly_utilities, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+              </div>
               <div className="flex justify-between items-center pt-2 border-t-2 border-gray-200">
                 <span className="font-bold text-gray-900">Net Monthly</span>
                 <span className={`text-lg font-bold ${metrics.monthlyProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
