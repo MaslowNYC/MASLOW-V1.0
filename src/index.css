@@ -77,3 +77,61 @@
     font-family: 'Lato', sans-serif;
   }
 }
+
+/* Accessibility: Reduce Animations */
+.reduce-motion,
+.reduce-motion * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Accessibility: High Contrast */
+.high-contrast {
+  --foreground: 0 0% 0%;
+  --primary: 0 0% 0%;
+  --muted-foreground: 0 0% 20%;
+}
+
+.high-contrast body {
+  background-color: #ffffff;
+}
+
+.high-contrast .text-white\/70,
+.high-contrast .text-white\/60,
+.high-contrast .text-white\/40,
+.high-contrast .text-white\/30 {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.high-contrast .text-\[\#3B5998\]\/80,
+.high-contrast .text-\[\#3B5998\]\/60,
+.high-contrast .text-\[\#3B5998\]\/50,
+.high-contrast .text-\[\#3B5998\]\/40 {
+  color: #1a1a1a !important;
+}
+
+/* Accessibility: Larger Text */
+.larger-text {
+  font-size: 118%;
+}
+
+.larger-text h1 {
+  font-size: 2.5rem;
+}
+
+.larger-text h2 {
+  font-size: 2rem;
+}
+
+.larger-text h3 {
+  font-size: 1.5rem;
+}
+
+.larger-text p,
+.larger-text span,
+.larger-text li,
+.larger-text label {
+  font-size: 1.1em;
+}

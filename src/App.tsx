@@ -5,6 +5,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { StripeProvider } from '@/contexts/StripeContext';
 import { AuthProvider, useAuth } from '@/contexts/SupabaseAuthContext';
 import { CartProvider } from '@/hooks/useCart';
+import { AccessibilityProvider } from '@/contexts/AccessibilityContext';
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import BuyCreditsPage from '@/pages/BuyCreditsPage';
@@ -136,17 +137,19 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <AuthProvider>
-      <StripeProvider>
-        <CartProvider>
-          <Router>
-            <Helmet>
-              <title>Maslow NYC</title>
-              <meta name="description" content="The Infrastructure of Dignity." />
-            </Helmet>
-            <AppContent />
-          </Router>
-        </CartProvider>
-      </StripeProvider>
+      <AccessibilityProvider>
+        <StripeProvider>
+          <CartProvider>
+            <Router>
+              <Helmet>
+                <title>Maslow NYC</title>
+                <meta name="description" content="The Infrastructure of Dignity." />
+              </Helmet>
+              <AppContent />
+            </Router>
+          </CartProvider>
+        </StripeProvider>
+      </AccessibilityProvider>
     </AuthProvider>
   );
 };

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
+import { useAccessibility } from '@/contexts/AccessibilityContext';
 import { useLanguage } from '@/hooks/useLanguage';
-import { supabase } from '@/lib/customSupabaseClient';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
@@ -13,10 +13,8 @@ import {
   Globe,
   MessageCircle,
   Sparkles,
-  Smartphone,
   Contrast,
   Type,
-  Ear,
   HelpCircle,
   Mail,
   FileText,
@@ -26,24 +24,6 @@ import {
   Settings,
 } from 'lucide-react';
 import { WELCOME_TRANSLATIONS } from '@/components/LanguageBubble';
-
-interface AccessibilitySettings {
-  reduce_animations: boolean;
-  no_haptics: boolean;
-  high_contrast: boolean;
-  larger_text: boolean;
-  screen_reader: boolean;
-  show_concierge: boolean;
-}
-
-const DEFAULT_ACCESSIBILITY: AccessibilitySettings = {
-  reduce_animations: false,
-  no_haptics: false,
-  high_contrast: false,
-  larger_text: false,
-  screen_reader: false,
-  show_concierge: true,
-};
 
 // Simple Switch component (shadcn-style)
 const Switch: React.FC<{
@@ -77,82 +57,9 @@ const Switch: React.FC<{
 const ProfileSettingsPage: React.FC = () => {
   const { t } = useTranslation();
   const { user, signOut } = useAuth();
+  const { settings, updateSetting, isLoading } = useAccessibility();
   const { language, setLanguage, isLoading: languageLoading } = useLanguage(user?.id);
   const { toast } = useToast();
-
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [accessibilitySettings, setAccessibilitySettings] = useState<AccessibilitySettings>(DEFAULT_ACCESSIBILITY);
-
-  // Load settings from profile
-  useEffect(() => {
-    const loadSettings = async () => {
-      if (!user) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const { data, error } = await (supabase
-          .from('profiles') as any)
-          .select('accessibility_settings')
-          .eq('id', user.id)
-          .single();
-
-        if (error && error.code !== 'PGRST116') {
-          console.error('Error loading settings:', error);
-        }
-
-        if (data?.accessibility_settings) {
-          setAccessibilitySettings({
-            ...DEFAULT_ACCESSIBILITY,
-            ...data.accessibility_settings,
-          });
-        }
-      } catch (err) {
-        console.error('Failed to load settings:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadSettings();
-  }, [user]);
-
-  // Update a single accessibility setting
-  const updateAccessibilitySetting = async (key: keyof AccessibilitySettings, value: boolean) => {
-    const newSettings = { ...accessibilitySettings, [key]: value };
-    setAccessibilitySettings(newSettings);
-
-    if (user) {
-      setSaving(true);
-      try {
-        const { error } = await (supabase
-          .from('profiles') as any)
-          .update({ accessibility_settings: newSettings })
-          .eq('id', user.id);
-
-        if (error) throw error;
-
-        toast({
-          title: t('settings.saved'),
-          description: t('settings.savedDesc'),
-          className: 'bg-[#3B5998] text-white',
-        });
-      } catch (err) {
-        console.error('Failed to save setting:', err);
-        toast({
-          title: t('settings.error'),
-          description: t('settings.errorDesc'),
-          variant: 'destructive',
-        });
-        // Revert on error
-        setAccessibilitySettings(accessibilitySettings);
-      } finally {
-        setSaving(false);
-      }
-    }
-  };
 
   // Handle language change
   const handleLanguageChange = async (code: string) => {
@@ -164,6 +71,16 @@ const ProfileSettingsPage: React.FC = () => {
     });
   };
 
+  // Handle accessibility setting change with toast
+  const handleSettingChange = async (key: 'reduce_animations' | 'high_contrast' | 'larger_text' | 'show_concierge', value: boolean) => {
+    await updateSetting(key, value);
+    toast({
+      title: t('settings.saved'),
+      description: t('settings.savedDesc'),
+      className: 'bg-[#3B5998] text-white',
+    });
+  };
+
   // Handle sign out
   const handleSignOut = async () => {
     if (window.confirm(t('settings.signOutConfirm'))) {
@@ -171,7 +88,7 @@ const ProfileSettingsPage: React.FC = () => {
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F5F1E8]">
         <Loader2 className="animate-spin w-8 h-8 text-[#3B5998]" />
@@ -232,9 +149,8 @@ const ProfileSettingsPage: React.FC = () => {
                 </div>
               </div>
               <Switch
-                checked={accessibilitySettings.show_concierge}
-                onCheckedChange={(v) => updateAccessibilitySetting('show_concierge', v)}
-                disabled={saving}
+                checked={settings.show_concierge}
+                onCheckedChange={(v) => handleSettingChange('show_concierge', v)}
               />
             </div>
           </CardContent>
@@ -258,25 +174,8 @@ const ProfileSettingsPage: React.FC = () => {
                 </div>
               </div>
               <Switch
-                checked={accessibilitySettings.reduce_animations}
-                onCheckedChange={(v) => updateAccessibilitySetting('reduce_animations', v)}
-                disabled={saving}
-              />
-            </div>
-
-            {/* No Haptics */}
-            <div className="flex items-center justify-between py-2 border-b border-gray-100">
-              <div className="flex items-center gap-3 flex-1">
-                <Smartphone className="w-5 h-5 text-[#3B5998]/60" />
-                <div>
-                  <Label className="text-[#3B5998] font-medium">{t('settings.noHaptics')}</Label>
-                  <p className="text-xs text-[#3B5998]/50">{t('settings.noHapticsDesc')}</p>
-                </div>
-              </div>
-              <Switch
-                checked={accessibilitySettings.no_haptics}
-                onCheckedChange={(v) => updateAccessibilitySetting('no_haptics', v)}
-                disabled={saving}
+                checked={settings.reduce_animations}
+                onCheckedChange={(v) => handleSettingChange('reduce_animations', v)}
               />
             </div>
 
@@ -290,14 +189,13 @@ const ProfileSettingsPage: React.FC = () => {
                 </div>
               </div>
               <Switch
-                checked={accessibilitySettings.high_contrast}
-                onCheckedChange={(v) => updateAccessibilitySetting('high_contrast', v)}
-                disabled={saving}
+                checked={settings.high_contrast}
+                onCheckedChange={(v) => handleSettingChange('high_contrast', v)}
               />
             </div>
 
             {/* Larger Text */}
-            <div className="flex items-center justify-between py-2 border-b border-gray-100">
+            <div className="flex items-center justify-between py-2">
               <div className="flex items-center gap-3 flex-1">
                 <Type className="w-5 h-5 text-[#3B5998]/60" />
                 <div>
@@ -306,25 +204,8 @@ const ProfileSettingsPage: React.FC = () => {
                 </div>
               </div>
               <Switch
-                checked={accessibilitySettings.larger_text}
-                onCheckedChange={(v) => updateAccessibilitySetting('larger_text', v)}
-                disabled={saving}
-              />
-            </div>
-
-            {/* Screen Reader */}
-            <div className="flex items-center justify-between py-2">
-              <div className="flex items-center gap-3 flex-1">
-                <Ear className="w-5 h-5 text-[#3B5998]/60" />
-                <div>
-                  <Label className="text-[#3B5998] font-medium">{t('settings.screenReader')}</Label>
-                  <p className="text-xs text-[#3B5998]/50">{t('settings.screenReaderDesc')}</p>
-                </div>
-              </div>
-              <Switch
-                checked={accessibilitySettings.screen_reader}
-                onCheckedChange={(v) => updateAccessibilitySetting('screen_reader', v)}
-                disabled={saving}
+                checked={settings.larger_text}
+                onCheckedChange={(v) => handleSettingChange('larger_text', v)}
               />
             </div>
           </CardContent>
@@ -339,28 +220,28 @@ const ProfileSettingsPage: React.FC = () => {
           </CardHeader>
           <CardContent className="space-y-1">
             {/* Help Center */}
-            <button
+            <a
+              href="mailto:hello@maslow.nyc?subject=Help Request"
               className="flex items-center justify-between py-2 border-b border-gray-100 w-full text-left hover:bg-gray-50 transition-colors rounded"
-              onClick={() => {}}
             >
               <div className="flex items-center gap-3">
                 <HelpCircle className="w-5 h-5 text-[#3B5998]/60" />
                 <span className="text-[#3B5998] font-medium">Help Center</span>
               </div>
               <ChevronRight className="w-4 h-4 text-[#3B5998]/40" />
-            </button>
+            </a>
 
             {/* Contact Support */}
-            <button
+            <a
+              href="mailto:hello@maslow.nyc?subject=Support Request"
               className="flex items-center justify-between py-2 border-b border-gray-100 w-full text-left hover:bg-gray-50 transition-colors rounded"
-              onClick={() => {}}
             >
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-[#3B5998]/60" />
                 <span className="text-[#3B5998] font-medium">Contact Support</span>
               </div>
               <ChevronRight className="w-4 h-4 text-[#3B5998]/40" />
-            </button>
+            </a>
 
             {/* Terms & Conditions */}
             <Link

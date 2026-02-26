@@ -142,6 +142,24 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({
         .update({ accessibility_settings: updatedSettings })
         .eq('id', user.id);
 
+      // Apply accessibility CSS classes immediately
+      const root = document.documentElement;
+      if (updatedSettings.reduce_animations) {
+        root.classList.add('reduce-motion');
+      } else {
+        root.classList.remove('reduce-motion');
+      }
+      if (updatedSettings.high_contrast) {
+        root.classList.add('high-contrast');
+      } else {
+        root.classList.remove('high-contrast');
+      }
+      if (updatedSettings.larger_text) {
+        root.classList.add('larger-text');
+      } else {
+        root.classList.remove('larger-text');
+      }
+
       // Dispatch event to update concierge visibility immediately
       window.dispatchEvent(new CustomEvent('concierge-preference-change', {
         detail: { show_concierge: updatedSettings.show_concierge }
