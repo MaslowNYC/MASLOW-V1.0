@@ -24,7 +24,10 @@ import {
   Loader2,
   X,
   User,
+  Plus,
+  Pencil,
 } from 'lucide-react';
+import EventEditorModal from '@/components/EventEditorModal';
 
 // Types
 type EventCategory = 'cultural' | 'childrens' | 'dancing' | 'learning' | 'wellness' | 'social' | 'nightlife';
@@ -105,7 +108,7 @@ export const getUsersInterestedIn = async (category: string) => {
 
 // Main component
 const EventsPage: React.FC = () => {
-  const { user } = useAuth();
+  const { user, isFounder } = useAuth();
   const { toast } = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -118,6 +121,10 @@ const EventsPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [rsvpLoading, setRsvpLoading] = useState<string | null>(null);
+
+  // Admin editor state
+  const [editorOpen, setEditorOpen] = useState(false);
+  const [editingEvent, setEditingEvent] = useState<Event | null>(null);
 
   // Fetch events from Supabase
   const fetchEvents = useCallback(async () => {
@@ -193,6 +200,24 @@ const EventsPage: React.FC = () => {
     setSelectedCategory(category);
   };
 
+  // Admin: Open editor for new event
+  const handleAddEvent = () => {
+    setEditingEvent(null);
+    setEditorOpen(true);
+  };
+
+  // Admin: Open editor for existing event
+  const handleEditEvent = (event: Event, e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    setEditingEvent(event);
+    setEditorOpen(true);
+  };
+
+  // Refresh events after save
+  const handleEventSaved = () => {
+    fetchEvents();
+  };
+
   // Handle RSVP
   const handleRSVP = async (event: Event) => {
     if (!user) {
@@ -250,8 +275,8 @@ const EventsPage: React.FC = () => {
         }
 
         // Create RSVP
-        const { error } = await supabase
-          .from('event_attendees')
+        const { error } = await (supabase
+          .from('event_attendees') as any)
           .insert({
             event_id: event.id,
             user_id: user.id,
@@ -354,7 +379,18 @@ const EventsPage: React.FC = () => {
               >
                 {getCategoryLabel(event.category)}
               </span>
-              <span className="text-sm text-[#1a1a1a]/60">{date}</span>
+              <div className="flex items-center gap-2">
+                {isFounder && (
+                  <button
+                    onClick={(e) => handleEditEvent(event, e)}
+                    className="p-1 rounded hover:bg-[#3B5998]/10 text-[#3B5998]/60 hover:text-[#3B5998] transition-colors"
+                    title="Edit event"
+                  >
+                    <Pencil className="w-4 h-4" />
+                  </button>
+                )}
+                <span className="text-sm text-[#1a1a1a]/60">{date}</span>
+              </div>
             </div>
 
             {/* Title */}
@@ -587,6 +623,19 @@ const EventsPage: React.FC = () => {
                 <Share2 className="w-4 h-4 mr-2" />
                 Share
               </Button>
+              {isFounder && (
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setSelectedEvent(null);
+                    handleEditEvent(selectedEvent);
+                  }}
+                  className="border-[#C5A059] text-[#C5A059] hover:bg-[#C5A059]/10"
+                >
+                  <Pencil className="w-4 h-4 mr-2" />
+                  Edit
+                </Button>
+              )}
             </div>
           </div>
         </DialogContent>
@@ -690,6 +739,19 @@ const EventsPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Admin: Add Event Button */}
+      {isFounder && (
+        <div className="fixed bottom-6 left-6 z-50">
+          <Button
+            onClick={handleAddEvent}
+            className="flex items-center gap-2 px-4 py-3 bg-[#C5A059] text-white rounded-full shadow-lg hover:bg-[#C5A059]/90 transition-colors"
+          >
+            <Plus className="w-5 h-5" />
+            <span className="font-medium">Add Event</span>
+          </Button>
+        </div>
+      )}
+
       {/* My RSVPs Link (if logged in) */}
       {user && userRSVPs.size > 0 && (
         <div className="fixed bottom-6 right-6 z-50">
@@ -705,6 +767,14 @@ const EventsPage: React.FC = () => {
 
       {/* Event Detail Modal */}
       {renderEventModal()}
+
+      {/* Admin: Event Editor Modal */}
+      <EventEditorModal
+        isOpen={editorOpen}
+        onClose={() => setEditorOpen(false)}
+        event={editingEvent}
+        onSave={handleEventSaved}
+      />
     </div>
   );
 };
