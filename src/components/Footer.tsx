@@ -36,7 +36,7 @@ const Footer = () => {
             <h4 className="font-bold uppercase tracking-widest text-xs text-[#C5A059] mb-6">{t('footer.legal')}</h4>
             <ul className="space-y-3 text-sm">
               <li><Link to="/privacy" className="text-white/70 hover:text-white transition-colors">{t('footer.privacyPolicy')}</Link></li>
-              <li><span className="text-white/40 cursor-not-allowed">{t('footer.termsOfService')}</span></li>
+              <li><Link to="/terms" className="text-white/70 hover:text-white transition-colors">{t('footer.termsOfService')}</Link></li>
             </ul>
           </div>
 

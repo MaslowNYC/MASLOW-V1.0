@@ -363,16 +363,16 @@ const ProfileSettingsPage: React.FC = () => {
             </button>
 
             {/* Terms & Conditions */}
-            <button
+            <Link
+              to="/terms"
               className="flex items-center justify-between py-2 border-b border-gray-100 w-full text-left hover:bg-gray-50 transition-colors rounded"
-              onClick={() => {}}
             >
               <div className="flex items-center gap-3">
                 <FileText className="w-5 h-5 text-[#3B5998]/60" />
                 <span className="text-[#3B5998] font-medium">Terms & Conditions</span>
               </div>
               <ChevronRight className="w-4 h-4 text-[#3B5998]/40" />
-            </button>
+            </Link>
 
             {/* Privacy Policy */}
             <Link
