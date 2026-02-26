@@ -393,7 +393,7 @@ const RevenueSimulator: React.FC = () => {
                   prefix="$"
                 />
               </div>
-              <div className="space-y-1 col-span-2">
+              <div className="space-y-1 col-span-2 md:col-span-1">
                 <div className="flex justify-between items-baseline">
                   <Label className="text-xs">Turnaround</Label>
                   <span className="text-[#C5A059] font-bold text-sm">{formData.turnaround_time}s</span>
@@ -402,12 +402,12 @@ const RevenueSimulator: React.FC = () => {
                   value={[formData.turnaround_time]}
                   onValueChange={(val: number[]) => handleInputChange('turnaround_time', val[0])}
                   min={0}
-                  max={600}
+                  max={300}
                   step={15}
                   className="py-1"
                 />
               </div>
-              <div className="col-span-2 pt-2 border-t border-dashed">
+              <div className="col-span-2 md:col-span-3 pt-2 md:pt-0 border-t md:border-t-0 border-dashed">
                 <div className="flex justify-between mb-1">
                   <Label className="text-xs font-semibold text-[#3B5998]">Occupancy</Label>
                   <span className="text-[#C5A059] font-bold text-sm">{formData.occupancy_rate}%</span>
