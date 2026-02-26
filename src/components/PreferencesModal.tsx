@@ -181,14 +181,14 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed inset-x-4 top-[10%] md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-md z-50"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] max-w-md z-50"
           >
             <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
               {/* Header */}
               <div className="bg-gradient-to-r from-[#3B5998] to-[#4A6FB3] px-6 py-5 text-white">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h2 className="text-xl font-serif font-bold">
+                    <h2 className="text-xl font-serif font-bold text-[#C5A059]">
                       {t('preferences.welcome', 'Welcome to Maslow')}
                     </h2>
                     <p className="text-white/70 text-sm mt-1">
