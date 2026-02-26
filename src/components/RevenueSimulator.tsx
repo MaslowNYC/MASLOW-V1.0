@@ -348,10 +348,10 @@ const RevenueSimulator: React.FC = () => {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
 
         {/* INPUTS COLUMN */}
-        <div className="xl:col-span-7 space-y-3">
+        <div className="lg:col-span-7 space-y-3">
 
           {/* Space & Operations */}
           <Card className="border-t-2 border-t-[#3B5998] shadow-sm">
@@ -519,7 +519,7 @@ const RevenueSimulator: React.FC = () => {
         </div>
 
         {/* OUTPUTS COLUMN */}
-        <div className="xl:col-span-5 space-y-3">
+        <div className="lg:col-span-5 space-y-3">
           {/* Monthly P&L */}
           <Card className="shadow-md border-t-2 border-t-[#C5A059]">
             <CardHeader className="py-2 px-4">
