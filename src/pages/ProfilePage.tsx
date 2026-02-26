@@ -364,7 +364,7 @@ const ProfilePage: React.FC = () => {
               <div className="flex items-center gap-1 md:gap-2">
                 <span className="text-[#C5A059] font-bold text-xs md:text-sm uppercase tracking-wider">Member</span>
                 <span className="text-white font-mono text-sm md:text-lg font-bold">
-                #{String(profile?.member_number || 0).padStart(4, '0')}
+                #{(profile?.member_number || 0).toLocaleString()}
                 </span>
               </div>
               <div className="h-3 md:h-4 w-px bg-white/30"></div>
