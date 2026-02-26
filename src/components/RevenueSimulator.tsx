@@ -456,6 +456,7 @@ const RevenueSimulator: React.FC = () => {
                   prefix="$"
                 />
               </div>
+              <div className="hidden md:block" />
               <div className="space-y-1">
                 <Label className="text-xs">Members</Label>
                 <FormattedInput
