@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
+import { Link } from 'react-router-dom';
 import {
   Loader2,
   Globe,
@@ -374,16 +375,16 @@ const ProfileSettingsPage: React.FC = () => {
             </button>
 
             {/* Privacy Policy */}
-            <button
+            <Link
+              to="/privacy"
               className="flex items-center justify-between py-2 w-full text-left hover:bg-gray-50 transition-colors rounded"
-              onClick={() => {}}
             >
               <div className="flex items-center gap-3">
                 <Shield className="w-5 h-5 text-[#3B5998]/60" />
                 <span className="text-[#3B5998] font-medium">Privacy Policy</span>
               </div>
               <ChevronRight className="w-4 h-4 text-[#3B5998]/40" />
-            </button>
+            </Link>
           </CardContent>
         </Card>
 
