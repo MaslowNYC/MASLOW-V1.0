@@ -130,10 +130,7 @@ const AppContent: React.FC = () => {
       <ShoppingCart isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} />
       <Toaster />
 
-      {/* TODO PHASE 2: Re-enable AI Concierge with budget protection
-          Cost: ~$0.75 per conversation
-          See: /supabase/functions/concierge-chat/index.ts */}
-      {/* PHASE 2: Re-enable AI Concierge when budget is ready
+      {/* DISABLED UNTIL LAUNCH
       {user && <ConciergeBubble userId={user.id} />}
       */}
     </div>
