@@ -46,34 +46,30 @@ function getPurchaseOptions(item: AggregatedItem) {
     });
   }
 
-  // Amazon link
+  // Adafruit (great for electronics - preferred!)
   options.push({
-    name: 'Amazon',
-    url: `https://www.amazon.com/s?k=${searchTerm}`,
-    price: itemCost * 1.1, // Estimate slightly higher
-    icon: '📦',
+    name: 'Adafruit',
+    url: `https://www.adafruit.com/search?q=${searchTerm}`,
+    price: itemCost,
+    icon: '🔌',
     primary: false
   });
 
-  // Adafruit (for electronics)
-  if (item.vendor === 'Adafruit' || item.component_name.toLowerCase().includes('led') ||
-      item.component_name.toLowerCase().includes('sensor') || item.component_name.toLowerCase().includes('arduino') ||
-      item.component_name.toLowerCase().includes('esp32') || item.component_name.toLowerCase().includes('relay')) {
-    options.push({
-      name: 'Adafruit',
-      url: `https://www.adafruit.com/search?q=${searchTerm}`,
-      price: itemCost,
-      icon: '🔌',
-      primary: false
-    });
-  }
-
-  // AliExpress (budget option)
+  // AliExpress (budget option - preferred!)
   options.push({
     name: 'AliExpress',
     url: `https://www.aliexpress.com/wholesale?SearchText=${searchTerm}`,
     price: itemCost * 0.4, // Budget estimate
     icon: '🌏',
+    primary: false
+  });
+
+  // Amazon (fallback)
+  options.push({
+    name: 'Amazon',
+    url: `https://www.amazon.com/s?k=${searchTerm}`,
+    price: itemCost * 1.1, // Usually more expensive
+    icon: '📦',
     primary: false
   });
 
