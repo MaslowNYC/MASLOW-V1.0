@@ -18,15 +18,19 @@ const faqData: FAQSection[] = [
     items: [
       {
         question: 'What is Maslow?',
-        answer: 'Maslow is a network of premium personal care sanctuaries in New York City. Our private suites provide a clean, comfortable, and luxurious space for personal care, offering amenities like premium toiletries, climate control, and a peaceful environment away from the chaos of city life.',
+        answer: 'Maslow is NYC\'s first network of premium personal care sanctuaries. Our private suites provide a clean, comfortable, and luxurious space for personal care, offering amenities like premium toiletries, climate control, and a peaceful environment within the heart of the city.',
       },
       {
         question: 'Where are Maslow locations?',
-        answer: 'Maslow is currently launching in Manhattan, with our flagship location in SoHo. We are expanding to additional neighborhoods throughout NYC. Check the app for the most up-to-date location information.',
+        answer: 'Maslow is launching in SoHo, Manhattan, with plans to expand to Times Square, FiDi, Chelsea, Williamsburg, and other high-traffic areas throughout NYC. Check the app for the most up-to-date location information.',
       },
       {
         question: 'How do I create an account?',
         answer: 'Download the Maslow app or visit our website and tap "Sign Up." You can register using your email address. Once registered, you can purchase credits and start booking sanctuary visits.',
+      },
+      {
+        question: 'What languages does Maslow support?',
+        answer: 'Maslow is available in 13 languages including English, Spanish, Chinese, French, German, Italian, Japanese, Korean, Portuguese, Russian, Arabic, Hindi, and Hebrew. The app automatically detects your device language, or you can change it in Settings.',
       },
     ],
   },
@@ -35,11 +39,11 @@ const faqData: FAQSection[] = [
     items: [
       {
         question: 'How do credits work?',
-        answer: '1 credit equals 10 minutes of sanctuary time. You can purchase credits in various packages, with larger packages offering better value. Credits are deducted when you check in to a sanctuary suite.',
+        answer: '1 credit = $5 = 10 minutes of sanctuary time + 2 premium samples. You can purchase credits in various packages, with larger packages offering better value per credit. Credits are deducted when you check in to a sanctuary suite.',
       },
       {
         question: 'Do credits expire?',
-        answer: 'Credits expire 1 year after purchase. We recommend purchasing packages that match your expected usage to maximize value.',
+        answer: 'Credits expire 18 months after purchase. We recommend purchasing packages that match your expected usage to maximize value.',
       },
       {
         question: 'What payment methods do you accept?',
@@ -47,7 +51,11 @@ const faqData: FAQSection[] = [
       },
       {
         question: 'Can I get a refund for unused credits?',
-        answer: 'Credits are non-refundable once purchased. However, you can transfer credits to another Maslow member by contacting support at hello@maslow.nyc.',
+        answer: 'Credits are non-refundable once purchased. However, you can transfer credits to another Maslow member instantly through the app.',
+      },
+      {
+        question: 'Can I transfer credits to someone else?',
+        answer: 'Yes! You can transfer credits to any Maslow member directly in the app. Transfers are instant. The recipient must have their own Maslow account to use the credits.',
       },
     ],
   },
@@ -60,15 +68,15 @@ const faqData: FAQSection[] = [
       },
       {
         question: 'How long can I stay?',
-        answer: 'Standard visits are 10-30 minutes, but you can extend your stay as long as you have available credits. The suite will notify you when your initial time is ending.',
+        answer: 'Standard visits are 10-30 minutes (1-3 credits), but you can extend your stay as long as you have available credits. The suite will notify you when your initial time is ending.',
       },
       {
         question: 'What if I need to cancel my booking?',
-        answer: 'You can cancel a booking up to 15 minutes before your scheduled time without penalty. Late cancellations or no-shows may result in a 1-credit charge.',
+        answer: 'You can cancel a booking up to 15 minutes before your scheduled time without penalty. Late cancellations or no-shows will result in a 1-credit charge.',
       },
       {
         question: 'Can I book for someone else?',
-        answer: 'Currently, bookings are tied to individual accounts. Each user must have their own Maslow account to access our sanctuaries.',
+        answer: 'Each person using a Maslow suite needs their own account for safety and personalization. However, you can transfer credits to their account instantly through the app. If your child is old enough to use the suite independently, they can download the free app and you can send them credits.',
       },
     ],
   },
@@ -77,7 +85,7 @@ const faqData: FAQSection[] = [
     items: [
       {
         question: 'What amenities are included?',
-        answer: 'Every suite includes premium toiletries, fresh towels, climate control, ambient lighting, a full-length mirror, and complimentary amenities like mouthwash, hand lotion, and personal care items.',
+        answer: 'Every suite includes premium toiletries, fresh towels, climate control, ambient lighting, a full-length mirror, and complimentary amenities like mouthwash, hand lotion, and personal care items. Each visit includes 2 premium samples to try.',
       },
       {
         question: 'Are the suites accessible?',
@@ -85,7 +93,7 @@ const faqData: FAQSection[] = [
       },
       {
         question: 'How are the suites cleaned?',
-        answer: 'Every suite is thoroughly cleaned and sanitized between each use with hospital-grade disinfectants. Fresh linens and amenities are provided for each guest.',
+        answer: 'Every suite is thoroughly cleaned and sanitized between each use with hospital-grade disinfectants. Additionally, each suite is bathed in UV light for final sterilization before the next guest enters, ensuring the highest standards of cleanliness.',
       },
       {
         question: 'Is there somewhere to store my belongings?',
@@ -94,19 +102,36 @@ const faqData: FAQSection[] = [
     ],
   },
   {
-    title: 'Membership',
+    title: 'Membership & Early Supporters',
     items: [
       {
-        question: 'What are the membership tiers?',
-        answer: 'We offer several sponsorship tiers for early supporters: Sanctuary Seeker, Wellness Patron, Founding Member, and Visionary Circle. Each tier includes exclusive benefits and recognition on our Digital Wall.',
+        question: 'How can I support Maslow\'s launch?',
+        answer: 'We\'re currently seeking early supporters and founding members to help bring Maslow to life. Contact us at hello@maslow.nyc to learn about exclusive founding member benefits and recognition opportunities.',
       },
       {
-        question: 'What benefits do members receive?',
-        answer: 'Members enjoy priority booking, exclusive events, special discounts on credit packages, and early access to new locations and features.',
+        question: 'What is the Digital Wall?',
+        answer: 'Early supporters and founding members will be recognized on our digital wall of backers - a special feature on our website and in our first location celebrating those who believed in Maslow\'s mission from the beginning.',
       },
       {
-        question: 'How do I upgrade my membership?',
-        answer: 'Contact our support team at hello@maslow.nyc to discuss upgrading your membership tier. We\'ll apply any previous contributions toward your upgrade.',
+        question: 'What benefits do early supporters receive?',
+        answer: 'Early supporters enjoy priority access to new locations, exclusive events, special discounts on credit packages, and permanent recognition as founding members of the Maslow community.',
+      },
+    ],
+  },
+  {
+    title: 'AI Concierge',
+    items: [
+      {
+        question: 'What is the AI Concierge?',
+        answer: 'Our AI Concierge is a smart assistant powered by Claude AI that helps you find nearby Maslow locations, answers questions about NYC, and provides personalized recommendations. You can access it anytime through the app.',
+      },
+      {
+        question: 'How many times can I use the AI Concierge?',
+        answer: 'You receive up to 10 AI Concierge conversations per day. This limit resets at midnight EST. The concierge is designed to help you make the most of your NYC experience.',
+      },
+      {
+        question: 'Can I turn off the AI Concierge?',
+        answer: 'Yes! You can enable or disable the AI Concierge in your Settings at any time.',
       },
     ],
   },
@@ -118,16 +143,16 @@ const faqData: FAQSection[] = [
         answer: 'Go to Settings in the app, then tap on your profile. You can update your email address and reset your password from there.',
       },
       {
-        question: 'What is the AI Concierge?',
-        answer: 'Our AI Concierge is a smart assistant that helps you find nearby Maslow locations, answers questions, and provides personalized recommendations. You can enable or disable it in Settings.',
-      },
-      {
         question: 'How do I delete my account?',
         answer: 'To delete your account and all associated data, email hello@maslow.nyc with "Account Deletion Request" in the subject line. We\'ll process your request within 30 days.',
       },
       {
         question: 'Can I use Maslow in multiple cities?',
         answer: 'Yes! Your Maslow account and credits work at all Maslow locations. As we expand to new cities, you\'ll automatically have access.',
+      },
+      {
+        question: 'How is my data protected?',
+        answer: 'All personal data is encrypted and stored securely using industry-standard practices. We never share your information with third parties. See our Privacy Policy for complete details.',
       },
     ],
   },
