@@ -16,6 +16,7 @@ interface Prototype {
   progress: number;
   box_number: number;
   notes: string | null;
+  phase?: number;
 }
 
 interface Component {
@@ -166,12 +167,34 @@ const PrototypeDetailPage: React.FC = () => {
           <ArrowLeft className="w-4 h-4" /> Back to System
         </Link>
 
-        <div className="bg-white rounded-xl p-6 shadow-lg mb-6 mt-4">
+        {/* Phase 2 Banner */}
+        {(prototype.phase || 1) === 2 && (
+          <div className="bg-[#C5A059]/10 border-2 border-[#C5A059]/30 rounded-xl p-4 mb-6 mt-4">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">⏳</span>
+              <div>
+                <div className="font-bold text-[#C5A059]">Phase 2: Post-Launch Feature</div>
+                <div className="text-sm text-[#3B5998]/60">
+                  Not included in initial MVP — planned for implementation after successful launch
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className={`bg-white rounded-xl p-6 shadow-lg mb-6 ${(prototype.phase || 1) === 1 ? 'mt-4' : ''}`}>
           <div className="flex flex-col md:flex-row items-start justify-between mb-4 gap-4">
             <div>
-              <h1 className="text-3xl font-serif font-bold text-[#3B5998] mb-2">
-                Prototype {prototype.id}: {prototype.name}
-              </h1>
+              <div className="flex items-center gap-3 mb-2 flex-wrap">
+                <h1 className="text-3xl font-serif font-bold text-[#3B5998]">
+                  Prototype {prototype.id}: {prototype.name}
+                </h1>
+                {(prototype.phase || 1) === 2 && (
+                  <span className="px-3 py-1 bg-[#C5A059]/20 text-[#C5A059] text-sm font-bold rounded-full">
+                    PHASE 2
+                  </span>
+                )}
+              </div>
               <p className="text-[#3B5998]/60">{prototype.description}</p>
             </div>
             <div className="text-right">

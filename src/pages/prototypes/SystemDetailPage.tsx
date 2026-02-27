@@ -14,6 +14,7 @@ interface Prototype {
   status: string;
   progress: number;
   box_number: number;
+  phase?: number;
   component_count?: number;
   components_purchased?: number;
 }
@@ -25,6 +26,7 @@ interface System {
   icon: string;
   total_budget: number;
   total_hours: number;
+  phase?: number;
 }
 
 const SystemDetailPage: React.FC = () => {
@@ -151,9 +153,16 @@ const SystemDetailPage: React.FC = () => {
         <div className="flex items-center gap-4 mb-4 mt-4">
           <span className="text-6xl">{system.icon}</span>
           <div>
-            <h1 className="text-4xl font-serif font-bold text-[#3B5998] mb-2">
-              {system.name}
-            </h1>
+            <div className="flex items-center gap-3 mb-2">
+              <h1 className="text-4xl font-serif font-bold text-[#3B5998]">
+                {system.name}
+              </h1>
+              {(system.phase || 1) === 2 && (
+                <span className="px-3 py-1 bg-[#C5A059]/20 text-[#C5A059] text-sm font-bold rounded-full">
+                  POST-LAUNCH
+                </span>
+              )}
+            </div>
             <p className="text-lg text-[#3B5998]/60">
               {system.description}
             </p>
@@ -175,7 +184,18 @@ const SystemDetailPage: React.FC = () => {
             to={`/prototypes/prototype/${prototype.id}`}
             className="block"
           >
-            <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition border-2 border-transparent hover:border-[#C5A059]">
+            <div className={`bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition border-2 border-transparent hover:border-[#C5A059] ${
+              (prototype.phase || 1) === 2 ? 'bg-gradient-to-r from-white to-[#C5A059]/5' : ''
+            }`}>
+              {/* Phase 2 Banner */}
+              {(prototype.phase || 1) === 2 && (
+                <div className="mb-4 -mt-2 -mx-2">
+                  <div className="bg-[#C5A059]/10 text-[#C5A059] px-4 py-2 rounded-t-lg text-sm font-semibold flex items-center gap-2">
+                    ⏳ Phase 2: Post-Launch Feature
+                  </div>
+                </div>
+              )}
+
               {/* Header */}
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
@@ -184,6 +204,11 @@ const SystemDetailPage: React.FC = () => {
                       Prototype {prototype.id}: {prototype.name}
                     </h2>
                     {getStatusBadge(prototype.status)}
+                    {(prototype.phase || 1) === 2 && (
+                      <span className="px-2 py-1 bg-[#C5A059]/20 text-[#C5A059] text-xs font-bold rounded">
+                        PHASE 2
+                      </span>
+                    )}
                   </div>
                   <p className="text-[#3B5998]/60 mb-3">
                     {prototype.description}

@@ -11,6 +11,7 @@ interface System {
   icon: string;
   total_budget: number;
   total_hours: number;
+  phase?: number;
   prototype_count?: number;
   avg_progress?: number;
 }
@@ -18,6 +19,7 @@ interface System {
 const PrototypesPage: React.FC = () => {
   const [systems, setSystems] = useState<System[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedPhase, setSelectedPhase] = useState<number>(1);
 
   useEffect(() => {
     loadSystems();
@@ -61,8 +63,10 @@ const PrototypesPage: React.FC = () => {
     }
   }
 
-  const totalBudget = systems.reduce((sum, s) => sum + Number(s.total_budget), 0);
-  const totalPrototypes = systems.reduce((sum, s) => sum + (s.prototype_count || 0), 0);
+  // Filter systems by selected phase
+  const filteredSystems = systems.filter(s => (s.phase || 1) === selectedPhase);
+  const totalBudget = filteredSystems.reduce((sum, s) => sum + Number(s.total_budget), 0);
+  const totalPrototypes = filteredSystems.reduce((sum, s) => sum + (s.prototype_count || 0), 0);
 
   if (loading) {
     return (
@@ -98,21 +102,56 @@ const PrototypesPage: React.FC = () => {
               MASLOW PROTOTYPES
             </h1>
             <p className="text-lg text-[#3B5998]/60">
-              {systems.length} Systems | {totalPrototypes} Prototypes | ${totalBudget.toLocaleString()} Budget
+              {filteredSystems.length} Systems | {totalPrototypes} Prototypes | ${totalBudget.toLocaleString()} Budget
             </p>
           </div>
+        </div>
+
+        {/* Phase Tabs */}
+        <div className="flex gap-2 mb-6">
+          <button
+            onClick={() => setSelectedPhase(1)}
+            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+              selectedPhase === 1
+                ? 'bg-[#3B5998] text-white shadow-lg'
+                : 'bg-white text-[#3B5998] border-2 border-[#3B5998]/20 hover:border-[#3B5998]/50'
+            }`}
+          >
+            🚀 Phase 1: MVP Launch
+          </button>
+          <button
+            onClick={() => setSelectedPhase(2)}
+            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+              selectedPhase === 2
+                ? 'bg-[#C5A059] text-white shadow-lg'
+                : 'bg-white text-[#C5A059] border-2 border-[#C5A059]/20 hover:border-[#C5A059]/50'
+            }`}
+          >
+            ⏳ Phase 2: Post-Launch
+          </button>
         </div>
       </div>
 
       {/* System Cards Grid */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {systems.map((system) => (
+        {filteredSystems.map((system) => (
           <Link
             key={system.id}
             to={`/prototypes/system/${system.id}`}
             className="block"
           >
-            <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition cursor-pointer border-2 border-transparent hover:border-[#C5A059]">
+            <div className={`bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition cursor-pointer border-2 border-transparent hover:border-[#C5A059] ${
+              (system.phase || 1) === 2 ? 'opacity-90' : ''
+            }`}>
+              {/* Phase Badge (for Phase 2) */}
+              {(system.phase || 1) === 2 && (
+                <div className="mb-3">
+                  <span className="px-3 py-1 bg-[#C5A059]/20 text-[#C5A059] text-xs font-bold rounded-full">
+                    POST-LAUNCH
+                  </span>
+                </div>
+              )}
+
               {/* Icon + Name */}
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-4xl">{system.icon}</span>
@@ -168,6 +207,14 @@ const PrototypesPage: React.FC = () => {
 
       {/* Quick Stats Footer */}
       <div className="max-w-7xl mx-auto mt-8 bg-white rounded-xl p-6 shadow-lg">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-bold text-[#3B5998]">
+            {selectedPhase === 1 ? '🚀 Phase 1 Stats' : '⏳ Phase 2 Stats'}
+          </h3>
+          {selectedPhase === 2 && (
+            <span className="text-sm text-[#C5A059]">Post-Launch Features</span>
+          )}
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div>
             <div className="text-3xl font-bold text-[#3B5998] mb-1">
@@ -183,13 +230,13 @@ const PrototypesPage: React.FC = () => {
           </div>
           <div>
             <div className="text-3xl font-bold text-[#3B5998] mb-1">
-              {systems.reduce((sum, s) => sum + s.total_hours, 0)}h
+              {filteredSystems.reduce((sum, s) => sum + s.total_hours, 0)}h
             </div>
             <div className="text-sm text-[#3B5998]/60">Total Hours</div>
           </div>
           <div>
             <div className="text-3xl font-bold text-[#C5A059] mb-1">
-              ~{Math.round(systems.reduce((sum, s) => sum + s.total_hours, 0) / 8)}
+              ~{Math.round(filteredSystems.reduce((sum, s) => sum + s.total_hours, 0) / 8)}
             </div>
             <div className="text-sm text-[#3B5998]/60">Weeks @ 8h/week</div>
           </div>
