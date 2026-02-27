@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, LogOut, Menu, X, CircleUser, Cpu, ClipboardList } from 'lucide-react';
+import { LayoutDashboard, LogOut, Menu, X, CircleUser, Cpu, ClipboardList, ChevronDown, Settings } from 'lucide-react';
 import { resetIdentity } from '@/utils/customerio';
 
 // Admin emails - add new admins here
@@ -25,6 +25,19 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [adminMenuOpen, setAdminMenuOpen] = useState(false);
+  const adminMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close admin menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (adminMenuRef.current && !adminMenuRef.current.contains(event.target as Node)) {
+        setAdminMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   if (!user) return null;
 
@@ -91,30 +104,46 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
             </Link>
 
             {isAdmin && (
-              <Link to="/admin">
-                <Button variant="ghost" size="sm" className="text-[#3B5998] hover:text-[#C5A059] hover:bg-[#3B5998]/5 h-8 text-xs uppercase tracking-wider">
-                  <LayoutDashboard className="w-4 h-4 mr-2" />
-                  Dashboard
+              <div className="relative" ref={adminMenuRef}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setAdminMenuOpen(!adminMenuOpen)}
+                  className="text-[#3B5998] hover:text-[#C5A059] hover:bg-[#3B5998]/5 h-8 text-xs uppercase tracking-wider"
+                >
+                  <Settings className="w-4 h-4 mr-2" />
+                  Admin
+                  <ChevronDown className={`w-3 h-3 ml-1 transition-transform ${adminMenuOpen ? 'rotate-180' : ''}`} />
                 </Button>
-              </Link>
-            )}
-
-            {isAdmin && (
-              <Link to="/prototypes">
-                <Button variant="ghost" size="sm" className="text-[#3B5998] hover:text-[#C5A059] hover:bg-[#3B5998]/5 h-8 text-xs uppercase tracking-wider">
-                  <Cpu className="w-4 h-4 mr-2" />
-                  Prototypes
-                </Button>
-              </Link>
-            )}
-
-            {isAdmin && (
-              <Link to="/admin/field-research">
-                <Button variant="ghost" size="sm" className="text-[#3B5998] hover:text-[#C5A059] hover:bg-[#3B5998]/5 h-8 text-xs uppercase tracking-wider">
-                  <ClipboardList className="w-4 h-4 mr-2" />
-                  Research
-                </Button>
-              </Link>
+                {adminMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-[#3B5998]/10 py-2 z-50">
+                    <Link
+                      to="/admin"
+                      onClick={() => setAdminMenuOpen(false)}
+                      className="flex items-center px-4 py-3 text-sm text-[#3B5998] hover:bg-[#3B5998]/5 hover:text-[#C5A059]"
+                    >
+                      <LayoutDashboard className="w-4 h-4 mr-3" />
+                      Dashboard
+                    </Link>
+                    <Link
+                      to="/admin/field-research"
+                      onClick={() => setAdminMenuOpen(false)}
+                      className="flex items-center px-4 py-3 text-sm text-[#3B5998] hover:bg-[#3B5998]/5 hover:text-[#C5A059]"
+                    >
+                      <ClipboardList className="w-4 h-4 mr-3" />
+                      Research
+                    </Link>
+                    <Link
+                      to="/prototypes"
+                      onClick={() => setAdminMenuOpen(false)}
+                      className="flex items-center px-4 py-3 text-sm text-[#3B5998] hover:bg-[#3B5998]/5 hover:text-[#C5A059]"
+                    >
+                      <Cpu className="w-4 h-4 mr-3" />
+                      Prototypes
+                    </Link>
+                  </div>
+                )}
+              </div>
             )}
 
             <Button variant="ghost" size="sm" onClick={handleLogout} className="text-[#3B5998]/60 hover:text-red-600 hover:bg-red-50 h-8">
