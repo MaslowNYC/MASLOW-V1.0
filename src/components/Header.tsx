@@ -67,12 +67,6 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
-          <Link
-            to="/"
-            className={`text-xs font-bold tracking-widest transition-colors uppercase ${isActive('/') ? 'text-[#C5A059]' : 'text-[#3B5998] hover:text-[#C5A059]'}`}
-          >
-            Home
-          </Link>
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -145,13 +139,6 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
       {mobileMenuOpen && (
         <div className="md:hidden bg-[#F5F1E8] border-t border-[#3B5998]/10 py-6 absolute w-full shadow-xl left-0 right-0 h-screen z-50">
           <div className="container mx-auto px-4 flex flex-col gap-6">
-            <Link
-              to="/"
-              className={`text-lg font-bold tracking-widest uppercase ${isActive('/') ? 'text-[#C5A059]' : 'text-[#3B5998]'}`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Home
-            </Link>
             {navLinks.map((link) => (
               <Link
                 key={link.name}
