@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/lib/customSupabaseClient';
-import { Loader2, ExternalLink, Copy, Check, Search, Download } from 'lucide-react';
+import { Loader2, ExternalLink, Copy, Search, Download, ShoppingCart } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
 interface AggregatedItem {
@@ -26,6 +26,64 @@ interface VendorGroup {
   total_quantity: number;
   total_cost: number;
   items: AggregatedItem[];
+}
+
+// Generate purchase links for different vendors
+function getPurchaseOptions(item: AggregatedItem) {
+  const searchTerm = encodeURIComponent(item.component_name);
+  const itemCost = item.unit_price * item.still_needed;
+
+  const options = [];
+
+  // Original vendor link (if available)
+  if (item.vendor_url && item.vendor !== 'Unknown') {
+    options.push({
+      name: item.vendor,
+      url: item.vendor_url,
+      price: itemCost,
+      icon: '🏪',
+      primary: true
+    });
+  }
+
+  // Amazon link
+  options.push({
+    name: 'Amazon',
+    url: `https://www.amazon.com/s?k=${searchTerm}`,
+    price: itemCost * 1.1, // Estimate slightly higher
+    icon: '📦',
+    primary: false
+  });
+
+  // Adafruit (for electronics)
+  if (item.vendor === 'Adafruit' || item.component_name.toLowerCase().includes('led') ||
+      item.component_name.toLowerCase().includes('sensor') || item.component_name.toLowerCase().includes('arduino') ||
+      item.component_name.toLowerCase().includes('esp32') || item.component_name.toLowerCase().includes('relay')) {
+    options.push({
+      name: 'Adafruit',
+      url: `https://www.adafruit.com/search?q=${searchTerm}`,
+      price: itemCost,
+      icon: '🔌',
+      primary: false
+    });
+  }
+
+  // AliExpress (budget option)
+  options.push({
+    name: 'AliExpress',
+    url: `https://www.aliexpress.com/wholesale?SearchText=${searchTerm}`,
+    price: itemCost * 0.4, // Budget estimate
+    icon: '🌏',
+    primary: false
+  });
+
+  // Return top 3 unique options
+  const seen = new Set<string>();
+  return options.filter(opt => {
+    if (seen.has(opt.name)) return false;
+    seen.add(opt.name);
+    return true;
+  }).slice(0, 3);
 }
 
 const ShoppingListPage: React.FC = () => {
@@ -314,7 +372,7 @@ const ShoppingListPage: React.FC = () => {
                       </p>
                     )}
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-col gap-2">
                     <select
                       value=""
                       onChange={(e) => {
@@ -323,23 +381,36 @@ const ShoppingListPage: React.FC = () => {
                           e.target.value = '';
                         }
                       }}
-                      className="text-sm border rounded px-2 py-1"
+                      className="text-sm border rounded px-2 py-1 mb-2"
                     >
                       <option value="">Mark as...</option>
                       <option value="ordered">Ordered</option>
                       <option value="have">Have</option>
                     </select>
-                    {item.vendor_url && (
-                      <a
-                        href={item.vendor_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-4 py-2 bg-[#C5A059] text-white rounded-lg text-sm hover:bg-[#b08d4b] transition flex items-center gap-2"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        Buy
-                      </a>
-                    )}
+                    <div className="flex flex-wrap gap-2">
+                      {getPurchaseOptions(item).map((option, idx) => (
+                        <a
+                          key={option.name}
+                          href={option.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`px-3 py-2 rounded-lg text-sm transition flex items-center gap-2 ${
+                            option.primary
+                              ? 'bg-[#C5A059] text-white hover:bg-[#b08d4b]'
+                              : 'bg-[#3B5998]/10 text-[#3B5998] hover:bg-[#3B5998]/20'
+                          }`}
+                        >
+                          <span>{option.icon}</span>
+                          <div className="text-left">
+                            <div className="font-semibold">{option.name}</div>
+                            <div className={`text-xs ${option.primary ? 'text-white/80' : 'text-[#3B5998]/60'}`}>
+                              ~${option.price.toFixed(2)}
+                            </div>
+                          </div>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -388,23 +459,30 @@ const ShoppingListPage: React.FC = () => {
                       key={`${item.component_name}-${index}`}
                       className="p-4 flex items-center justify-between gap-4"
                     >
-                      <div>
+                      <div className="flex-1">
                         <p className="font-semibold text-[#3B5998]">{item.component_name}</p>
                         <p className="text-sm text-[#3B5998]/60">
                           {item.still_needed}x @ ${item.unit_price} = ${(item.unit_price * item.still_needed).toFixed(2)}
                         </p>
                       </div>
-                      {item.vendor_url && (
-                        <a
-                          href={item.vendor_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#C5A059] hover:underline flex items-center gap-1"
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                          Buy
-                        </a>
-                      )}
+                      <div className="flex gap-2 flex-wrap justify-end">
+                        {getPurchaseOptions(item).map((option) => (
+                          <a
+                            key={option.name}
+                            href={option.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`px-2 py-1 rounded text-xs transition flex items-center gap-1 ${
+                              option.primary
+                                ? 'bg-[#C5A059] text-white'
+                                : 'bg-[#3B5998]/10 text-[#3B5998]'
+                            }`}
+                            title={`~$${option.price.toFixed(2)}`}
+                          >
+                            {option.icon} ${option.price.toFixed(0)}
+                          </a>
+                        ))}
+                      </div>
                     </div>
                   ))}
                 </div>
