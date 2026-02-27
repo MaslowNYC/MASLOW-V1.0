@@ -118,6 +118,7 @@ const faqData: FAQSection[] = [
       },
     ],
   },
+  /* PHASE 2: Re-enable AI Concierge section when feature is live
   {
     title: 'AI Concierge',
     items: [
@@ -135,6 +136,7 @@ const faqData: FAQSection[] = [
       },
     ],
   },
+  */
   {
     title: 'Account & Settings',
     items: [

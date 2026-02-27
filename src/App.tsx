@@ -130,8 +130,12 @@ const AppContent: React.FC = () => {
       <ShoppingCart isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} />
       <Toaster />
 
-      {/* AI Concierge - only show when logged in */}
+      {/* TODO PHASE 2: Re-enable AI Concierge with budget protection
+          Cost: ~$0.75 per conversation
+          See: /supabase/functions/concierge-chat/index.ts */}
+      {/* PHASE 2: Re-enable AI Concierge when budget is ready
       {user && <ConciergeBubble userId={user.id} />}
+      */}
     </div>
   );
 };
