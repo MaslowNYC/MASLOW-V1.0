@@ -44,6 +44,8 @@ import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import MissionPage from '@/pages/MissionPage';
 import ConciergeDashboard from '@/pages/ConciergeDashboard';
 import Partnerships from '@/pages/Partnerships';
+import FieldResearchPage from '@/pages/FieldResearchPage';
+import FieldResearchResultsPage from '@/pages/FieldResearchResultsPage';
 
 // Future Innovations (public showcase)
 import FuturePrototypesPage from '@/pages/FuturePrototypesPage';
@@ -110,6 +112,10 @@ const AppContent: React.FC = () => {
           <Route path="/terms" element={<TermsOfServicePage />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} />
+
+          {/* Field Research - Admin Only */}
+          <Route path="/admin/field-research" element={<ProtectedRoute requireFounder={true}><FieldResearchPage /></ProtectedRoute>} />
+          <Route path="/admin/research-results" element={<ProtectedRoute requireFounder={true}><FieldResearchResultsPage /></ProtectedRoute>} />
 
           {/* Prototypes - Admin Only */}
           <Route path="/prototypes" element={<ProtectedRoute requireFounder={true}><PrototypesPage /></ProtectedRoute>} />
