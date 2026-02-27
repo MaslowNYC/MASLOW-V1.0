@@ -105,6 +105,26 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, tierName, 
     }
   };
 
+  const createPaymentIntent = async (): Promise<string> => {
+    const { data: { session } } = await supabase.auth.getSession();
+    const response = await fetch(
+      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-payment-intent`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session?.access_token}`,
+        },
+        body: JSON.stringify({
+          amount: price * 100,
+          userId: user?.id || 'guest',
+        }),
+      }
+    );
+    const { clientSecret } = await response.json();
+    return clientSecret;
+  };
+
   useEffect(() => {
     if (user && user.email) {
       setEmail(user.email);
@@ -134,32 +154,35 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, tierName, 
       });
 
       pr.on('paymentmethod', async (ev: PaymentRequestPaymentMethodEvent) => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        try {
+          const clientSecret = await createPaymentIntent();
+          const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(
+            clientSecret,
+            { payment_method: ev.paymentMethod.id },
+            { handleActions: false }
+          );
 
-        if (ev.paymentMethod) {
-          // In a real implementation, you would confirm the payment intent server-side here
-          // ev.paymentIntent.status === 'succeeded'
+          if (confirmError) {
+            ev.complete('fail');
+            toast({ title: "Payment Failed", description: confirmError.message, variant: "destructive" });
+            return;
+          }
 
           ev.complete('success');
 
-          setName(ev.payerName || name);
-          await recordMembership();
-
-          toast({
-            title: "Sponsorship Confirmed!",
-            description: `Thank you for your generous ${tierName} sponsorship via ${ev.paymentMethod.type === 'card' ? 'Digital Wallet' : ev.paymentMethod.type}!`,
-            duration: 5000,
-            className: "bg-green-50 border-green-200",
-          });
-
-          onClose();
-        } else {
-           ev.complete('fail');
-           toast({
-            title: "Payment Failed",
-            description: "There was an issue processing your digital wallet payment.",
-            variant: "destructive",
-          });
+          if (paymentIntent?.status === 'succeeded') {
+            setName(ev.payerName || name);
+            await recordMembership();
+            toast({
+              title: "Sponsorship Confirmed!",
+              description: `Thank you for your ${tierName} sponsorship via digital wallet!`,
+              duration: 5000,
+              className: "bg-green-50 border-green-200",
+            });
+            onClose();
+          }
+        } catch {
+          ev.complete('fail');
         }
       });
     }
@@ -189,36 +212,31 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, tierName, 
     }
 
     try {
-      const { error: paymentMethodError, paymentMethod } = await stripe.createPaymentMethod({
-        type: 'card',
-        card: cardElement,
-        billing_details: {
-          name: name,
-          email: email,
+      const clientSecret = await createPaymentIntent();
+
+      const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: cardElement,
+          billing_details: { name, email },
         },
       });
 
-      if (paymentMethodError) {
-        setError(paymentMethodError.message || 'An error occurred');
+      if (confirmError) {
+        setError(confirmError.message || 'Payment failed');
         setLoading(false);
         return;
       }
 
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      console.log('PaymentMethod Created:', paymentMethod);
-
-      // Record membership in DB
-      await recordMembership();
-
-      toast({
-        title: "Sponsorship Confirmed!",
-        description: `Thank you for your generous ${tierName} sponsorship! Your name has been added to the Digital Wall.`,
-        duration: 5000,
-        className: "bg-green-50 border-green-200",
-      });
-
-      onClose();
+      if (paymentIntent?.status === 'succeeded') {
+        await recordMembership();
+        toast({
+          title: "Sponsorship Confirmed!",
+          description: `Thank you for your ${tierName} sponsorship!`,
+          duration: 5000,
+          className: "bg-green-50 border-green-200",
+        });
+        onClose();
+      }
     } catch (err) {
       console.error(err);
       setError("An unexpected error occurred. Please try again.");
