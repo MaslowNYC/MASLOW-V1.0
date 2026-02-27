@@ -219,17 +219,17 @@ const ProfileSettingsPage: React.FC = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-1">
-            {/* Help Center */}
-            <a
-              href="mailto:hello@maslow.nyc?subject=Help Request"
+            {/* FAQ */}
+            <Link
+              to="/faq"
               className="flex items-center justify-between py-2 border-b border-gray-100 w-full text-left hover:bg-gray-50 transition-colors rounded"
             >
               <div className="flex items-center gap-3">
                 <HelpCircle className="w-5 h-5 text-[#3B5998]/60" />
-                <span className="text-[#3B5998] font-medium">Help Center</span>
+                <span className="text-[#3B5998] font-medium">FAQ</span>
               </div>
               <ChevronRight className="w-4 h-4 text-[#3B5998]/40" />
-            </a>
+            </Link>
 
             {/* Contact Support */}
             <a

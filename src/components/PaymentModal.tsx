@@ -236,7 +236,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, tierName, 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] bg-white text-gray-900 border-none shadow-2xl rounded-xl overflow-hidden p-0">
+      <DialogContent className="sm:max-w-[500px] bg-white text-gray-900 border-none shadow-2xl rounded-xl max-h-[90vh] overflow-y-auto p-0">
         <div className="bg-[#3B5998] p-6 text-white text-center">
           <DialogHeader>
             <DialogTitle className="text-2xl font-serif text-[#F5F1E8]">Secure Checkout</DialogTitle>

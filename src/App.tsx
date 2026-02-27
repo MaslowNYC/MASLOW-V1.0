@@ -51,6 +51,7 @@ import FuturePrototypesPage from '@/pages/FuturePrototypesPage';
 // Legal
 import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
 import TermsOfServicePage from '@/pages/TermsOfServicePage';
+import FAQPage from '@/pages/FAQPage';
 
 // Prototypes pages (admin)
 import PrototypesPage from '@/pages/prototypes/PrototypesPage';
@@ -107,6 +108,7 @@ const AppContent: React.FC = () => {
           <Route path="/partnerships" element={<Partnerships />} />
           <Route path="/privacy" element={<PrivacyPolicyPage />} />
           <Route path="/terms" element={<TermsOfServicePage />} />
+          <Route path="/faq" element={<FAQPage />} />
           <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} />
 
           {/* Prototypes - Admin Only */}

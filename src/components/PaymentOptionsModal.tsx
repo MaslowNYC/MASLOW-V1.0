@@ -109,7 +109,7 @@ const PaymentOptionsModal: React.FC<PaymentOptionsModalProps> = ({ isOpen, onClo
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[450px] bg-[#F5F1E8] p-0 overflow-hidden shadow-2xl border-0 rounded-xl">
+      <DialogContent className="sm:max-w-[450px] bg-[#F5F1E8] p-0 max-h-[90vh] overflow-y-auto shadow-2xl border-0 rounded-xl">
         <div className="bg-[#3B5998] p-6 text-center">
           <DialogHeader>
             <DialogTitle className="text-2xl font-serif text-[#F5F1E8]">Select Payment Method</DialogTitle>
