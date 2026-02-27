@@ -22,7 +22,7 @@ const faqData: FAQSection[] = [
       },
       {
         question: 'Where are Maslow locations?',
-        answer: 'Maslow is currently launching in Manhattan, with our flagship location in Midtown. We are expanding to additional neighborhoods throughout NYC. Check the app for the most up-to-date location information.',
+        answer: 'Maslow is currently launching in Manhattan, with our flagship location in SoHo. We are expanding to additional neighborhoods throughout NYC. Check the app for the most up-to-date location information.',
       },
       {
         question: 'How do I create an account?',
