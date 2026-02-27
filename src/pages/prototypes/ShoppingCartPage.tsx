@@ -14,6 +14,7 @@ interface CartItem {
   vendor_url: string | null;
   prototype_id: string;
   prototype_name: string;
+  phase: number;
 }
 
 interface VendorGroup {
@@ -45,7 +46,8 @@ const ShoppingCartPage: React.FC = () => {
           vendor_url,
           prototype_id,
           prototypes (
-            name
+            name,
+            phase
           )
         `)
         .eq('status', 'need')
@@ -61,7 +63,8 @@ const ShoppingCartPage: React.FC = () => {
         vendor: item.vendor,
         vendor_url: item.vendor_url,
         prototype_id: item.prototype_id,
-        prototype_name: item.prototypes?.name || 'Unknown'
+        prototype_name: item.prototypes?.name || 'Unknown',
+        phase: item.prototypes?.phase || 1
       })) || [];
 
       setCartItems(items);
@@ -89,6 +92,10 @@ const ShoppingCartPage: React.FC = () => {
   }, [] as VendorGroup[]);
 
   const grandTotal = vendorGroups.reduce((sum, g) => sum + g.total, 0);
+  const phase1Total = cartItems.filter(i => i.phase === 1).reduce((sum, i) => sum + (i.price * i.quantity), 0);
+  const phase2Total = cartItems.filter(i => i.phase === 2).reduce((sum, i) => sum + (i.price * i.quantity), 0);
+  const phase1Count = cartItems.filter(i => i.phase === 1).length;
+  const phase2Count = cartItems.filter(i => i.phase === 2).length;
 
   function copyVendorLinks(vendor: string) {
     const items = cartItems.filter(i => i.vendor === vendor && i.vendor_url);
@@ -197,12 +204,19 @@ const ShoppingCartPage: React.FC = () => {
                 {/* Items */}
                 <div className="divide-y divide-gray-200">
                   {group.items.map((item) => (
-                    <div key={item.id} className="p-4 hover:bg-gray-50 transition">
+                    <div key={item.id} className={`p-4 hover:bg-gray-50 transition ${item.phase === 2 ? 'bg-[#C5A059]/5' : ''}`}>
                       <div className="flex flex-col md:flex-row items-start justify-between gap-4">
                         <div className="flex-1">
-                          <h3 className="font-semibold text-[#3B5998] mb-1">
-                            {item.component_name}
-                          </h3>
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className="font-semibold text-[#3B5998]">
+                              {item.component_name}
+                            </h3>
+                            {item.phase === 2 && (
+                              <span className="px-2 py-0.5 bg-[#C5A059]/20 text-[#C5A059] text-xs font-bold rounded">
+                                PHASE 2
+                              </span>
+                            )}
+                          </div>
                           <div className="text-sm text-[#3B5998]/60 mb-2">
                             For: <span className="font-semibold">{item.prototype_name}</span>
                           </div>
@@ -249,6 +263,24 @@ const ShoppingCartPage: React.FC = () => {
                 </div>
               </div>
             ))}
+
+            {/* Phase Breakdown */}
+            {phase2Count > 0 && (
+              <div className="bg-white rounded-xl p-4 shadow-lg">
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex-1 p-4 bg-[#3B5998]/5 rounded-lg">
+                    <div className="text-sm text-[#3B5998]/60 mb-1">🚀 Phase 1: MVP</div>
+                    <div className="text-2xl font-bold text-[#3B5998]">${phase1Total.toFixed(2)}</div>
+                    <div className="text-xs text-[#3B5998]/60">{phase1Count} items</div>
+                  </div>
+                  <div className="flex-1 p-4 bg-[#C5A059]/10 rounded-lg">
+                    <div className="text-sm text-[#C5A059] mb-1">⏳ Phase 2: Post-Launch</div>
+                    <div className="text-2xl font-bold text-[#C5A059]">${phase2Total.toFixed(2)}</div>
+                    <div className="text-xs text-[#C5A059]/60">{phase2Count} items</div>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Grand Total */}
             <div className="bg-[#C5A059] text-white rounded-xl p-6 shadow-xl">
