@@ -121,8 +121,11 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, tierName, 
         }),
       }
     );
-    const { clientSecret } = await response.json();
-    return clientSecret;
+    const data = await response.json();
+    console.log('Payment intent response:', data);
+    if (data.error) throw new Error(data.error);
+    if (!data.clientSecret) throw new Error('No client secret returned from payment service');
+    return data.clientSecret;
   };
 
   useEffect(() => {

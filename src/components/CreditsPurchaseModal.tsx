@@ -118,9 +118,11 @@ const CreditsPurchaseModal: React.FC<CreditsPurchaseModalProps> = ({
         }),
       }
     );
-    const { clientSecret, error } = await response.json();
-    if (error) throw new Error(error);
-    return clientSecret;
+    const data = await response.json();
+    console.log('Payment intent response:', data);
+    if (data.error) throw new Error(data.error);
+    if (!data.clientSecret) throw new Error('No client secret returned from payment service');
+    return data.clientSecret;
   };
 
   useEffect(() => {
