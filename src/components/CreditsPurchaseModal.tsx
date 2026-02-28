@@ -133,6 +133,32 @@ const CreditsPurchaseModal: React.FC<CreditsPurchaseModalProps> = ({
 
   useEffect(() => {
     if (stripe && isOpen) {
+      // Local version to capture current price/credits/packageName (avoids stale closure)
+      const createPaymentIntentLocal = async (): Promise<string> => {
+        const { data: { session } } = await supabase.auth.getSession();
+        const response = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-payment-intent`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${session?.access_token}`,
+            },
+            body: JSON.stringify({
+              amount: price * 100,
+              userId: user?.id || 'guest',
+              credits,
+              packageName,
+            }),
+          }
+        );
+        const data = await response.json();
+        console.log('Payment intent response (Google Pay):', data);
+        if (data.error) throw new Error(data.error);
+        if (!data.clientSecret) throw new Error('No client secret returned from payment service');
+        return data.clientSecret;
+      };
+
       const pr = stripe.paymentRequest({
         country: 'US',
         currency: 'usd',
@@ -155,7 +181,7 @@ const CreditsPurchaseModal: React.FC<CreditsPurchaseModalProps> = ({
 
       pr.on('paymentmethod', async (ev: PaymentRequestPaymentMethodEvent) => {
         try {
-          const clientSecret = await createPaymentIntent();
+          const clientSecret = await createPaymentIntentLocal();
           const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(
             clientSecret,
             { payment_method: ev.paymentMethod.id },

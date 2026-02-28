@@ -13,7 +13,25 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { amount, userId } = await req.json()
+    const body = await req.json()
+    console.log("Received body:", JSON.stringify(body))
+
+    const amount = parseInt(String(body.amount), 10)
+    const userId = body.userId || "guest"
+
+    if (!amount || isNaN(amount) || amount <= 0) {
+      return new Response(
+        JSON.stringify({ error: `Invalid amount: ${body.amount}` }),
+        { status: 400, headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } }
+      )
+    }
+
+    if (!STRIPE_SECRET_KEY) {
+      return new Response(
+        JSON.stringify({ error: "Payment service not configured" }),
+        { status: 500, headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } }
+      )
+    }
 
     const response = await fetch("https://api.stripe.com/v1/payment_intents", {
       method: "POST",
@@ -30,28 +48,23 @@ Deno.serve(async (req) => {
     })
 
     const paymentIntent = await response.json()
-
     console.log("Stripe response:", JSON.stringify(paymentIntent))
 
+    if (paymentIntent.error) {
+      return new Response(
+        JSON.stringify({ error: paymentIntent.error.message }),
+        { status: 400, headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } }
+      )
+    }
+
     return new Response(
-      JSON.stringify({ clientSecret: paymentIntent.client_secret, debug: paymentIntent }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      }
+      JSON.stringify({ clientSecret: paymentIntent.client_secret }),
+      { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } }
     )
   } catch (error) {
     return new Response(
       JSON.stringify({ error: error.message }),
-      {
-        status: 400,
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      }
+      { status: 400, headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } }
     )
   }
 })
