@@ -5,6 +5,6 @@ export interface FeatureFlags {
 }
 
 export const featureFlags: FeatureFlags = {
-  enablePayments: false,
+  enablePayments: true,
   enableStore: true,
 };
