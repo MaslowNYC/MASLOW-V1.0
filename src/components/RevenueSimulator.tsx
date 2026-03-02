@@ -97,6 +97,16 @@ interface FormData {
   monthly_staff_cost: number;
   monthly_utilities: number;
 
+  // Additional Operating Expenses
+  monthly_insurance: number;
+  monthly_accounting: number;
+  monthly_legal_retainer: number;
+  monthly_marketing: number;
+  monthly_tech_stack: number;
+  monthly_supplies: number;
+  monthly_payment_processing_pct: number;
+  monthly_vending_cogs_pct: number;
+
   has_omny: boolean;
 }
 
@@ -111,6 +121,8 @@ interface Metrics {
   totalMonthlyRevenue: number;
   annualRevenue: number;
   monthlyRent: number;
+  monthlyPaymentProcessing: number;
+  monthlyVendingCogs: number;
   totalMonthlyExpenses: number;
   annualExpenses: number;
   monthlyProfit: number;
@@ -152,6 +164,16 @@ const RevenueSimulator: React.FC = () => {
     monthly_staff_cost: 12000,
     monthly_utilities: 1500,
 
+    // Additional Operating Expenses
+    monthly_insurance: 1200,
+    monthly_accounting: 500,
+    monthly_legal_retainer: 500,
+    monthly_marketing: 1000,
+    monthly_tech_stack: 250,
+    monthly_supplies: 800,
+    monthly_payment_processing_pct: 3,
+    monthly_vending_cogs_pct: 25,
+
     has_omny: true
   });
 
@@ -187,7 +209,15 @@ const RevenueSimulator: React.FC = () => {
             rent_per_sq_ft: data.rent_per_sq_ft ?? prev.rent_per_sq_ft,
             retail_spend_per_visit: data.retail_spend_per_visit ?? prev.retail_spend_per_visit,
             monthly_staff_cost: data.monthly_staff_cost ?? prev.monthly_staff_cost,
-            monthly_utilities: data.monthly_utilities ?? prev.monthly_utilities
+            monthly_utilities: data.monthly_utilities ?? prev.monthly_utilities,
+            monthly_insurance: data.monthly_insurance ?? prev.monthly_insurance,
+            monthly_accounting: data.monthly_accounting ?? prev.monthly_accounting,
+            monthly_legal_retainer: data.monthly_legal_retainer ?? prev.monthly_legal_retainer,
+            monthly_marketing: data.monthly_marketing ?? prev.monthly_marketing,
+            monthly_tech_stack: data.monthly_tech_stack ?? prev.monthly_tech_stack,
+            monthly_supplies: data.monthly_supplies ?? prev.monthly_supplies,
+            monthly_payment_processing_pct: data.monthly_payment_processing_pct ?? prev.monthly_payment_processing_pct,
+            monthly_vending_cogs_pct: data.monthly_vending_cogs_pct ?? prev.monthly_vending_cogs_pct
           }));
         }
       } catch (error) {
@@ -319,11 +349,25 @@ const RevenueSimulator: React.FC = () => {
 
         <div class="section">
           <table class="table">
-            <tr><th colspan="2">Expenses</th></tr>
+            <tr><th colspan="2">Real Estate & Core Expenses</th></tr>
             <tr><td>Total Square Footage</td><td class="right">${formData.total_sq_ft.toLocaleString()} sq ft</td></tr>
             <tr><td>Rent per Sq Ft (Annual)</td><td class="right">$${formData.rent_per_sq_ft}</td></tr>
             <tr><td>Monthly Staff Cost</td><td class="right">$${formData.monthly_staff_cost.toLocaleString()}</td></tr>
             <tr><td>Monthly Utilities</td><td class="right">$${formData.monthly_utilities.toLocaleString()}</td></tr>
+          </table>
+        </div>
+
+        <div class="section">
+          <table class="table">
+            <tr><th colspan="2">Operating Expenses</th></tr>
+            <tr><td>Insurance</td><td class="right">$${formData.monthly_insurance.toLocaleString()}/mo</td></tr>
+            <tr><td>Accounting</td><td class="right">$${formData.monthly_accounting.toLocaleString()}/mo</td></tr>
+            <tr><td>Legal Retainer</td><td class="right">$${formData.monthly_legal_retainer.toLocaleString()}/mo</td></tr>
+            <tr><td>Marketing</td><td class="right">$${formData.monthly_marketing.toLocaleString()}/mo</td></tr>
+            <tr><td>Tech Stack</td><td class="right">$${formData.monthly_tech_stack.toLocaleString()}/mo</td></tr>
+            <tr><td>Supplies</td><td class="right">$${formData.monthly_supplies.toLocaleString()}/mo</td></tr>
+            <tr><td>Payment Processing</td><td class="right">${formData.monthly_payment_processing_pct}% of revenue</td></tr>
+            <tr><td>Vending COGS</td><td class="right">${formData.monthly_vending_cogs_pct}% of retail</td></tr>
           </table>
         </div>
 
@@ -365,6 +409,25 @@ const RevenueSimulator: React.FC = () => {
             <tr><td>Membership Fees</td><td class="right">$${metrics.monthlyMembershipRevenue.toLocaleString()}</td></tr>
             <tr><td>Sponsorships</td><td class="right">$${metrics.monthlySponsorshipRevenue.toLocaleString()}</td></tr>
             <tr style="font-weight: bold; background: #f0f0f0;"><td>Total</td><td class="right">$${metrics.totalMonthlyRevenue.toLocaleString()}</td></tr>
+          </table>
+        </div>
+
+        <h2>Expense Breakdown (Monthly)</h2>
+        <div class="section">
+          <table class="table">
+            <tr><th>Category</th><th class="right">Amount</th></tr>
+            <tr><td>Rent</td><td class="right">$${Math.round(metrics.monthlyRent).toLocaleString()}</td></tr>
+            <tr><td>Staff</td><td class="right">$${formData.monthly_staff_cost.toLocaleString()}</td></tr>
+            <tr><td>Utilities</td><td class="right">$${formData.monthly_utilities.toLocaleString()}</td></tr>
+            <tr><td>Insurance</td><td class="right">$${formData.monthly_insurance.toLocaleString()}</td></tr>
+            <tr><td>Accounting</td><td class="right">$${formData.monthly_accounting.toLocaleString()}</td></tr>
+            <tr><td>Legal Retainer</td><td class="right">$${formData.monthly_legal_retainer.toLocaleString()}</td></tr>
+            <tr><td>Marketing</td><td class="right">$${formData.monthly_marketing.toLocaleString()}</td></tr>
+            <tr><td>Tech Stack</td><td class="right">$${formData.monthly_tech_stack.toLocaleString()}</td></tr>
+            <tr><td>Supplies</td><td class="right">$${formData.monthly_supplies.toLocaleString()}</td></tr>
+            <tr><td>Payment Processing (${formData.monthly_payment_processing_pct}%)</td><td class="right">$${Math.round(metrics.monthlyPaymentProcessing).toLocaleString()}</td></tr>
+            <tr><td>Vending COGS (${formData.monthly_vending_cogs_pct}%)</td><td class="right">$${Math.round(metrics.monthlyVendingCogs).toLocaleString()}</td></tr>
+            <tr style="font-weight: bold; background: #f0f0f0;"><td>Total</td><td class="right">$${Math.round(metrics.totalMonthlyExpenses).toLocaleString()}</td></tr>
           </table>
         </div>
 
@@ -443,7 +506,18 @@ const RevenueSimulator: React.FC = () => {
     // 4. Expenses
     const annualRent = formData.total_sq_ft * formData.rent_per_sq_ft;
     const monthlyRent = annualRent / 12;
-    const totalMonthlyExpenses = monthlyRent + formData.monthly_staff_cost + formData.monthly_utilities;
+
+    // Variable expenses based on revenue
+    const monthlyPaymentProcessing = totalMonthlyRevenue * (formData.monthly_payment_processing_pct / 100);
+    const monthlyVendingCogs = monthlyRetailRevenue * (formData.monthly_vending_cogs_pct / 100);
+
+    // Fixed operating expenses
+    const monthlyFixedOps = formData.monthly_insurance + formData.monthly_accounting +
+      formData.monthly_legal_retainer + formData.monthly_marketing +
+      formData.monthly_tech_stack + formData.monthly_supplies;
+
+    const totalMonthlyExpenses = monthlyRent + formData.monthly_staff_cost + formData.monthly_utilities +
+      monthlyFixedOps + monthlyPaymentProcessing + monthlyVendingCogs;
 
     // 5. Profitability
     const monthlyProfit = totalMonthlyRevenue - totalMonthlyExpenses;
@@ -473,6 +547,8 @@ const RevenueSimulator: React.FC = () => {
       totalMonthlyRevenue,
       annualRevenue,
       monthlyRent,
+      monthlyPaymentProcessing,
+      monthlyVendingCogs,
       totalMonthlyExpenses,
       annualExpenses,
       monthlyProfit,
@@ -662,37 +738,110 @@ const RevenueSimulator: React.FC = () => {
                 Expenses & Real Estate
               </CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-3 px-4 pb-3">
-              <div className="space-y-1">
-                <Label className="text-xs">Sq Ft</Label>
-                <FormattedInput
-                  value={formData.total_sq_ft}
-                  onChange={(val) => handleInputChange('total_sq_ft', val)}
-                />
+            <CardContent className="space-y-3 px-4 pb-3">
+              {/* Row 1: Real Estate & Core */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="space-y-1">
+                  <Label className="text-xs">Sq Ft</Label>
+                  <FormattedInput
+                    value={formData.total_sq_ft}
+                    onChange={(val) => handleInputChange('total_sq_ft', val)}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Rent/sqft/yr</Label>
+                  <FormattedInput
+                    value={formData.rent_per_sq_ft}
+                    onChange={(val) => handleInputChange('rent_per_sq_ft', val)}
+                    prefix="$"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Staff/mo</Label>
+                  <FormattedInput
+                    value={formData.monthly_staff_cost}
+                    onChange={(val) => handleInputChange('monthly_staff_cost', val)}
+                    prefix="$"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Utilities/mo</Label>
+                  <FormattedInput
+                    value={formData.monthly_utilities}
+                    onChange={(val) => handleInputChange('monthly_utilities', val)}
+                    prefix="$"
+                  />
+                </div>
               </div>
-              <div className="space-y-1">
-                <Label className="text-xs">Rent/sqft/yr</Label>
-                <FormattedInput
-                  value={formData.rent_per_sq_ft}
-                  onChange={(val) => handleInputChange('rent_per_sq_ft', val)}
-                  prefix="$"
-                />
+              {/* Row 2: Insurance, Accounting, Legal, Marketing */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="space-y-1">
+                  <Label className="text-xs">Insurance/mo</Label>
+                  <FormattedInput
+                    value={formData.monthly_insurance}
+                    onChange={(val) => handleInputChange('monthly_insurance', val)}
+                    prefix="$"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Accounting/mo</Label>
+                  <FormattedInput
+                    value={formData.monthly_accounting}
+                    onChange={(val) => handleInputChange('monthly_accounting', val)}
+                    prefix="$"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Legal/mo</Label>
+                  <FormattedInput
+                    value={formData.monthly_legal_retainer}
+                    onChange={(val) => handleInputChange('monthly_legal_retainer', val)}
+                    prefix="$"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Marketing/mo</Label>
+                  <FormattedInput
+                    value={formData.monthly_marketing}
+                    onChange={(val) => handleInputChange('monthly_marketing', val)}
+                    prefix="$"
+                  />
+                </div>
               </div>
-              <div className="space-y-1">
-                <Label className="text-xs">Staff/mo</Label>
-                <FormattedInput
-                  value={formData.monthly_staff_cost}
-                  onChange={(val) => handleInputChange('monthly_staff_cost', val)}
-                  prefix="$"
-                />
-              </div>
-              <div className="space-y-1">
-                <Label className="text-xs">Utilities/mo</Label>
-                <FormattedInput
-                  value={formData.monthly_utilities}
-                  onChange={(val) => handleInputChange('monthly_utilities', val)}
-                  prefix="$"
-                />
+              {/* Row 3: Tech Stack, Supplies, Payment Processing %, Vending COGS % */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="space-y-1">
+                  <Label className="text-xs">Tech Stack/mo</Label>
+                  <FormattedInput
+                    value={formData.monthly_tech_stack}
+                    onChange={(val) => handleInputChange('monthly_tech_stack', val)}
+                    prefix="$"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Supplies/mo</Label>
+                  <FormattedInput
+                    value={formData.monthly_supplies}
+                    onChange={(val) => handleInputChange('monthly_supplies', val)}
+                    prefix="$"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Payment Proc.</Label>
+                  <FormattedInput
+                    value={formData.monthly_payment_processing_pct}
+                    onChange={(val) => handleInputChange('monthly_payment_processing_pct', val)}
+                    suffix="%"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Vending COGS</Label>
+                  <FormattedInput
+                    value={formData.monthly_vending_cogs_pct}
+                    onChange={(val) => handleInputChange('monthly_vending_cogs_pct', val)}
+                    suffix="%"
+                  />
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -724,6 +873,14 @@ const RevenueSimulator: React.FC = () => {
                 <div className="flex justify-between"><span>Rent</span><span>-{formatNumber(metrics.monthlyRent, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
                 <div className="flex justify-between"><span>Staff</span><span>-{formatNumber(formData.monthly_staff_cost, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
                 <div className="flex justify-between"><span>Utilities</span><span>-{formatNumber(formData.monthly_utilities, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                <div className="flex justify-between"><span>Insurance</span><span>-{formatNumber(formData.monthly_insurance, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                <div className="flex justify-between"><span>Accounting</span><span>-{formatNumber(formData.monthly_accounting, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                <div className="flex justify-between"><span>Legal</span><span>-{formatNumber(formData.monthly_legal_retainer, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                <div className="flex justify-between"><span>Marketing</span><span>-{formatNumber(formData.monthly_marketing, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                <div className="flex justify-between"><span>Tech Stack</span><span>-{formatNumber(formData.monthly_tech_stack, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                <div className="flex justify-between"><span>Supplies</span><span>-{formatNumber(formData.monthly_supplies, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                <div className="flex justify-between"><span>Payment Proc. ({formData.monthly_payment_processing_pct}%)</span><span>-{formatNumber(metrics.monthlyPaymentProcessing, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
+                <div className="flex justify-between"><span>Vending COGS ({formData.monthly_vending_cogs_pct}%)</span><span>-{formatNumber(metrics.monthlyVendingCogs, { type: 'currency', maximumFractionDigits: 0 })}</span></div>
               </div>
               <div className="flex justify-between items-center pt-2 border-t-2 border-gray-200">
                 <span className="font-bold text-gray-900">Net Monthly</span>

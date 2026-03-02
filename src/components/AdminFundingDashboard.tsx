@@ -3,7 +3,7 @@ import { supabase } from '@/lib/customSupabaseClient';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Download, Users, DollarSign, Shield, Lock, AlertTriangle, Activity, CreditCard, Calculator, TrendingUp, BarChart3 } from 'lucide-react';
+import { Download, Users, DollarSign, Shield, Lock, AlertTriangle, Activity, CreditCard, Calculator, TrendingUp, BarChart3, Building, ChevronDown, ChevronRight, FileDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatNumber } from '@/utils/formatting';
@@ -15,7 +15,7 @@ import PricingCalculator from '@/components/PricingCalculator';
 import PaymentModal from '@/components/PaymentModal';
 import PaymentOptionsModal from '@/components/PaymentOptionsModal';
 
-type TabType = 'financial' | 'pricing' | 'command';
+type TabType = 'financial' | 'pricing' | 'buildout' | 'command';
 
 interface Stats {
   totalUsers: number;
@@ -32,6 +32,22 @@ interface EfficiencyData {
 interface UsageLogRow {
   turnaround_time: number | null;
   created_at: string | null;
+}
+
+// Build-Out Planner Types
+interface BuildOutCategory {
+  name: string;
+  items: { label: string; amount: number }[];
+}
+
+interface BuildOutData {
+  realEstate: BuildOutCategory;
+  designArchitecture: BuildOutCategory;
+  construction: BuildOutCategory;
+  ffe: BuildOutCategory;
+  technology: BuildOutCategory;
+  preOpening: BuildOutCategory;
+  amountRaised: number;
 }
 
 const AdminFundingDashboard: React.FC = () => {
@@ -59,6 +75,232 @@ const AdminFundingDashboard: React.FC = () => {
 
   // Tab State
   const [activeTab, setActiveTab] = useState<TabType>('financial');
+
+  // Build-Out Planner State
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
+    realEstate: true,
+    designArchitecture: false,
+    construction: false,
+    ffe: false,
+    technology: false,
+    preOpening: false
+  });
+
+  const [buildOutData, setBuildOutData] = useState<BuildOutData>({
+    realEstate: {
+      name: 'Real Estate',
+      items: [
+        { label: 'Security Deposit (3 months)', amount: 40625 },
+        { label: 'First Month Rent', amount: 13542 },
+        { label: 'Broker Fee', amount: 13542 },
+        { label: 'Legal (Lease Review)', amount: 5000 }
+      ]
+    },
+    designArchitecture: {
+      name: 'Design & Architecture',
+      items: [
+        { label: 'Architect / MEP Engineer', amount: 25000 },
+        { label: 'Interior Designer', amount: 15000 },
+        { label: 'Permits & Expediting', amount: 10000 },
+        { label: '3D Renderings', amount: 3000 }
+      ]
+    },
+    construction: {
+      name: 'Construction',
+      items: [
+        { label: 'General Contractor', amount: 175000 },
+        { label: 'Plumbing (8 suites)', amount: 40000 },
+        { label: 'Electrical', amount: 25000 },
+        { label: 'HVAC', amount: 35000 },
+        { label: 'Flooring', amount: 20000 },
+        { label: 'Millwork & Cabinetry', amount: 30000 },
+        { label: 'Contingency (15%)', amount: 48750 }
+      ]
+    },
+    ffe: {
+      name: 'FF&E (Furniture, Fixtures & Equipment)',
+      items: [
+        { label: 'Suite Pods (8 units)', amount: 80000 },
+        { label: 'Lounge Furniture', amount: 15000 },
+        { label: 'Reception Desk', amount: 8000 },
+        { label: 'Lighting Fixtures', amount: 12000 },
+        { label: 'Signage & Wayfinding', amount: 5000 },
+        { label: 'Art & Decor', amount: 10000 }
+      ]
+    },
+    technology: {
+      name: 'Technology',
+      items: [
+        { label: 'OMNY Integration / Hardware', amount: 15000 },
+        { label: 'POS System', amount: 5000 },
+        { label: 'Security Cameras', amount: 8000 },
+        { label: 'Access Control System', amount: 12000 },
+        { label: 'WiFi Infrastructure', amount: 5000 },
+        { label: 'Audio/Visual', amount: 10000 }
+      ]
+    },
+    preOpening: {
+      name: 'Pre-Opening Costs',
+      items: [
+        { label: 'Staff Training (2 weeks)', amount: 8000 },
+        { label: 'Initial Inventory', amount: 15000 },
+        { label: 'Marketing Launch', amount: 20000 },
+        { label: 'Insurance (3 months)', amount: 4500 },
+        { label: 'Working Capital Reserve', amount: 50000 },
+        { label: 'Soft Opening Expenses', amount: 5000 }
+      ]
+    },
+    amountRaised: 125000
+  });
+
+  const toggleSection = (section: string): void => {
+    setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
+  };
+
+  const getTotalCapital = (): number => {
+    const categories = [
+      buildOutData.realEstate,
+      buildOutData.designArchitecture,
+      buildOutData.construction,
+      buildOutData.ffe,
+      buildOutData.technology,
+      buildOutData.preOpening
+    ];
+    return categories.reduce((total, cat) =>
+      total + cat.items.reduce((sum, item) => sum + item.amount, 0), 0
+    );
+  };
+
+  const getCategoryTotal = (category: BuildOutCategory): number => {
+    return category.items.reduce((sum, item) => sum + item.amount, 0);
+  };
+
+  const exportBuildOutPDF = (): void => {
+    const reportDate = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+
+    const totalCapital = getTotalCapital();
+    const remaining = totalCapital - buildOutData.amountRaised;
+    const percentRaised = (buildOutData.amountRaised / totalCapital) * 100;
+
+    const categories = [
+      buildOutData.realEstate,
+      buildOutData.designArchitecture,
+      buildOutData.construction,
+      buildOutData.ffe,
+      buildOutData.technology,
+      buildOutData.preOpening
+    ];
+
+    const categoryRows = categories.map(cat => `
+      <tr style="background: #f8f8f8; font-weight: bold;">
+        <td colspan="2">${cat.name}</td>
+        <td class="right">$${getCategoryTotal(cat).toLocaleString()}</td>
+      </tr>
+      ${cat.items.map(item => `
+        <tr>
+          <td></td>
+          <td>${item.label}</td>
+          <td class="right">$${item.amount.toLocaleString()}</td>
+        </tr>
+      `).join('')}
+    `).join('');
+
+    const reportHTML = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Maslow Build-Out Capital Plan - ${reportDate}</title>
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { font-family: 'Georgia', serif; color: #1a1a1a; padding: 40px; max-width: 800px; margin: 0 auto; }
+          .header { border-bottom: 3px solid #C5A059; padding-bottom: 20px; margin-bottom: 30px; }
+          .logo { font-size: 32px; font-weight: bold; color: #3B5998; }
+          .subtitle { color: #666; font-size: 14px; margin-top: 5px; }
+          .date { color: #888; font-size: 12px; margin-top: 10px; }
+          h2 { color: #3B5998; font-size: 18px; margin: 25px 0 15px; border-bottom: 1px solid #ddd; padding-bottom: 8px; }
+          .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
+          .kpi { background: #f8f8f8; padding: 15px; border-radius: 8px; text-align: center; }
+          .kpi-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+          .kpi-value { font-size: 24px; font-weight: bold; color: #3B5998; margin-top: 5px; }
+          .kpi-value.success { color: #16a34a; }
+          .kpi-value.warning { color: #dc2626; }
+          .progress-bar { background: #e5e5e5; border-radius: 10px; height: 20px; margin: 15px 0; overflow: hidden; }
+          .progress-fill { background: linear-gradient(90deg, #3B5998, #C5A059); height: 100%; border-radius: 10px; }
+          .table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+          .table th, .table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #eee; }
+          .table th { background: #3B5998; color: white; font-size: 11px; text-transform: uppercase; }
+          .table td { font-size: 13px; }
+          .table .right { text-align: right; }
+          .total-row { background: #3B5998 !important; color: white !important; font-weight: bold; }
+          .total-row td { color: white !important; }
+          .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 11px; color: #888; text-align: center; }
+          @media print { body { padding: 20px; } }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <div class="logo">MASLOW</div>
+          <div class="subtitle">Build-Out Capital Plan</div>
+          <div class="date">Generated: ${reportDate}</div>
+        </div>
+
+        <h2>Funding Summary</h2>
+        <div class="kpi-grid">
+          <div class="kpi">
+            <div class="kpi-label">Total Capital Required</div>
+            <div class="kpi-value">$${totalCapital.toLocaleString()}</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Amount Raised</div>
+            <div class="kpi-value success">$${buildOutData.amountRaised.toLocaleString()}</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Remaining to Raise</div>
+            <div class="kpi-value warning">$${remaining.toLocaleString()}</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 25px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span style="font-size: 12px; color: #666;">Funding Progress</span>
+            <span style="font-size: 12px; font-weight: bold; color: #3B5998;">${percentRaised.toFixed(1)}%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${percentRaised}%;"></div>
+          </div>
+        </div>
+
+        <h2>Capital Requirements Breakdown</h2>
+        <table class="table">
+          <tr><th>Category</th><th>Line Item</th><th class="right">Amount</th></tr>
+          ${categoryRows}
+          <tr class="total-row">
+            <td colspan="2">TOTAL CAPITAL REQUIRED</td>
+            <td class="right">$${totalCapital.toLocaleString()}</td>
+          </tr>
+        </table>
+
+        <div class="footer">
+          <p>This report was generated by Maslow Build-Out Planner</p>
+          <p>Confidential - For Internal Use Only</p>
+        </div>
+      </body>
+      </html>
+    `;
+
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(reportHTML);
+      printWindow.document.close();
+      printWindow.onload = () => {
+        printWindow.print();
+      };
+    }
+  };
 
   // 1. SECURITY CHECK
   useEffect(() => {
@@ -199,6 +441,7 @@ const AdminFundingDashboard: React.FC = () => {
   const tabs: { id: TabType; label: string; icon: React.ReactNode }[] = [
     { id: 'financial', label: 'Financial Tools', icon: <TrendingUp className="w-4 h-4" /> },
     { id: 'pricing', label: 'Session Pricing', icon: <Calculator className="w-4 h-4" /> },
+    { id: 'buildout', label: 'Build-Out Planner', icon: <Building className="w-4 h-4" /> },
     { id: 'command', label: 'Revenue Command', icon: <BarChart3 className="w-4 h-4" /> },
   ];
 
@@ -265,7 +508,132 @@ const AdminFundingDashboard: React.FC = () => {
         </motion.div>
       )}
 
-      {/* TAB 3: REVENUE COMMAND */}
+      {/* TAB 3: BUILD-OUT PLANNER */}
+      {activeTab === 'buildout' && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          {/* Header */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-6 border-b-4 border-[#C5A059] pb-3">
+            <div>
+              <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Build-Out Planner</h1>
+              <p className="text-[#3B5998]/60 mt-1 text-sm">Capital requirements and funding tracker for location build-out.</p>
+            </div>
+            <Button
+              onClick={exportBuildOutPDF}
+              size="sm"
+              variant="outline"
+              className="border-[#3B5998] text-[#3B5998] hover:bg-[#3B5998] hover:text-white"
+            >
+              <FileDown className="w-4 h-4 mr-2" />
+              Export PDF
+            </Button>
+          </div>
+
+          {/* KPI Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <Card className="bg-white border-t-4 border-t-[#3B5998]">
+              <CardContent className="pt-4">
+                <div className="text-xs font-bold text-[#3B5998] uppercase tracking-wider mb-1">Total Capital Required</div>
+                <div className="text-3xl font-black text-[#3B5998]">${getTotalCapital().toLocaleString()}</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-white border-t-4 border-t-green-500">
+              <CardContent className="pt-4">
+                <div className="text-xs font-bold text-green-700 uppercase tracking-wider mb-1">Amount Raised</div>
+                <div className="text-3xl font-black text-green-600">${buildOutData.amountRaised.toLocaleString()}</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-white border-t-4 border-t-amber-500">
+              <CardContent className="pt-4">
+                <div className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-1">Remaining to Raise</div>
+                <div className="text-3xl font-black text-amber-600">${(getTotalCapital() - buildOutData.amountRaised).toLocaleString()}</div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Funding Progress Bar */}
+          <Card className="mb-6 bg-gradient-to-r from-[#3B5998]/5 to-[#C5A059]/5">
+            <CardContent className="pt-4">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm font-semibold text-[#3B5998]">Funding Progress</span>
+                <span className="text-sm font-bold text-[#C5A059]">
+                  {((buildOutData.amountRaised / getTotalCapital()) * 100).toFixed(1)}%
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-[#3B5998] to-[#C5A059] transition-all duration-500"
+                  style={{ width: `${(buildOutData.amountRaised / getTotalCapital()) * 100}%` }}
+                />
+              </div>
+              <div className="flex justify-between mt-2 text-xs text-gray-500">
+                <span>$0</span>
+                <span>${getTotalCapital().toLocaleString()}</span>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Collapsible Cost Sections */}
+          <div className="space-y-3">
+            {[
+              { key: 'realEstate', data: buildOutData.realEstate },
+              { key: 'designArchitecture', data: buildOutData.designArchitecture },
+              { key: 'construction', data: buildOutData.construction },
+              { key: 'ffe', data: buildOutData.ffe },
+              { key: 'technology', data: buildOutData.technology },
+              { key: 'preOpening', data: buildOutData.preOpening }
+            ].map(({ key, data }) => (
+              <Card key={key} className="overflow-hidden">
+                <button
+                  onClick={() => toggleSection(key)}
+                  className="w-full px-4 py-3 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    {expandedSections[key] ? (
+                      <ChevronDown className="w-5 h-5 text-[#3B5998]" />
+                    ) : (
+                      <ChevronRight className="w-5 h-5 text-[#3B5998]" />
+                    )}
+                    <span className="font-bold text-[#3B5998]">{data.name}</span>
+                  </div>
+                  <span className="font-bold text-[#C5A059]">${getCategoryTotal(data).toLocaleString()}</span>
+                </button>
+                {expandedSections[key] && (
+                  <CardContent className="pt-0 pb-3">
+                    <table className="w-full">
+                      <tbody>
+                        {data.items.map((item, idx) => (
+                          <tr key={idx} className="border-b border-gray-100 last:border-0">
+                            <td className="py-2 text-sm text-gray-700">{item.label}</td>
+                            <td className="py-2 text-sm text-right font-medium text-gray-900">
+                              ${item.amount.toLocaleString()}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </CardContent>
+                )}
+              </Card>
+            ))}
+          </div>
+
+          {/* Total Summary */}
+          <Card className="mt-6 bg-[#3B5998] text-white">
+            <CardContent className="py-4">
+              <div className="flex justify-between items-center">
+                <span className="text-lg font-bold uppercase tracking-wider">Total Capital Required</span>
+                <span className="text-3xl font-black">${getTotalCapital().toLocaleString()}</span>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
+
+      {/* TAB 4: REVENUE COMMAND */}
       {activeTab === 'command' && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
