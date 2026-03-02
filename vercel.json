@@ -1,5 +1,18 @@
-
 {
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "maslownyc.com" }],
+      "destination": "https://maslow.nyc/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "www.maslow.nyc" }],
+      "destination": "https://maslow.nyc/$1",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/((?!assets/|.*\\..*).*)",
