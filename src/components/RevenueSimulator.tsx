@@ -894,15 +894,15 @@ const RevenueSimulator: React.FC = () => {
           {/* Annual Net Profit */}
           <Card className="bg-[#3B5998] text-white border-none shadow-lg relative overflow-hidden">
             <CardContent className="p-4">
-              <div className="text-[#C5A059] uppercase tracking-wider text-xs font-semibold mb-1">Annual Net Profit</div>
-              <div className="text-3xl font-serif font-bold">
+              <div className="text-[#C5A059] uppercase tracking-wider text-xs font-semibold mb-1" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}>Annual Net Profit</div>
+              <div className="text-3xl font-serif font-bold" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
                 {formatNumber(metrics.annualProfit, { type: 'currency', maximumFractionDigits: 0 })}
               </div>
               <div className="flex gap-2 mt-2 text-xs">
-                <div className="bg-white/10 px-2 py-0.5 rounded">
+                <div className="bg-white/10 px-2 py-0.5 rounded" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>
                   Margin: <span className={metrics.profitMargin > 20 ? "text-green-300" : "text-yellow-300"}>{formatNumber(metrics.profitMargin, { type: 'percent' })}</span>
                 </div>
-                <div className="bg-white/10 px-2 py-0.5 rounded">
+                <div className="bg-white/10 px-2 py-0.5 rounded" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>
                   Break-even: {formatNumber(metrics.breakEvenOccupancy, { maximumFractionDigits: 1 })}%
                 </div>
               </div>

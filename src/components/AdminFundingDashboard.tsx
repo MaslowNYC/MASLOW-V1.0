@@ -660,8 +660,8 @@ const AdminFundingDashboard: React.FC = () => {
           <Card className="mt-6 bg-[#3B5998] text-white">
             <CardContent className="py-4">
               <div className="flex justify-between items-center">
-                <span className="text-lg font-bold uppercase tracking-wider">Total Capital Required</span>
-                <span className="text-3xl font-black">${getTotalCapital().toLocaleString()}</span>
+                <span className="text-lg font-bold uppercase tracking-wider" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>Total Capital Required</span>
+                <span className="text-3xl font-black" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>${getTotalCapital().toLocaleString()}</span>
               </div>
             </CardContent>
           </Card>
@@ -684,8 +684,8 @@ const AdminFundingDashboard: React.FC = () => {
             />
             <div className="absolute inset-0 ring-1 ring-white/20 rounded-xl pointer-events-none bg-gradient-to-t from-black/40 to-transparent"></div>
             <div className="absolute bottom-4 left-4 md:left-6 text-white z-10">
-              <h2 className="text-xl md:text-2xl font-serif font-bold tracking-wide">Operational Command</h2>
-              <p className="text-white/80 font-light text-sm">Status: Active Monitoring</p>
+              <h2 className="text-xl md:text-2xl font-serif font-bold tracking-wide" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.8), 0 0 8px rgba(0,0,0,0.4)' }}>Operational Command</h2>
+              <p className="text-white/80 font-light text-sm" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.6)' }}>Status: Active Monitoring</p>
             </div>
           </div>
 
