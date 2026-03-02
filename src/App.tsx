@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Toaster } from '@/components/ui/toaster';
 import { StripeProvider } from '@/contexts/StripeContext';
@@ -66,7 +66,17 @@ import PrototypeShoppingListPage from '@/pages/prototypes/ShoppingListPage';
 const AppContent: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { user } = useAuth();
+
+  // Detect password recovery links and redirect to reset-password page
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash && hash.includes('type=recovery')) {
+      // Preserve the hash params and redirect to reset-password
+      navigate('/reset-password' + hash, { replace: true });
+    }
+  }, [navigate]);
 
   const isHideHeaderPath = location.pathname === '/login' || location.pathname === '/reset-password' || (!user && location.pathname === '/');
 
