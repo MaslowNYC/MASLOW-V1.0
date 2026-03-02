@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { Download, Users, DollarSign, Shield, Lock, AlertTriangle, Activity, CreditCard, Calculator, TrendingUp, BarChart3, Building, ChevronDown, ChevronRight, FileDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { formatNumber } from '@/utils/formatting';
 import type { Profile } from '@/types/database.types';
 
@@ -173,6 +174,28 @@ const AdminFundingDashboard: React.FC = () => {
 
   const getCategoryTotal = (category: BuildOutCategory): number => {
     return category.items.reduce((sum, item) => sum + item.amount, 0);
+  };
+
+  const updateItemAmount = (categoryKey: keyof Omit<BuildOutData, 'amountRaised'>, itemIndex: number, value: string): void => {
+    const numValue = parseInt(value.replace(/[^0-9]/g, ''), 10) || 0;
+    setBuildOutData(prev => ({
+      ...prev,
+      [categoryKey]: {
+        ...prev[categoryKey],
+        items: prev[categoryKey].items.map((item, idx) =>
+          idx === itemIndex ? { ...item, amount: numValue } : item
+        )
+      }
+    }));
+  };
+
+  const updateAmountRaised = (value: string): void => {
+    const numValue = parseInt(value.replace(/[^0-9]/g, ''), 10) || 0;
+    setBuildOutData(prev => ({ ...prev, amountRaised: numValue }));
+  };
+
+  const formatInputValue = (value: number): string => {
+    return value.toLocaleString('en-US');
   };
 
   const exportBuildOutPDF = (): void => {
@@ -543,7 +566,15 @@ const AdminFundingDashboard: React.FC = () => {
             <Card className="bg-white border-t-4 border-t-green-500">
               <CardContent className="pt-4">
                 <div className="text-xs font-bold text-green-700 uppercase tracking-wider mb-1">Amount Raised</div>
-                <div className="text-3xl font-black text-green-600">${buildOutData.amountRaised.toLocaleString()}</div>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-green-600 text-xl font-black">$</span>
+                  <Input
+                    type="text"
+                    value={formatInputValue(buildOutData.amountRaised)}
+                    onChange={(e) => updateAmountRaised(e.target.value)}
+                    className="pl-8 text-3xl font-black text-green-600 h-12 border-green-200 focus:border-green-500"
+                  />
+                </div>
               </CardContent>
             </Card>
             <Card className="bg-white border-t-4 border-t-amber-500">
@@ -579,12 +610,12 @@ const AdminFundingDashboard: React.FC = () => {
           {/* Collapsible Cost Sections */}
           <div className="space-y-3">
             {[
-              { key: 'realEstate', data: buildOutData.realEstate },
-              { key: 'designArchitecture', data: buildOutData.designArchitecture },
-              { key: 'construction', data: buildOutData.construction },
-              { key: 'ffe', data: buildOutData.ffe },
-              { key: 'technology', data: buildOutData.technology },
-              { key: 'preOpening', data: buildOutData.preOpening }
+              { key: 'realEstate' as const, data: buildOutData.realEstate },
+              { key: 'designArchitecture' as const, data: buildOutData.designArchitecture },
+              { key: 'construction' as const, data: buildOutData.construction },
+              { key: 'ffe' as const, data: buildOutData.ffe },
+              { key: 'technology' as const, data: buildOutData.technology },
+              { key: 'preOpening' as const, data: buildOutData.preOpening }
             ].map(({ key, data }) => (
               <Card key={key} className="overflow-hidden">
                 <button
@@ -603,18 +634,22 @@ const AdminFundingDashboard: React.FC = () => {
                 </button>
                 {expandedSections[key] && (
                   <CardContent className="pt-0 pb-3">
-                    <table className="w-full">
-                      <tbody>
-                        {data.items.map((item, idx) => (
-                          <tr key={idx} className="border-b border-gray-100 last:border-0">
-                            <td className="py-2 text-sm text-gray-700">{item.label}</td>
-                            <td className="py-2 text-sm text-right font-medium text-gray-900">
-                              ${item.amount.toLocaleString()}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                    <div className="space-y-2">
+                      {data.items.map((item, idx) => (
+                        <div key={idx} className="flex items-center justify-between gap-3 py-1 border-b border-gray-100 last:border-0">
+                          <span className="text-sm text-gray-700 flex-1">{item.label}</span>
+                          <div className="relative w-32">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">$</span>
+                            <Input
+                              type="text"
+                              value={formatInputValue(item.amount)}
+                              onChange={(e) => updateItemAmount(key, idx, e.target.value)}
+                              className="pl-7 text-right text-sm h-8"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </CardContent>
                 )}
               </Card>
