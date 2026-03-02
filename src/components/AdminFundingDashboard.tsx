@@ -274,6 +274,9 @@ const AdminFundingDashboard: React.FC = () => {
       day: 'numeric'
     });
 
+    // Helper for consistent currency formatting (2 decimal places)
+    const fmt = (val: number): string => val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
     const totalCapital = getTotalCapital();
     const remaining = totalCapital - buildOutData.amountRaised;
     const percentRaised = (buildOutData.amountRaised / totalCapital) * 100;
@@ -290,7 +293,7 @@ const AdminFundingDashboard: React.FC = () => {
     const categoryRows = categories.map(cat => `
       <tr style="background: #f8f8f8; font-weight: bold;">
         <td colspan="2">${cat.name}</td>
-        <td class="right">$${getCategoryTotal(cat).toLocaleString()}</td>
+        <td class="right">$${fmt(getCategoryTotal(cat))}</td>
       </tr>
       ${cat.items.map(item => `
         <tr>
@@ -299,7 +302,7 @@ const AdminFundingDashboard: React.FC = () => {
             ${item.label}
             ${item.notes ? `<div style="font-size: 10px; color: #666; font-style: italic; margin-top: 2px;">📝 ${item.notes}</div>` : ''}
           </td>
-          <td class="right">$${item.amount.toLocaleString()}</td>
+          <td class="right">$${fmt(item.amount)}</td>
         </tr>
       `).join('')}
     `).join('');
@@ -347,22 +350,22 @@ const AdminFundingDashboard: React.FC = () => {
         <div class="kpi-grid">
           <div class="kpi">
             <div class="kpi-label">Total Capital Required</div>
-            <div class="kpi-value">$${totalCapital.toLocaleString()}</div>
+            <div class="kpi-value">$${fmt(totalCapital)}</div>
           </div>
           <div class="kpi">
             <div class="kpi-label">Amount Raised</div>
-            <div class="kpi-value success">$${buildOutData.amountRaised.toLocaleString()}</div>
+            <div class="kpi-value success">$${fmt(buildOutData.amountRaised)}</div>
           </div>
           <div class="kpi">
             <div class="kpi-label">Remaining to Raise</div>
-            <div class="kpi-value warning">$${remaining.toLocaleString()}</div>
+            <div class="kpi-value warning">$${fmt(remaining)}</div>
           </div>
         </div>
 
         <div style="margin-bottom: 25px;">
           <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
             <span style="font-size: 12px; color: #666;">Funding Progress</span>
-            <span style="font-size: 12px; font-weight: bold; color: #3B5998;">${percentRaised.toFixed(1)}%</span>
+            <span style="font-size: 12px; font-weight: bold; color: #3B5998;">${percentRaised.toFixed(2)}%</span>
           </div>
           <div class="progress-bar">
             <div class="progress-fill" style="width: ${percentRaised}%;"></div>
@@ -375,7 +378,7 @@ const AdminFundingDashboard: React.FC = () => {
           ${categoryRows}
           <tr class="total-row">
             <td colspan="2">TOTAL CAPITAL REQUIRED</td>
-            <td class="right">$${totalCapital.toLocaleString()}</td>
+            <td class="right">$${fmt(totalCapital)}</td>
           </tr>
         </table>
 

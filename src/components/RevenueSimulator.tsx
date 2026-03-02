@@ -283,6 +283,9 @@ const RevenueSimulator: React.FC = () => {
       day: 'numeric'
     });
 
+    // Helper for consistent currency formatting in PDF
+    const fmt = (val: number): string => val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
     const reportHTML = `
       <!DOCTYPE html>
       <html>
@@ -339,11 +342,11 @@ const RevenueSimulator: React.FC = () => {
         <div class="section">
           <table class="table">
             <tr><th colspan="2">Revenue Streams</th></tr>
-            <tr><td>Retail Spend per Visit</td><td class="right">$${formData.retail_spend_per_visit}</td></tr>
+            <tr><td>Retail Spend per Visit</td><td class="right">$${fmt(formData.retail_spend_per_visit)}</td></tr>
             <tr><td>Active Members</td><td class="right">${formData.active_members.toLocaleString()}</td></tr>
-            <tr><td>Monthly Member Fee</td><td class="right">$${formData.monthly_fee}</td></tr>
+            <tr><td>Monthly Member Fee</td><td class="right">$${fmt(formData.monthly_fee)}</td></tr>
             <tr><td>Brand Partners</td><td class="right">${formData.brand_partners}</td></tr>
-            <tr><td>Fee per Partner</td><td class="right">$${formData.fee_per_partner.toLocaleString()}</td></tr>
+            <tr><td>Fee per Partner</td><td class="right">$${fmt(formData.fee_per_partner)}</td></tr>
           </table>
         </div>
 
@@ -351,23 +354,23 @@ const RevenueSimulator: React.FC = () => {
           <table class="table">
             <tr><th colspan="2">Real Estate & Core Expenses</th></tr>
             <tr><td>Total Square Footage</td><td class="right">${formData.total_sq_ft.toLocaleString()} sq ft</td></tr>
-            <tr><td>Rent per Sq Ft (Annual)</td><td class="right">$${formData.rent_per_sq_ft}</td></tr>
-            <tr><td>Monthly Staff Cost</td><td class="right">$${formData.monthly_staff_cost.toLocaleString()}</td></tr>
-            <tr><td>Monthly Utilities</td><td class="right">$${formData.monthly_utilities.toLocaleString()}</td></tr>
+            <tr><td>Rent per Sq Ft (Annual)</td><td class="right">$${fmt(formData.rent_per_sq_ft)}</td></tr>
+            <tr><td>Monthly Staff Cost</td><td class="right">$${fmt(formData.monthly_staff_cost)}</td></tr>
+            <tr><td>Monthly Utilities</td><td class="right">$${fmt(formData.monthly_utilities)}</td></tr>
           </table>
         </div>
 
         <div class="section">
           <table class="table">
             <tr><th colspan="2">Operating Expenses</th></tr>
-            <tr><td>Insurance</td><td class="right">$${formData.monthly_insurance.toLocaleString()}/mo</td></tr>
-            <tr><td>Accounting</td><td class="right">$${formData.monthly_accounting.toLocaleString()}/mo</td></tr>
-            <tr><td>Legal Retainer</td><td class="right">$${formData.monthly_legal_retainer.toLocaleString()}/mo</td></tr>
-            <tr><td>Marketing</td><td class="right">$${formData.monthly_marketing.toLocaleString()}/mo</td></tr>
-            <tr><td>Tech Stack</td><td class="right">$${formData.monthly_tech_stack.toLocaleString()}/mo</td></tr>
-            <tr><td>Supplies</td><td class="right">$${formData.monthly_supplies.toLocaleString()}/mo</td></tr>
-            <tr><td>Payment Processing</td><td class="right">${formData.monthly_payment_processing_pct}% of revenue</td></tr>
-            <tr><td>Vending COGS</td><td class="right">${formData.monthly_vending_cogs_pct}% of retail</td></tr>
+            <tr><td>Insurance</td><td class="right">$${fmt(formData.monthly_insurance)}/mo</td></tr>
+            <tr><td>Accounting</td><td class="right">$${fmt(formData.monthly_accounting)}/mo</td></tr>
+            <tr><td>Legal Retainer</td><td class="right">$${fmt(formData.monthly_legal_retainer)}/mo</td></tr>
+            <tr><td>Marketing</td><td class="right">$${fmt(formData.monthly_marketing)}/mo</td></tr>
+            <tr><td>Tech Stack</td><td class="right">$${fmt(formData.monthly_tech_stack)}/mo</td></tr>
+            <tr><td>Supplies</td><td class="right">$${fmt(formData.monthly_supplies)}/mo</td></tr>
+            <tr><td>Payment Processing</td><td class="right">${formData.monthly_payment_processing_pct.toFixed(2)}% of revenue</td></tr>
+            <tr><td>Vending COGS</td><td class="right">${formData.monthly_vending_cogs_pct.toFixed(2)}% of retail</td></tr>
           </table>
         </div>
 
@@ -375,7 +378,7 @@ const RevenueSimulator: React.FC = () => {
 
         <div class="highlight">
           <div class="highlight-label">Annual Net Profit</div>
-          <div class="highlight-value">$${metrics.annualProfit.toLocaleString()}</div>
+          <div class="highlight-value">$${fmt(metrics.annualProfit)}</div>
           <div class="highlight-sub">
             Profit Margin: ${metrics.profitMargin.toFixed(1)}% | Break-even Occupancy: ${metrics.breakEvenOccupancy.toFixed(1)}%
           </div>
@@ -384,19 +387,19 @@ const RevenueSimulator: React.FC = () => {
         <div class="grid">
           <div class="metric">
             <div class="metric-label">Monthly Revenue</div>
-            <div class="metric-value">$${metrics.totalMonthlyRevenue.toLocaleString()}</div>
+            <div class="metric-value">$${fmt(metrics.totalMonthlyRevenue)}</div>
           </div>
           <div class="metric">
             <div class="metric-label">Monthly Expenses</div>
-            <div class="metric-value expense">$${metrics.totalMonthlyExpenses.toLocaleString()}</div>
+            <div class="metric-value expense">$${fmt(metrics.totalMonthlyExpenses)}</div>
           </div>
           <div class="metric">
             <div class="metric-label">Monthly Net Profit</div>
-            <div class="metric-value profit">$${metrics.monthlyProfit.toLocaleString()}</div>
+            <div class="metric-value profit">$${fmt(metrics.monthlyProfit)}</div>
           </div>
           <div class="metric">
             <div class="metric-label">Annual Revenue</div>
-            <div class="metric-value">$${metrics.annualRevenue.toLocaleString()}</div>
+            <div class="metric-value">$${fmt(metrics.annualRevenue)}</div>
           </div>
         </div>
 
@@ -404,11 +407,11 @@ const RevenueSimulator: React.FC = () => {
         <div class="section">
           <table class="table">
             <tr><th>Source</th><th class="right">Amount</th></tr>
-            <tr><td>Suite Sessions</td><td class="right">$${metrics.monthlySuiteRevenue.toLocaleString()}</td></tr>
-            <tr><td>Retail Sales</td><td class="right">$${metrics.monthlyRetailRevenue.toLocaleString()}</td></tr>
-            <tr><td>Membership Fees</td><td class="right">$${metrics.monthlyMembershipRevenue.toLocaleString()}</td></tr>
-            <tr><td>Sponsorships</td><td class="right">$${metrics.monthlySponsorshipRevenue.toLocaleString()}</td></tr>
-            <tr style="font-weight: bold; background: #f0f0f0;"><td>Total</td><td class="right">$${metrics.totalMonthlyRevenue.toLocaleString()}</td></tr>
+            <tr><td>Suite Sessions</td><td class="right">$${fmt(metrics.monthlySuiteRevenue)}</td></tr>
+            <tr><td>Retail Sales</td><td class="right">$${fmt(metrics.monthlyRetailRevenue)}</td></tr>
+            <tr><td>Membership Fees</td><td class="right">$${fmt(metrics.monthlyMembershipRevenue)}</td></tr>
+            <tr><td>Sponsorships</td><td class="right">$${fmt(metrics.monthlySponsorshipRevenue)}</td></tr>
+            <tr style="font-weight: bold; background: #f0f0f0;"><td>Total</td><td class="right">$${fmt(metrics.totalMonthlyRevenue)}</td></tr>
           </table>
         </div>
 
@@ -416,18 +419,18 @@ const RevenueSimulator: React.FC = () => {
         <div class="section">
           <table class="table">
             <tr><th>Category</th><th class="right">Amount</th></tr>
-            <tr><td>Rent</td><td class="right">$${Math.round(metrics.monthlyRent).toLocaleString()}</td></tr>
-            <tr><td>Staff</td><td class="right">$${formData.monthly_staff_cost.toLocaleString()}</td></tr>
-            <tr><td>Utilities</td><td class="right">$${formData.monthly_utilities.toLocaleString()}</td></tr>
-            <tr><td>Insurance</td><td class="right">$${formData.monthly_insurance.toLocaleString()}</td></tr>
-            <tr><td>Accounting</td><td class="right">$${formData.monthly_accounting.toLocaleString()}</td></tr>
-            <tr><td>Legal Retainer</td><td class="right">$${formData.monthly_legal_retainer.toLocaleString()}</td></tr>
-            <tr><td>Marketing</td><td class="right">$${formData.monthly_marketing.toLocaleString()}</td></tr>
-            <tr><td>Tech Stack</td><td class="right">$${formData.monthly_tech_stack.toLocaleString()}</td></tr>
-            <tr><td>Supplies</td><td class="right">$${formData.monthly_supplies.toLocaleString()}</td></tr>
-            <tr><td>Payment Processing (${formData.monthly_payment_processing_pct}%)</td><td class="right">$${Math.round(metrics.monthlyPaymentProcessing).toLocaleString()}</td></tr>
-            <tr><td>Vending COGS (${formData.monthly_vending_cogs_pct}%)</td><td class="right">$${Math.round(metrics.monthlyVendingCogs).toLocaleString()}</td></tr>
-            <tr style="font-weight: bold; background: #f0f0f0;"><td>Total</td><td class="right">$${Math.round(metrics.totalMonthlyExpenses).toLocaleString()}</td></tr>
+            <tr><td>Rent</td><td class="right">$${fmt(metrics.monthlyRent)}</td></tr>
+            <tr><td>Staff</td><td class="right">$${fmt(formData.monthly_staff_cost)}</td></tr>
+            <tr><td>Utilities</td><td class="right">$${fmt(formData.monthly_utilities)}</td></tr>
+            <tr><td>Insurance</td><td class="right">$${fmt(formData.monthly_insurance)}</td></tr>
+            <tr><td>Accounting</td><td class="right">$${fmt(formData.monthly_accounting)}</td></tr>
+            <tr><td>Legal Retainer</td><td class="right">$${fmt(formData.monthly_legal_retainer)}</td></tr>
+            <tr><td>Marketing</td><td class="right">$${fmt(formData.monthly_marketing)}</td></tr>
+            <tr><td>Tech Stack</td><td class="right">$${fmt(formData.monthly_tech_stack)}</td></tr>
+            <tr><td>Supplies</td><td class="right">$${fmt(formData.monthly_supplies)}</td></tr>
+            <tr><td>Payment Processing (${formData.monthly_payment_processing_pct}%)</td><td class="right">$${fmt(metrics.monthlyPaymentProcessing)}</td></tr>
+            <tr><td>Vending COGS (${formData.monthly_vending_cogs_pct}%)</td><td class="right">$${fmt(metrics.monthlyVendingCogs)}</td></tr>
+            <tr style="font-weight: bold; background: #f0f0f0;"><td>Total</td><td class="right">$${fmt(metrics.totalMonthlyExpenses)}</td></tr>
           </table>
         </div>
 
@@ -447,7 +450,7 @@ const RevenueSimulator: React.FC = () => {
           </div>
           <div class="metric">
             <div class="metric-label">Monthly Rent</div>
-            <div class="metric-value expense">$${Math.round(metrics.monthlyRent).toLocaleString()}</div>
+            <div class="metric-value expense">$${fmt(metrics.monthlyRent)}</div>
           </div>
         </div>
 
