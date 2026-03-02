@@ -3,7 +3,7 @@ import { supabase } from '@/lib/customSupabaseClient';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Download, Users, DollarSign, Shield, Lock, AlertTriangle, Activity, CreditCard, Calculator, TrendingUp, BarChart3, Building, ChevronDown, ChevronRight, FileDown } from 'lucide-react';
+import { Download, Users, DollarSign, Shield, Lock, AlertTriangle, Activity, CreditCard, Calculator, TrendingUp, BarChart3, Building, ChevronDown, ChevronRight, FileDown, Save, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -86,6 +86,8 @@ const AdminFundingDashboard: React.FC = () => {
     technology: false,
     preOpening: false
   });
+
+  const [savingBuildOut, setSavingBuildOut] = useState<boolean>(false);
 
   const [buildOutData, setBuildOutData] = useState<BuildOutData>({
     realEstate: {
@@ -197,6 +199,55 @@ const AdminFundingDashboard: React.FC = () => {
   const formatInputValue = (value: number): string => {
     return value.toLocaleString('en-US');
   };
+
+  // Load build-out data from database
+  const loadBuildOutData = async (): Promise<void> => {
+    try {
+      const { data, error } = await (supabase
+        .from('admin_config') as any)
+        .select('config_value')
+        .eq('config_key', 'buildout_planner')
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error loading build-out data:', error);
+        return;
+      }
+
+      if (data?.config_value) {
+        setBuildOutData(data.config_value as BuildOutData);
+      }
+    } catch (err) {
+      console.error('Error loading build-out data:', err);
+    }
+  };
+
+  // Save build-out data to database
+  const saveBuildOutData = async (): Promise<void> => {
+    setSavingBuildOut(true);
+    try {
+      const { error } = await (supabase
+        .from('admin_config') as any)
+        .upsert({
+          config_key: 'buildout_planner',
+          config_value: buildOutData,
+          updated_at: new Date().toISOString()
+        }, { onConflict: 'config_key' });
+
+      if (error) throw error;
+    } catch (err) {
+      console.error('Error saving build-out data:', err);
+    } finally {
+      setSavingBuildOut(false);
+    }
+  };
+
+  // Load build-out data when component mounts
+  useEffect(() => {
+    if (isAdmin) {
+      loadBuildOutData();
+    }
+  }, [isAdmin]);
 
   const exportBuildOutPDF = (): void => {
     const reportDate = new Date().toLocaleDateString('en-US', {
@@ -539,20 +590,31 @@ const AdminFundingDashboard: React.FC = () => {
           transition={{ duration: 0.2 }}
         >
           {/* Header */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-6 border-b-4 border-[#C5A059] pb-3">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4 border-b-4 border-[#C5A059] pb-3">
             <div>
-              <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Build-Out Planner</h1>
-              <p className="text-[#3B5998]/60 mt-1 text-sm">Capital requirements and funding tracker for location build-out.</p>
+              <h1 className="text-xl md:text-2xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Build-Out Planner</h1>
+              <p className="text-[#3B5998]/60 mt-1 text-xs">Capital requirements and funding tracker.</p>
             </div>
-            <Button
-              onClick={exportBuildOutPDF}
-              size="sm"
-              variant="outline"
-              className="border-[#3B5998] text-[#3B5998] hover:bg-[#3B5998] hover:text-white"
-            >
-              <FileDown className="w-4 h-4 mr-2" />
-              Export PDF
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                onClick={saveBuildOutData}
+                disabled={savingBuildOut}
+                size="sm"
+                className="bg-[#C5A059] hover:bg-[#b08d4b] text-white"
+              >
+                {savingBuildOut ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Save className="w-4 h-4 mr-1" />}
+                Save
+              </Button>
+              <Button
+                onClick={exportBuildOutPDF}
+                size="sm"
+                variant="outline"
+                className="border-[#3B5998] text-[#3B5998] hover:bg-[#3B5998] hover:text-white"
+              >
+                <FileDown className="w-4 h-4 mr-1" />
+                PDF
+              </Button>
+            </div>
           </div>
 
           {/* KPI Cards */}
@@ -607,8 +669,8 @@ const AdminFundingDashboard: React.FC = () => {
             </CardContent>
           </Card>
 
-          {/* Collapsible Cost Sections */}
-          <div className="space-y-3">
+          {/* Collapsible Cost Sections - 2 Column Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {[
               { key: 'realEstate' as const, data: buildOutData.realEstate },
               { key: 'designArchitecture' as const, data: buildOutData.designArchitecture },
@@ -620,31 +682,31 @@ const AdminFundingDashboard: React.FC = () => {
               <Card key={key} className="overflow-hidden">
                 <button
                   onClick={() => toggleSection(key)}
-                  className="w-full px-4 py-3 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors"
+                  className="w-full px-3 py-2 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
                     {expandedSections[key] ? (
-                      <ChevronDown className="w-5 h-5 text-[#3B5998]" />
+                      <ChevronDown className="w-4 h-4 text-[#3B5998]" />
                     ) : (
-                      <ChevronRight className="w-5 h-5 text-[#3B5998]" />
+                      <ChevronRight className="w-4 h-4 text-[#3B5998]" />
                     )}
-                    <span className="font-bold text-[#3B5998]">{data.name}</span>
+                    <span className="font-bold text-[#3B5998] text-sm">{data.name}</span>
                   </div>
-                  <span className="font-bold text-[#C5A059]">${getCategoryTotal(data).toLocaleString()}</span>
+                  <span className="font-bold text-[#C5A059] text-sm">${getCategoryTotal(data).toLocaleString()}</span>
                 </button>
                 {expandedSections[key] && (
-                  <CardContent className="pt-0 pb-3">
-                    <div className="space-y-2">
+                  <CardContent className="pt-0 pb-2 px-3">
+                    <div className="space-y-1">
                       {data.items.map((item, idx) => (
-                        <div key={idx} className="flex items-center justify-between gap-3 py-1 border-b border-gray-100 last:border-0">
-                          <span className="text-sm text-gray-700 flex-1">{item.label}</span>
-                          <div className="relative w-32">
-                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">$</span>
+                        <div key={idx} className="flex items-center justify-between gap-2 py-0.5 border-b border-gray-100 last:border-0">
+                          <span className="text-xs text-gray-700 flex-1 truncate">{item.label}</span>
+                          <div className="relative w-24">
+                            <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 text-xs">$</span>
                             <Input
                               type="text"
                               value={formatInputValue(item.amount)}
                               onChange={(e) => updateItemAmount(key, idx, e.target.value)}
-                              className="pl-7 text-right text-sm h-8"
+                              className="pl-5 text-right text-xs h-7"
                             />
                           </div>
                         </div>
