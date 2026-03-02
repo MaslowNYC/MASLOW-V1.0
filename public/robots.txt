@@ -1,3 +1,16 @@
+# robots.txt for maslow.nyc
+# This file tells search engine crawlers which pages to index
+
 User-agent: *
 Allow: /
-Sitemap: https://maslownyc.com/sitemap.xml
+
+# Don't index admin, staff, or user-specific pages
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /concierge
+Disallow: /staff/
+Disallow: /profile
+Disallow: /checkout-success
+
+# Point crawlers to the sitemap
+Sitemap: https://maslow.nyc/sitemap.xml
