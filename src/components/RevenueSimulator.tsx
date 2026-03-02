@@ -16,7 +16,8 @@ import {
   DollarSign,
   ShoppingBag,
   LayoutDashboard,
-  Wallet
+  Wallet,
+  FileDown
 } from 'lucide-react';
 import { formatNumber } from '@/utils/formatting';
 
@@ -245,6 +246,173 @@ const RevenueSimulator: React.FC = () => {
     }
   };
 
+  const exportPDF = (): void => {
+    const reportDate = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+
+    const reportHTML = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Maslow Revenue Projection Report - ${reportDate}</title>
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { font-family: 'Georgia', serif; color: #1a1a1a; padding: 40px; max-width: 800px; margin: 0 auto; }
+          .header { border-bottom: 3px solid #C5A059; padding-bottom: 20px; margin-bottom: 30px; }
+          .logo { font-size: 32px; font-weight: bold; color: #3B5998; }
+          .subtitle { color: #666; font-size: 14px; margin-top: 5px; }
+          .date { color: #888; font-size: 12px; margin-top: 10px; }
+          h2 { color: #3B5998; font-size: 18px; margin: 25px 0 15px; border-bottom: 1px solid #ddd; padding-bottom: 8px; }
+          .section { margin-bottom: 25px; }
+          .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+          .metric { background: #f8f8f8; padding: 12px; border-radius: 6px; }
+          .metric-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+          .metric-value { font-size: 20px; font-weight: bold; color: #3B5998; margin-top: 4px; }
+          .metric-value.profit { color: ${metrics.monthlyProfit >= 0 ? '#16a34a' : '#dc2626'}; }
+          .metric-value.expense { color: #dc2626; }
+          .table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+          .table th, .table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #eee; }
+          .table th { background: #3B5998; color: white; font-size: 11px; text-transform: uppercase; }
+          .table td { font-size: 13px; }
+          .table .right { text-align: right; }
+          .highlight { background: #3B5998; color: white; padding: 20px; border-radius: 8px; text-align: center; margin: 25px 0; }
+          .highlight-label { font-size: 12px; color: #C5A059; text-transform: uppercase; letter-spacing: 1px; }
+          .highlight-value { font-size: 36px; font-weight: bold; margin-top: 8px; }
+          .highlight-sub { font-size: 12px; opacity: 0.8; margin-top: 8px; }
+          .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 11px; color: #888; text-align: center; }
+          @media print { body { padding: 20px; } }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <div class="logo">MASLOW</div>
+          <div class="subtitle">Revenue Projection Report</div>
+          <div class="date">Generated: ${reportDate}</div>
+        </div>
+
+        <h2>Configuration Parameters</h2>
+        <div class="section">
+          <table class="table">
+            <tr><th colspan="2">Suite Operations</th></tr>
+            <tr><td>Number of Suites</td><td class="right">${formData.suites}</td></tr>
+            <tr><td>Operating Hours/Day</td><td class="right">${formData.hours_open} hrs</td></tr>
+            <tr><td>Average Session Duration</td><td class="right">${formData.avg_duration} min</td></tr>
+            <tr><td>Session Price</td><td class="right">$${formData.avg_price}</td></tr>
+            <tr><td>Turnaround Time</td><td class="right">${formData.turnaround_time} sec</td></tr>
+            <tr><td>Occupancy Rate</td><td class="right">${formData.occupancy_rate}%</td></tr>
+          </table>
+        </div>
+
+        <div class="section">
+          <table class="table">
+            <tr><th colspan="2">Revenue Streams</th></tr>
+            <tr><td>Retail Spend per Visit</td><td class="right">$${formData.retail_spend_per_visit}</td></tr>
+            <tr><td>Active Members</td><td class="right">${formData.active_members.toLocaleString()}</td></tr>
+            <tr><td>Monthly Member Fee</td><td class="right">$${formData.monthly_fee}</td></tr>
+            <tr><td>Brand Partners</td><td class="right">${formData.brand_partners}</td></tr>
+            <tr><td>Fee per Partner</td><td class="right">$${formData.fee_per_partner.toLocaleString()}</td></tr>
+          </table>
+        </div>
+
+        <div class="section">
+          <table class="table">
+            <tr><th colspan="2">Expenses</th></tr>
+            <tr><td>Total Square Footage</td><td class="right">${formData.total_sq_ft.toLocaleString()} sq ft</td></tr>
+            <tr><td>Rent per Sq Ft (Annual)</td><td class="right">$${formData.rent_per_sq_ft}</td></tr>
+            <tr><td>Monthly Staff Cost</td><td class="right">$${formData.monthly_staff_cost.toLocaleString()}</td></tr>
+            <tr><td>Monthly Utilities</td><td class="right">$${formData.monthly_utilities.toLocaleString()}</td></tr>
+          </table>
+        </div>
+
+        <h2>Financial Projections</h2>
+
+        <div class="highlight">
+          <div class="highlight-label">Annual Net Profit</div>
+          <div class="highlight-value">$${metrics.annualProfit.toLocaleString()}</div>
+          <div class="highlight-sub">
+            Profit Margin: ${metrics.profitMargin.toFixed(1)}% | Break-even Occupancy: ${metrics.breakEvenOccupancy.toFixed(1)}%
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="metric">
+            <div class="metric-label">Monthly Revenue</div>
+            <div class="metric-value">$${metrics.totalMonthlyRevenue.toLocaleString()}</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Monthly Expenses</div>
+            <div class="metric-value expense">$${metrics.totalMonthlyExpenses.toLocaleString()}</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Monthly Net Profit</div>
+            <div class="metric-value profit">$${metrics.monthlyProfit.toLocaleString()}</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Annual Revenue</div>
+            <div class="metric-value">$${metrics.annualRevenue.toLocaleString()}</div>
+          </div>
+        </div>
+
+        <h2>Revenue Breakdown (Monthly)</h2>
+        <div class="section">
+          <table class="table">
+            <tr><th>Source</th><th class="right">Amount</th></tr>
+            <tr><td>Suite Sessions</td><td class="right">$${metrics.monthlySuiteRevenue.toLocaleString()}</td></tr>
+            <tr><td>Retail Sales</td><td class="right">$${metrics.monthlyRetailRevenue.toLocaleString()}</td></tr>
+            <tr><td>Membership Fees</td><td class="right">$${metrics.monthlyMembershipRevenue.toLocaleString()}</td></tr>
+            <tr><td>Sponsorships</td><td class="right">$${metrics.monthlySponsorshipRevenue.toLocaleString()}</td></tr>
+            <tr style="font-weight: bold; background: #f0f0f0;"><td>Total</td><td class="right">$${metrics.totalMonthlyRevenue.toLocaleString()}</td></tr>
+          </table>
+        </div>
+
+        <h2>Operational Metrics</h2>
+        <div class="grid">
+          <div class="metric">
+            <div class="metric-label">Daily Session Capacity</div>
+            <div class="metric-value">${metrics.dailySessionsCapacity}</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Est. Daily Sessions</div>
+            <div class="metric-value">${metrics.dailySessions}</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Monthly Visitors</div>
+            <div class="metric-value">${(metrics.dailySessions * 30).toLocaleString()}</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Monthly Rent</div>
+            <div class="metric-value expense">$${Math.round(metrics.monthlyRent).toLocaleString()}</div>
+          </div>
+        </div>
+
+        <div class="footer">
+          <p>This report was generated by Maslow Revenue Simulator</p>
+          <p>Confidential - For Internal Use Only</p>
+        </div>
+      </body>
+      </html>
+    `;
+
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(reportHTML);
+      printWindow.document.close();
+      // Trigger print dialog after content loads
+      printWindow.onload = () => {
+        printWindow.print();
+      };
+    }
+
+    toast({
+      title: "Report Generated",
+      description: "Use Print → Save as PDF to download your report.",
+      className: "bg-[#3B5998] text-[#F5F1E8] border-[#C5A059]"
+    });
+  };
+
   // Calculations
   const metrics = useMemo<Metrics>(() => {
     // 1. Maslow Suite Revenue (Paid Sessions)
@@ -337,15 +505,26 @@ const RevenueSimulator: React.FC = () => {
             Project financial performance. Adjust inputs to calculate EBITDA.
           </p>
         </div>
-        <Button
-          onClick={handleSave}
-          disabled={saving}
-          size="sm"
-          className="bg-[#C5A059] hover:bg-[#b08d4b] text-white shadow-md"
-        >
-          {saving ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <Save className="w-3 h-3 mr-1" />}
-          Save
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            onClick={exportPDF}
+            size="sm"
+            variant="outline"
+            className="border-[#3B5998] text-[#3B5998] hover:bg-[#3B5998] hover:text-white"
+          >
+            <FileDown className="w-3 h-3 mr-1" />
+            Export PDF
+          </Button>
+          <Button
+            onClick={handleSave}
+            disabled={saving}
+            size="sm"
+            className="bg-[#C5A059] hover:bg-[#b08d4b] text-white shadow-md"
+          >
+            {saving ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <Save className="w-3 h-3 mr-1" />}
+            Save
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
