@@ -3,7 +3,7 @@ import { supabase } from '@/lib/customSupabaseClient';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Download, Users, DollarSign, Shield, Lock, AlertTriangle, Activity, CreditCard, Calculator, TrendingUp, BarChart3, Building, ChevronDown, ChevronRight, FileDown, Save, Loader2 } from 'lucide-react';
+import { Download, Users, DollarSign, Shield, Lock, AlertTriangle, Activity, CreditCard, Calculator, TrendingUp, BarChart3, Building, ChevronDown, ChevronRight, FileDown, Save, Loader2, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -36,9 +36,15 @@ interface UsageLogRow {
 }
 
 // Build-Out Planner Types
+interface BuildOutItem {
+  label: string;
+  amount: number;
+  notes?: string;
+}
+
 interface BuildOutCategory {
   name: string;
-  items: { label: string; amount: number }[];
+  items: BuildOutItem[];
 }
 
 interface BuildOutData {
@@ -191,6 +197,18 @@ const AdminFundingDashboard: React.FC = () => {
     }));
   };
 
+  const updateItemNotes = (categoryKey: keyof Omit<BuildOutData, 'amountRaised'>, itemIndex: number, notes: string): void => {
+    setBuildOutData(prev => ({
+      ...prev,
+      [categoryKey]: {
+        ...prev[categoryKey],
+        items: prev[categoryKey].items.map((item, idx) =>
+          idx === itemIndex ? { ...item, notes } : item
+        )
+      }
+    }));
+  };
+
   const updateAmountRaised = (value: string): void => {
     const numValue = parseInt(value.replace(/[^0-9]/g, ''), 10) || 0;
     setBuildOutData(prev => ({ ...prev, amountRaised: numValue }));
@@ -277,7 +295,10 @@ const AdminFundingDashboard: React.FC = () => {
       ${cat.items.map(item => `
         <tr>
           <td></td>
-          <td>${item.label}</td>
+          <td>
+            ${item.label}
+            ${item.notes ? `<div style="font-size: 10px; color: #666; font-style: italic; margin-top: 2px;">📝 ${item.notes}</div>` : ''}
+          </td>
           <td class="right">$${item.amount.toLocaleString()}</td>
         </tr>
       `).join('')}
@@ -698,15 +719,27 @@ const AdminFundingDashboard: React.FC = () => {
                   <CardContent className="pt-0 pb-2 px-3">
                     <div className="space-y-1">
                       {data.items.map((item, idx) => (
-                        <div key={idx} className="flex items-center justify-between gap-2 py-0.5 border-b border-gray-100 last:border-0">
-                          <span className="text-xs text-gray-700 flex-1 truncate">{item.label}</span>
-                          <div className="relative w-24">
-                            <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 text-xs">$</span>
+                        <div key={idx} className="border-b border-gray-100 last:border-0 py-1">
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="text-xs text-gray-700 flex-1 truncate">{item.label}</span>
+                            <div className="relative w-24">
+                              <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 text-xs">$</span>
+                              <Input
+                                type="text"
+                                value={formatInputValue(item.amount)}
+                                onChange={(e) => updateItemAmount(key, idx, e.target.value)}
+                                className="pl-5 text-right text-xs h-7"
+                              />
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-1 mt-1">
+                            <MessageSquare className="w-3 h-3 text-gray-400 flex-shrink-0" />
                             <Input
                               type="text"
-                              value={formatInputValue(item.amount)}
-                              onChange={(e) => updateItemAmount(key, idx, e.target.value)}
-                              className="pl-5 text-right text-xs h-7"
+                              placeholder="Add note (e.g., 'Free from Toto')"
+                              value={item.notes || ''}
+                              onChange={(e) => updateItemNotes(key, idx, e.target.value)}
+                              className="text-xs h-6 border-dashed border-gray-200 bg-gray-50/50 placeholder:text-gray-400 placeholder:italic"
                             />
                           </div>
                         </div>
