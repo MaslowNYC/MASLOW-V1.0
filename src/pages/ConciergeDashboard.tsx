@@ -49,7 +49,7 @@ const ConciergeDashboard: React.FC = () => {
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-serif font-bold text-[#3B5998]">Concierge Command</h1>
+          <h1 className="text-3xl font-serif font-bold text-[#286BCD]">Concierge Command</h1>
           <div className="relative w-64">
             <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
             <Input
@@ -64,7 +64,7 @@ const ConciergeDashboard: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map(profile => (
             <Card key={profile.id} className="overflow-hidden border-none shadow-md">
-              <div className="bg-[#3B5998] p-4 flex items-center gap-4">
+              <div className="bg-[#286BCD] p-4 flex items-center gap-4">
                  <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center overflow-hidden">
                    {profile.photo_url ? (
                      <img src={supabase.storage.from('avatars').getPublicUrl(profile.photo_url).data.publicUrl} className="w-full h-full object-cover" alt={`${profile.first_name || 'Member'} avatar`} />
@@ -92,12 +92,12 @@ const ConciergeDashboard: React.FC = () => {
                   {/* Kits */}
                   {profile.preferences_usage && profile.preferences_usage.length > 0 && (
                      <div className="col-span-2">
-                        <h4 className="font-bold text-[#3B5998] flex items-center gap-2 mb-2">
+                        <h4 className="font-bold text-[#286BCD] flex items-center gap-2 mb-2">
                            <Coffee className="w-4 h-4" /> Prep Kits
                         </h4>
                         <div className="flex flex-wrap gap-2">
                           {profile.preferences_usage.map((k: string) => (
-                            <span key={k} className="bg-[#3B5998] text-white px-2 py-1 rounded text-xs uppercase tracking-wide">
+                            <span key={k} className="bg-[#286BCD] text-white px-2 py-1 rounded text-xs uppercase tracking-wide">
                               {k}
                             </span>
                           ))}
@@ -107,7 +107,7 @@ const ConciergeDashboard: React.FC = () => {
 
                   {/* Amenities */}
                   <div>
-                    <h4 className="font-bold text-[#3B5998] flex items-center gap-2 mb-2">
+                    <h4 className="font-bold text-[#286BCD] flex items-center gap-2 mb-2">
                        <Sparkles className="w-4 h-4" /> Room
                     </h4>
                     <ul className="list-disc list-inside text-gray-600">
@@ -117,7 +117,7 @@ const ConciergeDashboard: React.FC = () => {
 
                   {/* Products */}
                   <div>
-                    <h4 className="font-bold text-[#3B5998] flex items-center gap-2 mb-2">
+                    <h4 className="font-bold text-[#286BCD] flex items-center gap-2 mb-2">
                        <Wind className="w-4 h-4" /> Stock
                     </h4>
                     <ul className="list-disc list-inside text-gray-600">

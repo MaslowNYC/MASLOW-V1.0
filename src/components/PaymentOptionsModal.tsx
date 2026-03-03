@@ -109,15 +109,15 @@ const PaymentOptionsModal: React.FC<PaymentOptionsModalProps> = ({ isOpen, onClo
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[450px] bg-[#F5F1E8] p-0 max-h-[90vh] overflow-y-auto shadow-2xl border-0 rounded-xl">
-        <div className="bg-[#3B5998] p-6 text-center">
+      <DialogContent className="sm:max-w-[450px] bg-[#FAF4ED] p-0 max-h-[90vh] overflow-y-auto shadow-2xl border-0 rounded-xl">
+        <div className="bg-[#286BCD] p-6 text-center">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-serif text-[#F5F1E8]">Select Payment Method</DialogTitle>
-            <DialogDescription className="text-[#F5F1E8]/80 text-lg mt-2">
+            <DialogTitle className="text-2xl font-serif text-[#FAF4ED]">Select Payment Method</DialogTitle>
+            <DialogDescription className="text-[#FAF4ED]/80 text-lg mt-2">
               Complete your {tierName} sponsorship
             </DialogDescription>
           </DialogHeader>
-          <div className="mt-4 text-3xl font-bold text-[#C5A059]">
+          <div className="mt-4 text-3xl font-bold text-[#C49F58]">
             ${price.toLocaleString()}
           </div>
         </div>
@@ -149,23 +149,23 @@ const PaymentOptionsModal: React.FC<PaymentOptionsModalProps> = ({ isOpen, onClo
           {/* Credit Card */}
           <Button
             variant="outline"
-            className="w-full h-16 flex items-center justify-between px-6 border-2 border-[#3B5998]/10 hover:border-[#3B5998] hover:bg-white bg-white group transition-all duration-300"
+            className="w-full h-16 flex items-center justify-between px-6 border-2 border-[#286BCD]/10 hover:border-[#286BCD] hover:bg-white bg-white group transition-all duration-300"
             onClick={handleCardClick}
             disabled={loadingMethod === 'card'}
           >
             <div className="flex items-center gap-4">
-              <div className="bg-[#3B5998]/10 p-2 rounded-full group-hover:bg-[#3B5998] transition-colors duration-300">
-                <CreditCard className="w-6 h-6 text-[#3B5998] group-hover:text-white" />
+              <div className="bg-[#286BCD]/10 p-2 rounded-full group-hover:bg-[#286BCD] transition-colors duration-300">
+                <CreditCard className="w-6 h-6 text-[#286BCD] group-hover:text-white" />
               </div>
-              <span className="text-lg font-bold text-[#3B5998]">Credit / Debit Card</span>
+              <span className="text-lg font-bold text-[#286BCD]">Credit / Debit Card</span>
             </div>
-            {loadingMethod === 'card' ? <Loader2 className="w-5 h-5 animate-spin text-[#C5A059]" /> : <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-[#C5A059]" />}
+            {loadingMethod === 'card' ? <Loader2 className="w-5 h-5 animate-spin text-[#C49F58]" /> : <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-[#C49F58]" />}
           </Button>
 
           {/* PayPal */}
           <Button
             variant="outline"
-            className="w-full h-16 flex items-center justify-between px-6 border-2 border-[#3B5998]/10 hover:border-[#003087] hover:bg-white bg-white group transition-all duration-300"
+            className="w-full h-16 flex items-center justify-between px-6 border-2 border-[#286BCD]/10 hover:border-[#003087] hover:bg-white bg-white group transition-all duration-300"
             onClick={() => handleExternalPayment('paypal')}
             disabled={loadingMethod === 'paypal'}
           >
@@ -181,7 +181,7 @@ const PaymentOptionsModal: React.FC<PaymentOptionsModalProps> = ({ isOpen, onClo
           {/* Venmo / Cash App */}
           <Button
             variant="outline"
-            className="w-full h-16 flex items-center justify-between px-6 border-2 border-[#3B5998]/10 hover:border-[#008CFF] hover:bg-white bg-white group transition-all duration-300"
+            className="w-full h-16 flex items-center justify-between px-6 border-2 border-[#286BCD]/10 hover:border-[#008CFF] hover:bg-white bg-white group transition-all duration-300"
             onClick={() => handleExternalPayment('venmo')}
             disabled={loadingMethod === 'venmo'}
           >
@@ -195,7 +195,7 @@ const PaymentOptionsModal: React.FC<PaymentOptionsModalProps> = ({ isOpen, onClo
           </Button>
 
           <div className="pt-4 flex items-center justify-center gap-2 text-xs text-gray-500">
-             <ShieldCheck className="w-4 h-4 text-[#3B5998]" />
+             <ShieldCheck className="w-4 h-4 text-[#286BCD]" />
              <span>All transactions are secure and encrypted.</span>
           </div>
         </div>

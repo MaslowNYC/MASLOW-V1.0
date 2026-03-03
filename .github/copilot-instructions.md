@@ -99,9 +99,9 @@ The project includes four specialized Vite plugins—understand these to avoid b
 
 ### Color Palette (tailwind.config.js)
 Brand colors via `maslow.` namespace:
-- `maslow-blue: #3B5998` (primary)
-- `maslow-cream: #F5F1E8` (secondary)
-- `maslow-gold: #C5A059` (accent)
+- `maslow-blue: #286BCD` (primary)
+- `maslow-cream: #FAF4ED` (secondary)
+- `maslow-gold: #C49F58` (accent)
 
 Also aliased as `primary`, `secondary`, `accent` for consistency.
 

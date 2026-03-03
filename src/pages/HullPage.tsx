@@ -17,7 +17,7 @@ const HullPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8]">
+    <div className="min-h-screen bg-[#FAF4ED]">
       <Helmet>
         <title>The Hull | Maslow NYC</title>
         <meta name="description" content="The Hull - The gathering space at the heart of select Maslow locations." />
@@ -31,7 +31,7 @@ const HullPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-5xl md:text-7xl font-serif font-bold text-[#3B5998] mb-6">
+            <h1 className="text-5xl md:text-7xl font-serif font-bold text-[#286BCD] mb-6">
               The Hull
             </h1>
             <p className="text-xl md:text-2xl text-[#1a1a1a]/80 font-light max-w-3xl mx-auto">
@@ -50,10 +50,10 @@ const HullPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C5A059] mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C49F58] mb-4">
               What Is The Hull
             </h2>
-            <div className="w-16 h-0.5 bg-[#C5A059] mb-8"></div>
+            <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
 
             <div className="space-y-6 text-lg text-[#1a1a1a]/70 leading-relaxed">
               <p>
@@ -65,7 +65,7 @@ const HullPage: React.FC = () => {
               <p>
                 The name comes from ship architecture—the hull is what holds everything together, the structural heart that makes the vessel work. That's what this space is meant to be: the heart of Maslow locations that have one.
               </p>
-              <p className="text-[#3B5998] font-medium italic">
+              <p className="text-[#286BCD] font-medium italic">
                 Not all Maslow locations will have a Hull. Some neighborhoods need basic bathroom access more than they need community programming. We're building what each location calls for, not imposing a single model everywhere.
               </p>
             </div>
@@ -82,12 +82,12 @@ const HullPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C5A059] mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C49F58] mb-4">
               Access
             </h2>
-            <div className="w-16 h-0.5 bg-[#C5A059] mb-8"></div>
+            <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
 
-            <h3 className="text-3xl md:text-4xl font-serif text-[#3B5998] mb-6">
+            <h3 className="text-3xl md:text-4xl font-serif text-[#286BCD] mb-6">
               How to Enter The Hull
             </h3>
 
@@ -103,8 +103,8 @@ const HullPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="mt-10 p-6 bg-[#3B5998]/5 rounded-xl border border-[#3B5998]/10">
-              <p className="text-[#3B5998] font-medium">
+            <div className="mt-10 p-6 bg-[#286BCD]/5 rounded-xl border border-[#286BCD]/10">
+              <p className="text-[#286BCD] font-medium">
                 <strong>Hours:</strong> The Hull operates during daytime and evening hours (specific times vary by location). After The Hull closes, Maslow suites remain accessible via the street entrance 24/7.
               </p>
             </div>
@@ -121,12 +121,12 @@ const HullPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C5A059] mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C49F58] mb-4">
               Programming
             </h2>
-            <div className="w-16 h-0.5 bg-[#C5A059] mb-8"></div>
+            <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
 
-            <h3 className="text-3xl md:text-4xl font-serif text-[#3B5998] mb-6">
+            <h3 className="text-3xl md:text-4xl font-serif text-[#286BCD] mb-6">
               Cultural Programming & Events
             </h3>
 
@@ -134,25 +134,25 @@ const HullPage: React.FC = () => {
               The Hull exists to make space for the communities we serve. We don't presume to know what programming matters most—we're building this with you, not dictating it from above.
             </p>
 
-            <h4 className="text-xl font-bold text-[#3B5998] mb-6">What we're exploring:</h4>
+            <h4 className="text-xl font-bold text-[#286BCD] mb-6">What we're exploring:</h4>
 
             <ul className="space-y-4 mb-10">
               {programItems.map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-[#C5A059] rounded-full mt-2 shrink-0"></div>
+                  <div className="w-2 h-2 bg-[#C49F58] rounded-full mt-2 shrink-0"></div>
                   <div>
-                    <span className="font-bold text-[#3B5998]">{item.title}:</span>{" "}
+                    <span className="font-bold text-[#286BCD]">{item.title}:</span>{" "}
                     <span className="text-[#1a1a1a]/70">{item.desc}</span>
                   </div>
                 </li>
               ))}
             </ul>
 
-            <div className="bg-[#F5F1E8] rounded-xl p-8">
+            <div className="bg-[#FAF4ED] rounded-xl p-8">
               <p className="text-[#1a1a1a]/70 leading-relaxed mb-4">
                 But again—we're learning. If you have ideas for programming, artists we should feature, or community needs we're missing, reach out. This space only works if it reflects the people who use it.
               </p>
-              <a href="mailto:hello@maslow.nyc" className="text-[#C5A059] font-bold hover:text-[#3B5998] transition-colors">
+              <a href="mailto:hello@maslow.nyc" className="text-[#C49F58] font-bold hover:text-[#286BCD] transition-colors">
                 hello@maslow.nyc
               </a>
             </div>
@@ -161,7 +161,7 @@ const HullPage: React.FC = () => {
       </section>
 
       {/* The Name Section */}
-      <section className="py-20 px-6 bg-[#3B5998]">
+      <section className="py-20 px-6 bg-[#286BCD]">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -169,10 +169,10 @@ const HullPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C5A059] mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C49F58] mb-4">
               Why The Name
             </h2>
-            <div className="w-16 h-0.5 bg-[#C5A059] mb-8"></div>
+            <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
 
             <h3 className="text-3xl md:text-4xl font-serif text-white mb-8">
               The Name

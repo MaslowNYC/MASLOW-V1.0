@@ -205,9 +205,9 @@ const EventEditorModal: React.FC<EventEditorModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-[#F5F1E8]">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-[#FAF4ED]">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-serif text-[#3B5998]">
+          <DialogTitle className="text-2xl font-serif text-[#286BCD]">
             {event ? 'Edit Event' : 'Create New Event'}
           </DialogTitle>
           <DialogDescription>
@@ -371,7 +371,7 @@ const EventEditorModal: React.FC<EventEditorModalProps> = ({
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-between pt-4 border-t border-[#3B5998]/10">
+          <div className="flex items-center justify-between pt-4 border-t border-[#286BCD]/10">
             {event && !showDeleteConfirm && (
               <Button
                 variant="outline"
@@ -413,7 +413,7 @@ const EventEditorModal: React.FC<EventEditorModalProps> = ({
               <Button
                 onClick={handleSave}
                 disabled={saving}
-                className="bg-[#3B5998] hover:bg-[#3B5998]/90 text-white"
+                className="bg-[#286BCD] hover:bg-[#286BCD]/90 text-white"
               >
                 {saving ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                 {event ? 'Save Changes' : 'Create Event'}

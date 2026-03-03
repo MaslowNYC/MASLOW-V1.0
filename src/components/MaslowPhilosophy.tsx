@@ -46,7 +46,7 @@ const MaslowPhilosophy: React.FC = () => {
 
             {/* Connection / Context */}
             <div className="pt-8 border-t border-gray-200 mt-8">
-              <h3 className="text-xl md:text-2xl font-semibold text-[#3B5998] mb-4">The Foundation of Dignity</h3>
+              <h3 className="text-xl md:text-2xl font-semibold text-[#286BCD] mb-4">The Foundation of Dignity</h3>
               <p className="text-base md:text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto">
                 Access to basic sanitation is not just a convenience; it's a fundamental human right that underpins dignity and well-being.
                 Without secure and hygienic bathroom access, individuals are constantly hindered from meeting their most basic physiological needs,

@@ -121,27 +121,27 @@ const ShoppingCartPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F5F1E8] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-[#3B5998] animate-spin" />
+      <div className="min-h-screen bg-[#FAF4ED] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-[#286BCD] animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] p-4 md:p-8">
+    <div className="min-h-screen bg-[#FAF4ED] p-4 md:p-8">
       <div className="max-w-5xl mx-auto">
         {/* Navigation */}
         <div className="flex flex-wrap gap-3 mb-6">
-          <Link to="/prototypes" className="px-4 py-2 bg-[#3B5998] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
+          <Link to="/prototypes" className="px-4 py-2 bg-[#286BCD] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
             📋 Systems
           </Link>
-          <Link to="/prototypes/boxes" className="px-4 py-2 bg-[#3B5998] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
+          <Link to="/prototypes/boxes" className="px-4 py-2 bg-[#286BCD] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
             📦 Boxes
           </Link>
-          <Link to="/prototypes/shopping" className="px-4 py-2 bg-[#3B5998] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
+          <Link to="/prototypes/shopping" className="px-4 py-2 bg-[#286BCD] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
             🛒 Shopping
           </Link>
-          <Link to="/prototypes/shopping-cart" className="px-4 py-2 bg-[#C5A059] text-white rounded-lg text-sm font-semibold">
+          <Link to="/prototypes/shopping-cart" className="px-4 py-2 bg-[#C49F58] text-white rounded-lg text-sm font-semibold">
             🛒 Cart
           </Link>
         </div>
@@ -149,16 +149,16 @@ const ShoppingCartPage: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
           <div>
-            <h1 className="text-4xl font-serif font-bold text-[#3B5998]">
+            <h1 className="text-4xl font-serif font-bold text-[#286BCD]">
               Shopping Cart
             </h1>
-            <p className="text-[#3B5998]/60 mt-2">
+            <p className="text-[#286BCD]/60 mt-2">
               {cartItems.length} items | {vendorGroups.length} vendors | ${grandTotal.toFixed(2)} total
             </p>
           </div>
           <button
             onClick={copyAllLinks}
-            className="px-6 py-3 bg-[#C5A059] text-white rounded-lg hover:bg-[#b08d4b] transition font-semibold flex items-center gap-2"
+            className="px-6 py-3 bg-[#C49F58] text-white rounded-lg hover:bg-[#b08d4b] transition font-semibold flex items-center gap-2"
           >
             <Copy className="w-4 h-4" /> Copy All Links
           </button>
@@ -167,15 +167,15 @@ const ShoppingCartPage: React.FC = () => {
         {cartItems.length === 0 ? (
           <div className="bg-white rounded-xl p-12 text-center shadow-lg">
             <div className="text-6xl mb-4">🎉</div>
-            <h2 className="text-2xl font-serif font-bold text-[#3B5998] mb-2">
+            <h2 className="text-2xl font-serif font-bold text-[#286BCD] mb-2">
               Cart is Empty!
             </h2>
-            <p className="text-[#3B5998]/60 mb-6">
+            <p className="text-[#286BCD]/60 mb-6">
               All components are either purchased or on order.
             </p>
             <Link
               to="/prototypes"
-              className="inline-block px-6 py-3 bg-[#3B5998] text-white rounded-lg hover:bg-[#2d4475] transition"
+              className="inline-block px-6 py-3 bg-[#286BCD] text-white rounded-lg hover:bg-[#2d4475] transition"
             >
               View Prototypes
             </Link>
@@ -186,7 +186,7 @@ const ShoppingCartPage: React.FC = () => {
             {vendorGroups.map((group) => (
               <div key={group.vendor} className="bg-white rounded-xl shadow-lg overflow-hidden">
                 {/* Vendor Header */}
-                <div className="bg-[#3B5998] text-white p-4 flex items-center justify-between">
+                <div className="bg-[#286BCD] text-white p-4 flex items-center justify-between">
                   <div>
                     <h2 className="text-2xl font-serif font-bold">{group.vendor}</h2>
                     <p className="text-sm opacity-90">
@@ -195,7 +195,7 @@ const ShoppingCartPage: React.FC = () => {
                   </div>
                   <button
                     onClick={() => copyVendorLinks(group.vendor)}
-                    className="px-4 py-2 bg-white text-[#3B5998] rounded-lg hover:bg-gray-100 transition font-semibold text-sm flex items-center gap-2"
+                    className="px-4 py-2 bg-white text-[#286BCD] rounded-lg hover:bg-gray-100 transition font-semibold text-sm flex items-center gap-2"
                   >
                     <Copy className="w-4 h-4" /> Copy Links
                   </button>
@@ -204,32 +204,32 @@ const ShoppingCartPage: React.FC = () => {
                 {/* Items */}
                 <div className="divide-y divide-gray-200">
                   {group.items.map((item) => (
-                    <div key={item.id} className={`p-4 hover:bg-gray-50 transition ${item.phase === 2 ? 'bg-[#C5A059]/5' : ''}`}>
+                    <div key={item.id} className={`p-4 hover:bg-gray-50 transition ${item.phase === 2 ? 'bg-[#C49F58]/5' : ''}`}>
                       <div className="flex flex-col md:flex-row items-start justify-between gap-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <h3 className="font-semibold text-[#3B5998]">
+                            <h3 className="font-semibold text-[#286BCD]">
                               {item.component_name}
                             </h3>
                             {item.phase === 2 && (
-                              <span className="px-2 py-0.5 bg-[#C5A059]/20 text-[#C5A059] text-xs font-bold rounded">
+                              <span className="px-2 py-0.5 bg-[#C49F58]/20 text-[#C49F58] text-xs font-bold rounded">
                                 PHASE 2
                               </span>
                             )}
                           </div>
-                          <div className="text-sm text-[#3B5998]/60 mb-2">
+                          <div className="text-sm text-[#286BCD]/60 mb-2">
                             For: <span className="font-semibold">{item.prototype_name}</span>
                           </div>
                           <div className="text-sm">
-                            <span className="text-[#3B5998]/60">Qty:</span>{' '}
-                            <span className="font-semibold text-[#3B5998]">{item.quantity}</span>
+                            <span className="text-[#286BCD]/60">Qty:</span>{' '}
+                            <span className="font-semibold text-[#286BCD]">{item.quantity}</span>
                             {' | '}
-                            <span className="text-[#3B5998]/60">Unit:</span>{' '}
-                            <span className="font-semibold text-[#3B5998]">${item.price.toFixed(2)}</span>
+                            <span className="text-[#286BCD]/60">Unit:</span>{' '}
+                            <span className="font-semibold text-[#286BCD]">${item.price.toFixed(2)}</span>
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-xl font-bold text-[#C5A059] mb-2">
+                          <div className="text-xl font-bold text-[#C49F58] mb-2">
                             ${(item.price * item.quantity).toFixed(2)}
                           </div>
                           {item.vendor_url ? (
@@ -237,12 +237,12 @@ const ShoppingCartPage: React.FC = () => {
                               href={item.vendor_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-4 py-2 bg-[#C5A059] text-white rounded-lg text-sm hover:bg-[#b08d4b] transition"
+                              className="inline-flex items-center gap-2 px-4 py-2 bg-[#C49F58] text-white rounded-lg text-sm hover:bg-[#b08d4b] transition"
                             >
                               <ExternalLink className="w-4 h-4" /> View
                             </a>
                           ) : (
-                            <div className="text-xs text-[#3B5998]/60">
+                            <div className="text-xs text-[#286BCD]/60">
                               No link available
                             </div>
                           )}
@@ -254,10 +254,10 @@ const ShoppingCartPage: React.FC = () => {
 
                 {/* Vendor Total */}
                 <div className="bg-gray-50 p-4 flex justify-between items-center">
-                  <div className="font-semibold text-[#3B5998]/60">
+                  <div className="font-semibold text-[#286BCD]/60">
                     {group.vendor} Subtotal:
                   </div>
-                  <div className="text-2xl font-bold text-[#3B5998]">
+                  <div className="text-2xl font-bold text-[#286BCD]">
                     ${group.total.toFixed(2)}
                   </div>
                 </div>
@@ -268,22 +268,22 @@ const ShoppingCartPage: React.FC = () => {
             {phase2Count > 0 && (
               <div className="bg-white rounded-xl p-4 shadow-lg">
                 <div className="flex flex-col md:flex-row gap-4">
-                  <div className="flex-1 p-4 bg-[#3B5998]/5 rounded-lg">
-                    <div className="text-sm text-[#3B5998]/60 mb-1">🚀 Phase 1: MVP</div>
-                    <div className="text-2xl font-bold text-[#3B5998]">${phase1Total.toFixed(2)}</div>
-                    <div className="text-xs text-[#3B5998]/60">{phase1Count} items</div>
+                  <div className="flex-1 p-4 bg-[#286BCD]/5 rounded-lg">
+                    <div className="text-sm text-[#286BCD]/60 mb-1">🚀 Phase 1: MVP</div>
+                    <div className="text-2xl font-bold text-[#286BCD]">${phase1Total.toFixed(2)}</div>
+                    <div className="text-xs text-[#286BCD]/60">{phase1Count} items</div>
                   </div>
-                  <div className="flex-1 p-4 bg-[#C5A059]/10 rounded-lg">
-                    <div className="text-sm text-[#C5A059] mb-1">⏳ Phase 2: Post-Launch</div>
-                    <div className="text-2xl font-bold text-[#C5A059]">${phase2Total.toFixed(2)}</div>
-                    <div className="text-xs text-[#C5A059]/60">{phase2Count} items</div>
+                  <div className="flex-1 p-4 bg-[#C49F58]/10 rounded-lg">
+                    <div className="text-sm text-[#C49F58] mb-1">⏳ Phase 2: Post-Launch</div>
+                    <div className="text-2xl font-bold text-[#C49F58]">${phase2Total.toFixed(2)}</div>
+                    <div className="text-xs text-[#C49F58]/60">{phase2Count} items</div>
                   </div>
                 </div>
               </div>
             )}
 
             {/* Grand Total */}
-            <div className="bg-[#C5A059] text-white rounded-xl p-6 shadow-xl">
+            <div className="bg-[#C49F58] text-white rounded-xl p-6 shadow-xl">
               <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div>
                   <div className="text-sm opacity-90 mb-1">Grand Total</div>
@@ -293,7 +293,7 @@ const ShoppingCartPage: React.FC = () => {
                 </div>
                 <button
                   onClick={() => toast({ title: "Coming Soon", description: "Mark all as ordered feature coming soon" })}
-                  className="px-6 py-3 bg-white text-[#C5A059] rounded-lg hover:bg-gray-100 transition font-bold"
+                  className="px-6 py-3 bg-white text-[#C49F58] rounded-lg hover:bg-gray-100 transition font-bold"
                 >
                   Mark All as Ordered
                 </button>

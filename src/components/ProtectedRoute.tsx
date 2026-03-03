@@ -14,8 +14,8 @@ const ProtectedRoute = ({ children, requireFounder = false }: ProtectedRouteProp
   // 1. Show Spinner while deciding
   if (loading) {
     return (
-      <div className="h-screen w-full flex items-center justify-center bg-[#F5F1E8]">
-        <Loader2 className="w-8 h-8 text-[#3B5998] animate-spin" />
+      <div className="h-screen w-full flex items-center justify-center bg-[#FAF4ED]">
+        <Loader2 className="w-8 h-8 text-[#286BCD] animate-spin" />
       </div>
     );
   }

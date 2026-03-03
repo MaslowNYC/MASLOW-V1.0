@@ -60,7 +60,7 @@ const MembershipPage: React.FC = () => {
         toast({
             title: "Join the Community",
             description: "Please log in or create an account to start your membership.",
-            className: "bg-[#3B5998] text-[#F5F1E8]"
+            className: "bg-[#286BCD] text-[#FAF4ED]"
         });
         navigate('/login');
         return;
@@ -99,7 +99,7 @@ const MembershipPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] pt-12 pb-24">
+    <div className="min-h-screen bg-[#FAF4ED] pt-12 pb-24">
       <Helmet>
         <title>Membership | Maslow NYC</title>
         <meta name="description" content="Get your Maslow Pass. Everyone deserves access. Start free at The Hull; upgrade anytime for private suite access." />
@@ -112,13 +112,13 @@ const MembershipPage: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h1 className="text-5xl md:text-6xl font-serif text-[#3B5998] mb-6">
+          <h1 className="text-5xl md:text-6xl font-serif text-[#286BCD] mb-6">
             Get Your Maslow Pass
           </h1>
-          <p className="text-xl text-[#3B5998]/80 max-w-2xl mx-auto font-light font-sans mb-4">
+          <p className="text-xl text-[#286BCD]/80 max-w-2xl mx-auto font-light font-sans mb-4">
             Everyone deserves access. Start with a free Maslow Pass to use The Hull — refill water, recharge your phone, wash your hands. Upgrade anytime for private suite access.
           </p>
-          <p className="text-lg text-[#3B5998]/70 max-w-2xl mx-auto font-light font-sans">
+          <p className="text-lg text-[#286BCD]/70 max-w-2xl mx-auto font-light font-sans">
             Pre-buy your access. Help us build the sanctuary NYC deserves.
           </p>
         </motion.div>
@@ -126,16 +126,16 @@ const MembershipPage: React.FC = () => {
 <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
 
   {/* Tier 1: The Sovereign */}
-  <div className="border border-[#C5A059] bg-[#F5F1E8] p-8 relative overflow-hidden group hover:shadow-2xl transition-all duration-500">
-    <div className="absolute top-0 right-0 bg-[#C5A059] text-white text-[10px] font-bold px-3 py-1 uppercase tracking-widest">
+  <div className="border border-[#C49F58] bg-[#FAF4ED] p-8 relative overflow-hidden group hover:shadow-2xl transition-all duration-500">
+    <div className="absolute top-0 right-0 bg-[#C49F58] text-white text-[10px] font-bold px-3 py-1 uppercase tracking-widest">
       Allocated: 2/12
     </div>
-    <h3 className="text-3xl font-serif font-bold text-[#3B5998] mb-2">The Sovereign</h3>
-    <p className="text-xs text-[#C5A059] uppercase tracking-widest mb-6">Founding Patron Status</p>
+    <h3 className="text-3xl font-serif font-bold text-[#286BCD] mb-2">The Sovereign</h3>
+    <p className="text-xs text-[#C49F58] uppercase tracking-widest mb-6">Founding Patron Status</p>
 
     <div className="space-y-4 mb-8">
-      <p className="text-[#3B5998]/80 font-light italic">"A literal key to the city."</p>
-      <ul className="text-sm text-[#3B5998] space-y-2">
+      <p className="text-[#286BCD]/80 font-light italic">"A literal key to the city."</p>
+      <ul className="text-sm text-[#286BCD] space-y-2">
         <li>• Unlimited Maslow Suite Access + 1 Guest</li>
         <li>• Permanent Name on Founding Plaque</li>
         <li>• 24/7 Private Key Access</li>
@@ -144,28 +144,28 @@ const MembershipPage: React.FC = () => {
     </div>
 
     <Button
-      className="w-full bg-[#3B5998] text-white hover:bg-[#2A406E] uppercase tracking-widest"
+      className="w-full bg-[#286BCD] text-white hover:bg-[#2A406E] uppercase tracking-widest"
       onClick={() => window.location.href = 'mailto:patrick@maslow.nyc?subject=Sovereign%20Allocation%20Inquiry'}
     >
       Request Allocation
     </Button>
-    <p className="text-[10px] text-center mt-3 text-[#3B5998]/40">
+    <p className="text-[10px] text-center mt-3 text-[#286BCD]/40">
       *Strictly limited to 12 founding members.
     </p>
   </div>
 
   {/* Tier 2: The Founding Member */}
-  <div className="border border-[#3B5998]/10 bg-white/50 p-8 opacity-75 grayscale hover:grayscale-0 transition-all duration-500">
-    <h3 className="text-2xl font-serif font-bold text-[#3B5998] mb-2">Founding Member</h3>
-    <p className="text-xs text-[#3B5998]/60 uppercase tracking-widest mb-6">Waitlist Access</p>
+  <div className="border border-[#286BCD]/10 bg-white/50 p-8 opacity-75 grayscale hover:grayscale-0 transition-all duration-500">
+    <h3 className="text-2xl font-serif font-bold text-[#286BCD] mb-2">Founding Member</h3>
+    <p className="text-xs text-[#286BCD]/60 uppercase tracking-widest mb-6">Waitlist Access</p>
 
     <div className="space-y-4 mb-8">
-      <p className="text-[#3B5998]/80 font-light">
+      <p className="text-[#286BCD]/80 font-light">
         Secure your position for the 2026 launch. Pre-purchased suite session credits for early adopters.
       </p>
     </div>
 
-    <Button variant="outline" className="w-full border-[#3B5998]/20 text-[#3B5998]" disabled>
+    <Button variant="outline" className="w-full border-[#286BCD]/20 text-[#286BCD]" disabled>
       Coming Soon
     </Button>
   </div>
@@ -174,7 +174,7 @@ const MembershipPage: React.FC = () => {
 
 
         <div className="mt-16 text-center">
-            <p className="text-[#3B5998]/60 text-sm max-w-2xl mx-auto flex items-center justify-center gap-2">
+            <p className="text-[#286BCD]/60 text-sm max-w-2xl mx-auto flex items-center justify-center gap-2">
                 <ShieldCheck className="w-4 h-4" />
                 All memberships support the construction and maintenance of Maslow public rest stops.
             </p>

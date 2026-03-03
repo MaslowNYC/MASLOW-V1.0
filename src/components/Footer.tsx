@@ -22,7 +22,7 @@ const Footer = () => {
 
           {/* SITEMAP */}
           <div>
-            <h4 className="font-bold uppercase tracking-widest text-xs text-[#C5A059] mb-6">{t('footer.explore')}</h4>
+            <h4 className="font-bold uppercase tracking-widest text-xs text-[#C49F58] mb-6">{t('footer.explore')}</h4>
             <ul className="space-y-3 text-sm">
               <li><Link to="/hull" className="text-white/70 hover:text-white transition-colors">The Hull</Link></li>
               <li><Link to="/lotus" className="text-white/70 hover:text-white transition-colors">Maslow Suites</Link></li>
@@ -33,7 +33,7 @@ const Footer = () => {
 
           {/* LEGAL */}
           <div>
-            <h4 className="font-bold uppercase tracking-widest text-xs text-[#C5A059] mb-6">{t('footer.legal')}</h4>
+            <h4 className="font-bold uppercase tracking-widest text-xs text-[#C49F58] mb-6">{t('footer.legal')}</h4>
             <ul className="space-y-3 text-sm">
               <li><Link to="/faq" className="text-white/70 hover:text-white transition-colors">FAQ</Link></li>
               <li><Link to="/privacy" className="text-white/70 hover:text-white transition-colors">{t('footer.privacyPolicy')}</Link></li>
@@ -43,7 +43,7 @@ const Footer = () => {
 
           {/* CONNECT */}
           <div>
-            <h4 className="font-bold uppercase tracking-widest text-xs text-[#C5A059] mb-6">{t('footer.connect')}</h4>
+            <h4 className="font-bold uppercase tracking-widest text-xs text-[#C49F58] mb-6">{t('footer.connect')}</h4>
             <a href="mailto:hello@maslow.nyc" className="text-white/70 hover:text-white transition-colors text-sm block mb-4">
               hello@maslow.nyc
             </a>

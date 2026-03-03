@@ -5,7 +5,7 @@ import { Droplets, Snowflake, Wifi, Hand, Accessibility, BatteryCharging, Layout
 
 const HullSection: React.FC = () => {
   return (
-    <section className="bg-[#3B5998] pt-20 pb-0 w-full overflow-hidden">
+    <section className="bg-[#286BCD] pt-20 pb-0 w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Architecture Header */}
@@ -16,10 +16,10 @@ const HullSection: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="space-y-8 text-center mb-16"
         >
-          <h3 className="text-4xl md:text-5xl font-serif text-[#F5F1E8] mb-6">
+          <h3 className="text-4xl md:text-5xl font-serif text-[#FAF4ED] mb-6">
             The Sanctuary Design
           </h3>
-          <p className="text-xl text-[#F5F1E8]/80 max-w-3xl mx-auto font-light leading-relaxed">
+          <p className="text-xl text-[#FAF4ED]/80 max-w-3xl mx-auto font-light leading-relaxed">
             Our "Concentric" architecture creates a secure ecosystem that balances public access with private utility.
           </p>
         </motion.div>
@@ -33,16 +33,16 @@ const HullSection: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bg-[#F5F1E8] rounded-xl p-8 relative overflow-hidden group"
+            className="bg-[#FAF4ED] rounded-xl p-8 relative overflow-hidden group"
           >
             <div className="absolute top-0 right-0 p-4 opacity-10">
-              <DoorOpen className="w-24 h-24 text-[#3B5998]" />
+              <DoorOpen className="w-24 h-24 text-[#286BCD]" />
             </div>
-            <h4 className="text-2xl font-serif font-bold text-[#3B5998] mb-4 flex items-center gap-3">
-              <span className="bg-[#C5A059] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+            <h4 className="text-2xl font-serif font-bold text-[#286BCD] mb-4 flex items-center gap-3">
+              <span className="bg-[#C49F58] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
               The Entry
             </h4>
-            <p className="text-[#3B5998]/80 leading-relaxed font-medium">
+            <p className="text-[#286BCD]/80 leading-relaxed font-medium">
               Designed for New York's seasons. In summer, the entire storefront rolls up via garage doors to welcome the street breeze. In winter, an accessible "wicket door" preserves warmth while maintaining our open invitation to the city.
             </p>
           </motion.div>
@@ -53,17 +53,17 @@ const HullSection: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="bg-[#3B5998] border-2 border-[#C5A059] rounded-xl p-8 relative overflow-hidden group shadow-2xl"
+            className="bg-[#286BCD] border-2 border-[#C49F58] rounded-xl p-8 relative overflow-hidden group shadow-2xl"
           >
             <div className="absolute top-0 right-0 p-4 opacity-10">
-              <Layout className="w-24 h-24 text-[#F5F1E8]" />
+              <Layout className="w-24 h-24 text-[#FAF4ED]" />
             </div>
-            <h4 className="text-2xl font-serif font-bold text-[#F5F1E8] mb-4 flex items-center gap-3">
-              <span className="bg-[#C5A059] text-[#3B5998] w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">2</span>
+            <h4 className="text-2xl font-serif font-bold text-[#FAF4ED] mb-4 flex items-center gap-3">
+              <span className="bg-[#C49F58] text-[#286BCD] w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">2</span>
               The Center: "The Hull"
             </h4>
-            <p className="text-[#F5F1E8]/90 leading-relaxed">
-              The heart of the facility. An open-air atrium and <span className="text-[#C5A059] font-bold">free public sanctuary</span>. This is the town hall of the space—a safe, monitored zone for hydration, device charging, and community connection.
+            <p className="text-[#FAF4ED]/90 leading-relaxed">
+              The heart of the facility. An open-air atrium and <span className="text-[#C49F58] font-bold">free public sanctuary</span>. This is the town hall of the space—a safe, monitored zone for hydration, device charging, and community connection.
             </p>
           </motion.div>
 
@@ -76,14 +76,14 @@ const HullSection: React.FC = () => {
             className="bg-[#2a4070] rounded-xl p-8 relative overflow-hidden group"
           >
             <div className="absolute top-0 right-0 p-4 opacity-10">
-              <ShieldCheck className="w-24 h-24 text-[#C5A059]" />
+              <ShieldCheck className="w-24 h-24 text-[#C49F58]" />
             </div>
-            <h4 className="text-2xl font-serif font-bold text-[#C5A059] mb-4 flex items-center gap-3">
-              <span className="bg-[#F5F1E8] text-[#3B5998] w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">3</span>
+            <h4 className="text-2xl font-serif font-bold text-[#C49F58] mb-4 flex items-center gap-3">
+              <span className="bg-[#FAF4ED] text-[#286BCD] w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">3</span>
               The Perimeter: "The Suites"
             </h4>
-            <p className="text-[#F5F1E8]/80 leading-relaxed">
-              Surrounding the Hull is a ring of private, soundproof <span className="text-[#F5F1E8] font-bold">Maslow Suites</span>. These are the revenue-generating utility units—hospital-grade private restrooms available via membership or pay-per-use.
+            <p className="text-[#FAF4ED]/80 leading-relaxed">
+              Surrounding the Hull is a ring of private, soundproof <span className="text-[#FAF4ED] font-bold">Maslow Suites</span>. These are the revenue-generating utility units—hospital-grade private restrooms available via membership or pay-per-use.
             </p>
           </motion.div>
 
@@ -93,16 +93,16 @@ const HullSection: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="bg-[#F5F1E8] rounded-xl p-8 relative overflow-hidden group"
+            className="bg-[#FAF4ED] rounded-xl p-8 relative overflow-hidden group"
           >
             <div className="absolute top-0 right-0 p-4 opacity-10">
-              <Zap className="w-24 h-24 text-[#3B5998]" />
+              <Zap className="w-24 h-24 text-[#286BCD]" />
             </div>
-            <h4 className="text-2xl font-serif font-bold text-[#3B5998] mb-4 flex items-center gap-3">
-              <span className="bg-[#C5A059] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
+            <h4 className="text-2xl font-serif font-bold text-[#286BCD] mb-4 flex items-center gap-3">
+              <span className="bg-[#C49F58] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
               The Service Corridor
             </h4>
-            <p className="text-[#3B5998]/80 leading-relaxed font-medium">
+            <p className="text-[#286BCD]/80 leading-relaxed font-medium">
               The secret to our operations. A hidden service alley runs behind the suites, allowing staff to clean, restock, and maintain utilities from the rear without ever entering the public lobby or disrupting the user experience.
             </p>
           </motion.div>
@@ -110,39 +110,39 @@ const HullSection: React.FC = () => {
         </div>
 
         {/* Free Amenities */}
-        <div className="bg-[#3B5998]/50 border-t border-[#F5F1E8]/20 pt-16 pb-16">
-            <h4 className="text-center text-[#C5A059] font-bold tracking-widest uppercase mb-12">Included in The Hull (Free Access)</h4>
+        <div className="bg-[#286BCD]/50 border-t border-[#FAF4ED]/20 pt-16 pb-16">
+            <h4 className="text-center text-[#C49F58] font-bold tracking-widest uppercase mb-12">Included in The Hull (Free Access)</h4>
             <div className="flex flex-wrap justify-center gap-8 md:gap-12">
             <div className="flex flex-col items-center gap-3 w-32">
-              <Wifi className="w-10 h-10 text-[#F5F1E8]" />
-              <span className="text-[#F5F1E8]/80 text-sm font-medium text-center">Free Wifi</span>
+              <Wifi className="w-10 h-10 text-[#FAF4ED]" />
+              <span className="text-[#FAF4ED]/80 text-sm font-medium text-center">Free Wifi</span>
             </div>
             <div className="flex flex-col items-center gap-3 w-32">
-              <Droplets className="w-10 h-10 text-[#F5F1E8]" />
-              <span className="text-[#F5F1E8]/80 text-sm font-medium text-center">Filtered Water</span>
+              <Droplets className="w-10 h-10 text-[#FAF4ED]" />
+              <span className="text-[#FAF4ED]/80 text-sm font-medium text-center">Filtered Water</span>
             </div>
             <div className="flex flex-col items-center gap-3 w-32">
-              <Hand className="w-10 h-10 text-[#F5F1E8]" />
-              <span className="text-[#F5F1E8]/80 text-sm font-medium text-center">Hand Washing</span>
+              <Hand className="w-10 h-10 text-[#FAF4ED]" />
+              <span className="text-[#FAF4ED]/80 text-sm font-medium text-center">Hand Washing</span>
             </div>
             <div className="flex flex-col items-center gap-3 w-32">
-              <Accessibility className="w-10 h-10 text-[#F5F1E8]" />
-              <span className="text-[#F5F1E8]/80 text-sm font-medium text-center">Accessible</span>
+              <Accessibility className="w-10 h-10 text-[#FAF4ED]" />
+              <span className="text-[#FAF4ED]/80 text-sm font-medium text-center">Accessible</span>
             </div>
             <div className="flex flex-col items-center gap-3 w-32">
-              <Snowflake className="w-10 h-10 text-[#F5F1E8]" />
-              <span className="text-[#F5F1E8]/80 text-sm font-medium text-center">Ice</span>
+              <Snowflake className="w-10 h-10 text-[#FAF4ED]" />
+              <span className="text-[#FAF4ED]/80 text-sm font-medium text-center">Ice</span>
             </div>
             <div className="flex flex-col items-center gap-3 w-32">
-              <BatteryCharging className="w-10 h-10 text-[#F5F1E8]" />
-              <span className="text-[#F5F1E8]/80 text-sm font-medium text-center">Power</span>
+              <BatteryCharging className="w-10 h-10 text-[#FAF4ED]" />
+              <span className="text-[#FAF4ED]/80 text-sm font-medium text-center">Power</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Built for Longevity Section */}
-      <div className="w-full bg-gradient-to-r from-[#1a1a1a] to-[#2d2d2d] py-24 border-t border-[#C5A059]/30 relative overflow-hidden">
+      <div className="w-full bg-gradient-to-r from-[#1a1a1a] to-[#2d2d2d] py-24 border-t border-[#C49F58]/30 relative overflow-hidden">
         {/* Decorative Grid */}
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
 
@@ -153,13 +153,13 @@ const HullSection: React.FC = () => {
                viewport={{ once: true }}
                transition={{ duration: 0.8 }}
             >
-                <div className="inline-flex items-center justify-center p-3 bg-[#C5A059]/10 rounded-full mb-6 border border-[#C5A059]/30">
-                  <HardHat className="w-8 h-8 text-[#C5A059]" />
+                <div className="inline-flex items-center justify-center p-3 bg-[#C49F58]/10 rounded-full mb-6 border border-[#C49F58]/30">
+                  <HardHat className="w-8 h-8 text-[#C49F58]" />
                 </div>
                 <h2 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tight uppercase">
                     Built for Longevity
                 </h2>
-                <div className="h-1 w-24 bg-[#C5A059] mx-auto mb-10"></div>
+                <div className="h-1 w-24 bg-[#C49F58] mx-auto mb-10"></div>
                 <p className="text-xl md:text-2xl text-gray-300 font-light leading-relaxed max-w-4xl mx-auto">
                     "We reject value engineering. We dig deep. We strip the building to its shell and rebuild from the dirt up—ensuring hospital-grade sanitation and prison-grade durability. We do not cover problems with luxury finishes; we solve them with heavy infrastructure."
                 </p>

@@ -107,18 +107,18 @@ const SystemDetailPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F5F1E8] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-[#3B5998] animate-spin" />
+      <div className="min-h-screen bg-[#FAF4ED] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-[#286BCD] animate-spin" />
       </div>
     );
   }
 
   if (!system) {
     return (
-      <div className="min-h-screen bg-[#F5F1E8] flex items-center justify-center">
+      <div className="min-h-screen bg-[#FAF4ED] flex items-center justify-center">
         <div className="text-center">
-          <div className="text-2xl text-[#3B5998] mb-4">System not found</div>
-          <Link to="/prototypes" className="text-[#C5A059] hover:underline">
+          <div className="text-2xl text-[#286BCD] mb-4">System not found</div>
+          <Link to="/prototypes" className="text-[#C49F58] hover:underline">
             ← Back to all systems
           </Link>
         </div>
@@ -127,26 +127,26 @@ const SystemDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] p-4 md:p-8">
+    <div className="min-h-screen bg-[#FAF4ED] p-4 md:p-8">
       {/* Navigation */}
       <div className="max-w-6xl mx-auto flex flex-wrap gap-3 mb-6">
-        <Link to="/prototypes" className="px-4 py-2 bg-[#3B5998] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
+        <Link to="/prototypes" className="px-4 py-2 bg-[#286BCD] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
           📋 Systems
         </Link>
-        <Link to="/prototypes/boxes" className="px-4 py-2 bg-[#3B5998] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
+        <Link to="/prototypes/boxes" className="px-4 py-2 bg-[#286BCD] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
           📦 Boxes
         </Link>
-        <Link to="/prototypes/shopping" className="px-4 py-2 bg-[#3B5998] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
+        <Link to="/prototypes/shopping" className="px-4 py-2 bg-[#286BCD] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
           🛒 Shopping
         </Link>
-        <Link to="/prototypes/shopping-cart" className="px-4 py-2 bg-[#3B5998]/20 text-[#3B5998] rounded-lg text-sm font-semibold hover:bg-[#3B5998]/30 transition">
+        <Link to="/prototypes/shopping-cart" className="px-4 py-2 bg-[#286BCD]/20 text-[#286BCD] rounded-lg text-sm font-semibold hover:bg-[#286BCD]/30 transition">
           🛒 Cart
         </Link>
       </div>
 
       {/* Header */}
       <div className="max-w-6xl mx-auto mb-8">
-        <Link to="/prototypes" className="text-[#C5A059] hover:underline mb-4 inline-flex items-center gap-2">
+        <Link to="/prototypes" className="text-[#C49F58] hover:underline mb-4 inline-flex items-center gap-2">
           <ArrowLeft className="w-4 h-4" /> Back to Systems
         </Link>
 
@@ -154,25 +154,25 @@ const SystemDetailPage: React.FC = () => {
           <span className="text-6xl">{system.icon}</span>
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-4xl font-serif font-bold text-[#3B5998]">
+              <h1 className="text-4xl font-serif font-bold text-[#286BCD]">
                 {system.name}
               </h1>
               {(system.phase || 1) === 2 && (
-                <span className="px-3 py-1 bg-[#C5A059]/20 text-[#C5A059] text-sm font-bold rounded-full">
+                <span className="px-3 py-1 bg-[#C49F58]/20 text-[#C49F58] text-sm font-bold rounded-full">
                   POST-LAUNCH
                 </span>
               )}
             </div>
-            <p className="text-lg text-[#3B5998]/60">
+            <p className="text-lg text-[#286BCD]/60">
               {system.description}
             </p>
           </div>
         </div>
 
-        <div className="flex gap-6 text-sm text-[#3B5998]/60">
-          <div><strong className="text-[#3B5998]">{prototypes.length}</strong> Prototypes</div>
-          <div><strong className="text-[#3B5998]">${system.total_budget}</strong> Budget</div>
-          <div><strong className="text-[#3B5998]">{system.total_hours}h</strong> Time Estimate</div>
+        <div className="flex gap-6 text-sm text-[#286BCD]/60">
+          <div><strong className="text-[#286BCD]">{prototypes.length}</strong> Prototypes</div>
+          <div><strong className="text-[#286BCD]">${system.total_budget}</strong> Budget</div>
+          <div><strong className="text-[#286BCD]">{system.total_hours}h</strong> Time Estimate</div>
         </div>
       </div>
 
@@ -184,13 +184,13 @@ const SystemDetailPage: React.FC = () => {
             to={`/prototypes/prototype/${prototype.id}`}
             className="block"
           >
-            <div className={`bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition border-2 border-transparent hover:border-[#C5A059] ${
-              (prototype.phase || 1) === 2 ? 'bg-gradient-to-r from-white to-[#C5A059]/5' : ''
+            <div className={`bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition border-2 border-transparent hover:border-[#C49F58] ${
+              (prototype.phase || 1) === 2 ? 'bg-gradient-to-r from-white to-[#C49F58]/5' : ''
             }`}>
               {/* Phase 2 Banner */}
               {(prototype.phase || 1) === 2 && (
                 <div className="mb-4 -mt-2 -mx-2">
-                  <div className="bg-[#C5A059]/10 text-[#C5A059] px-4 py-2 rounded-t-lg text-sm font-semibold flex items-center gap-2">
+                  <div className="bg-[#C49F58]/10 text-[#C49F58] px-4 py-2 rounded-t-lg text-sm font-semibold flex items-center gap-2">
                     ⏳ Phase 2: Post-Launch Feature
                   </div>
                 </div>
@@ -200,25 +200,25 @@ const SystemDetailPage: React.FC = () => {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2 flex-wrap">
-                    <h2 className="text-2xl font-serif font-bold text-[#3B5998]">
+                    <h2 className="text-2xl font-serif font-bold text-[#286BCD]">
                       Prototype {prototype.id}: {prototype.name}
                     </h2>
                     {getStatusBadge(prototype.status)}
                     {(prototype.phase || 1) === 2 && (
-                      <span className="px-2 py-1 bg-[#C5A059]/20 text-[#C5A059] text-xs font-bold rounded">
+                      <span className="px-2 py-1 bg-[#C49F58]/20 text-[#C49F58] text-xs font-bold rounded">
                         PHASE 2
                       </span>
                     )}
                   </div>
-                  <p className="text-[#3B5998]/60 mb-3">
+                  <p className="text-[#286BCD]/60 mb-3">
                     {prototype.description}
                   </p>
                 </div>
                 <div className="text-right ml-4">
-                  <div className="text-2xl font-bold text-[#C5A059]">
+                  <div className="text-2xl font-bold text-[#C49F58]">
                     Box #{prototype.box_number}
                   </div>
-                  <div className="text-xs text-[#3B5998]/60">
+                  <div className="text-xs text-[#286BCD]/60">
                     Sterilite Box
                   </div>
                 </div>
@@ -227,32 +227,32 @@ const SystemDetailPage: React.FC = () => {
               {/* Stats Grid */}
               <div className="grid grid-cols-3 md:grid-cols-5 gap-4 mb-4">
                 <div>
-                  <div className="text-xs text-[#3B5998]/60 mb-1">Budget</div>
-                  <div className="text-lg font-bold text-[#3B5998]">
+                  <div className="text-xs text-[#286BCD]/60 mb-1">Budget</div>
+                  <div className="text-lg font-bold text-[#286BCD]">
                     ${prototype.budget}
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-[#3B5998]/60 mb-1">Hours</div>
-                  <div className="text-lg font-bold text-[#3B5998]">
+                  <div className="text-xs text-[#286BCD]/60 mb-1">Hours</div>
+                  <div className="text-lg font-bold text-[#286BCD]">
                     {prototype.hours}h
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-[#3B5998]/60 mb-1">Difficulty</div>
+                  <div className="text-xs text-[#286BCD]/60 mb-1">Difficulty</div>
                   <div className="text-lg">
                     {getDifficultyStars(prototype.difficulty)}
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-[#3B5998]/60 mb-1">Components</div>
-                  <div className="text-lg font-bold text-[#3B5998]">
+                  <div className="text-xs text-[#286BCD]/60 mb-1">Components</div>
+                  <div className="text-lg font-bold text-[#286BCD]">
                     {prototype.components_purchased || 0}/{prototype.component_count || 0}
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-[#3B5998]/60 mb-1">Progress</div>
-                  <div className="text-lg font-bold text-[#C5A059]">
+                  <div className="text-xs text-[#286BCD]/60 mb-1">Progress</div>
+                  <div className="text-lg font-bold text-[#C49F58]">
                     {prototype.progress}%
                   </div>
                 </div>
@@ -261,14 +261,14 @@ const SystemDetailPage: React.FC = () => {
               {/* Progress Bar */}
               <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
                 <div
-                  className="bg-[#C5A059] h-3 rounded-full transition-all"
+                  className="bg-[#C49F58] h-3 rounded-full transition-all"
                   style={{ width: `${prototype.progress}%` }}
                 />
               </div>
 
               {/* View Button */}
               <div className="mt-4 text-right">
-                <span className="text-[#C5A059] font-semibold hover:underline">
+                <span className="text-[#C49F58] font-semibold hover:underline">
                   View Details →
                 </span>
               </div>

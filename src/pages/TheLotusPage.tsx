@@ -134,20 +134,20 @@ const TheLotusPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8]">
+    <div className="min-h-screen bg-[#FAF4ED]">
       <Helmet>
         <title>Maslow Suites | Maslow NYC</title>
         <meta name="description" content="Premium private restroom suites in NYC. More than a bathroom - your sanctuary for nursing, prayer, meetings, anxiety relief, and whatever you need. Smart locks, custom music, UV cleaning, and complete privacy." />
       </Helmet>
 
       {/* HERO SECTION */}
-      <section className="relative min-h-[60vh] flex items-center justify-center bg-gradient-to-b from-[#F5F1E8] to-white px-4 pt-32 pb-16">
+      <section className="relative min-h-[60vh] flex items-center justify-center bg-gradient-to-b from-[#FAF4ED] to-white px-4 pt-32 pb-16">
         <div className="max-w-4xl mx-auto text-center">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-serif font-bold text-[#3B5998] mb-6"
+            className="text-4xl md:text-6xl font-serif font-bold text-[#286BCD] mb-6"
           >
             The Maslow Suites
           </motion.h1>
@@ -155,7 +155,7 @@ const TheLotusPage: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-[#3B5998]/80 font-light"
+            className="text-xl md:text-2xl text-[#286BCD]/80 font-light"
           >
             More than a restroom. Whatever you need it to be.
           </motion.p>
@@ -165,10 +165,10 @@ const TheLotusPage: React.FC = () => {
       {/* SECTION 1: THE CORE CONCEPT */}
       <section className="py-16 px-4 bg-white">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#3B5998] mb-6">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#286BCD] mb-6">
             A Room with a Toilet. And So Much More.
           </h2>
-          <div className="space-y-4 text-lg text-[#3B5998]/90 leading-relaxed">
+          <div className="space-y-4 text-lg text-[#286BCD]/90 leading-relaxed">
             <p>
               The Maslow Suites are premium, private spaces designed for whatever your moment requires. Need to nurse your baby in peace? Prepare for prayer? Change for a meeting? Take a breath after a panic attack? Recharge between appointments? The Suite adapts to you.
             </p>
@@ -180,9 +180,9 @@ const TheLotusPage: React.FC = () => {
       </section>
 
       {/* SECTION 2: TECHNOLOGY & FEATURES */}
-      <section className="py-20 px-4 bg-[#F5F1E8]">
+      <section className="py-20 px-4 bg-[#FAF4ED]">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#3B5998] mb-12 text-center">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#286BCD] mb-12 text-center">
             Technology & Features
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
@@ -193,11 +193,11 @@ const TheLotusPage: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white p-6 rounded-lg border border-[#3B5998]/10 hover:border-[#C5A059] hover:shadow-lg transition-all"
+                className="bg-white p-6 rounded-lg border border-[#286BCD]/10 hover:border-[#C49F58] hover:shadow-lg transition-all"
               >
-                <feature.icon className="w-10 h-10 text-[#C5A059] mb-4" />
-                <h3 className="text-xl font-bold text-[#3B5998] mb-3">{feature.title}</h3>
-                <p className="text-[#3B5998]/80 leading-relaxed">{feature.description}</p>
+                <feature.icon className="w-10 h-10 text-[#C49F58] mb-4" />
+                <h3 className="text-xl font-bold text-[#286BCD] mb-3">{feature.title}</h3>
+                <p className="text-[#286BCD]/80 leading-relaxed">{feature.description}</p>
               </motion.div>
             ))}
           </div>
@@ -207,22 +207,22 @@ const TheLotusPage: React.FC = () => {
       {/* SECTION 3: WHAT'S INSIDE */}
       <section className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#3B5998] mb-12 text-center">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#286BCD] mb-12 text-center">
             What's Inside
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-12">
             {/* Standard in Every Suite */}
             <div>
-              <h3 className="text-2xl font-serif font-bold text-[#3B5998] mb-6 flex items-center gap-2">
-                <CheckCircle className="w-6 h-6 text-[#C5A059]" />
+              <h3 className="text-2xl font-serif font-bold text-[#286BCD] mb-6 flex items-center gap-2">
+                <CheckCircle className="w-6 h-6 text-[#C49F58]" />
                 Standard in Every Suite
               </h3>
               <ul className="space-y-3">
                 {standardItems.map((item, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <span className="text-[#C5A059] mt-1">•</span>
-                    <span className="text-[#3B5998]/90">{item}</span>
+                    <span className="text-[#C49F58] mt-1">•</span>
+                    <span className="text-[#286BCD]/90">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -230,32 +230,32 @@ const TheLotusPage: React.FC = () => {
 
             {/* Available on Request */}
             <div>
-              <h3 className="text-2xl font-serif font-bold text-[#3B5998] mb-6 flex items-center gap-2">
-                <AlertCircle className="w-6 h-6 text-[#C5A059]" />
+              <h3 className="text-2xl font-serif font-bold text-[#286BCD] mb-6 flex items-center gap-2">
+                <AlertCircle className="w-6 h-6 text-[#C49F58]" />
                 Available on Request
               </h3>
-              <p className="text-sm text-[#3B5998]/70 mb-4 italic">Request via the Maslow app</p>
+              <p className="text-sm text-[#286BCD]/70 mb-4 italic">Request via the Maslow app</p>
               <ul className="space-y-3">
                 {onRequestItems.map((item, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <span className="text-[#C5A059] mt-1">•</span>
-                    <span className="text-[#3B5998]/90">{item}</span>
+                    <span className="text-[#C49F58] mt-1">•</span>
+                    <span className="text-[#286BCD]/90">{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
 
-          <p className="text-center text-lg font-bold text-[#3B5998] mt-12">
+          <p className="text-center text-lg font-bold text-[#286BCD] mt-12">
             All products are available at no additional cost. Take what you need.
           </p>
         </div>
       </section>
 
       {/* SECTION 5: USE CASES */}
-      <section className="py-20 px-4 bg-[#F5F1E8]">
+      <section className="py-20 px-4 bg-[#FAF4ED]">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#3B5998] mb-12 text-center">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#286BCD] mb-12 text-center">
             However You Need It
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -266,12 +266,12 @@ const TheLotusPage: React.FC = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
-                className="bg-white p-6 rounded-lg border border-[#3B5998]/10 hover:border-[#C5A059] hover:shadow-lg transition-all cursor-pointer"
+                className="bg-white p-6 rounded-lg border border-[#286BCD]/10 hover:border-[#C49F58] hover:shadow-lg transition-all cursor-pointer"
                 onClick={() => setActiveUseCase(activeUseCase === index ? null : index)}
               >
-                <useCase.icon className="w-8 h-8 text-[#C5A059] mb-3" />
-                <h3 className="text-lg font-bold text-[#3B5998] mb-2">{useCase.title}</h3>
-                <p className="text-[#3B5998]/80 text-sm leading-relaxed">{useCase.description}</p>
+                <useCase.icon className="w-8 h-8 text-[#C49F58] mb-3" />
+                <h3 className="text-lg font-bold text-[#286BCD] mb-2">{useCase.title}</h3>
+                <p className="text-[#286BCD]/80 text-sm leading-relaxed">{useCase.description}</p>
               </motion.div>
             ))}
           </div>
@@ -282,19 +282,19 @@ const TheLotusPage: React.FC = () => {
       <section className="py-20 px-4 bg-white">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-4 mb-8">
-            <Accessibility className="w-12 h-12 text-[#C5A059]" />
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#3B5998]">
+            <Accessibility className="w-12 h-12 text-[#C49F58]" />
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#286BCD]">
               Designed for Everyone
             </h2>
           </div>
-          <p className="text-lg text-[#3B5998]/90 mb-8 leading-relaxed">
+          <p className="text-lg text-[#286BCD]/90 mb-8 leading-relaxed">
             Every Maslow Suite exceeds ADA requirements. We don't have "accessible" suites and "regular" suites. We have suites that work for everyone.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             {accessibilityFeatures.map((feature, index) => (
-              <div key={index} className="flex items-start gap-3 p-3 bg-[#F5F1E8] rounded-lg">
-                <CheckCircle className="w-5 h-5 text-[#C5A059] mt-0.5 flex-shrink-0" />
-                <span className="text-[#3B5998]/90">{feature}</span>
+              <div key={index} className="flex items-start gap-3 p-3 bg-[#FAF4ED] rounded-lg">
+                <CheckCircle className="w-5 h-5 text-[#C49F58] mt-0.5 flex-shrink-0" />
+                <span className="text-[#286BCD]/90">{feature}</span>
               </div>
             ))}
           </div>
@@ -302,13 +302,13 @@ const TheLotusPage: React.FC = () => {
       </section>
 
       {/* SECTION 7: PRICING & ACCESS */}
-      <section className="py-20 px-4 bg-[#3B5998] text-white">
+      <section className="py-20 px-4 bg-[#286BCD] text-white">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-serif font-bold mb-8 text-center">
             How It Works
           </h2>
           <div className="space-y-6 text-lg mb-12">
-            <p className="font-bold text-xl text-[#C5A059]">For Suite Access:</p>
+            <p className="font-bold text-xl text-[#C49F58]">For Suite Access:</p>
             <p>Maslow Suites are included with all paid Maslow memberships:</p>
             <ul className="space-y-3 pl-6">
               <li>• <strong>Founding Member ($500/year):</strong> 50 suite sessions</li>
@@ -325,15 +325,15 @@ const TheLotusPage: React.FC = () => {
       </section>
 
       {/* SECTION 8: CALL TO ACTION */}
-      <section className="py-20 px-4 bg-gradient-to-b from-[#F5F1E8] to-white">
+      <section className="py-20 px-4 bg-gradient-to-b from-[#FAF4ED] to-white">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#3B5998] mb-6">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#286BCD] mb-6">
             Ready to Experience the Sanctuary?
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
             <Button
               onClick={() => navigate('/membership')}
-              className="bg-[#3B5998] hover:bg-[#2A406E] text-white px-8 py-6 text-lg"
+              className="bg-[#286BCD] hover:bg-[#2A406E] text-white px-8 py-6 text-lg"
             >
               <DoorOpen className="w-5 h-5 mr-2" />
               Join Maslow
@@ -341,12 +341,12 @@ const TheLotusPage: React.FC = () => {
             <Button
               onClick={() => navigate('/hull')}
               variant="outline"
-              className="border-[#3B5998] text-[#3B5998] hover:bg-[#3B5998] hover:text-white px-8 py-6 text-lg"
+              className="border-[#286BCD] text-[#286BCD] hover:bg-[#286BCD] hover:text-white px-8 py-6 text-lg"
             >
               See The Hull
             </Button>
           </div>
-          <p className="text-[#3B5998]/70">
+          <p className="text-[#286BCD]/70">
             Not sure yet? Visit The Hull first - our free public restroom with water refill, phone charging, and basic amenities. No membership required.
           </p>
         </div>

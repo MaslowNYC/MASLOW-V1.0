@@ -87,7 +87,7 @@ const futureFeatures: FutureFeature[] = [
 
 const FuturePrototypesPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-[#F5F1E8]">
+    <div className="min-h-screen bg-[#FAF4ED]">
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
@@ -96,7 +96,7 @@ const FuturePrototypesPage: React.FC = () => {
             alt="Future Vision"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#3B5998]/80 via-[#3B5998]/60 to-[#F5F1E8]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#286BCD]/80 via-[#286BCD]/60 to-[#FAF4ED]" />
         </div>
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
@@ -105,14 +105,14 @@ const FuturePrototypesPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="inline-flex items-center gap-2 bg-[#C5A059]/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
-              <Sparkles className="w-4 h-4 text-[#C5A059]" />
+            <div className="inline-flex items-center gap-2 bg-[#C49F58]/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
+              <Sparkles className="w-4 h-4 text-[#C49F58]" />
               <span className="text-sm font-semibold text-white uppercase tracking-widest">Sovereign Preview</span>
             </div>
 
             <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 tracking-tight">
               The Future of<br />
-              <span className="text-[#C5A059]">Urban Sanctuary</span>
+              <span className="text-[#C49F58]">Urban Sanctuary</span>
             </h1>
 
             <p className="text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
@@ -141,10 +141,10 @@ const FuturePrototypesPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#3B5998] mb-6">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#286BCD] mb-6">
               Building Tomorrow, Today
             </h2>
-            <p className="text-lg text-[#3B5998]/70 leading-relaxed">
+            <p className="text-lg text-[#286BCD]/70 leading-relaxed">
               Every Maslow location represents our commitment to continuous innovation.
               The features below are actively in development, informed by member feedback
               and our relentless pursuit of the perfect urban retreat. Your investment
@@ -179,7 +179,7 @@ const FuturePrototypesPage: React.FC = () => {
 
                     {/* Status Badge */}
                     <div className="absolute top-6 left-6">
-                      <div className="inline-flex items-center gap-2 bg-[#C5A059] text-white px-4 py-2 rounded-full shadow-lg">
+                      <div className="inline-flex items-center gap-2 bg-[#C49F58] text-white px-4 py-2 rounded-full shadow-lg">
                         <Star className="w-4 h-4" />
                         <span className="text-sm font-bold uppercase tracking-wider">{feature.status}</span>
                       </div>
@@ -197,13 +197,13 @@ const FuturePrototypesPage: React.FC = () => {
                 {/* Content */}
                 <div className="w-full lg:w-1/2">
                   <div className="max-w-lg">
-                    <p className="text-[#C5A059] font-semibold uppercase tracking-widest text-sm mb-2">
+                    <p className="text-[#C49F58] font-semibold uppercase tracking-widest text-sm mb-2">
                       {feature.subtitle}
                     </p>
-                    <h3 className="text-3xl md:text-4xl font-serif font-bold text-[#3B5998] mb-4">
+                    <h3 className="text-3xl md:text-4xl font-serif font-bold text-[#286BCD] mb-4">
                       {feature.title}
                     </h3>
-                    <p className="text-[#3B5998]/70 text-lg leading-relaxed mb-8">
+                    <p className="text-[#286BCD]/70 text-lg leading-relaxed mb-8">
                       {feature.description}
                     </p>
 
@@ -211,8 +211,8 @@ const FuturePrototypesPage: React.FC = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {feature.details.map((detail, i) => (
                         <div key={i} className="flex items-start gap-3">
-                          <div className="w-2 h-2 rounded-full bg-[#C5A059] mt-2 flex-shrink-0" />
-                          <span className="text-[#3B5998]/80 text-sm">{detail}</span>
+                          <div className="w-2 h-2 rounded-full bg-[#C49F58] mt-2 flex-shrink-0" />
+                          <span className="text-[#286BCD]/80 text-sm">{detail}</span>
                         </div>
                       ))}
                     </div>
@@ -225,7 +225,7 @@ const FuturePrototypesPage: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-[#3B5998] py-24 px-4">
+      <section className="bg-[#286BCD] py-24 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -244,7 +244,7 @@ const FuturePrototypesPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/membership"
-                className="inline-flex items-center justify-center gap-2 bg-[#C5A059] text-white px-8 py-4 rounded-lg font-semibold hover:bg-[#B39149] transition-colors shadow-lg"
+                className="inline-flex items-center justify-center gap-2 bg-[#C49F58] text-white px-8 py-4 rounded-lg font-semibold hover:bg-[#B39149] transition-colors shadow-lg"
               >
                 Become a Sovereign
                 <ArrowRight className="w-5 h-5" />
@@ -261,9 +261,9 @@ const FuturePrototypesPage: React.FC = () => {
       </section>
 
       {/* Footer Note */}
-      <section className="py-12 px-4 bg-[#F5F1E8]">
+      <section className="py-12 px-4 bg-[#FAF4ED]">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-sm text-[#3B5998]/50">
+          <p className="text-sm text-[#286BCD]/50">
             Features shown are in active development. Final specifications, availability,
             and timelines may vary. Sovereign members will receive priority updates as
             features progress toward deployment.

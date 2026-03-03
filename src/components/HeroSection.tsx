@@ -282,7 +282,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ variant = 'default', children
           className="relative"
         >
           {/* The Pulse/Glow behind the logo */}
-          <div className={`absolute inset-0 blur-[60px] rounded-full animate-pulse ${isSanctuary ? 'bg-sky-200 opacity-40' : 'bg-[#C5A059] opacity-10'}`}></div>
+          <div className={`absolute inset-0 blur-[60px] rounded-full animate-pulse ${isSanctuary ? 'bg-sky-200 opacity-40' : 'bg-[#C49F58] opacity-10'}`}></div>
 
           {/* This uses your custom HeroImage component to render the Logo */}
           <HeroImage className={`w-32 h-32 md:w-56 md:h-56 drop-shadow-2xl transition-all duration-1000 ${isSanctuary ? 'brightness-105 contrast-100' : ''}`} />
@@ -296,10 +296,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ variant = 'default', children
           className="text-center space-y-8 w-full"
         >
           <div>
-            <h1 className={`${isSanctuary ? 'text-slate-800' : 'text-[#F5F1E8]'} text-sm md:text-lg font-serif tracking-[0.25em] uppercase mb-4 opacity-90 transition-colors duration-1000`}>
+            <h1 className={`${isSanctuary ? 'text-slate-800' : 'text-[#FAF4ED]'} text-sm md:text-lg font-serif tracking-[0.25em] uppercase mb-4 opacity-90 transition-colors duration-1000`}>
               The Infrastructure of Dignity
             </h1>
-            <div className={`w-8 h-0.5 mx-auto opacity-60 mb-8 transition-colors duration-1000 ${isSanctuary ? 'bg-[#3B5998]' : 'bg-[#C5A059]'}`}></div>
+            <div className={`w-8 h-0.5 mx-auto opacity-60 mb-8 transition-colors duration-1000 ${isSanctuary ? 'bg-[#286BCD]' : 'bg-[#C49F58]'}`}></div>
           </div>
 
           {/* DYNAMIC CONTENT */}
@@ -338,7 +338,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ variant = 'default', children
                     >
                       <Button
                         onClick={() => navigate('/login?mode=signup')}
-                        className="w-full h-full bg-transparent border border-[#C5A059]/50 text-[#C5A059] hover:bg-[#C5A059] hover:text-[#0F172A] text-xs font-bold uppercase tracking-[0.15em] rounded-sm transition-colors duration-300 flex items-center justify-center gap-2"
+                        className="w-full h-full bg-transparent border border-[#C49F58]/50 text-[#C49F58] hover:bg-[#C49F58] hover:text-[#0F172A] text-xs font-bold uppercase tracking-[0.15em] rounded-sm transition-colors duration-300 flex items-center justify-center gap-2"
                       >
                         <span className="truncate">{currentLine.text}</span>
                         <ArrowRight className="w-4 h-4 flex-shrink-0" />
@@ -364,7 +364,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ variant = 'default', children
                 <Button
                   variant="link"
                   onClick={() => navigate('/login')}
-                  className="w-full text-[#94A3B8]/30 hover:text-[#C5A059] text-[10px] uppercase tracking-widest h-auto py-2 p-0"
+                  className="w-full text-[#94A3B8]/30 hover:text-[#C49F58] text-[10px] uppercase tracking-widest h-auto py-2 p-0"
                 >
                   <Lock className="w-3 h-3 mr-2" /> {t('hero.memberAccess')}
                 </Button>

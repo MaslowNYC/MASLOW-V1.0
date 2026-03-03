@@ -172,10 +172,10 @@ const ResetPasswordPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#1a1a1a] via-[#2C5F8D] to-[#1a1a1a] flex items-center justify-center p-4">
-        <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C5A059]/30">
+        <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C49F58]/30">
           <CardHeader className="space-y-1 pb-4">
             <div className="flex flex-col items-center">
-              <Loader2 className="w-8 h-8 text-[#C5A059] animate-spin mb-4" />
+              <Loader2 className="w-8 h-8 text-[#C49F58] animate-spin mb-4" />
               <CardTitle className="text-xl font-bold text-center text-white">
                 Verifying reset link...
               </CardTitle>
@@ -190,7 +190,7 @@ const ResetPasswordPage = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#1a1a1a] via-[#2C5F8D] to-[#1a1a1a] flex items-center justify-center p-4">
-        <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C5A059]/30">
+        <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C49F58]/30">
           <CardHeader className="space-y-1 pb-4">
             <CardTitle className="text-2xl font-bold text-center text-red-400">
               {t('login.resetFailed')}
@@ -202,7 +202,7 @@ const ResetPasswordPage = () => {
           <CardContent className="space-y-3">
             <Button
               onClick={() => navigate('/login')}
-              className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold"
+              className="w-full bg-[#C49F58] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold"
             >
               {t('login.backToLogin')}
             </Button>
@@ -219,12 +219,12 @@ const ResetPasswordPage = () => {
   if (success) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#1a1a1a] via-[#2C5F8D] to-[#1a1a1a] flex items-center justify-center p-4">
-        <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C5A059]/30">
+        <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C49F58]/30">
           <CardHeader className="space-y-1 pb-4">
             <div className="w-16 h-16 mx-auto bg-green-500/20 rounded-full flex items-center justify-center mb-4">
               <CheckCircle className="w-8 h-8 text-green-500" />
             </div>
-            <CardTitle className="text-2xl font-bold text-center text-[#C5A059]">
+            <CardTitle className="text-2xl font-bold text-center text-[#C49F58]">
               {t('login.passwordResetSuccess')}
             </CardTitle>
             <CardDescription className="text-center text-white/60">
@@ -248,10 +248,10 @@ const ResetPasswordPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#1a1a1a] via-[#2C5F8D] to-[#1a1a1a] flex items-center justify-center p-4">
-      <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C5A059]/30">
+      <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C49F58]/30">
         <CardHeader className="space-y-1 pb-4">
           <div className="flex flex-col items-center mb-4">
-            <h1 className="text-4xl font-bold text-[#C5A059] mb-2">Maslow</h1>
+            <h1 className="text-4xl font-bold text-[#C49F58] mb-2">Maslow</h1>
             <p className="text-white/60 text-sm">The Infrastructure of Dignity</p>
           </div>
           <CardTitle className="text-2xl font-bold text-center text-white">
@@ -272,7 +272,7 @@ const ResetPasswordPage = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
+                className="bg-white/5 border-white/10 focus:border-[#C49F58] text-white"
                 required
                 minLength={6}
               />
@@ -287,7 +287,7 @@ const ResetPasswordPage = () => {
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
+                className="bg-white/5 border-white/10 focus:border-[#C49F58] text-white"
                 required
                 minLength={6}
               />
@@ -295,7 +295,7 @@ const ResetPasswordPage = () => {
             <Button
               type="submit"
               disabled={submitting}
-              className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold mt-4"
+              className="w-full bg-[#C49F58] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold mt-4"
             >
               {submitting ? (
                 <Loader2 className="w-4 h-4 animate-spin" />

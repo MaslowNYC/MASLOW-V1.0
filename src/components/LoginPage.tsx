@@ -373,7 +373,7 @@ const LoginPage = () => {
   if (showForgotPassword) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#1a1a1a] via-[#2C5F8D] to-[#1a1a1a] flex items-center justify-center p-4">
-        <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C5A059]/30">
+        <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C49F58]/30">
           <CardHeader className="space-y-1 pb-4">
             <Button
               variant="ghost"
@@ -384,7 +384,7 @@ const LoginPage = () => {
               <ArrowLeft className="w-4 h-4 mr-2" />
               {t('login.backToLogin')}
             </Button>
-            <CardTitle className="text-2xl font-bold text-center text-[#C5A059]">
+            <CardTitle className="text-2xl font-bold text-center text-[#C49F58]">
               {t('login.forgotPassword')}
             </CardTitle>
             <CardDescription className="text-center text-white/60">
@@ -397,8 +397,8 @@ const LoginPage = () => {
           <CardContent>
             {resetEmailSent ? (
               <div className="text-center space-y-4">
-                <div className="w-16 h-16 mx-auto bg-[#C5A059]/20 rounded-full flex items-center justify-center">
-                  <svg className="w-8 h-8 text-[#C5A059]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-16 h-16 mx-auto bg-[#C49F58]/20 rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-[#C49F58]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
@@ -407,7 +407,7 @@ const LoginPage = () => {
                 </p>
                 <Button
                   onClick={handleBackToLogin}
-                  className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold"
+                  className="w-full bg-[#C49F58] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold"
                 >
                   {t('login.backToLogin')}
                 </Button>
@@ -422,14 +422,14 @@ const LoginPage = () => {
                     placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
+                    className="bg-white/5 border-white/10 focus:border-[#C49F58] text-white"
                     required
                   />
                 </div>
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold"
+                  className="w-full bg-[#C49F58] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold"
                 >
                   {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t('login.sendResetLink')}
                 </Button>
@@ -445,7 +445,7 @@ const LoginPage = () => {
   if (showVerification) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#1a1a1a] via-[#2C5F8D] to-[#1a1a1a] flex items-center justify-center p-4">
-        <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C5A059]/30">
+        <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C49F58]/30">
           <CardHeader className="space-y-1 pb-4">
             <Button
               variant="ghost"
@@ -456,7 +456,7 @@ const LoginPage = () => {
               <ArrowLeft className="w-4 h-4 mr-2" />
               {t('login.backToSignup')}
             </Button>
-            <CardTitle className="text-2xl font-bold text-center text-[#C5A059]">
+            <CardTitle className="text-2xl font-bold text-center text-[#C49F58]">
               {t('login.verifyPhone')}
             </CardTitle>
             <CardDescription className="text-center text-white/60">
@@ -474,14 +474,14 @@ const LoginPage = () => {
                   value={verificationCode}
                   onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                   maxLength={6}
-                  className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white text-center text-2xl tracking-widest"
+                  className="bg-white/5 border-white/10 focus:border-[#C49F58] text-white text-center text-2xl tracking-widest"
                   required
                 />
               </div>
               <Button
                 type="submit"
                 disabled={loading || verificationCode.length !== 6}
-                className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold"
+                className="w-full bg-[#C49F58] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold"
               >
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t('login.verifyCode')}
               </Button>
@@ -510,11 +510,11 @@ const LoginPage = () => {
         selectedLanguage={language}
       />
 
-      <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C5A059]/30">
+      <Card className="w-full max-w-md bg-[#1a1a1a]/90 backdrop-blur border-[#C49F58]/30">
         <Tabs defaultValue={defaultTab} className="w-full">
           <CardHeader className="space-y-1 pb-4">
             <div className="flex flex-col items-center mb-4">
-              <h1 className="text-4xl font-bold text-[#C5A059] mb-2">Maslow</h1>
+              <h1 className="text-4xl font-bold text-[#C49F58] mb-2">Maslow</h1>
               <p className="text-white/60 text-sm">The Infrastructure of Dignity</p>
             </div>
             <TabsList className="grid w-full grid-cols-2 bg-white/5">
@@ -539,7 +539,7 @@ const LoginPage = () => {
                     placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
+                    className="bg-white/5 border-white/10 focus:border-[#C49F58] text-white"
                     required
                   />
                 </div>
@@ -550,7 +550,7 @@ const LoginPage = () => {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
+                    className="bg-white/5 border-white/10 focus:border-[#C49F58] text-white"
                     required
                   />
                 </div>
@@ -558,7 +558,7 @@ const LoginPage = () => {
                   <button
                     type="button"
                     onClick={() => setShowForgotPassword(true)}
-                    className="text-sm text-[#C5A059]/70 hover:text-[#C5A059] transition-colors"
+                    className="text-sm text-[#C49F58]/70 hover:text-[#C49F58] transition-colors"
                   >
                     {t('login.forgotPassword')}?
                   </button>
@@ -566,7 +566,7 @@ const LoginPage = () => {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold mt-2"
+                  className="w-full bg-[#C49F58] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold mt-2"
                 >
                   {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t('login.signIn')}
                 </Button>
@@ -585,7 +585,7 @@ const LoginPage = () => {
                       placeholder={t('login.firstName')}
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
-                      className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
+                      className="bg-white/5 border-white/10 focus:border-[#C49F58] text-white"
                       required
                     />
                   </div>
@@ -597,7 +597,7 @@ const LoginPage = () => {
                       placeholder={t('login.lastName')}
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
-                      className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
+                      className="bg-white/5 border-white/10 focus:border-[#C49F58] text-white"
                       required
                     />
                   </div>
@@ -610,7 +610,7 @@ const LoginPage = () => {
                     placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
+                    className="bg-white/5 border-white/10 focus:border-[#C49F58] text-white"
                     required
                   />
                 </div>
@@ -622,7 +622,7 @@ const LoginPage = () => {
                     placeholder="(555) 123-4567"
                     value={phone}
                     onChange={handlePhoneChange}
-                    className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
+                    className="bg-white/5 border-white/10 focus:border-[#C49F58] text-white"
                     required
                   />
                   <p className="text-xs text-white/40">{t('login.phoneTip')}</p>
@@ -634,7 +634,7 @@ const LoginPage = () => {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="bg-white/5 border-white/10 focus:border-[#C5A059] text-white"
+                    className="bg-white/5 border-white/10 focus:border-[#C49F58] text-white"
                     required
                   />
                   <p className="text-xs text-white/40">{t('login.passwordTip')}</p>
@@ -642,7 +642,7 @@ const LoginPage = () => {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold mt-4"
+                  className="w-full bg-[#C49F58] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold mt-4"
                 >
                   {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : t('login.createAccount')}
                 </Button>

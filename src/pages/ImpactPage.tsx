@@ -14,7 +14,7 @@ const ImpactPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8]">
+    <div className="min-h-screen bg-[#FAF4ED]">
       <Helmet>
         <title>Impact | Maslow NYC</title>
         <meta name="description" content="The Infrastructure of Dignity - Private Maslow suites across NYC." />
@@ -28,7 +28,7 @@ const ImpactPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-5xl md:text-7xl font-serif font-bold text-[#3B5998] mb-6">
+            <h1 className="text-5xl md:text-7xl font-serif font-bold text-[#286BCD] mb-6">
               The Infrastructure of Dignity
             </h1>
             <p className="text-xl md:text-2xl text-[#1a1a1a]/80 font-light max-w-3xl mx-auto mb-8">
@@ -50,12 +50,12 @@ const ImpactPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C5A059] mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C49F58] mb-4">
               The Model
             </h2>
-            <div className="w-16 h-0.5 bg-[#C5A059] mb-8"></div>
+            <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
 
-            <h3 className="text-3xl md:text-4xl font-serif text-[#3B5998] mb-6">
+            <h3 className="text-3xl md:text-4xl font-serif text-[#286BCD] mb-6">
               How Maslow Works
             </h3>
 
@@ -69,11 +69,11 @@ const ImpactPage: React.FC = () => {
             </div>
 
             <div className="mt-12">
-              <h4 className="text-xl font-bold text-[#3B5998] mb-6">The Path Forward</h4>
+              <h4 className="text-xl font-bold text-[#286BCD] mb-6">The Path Forward</h4>
               <div className="space-y-6">
                 <div className="flex gap-4">
                   <div className="w-24 shrink-0">
-                    <span className="text-sm font-bold uppercase tracking-widest text-[#C5A059]">Today</span>
+                    <span className="text-sm font-bold uppercase tracking-widest text-[#C49F58]">Today</span>
                   </div>
                   <p className="text-[#1a1a1a]/70">
                     Launch our first location with Maslow suites available for $5 per session, while exploring partnerships with the city to accept OMNY passes for those in need
@@ -81,7 +81,7 @@ const ImpactPage: React.FC = () => {
                 </div>
                 <div className="flex gap-4">
                   <div className="w-24 shrink-0">
-                    <span className="text-sm font-bold uppercase tracking-widest text-[#C5A059]">Tomorrow</span>
+                    <span className="text-sm font-bold uppercase tracking-widest text-[#C49F58]">Tomorrow</span>
                   </div>
                   <p className="text-[#1a1a1a]/70">
                     Prove the model works—sustainable, scalable, dignified!
@@ -89,7 +89,7 @@ const ImpactPage: React.FC = () => {
                 </div>
                 <div className="flex gap-4">
                   <div className="w-24 shrink-0">
-                    <span className="text-sm font-bold uppercase tracking-widest text-[#C5A059]">Future</span>
+                    <span className="text-sm font-bold uppercase tracking-widest text-[#C49F58]">Future</span>
                   </div>
                   <p className="text-[#1a1a1a]/70">
                     Once profitable, expand free and subsidized access through partnerships with the city and social services
@@ -98,7 +98,7 @@ const ImpactPage: React.FC = () => {
               </div>
             </div>
 
-            <p className="mt-10 text-lg text-[#1a1a1a]/70 leading-relaxed border-l-4 border-[#C5A059] pl-6 italic">
+            <p className="mt-10 text-lg text-[#1a1a1a]/70 leading-relaxed border-l-4 border-[#C49F58] pl-6 italic">
               We believe infrastructure this essential should be built to last. That means building a business model that works, not just a good idea that depends on someone else's generosity.
             </p>
           </motion.div>
@@ -114,12 +114,12 @@ const ImpactPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C5A059] mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C49F58] mb-4">
               Universal Design
             </h2>
-            <div className="w-16 h-0.5 bg-[#C5A059] mb-8"></div>
+            <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
 
-            <h3 className="text-3xl md:text-4xl font-serif text-[#3B5998] mb-6">
+            <h3 className="text-3xl md:text-4xl font-serif text-[#286BCD] mb-6">
               Built for Everyone
             </h3>
 
@@ -131,19 +131,19 @@ const ImpactPage: React.FC = () => {
               Maslow is being built with communities, not just for them. We've researched accessibility requirements, cultural practices, and dignity standards, but we know we don't have all the answers.
             </p>
 
-            <h4 className="text-xl font-bold text-[#3B5998] mb-6">What we've considered so far:</h4>
+            <h4 className="text-xl font-bold text-[#286BCD] mb-6">What we've considered so far:</h4>
 
             <ul className="space-y-4 mb-10">
               {accessibilityItems.map((item, i) => (
                 <li key={i} className="flex items-start gap-3 text-[#1a1a1a]/70">
-                  <div className="w-2 h-2 bg-[#C5A059] rounded-full mt-2 shrink-0"></div>
+                  <div className="w-2 h-2 bg-[#C49F58] rounded-full mt-2 shrink-0"></div>
                   <span>{item}</span>
                 </li>
               ))}
             </ul>
 
-            <div className="bg-[#3B5998]/5 rounded-xl p-8 border border-[#3B5998]/10">
-              <h4 className="text-xl font-bold text-[#3B5998] mb-4">But we're still learning.</h4>
+            <div className="bg-[#286BCD]/5 rounded-xl p-8 border border-[#286BCD]/10">
+              <h4 className="text-xl font-bold text-[#286BCD] mb-4">But we're still learning.</h4>
               <p className="text-[#1a1a1a]/70 leading-relaxed">
                 If you use Maslow and something doesn't work for you—whether it's a design choice, a missing amenity, or something we didn't think of—please tell us. This is infrastructure for 8 million people with 8 million different needs. We can't get it right without your input.
               </p>
@@ -161,12 +161,12 @@ const ImpactPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C5A059] mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C49F58] mb-4">
               The Vision
             </h2>
-            <div className="w-16 h-0.5 bg-[#C5A059] mb-8"></div>
+            <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
 
-            <h3 className="text-3xl md:text-4xl font-serif text-[#3B5998] mb-6">
+            <h3 className="text-3xl md:text-4xl font-serif text-[#286BCD] mb-6">
               Where We're Headed
             </h3>
 
@@ -186,11 +186,11 @@ const ImpactPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="mt-10 p-8 bg-[#F5F1E8] rounded-xl">
+            <div className="mt-10 p-8 bg-[#FAF4ED] rounded-xl">
               <p className="text-lg text-[#1a1a1a]/80 leading-relaxed mb-4">
-                <strong className="text-[#3B5998]">The long-term vision?</strong> Maslow becomes infrastructure—like libraries, like subway stations, like parks. Every neighborhood has access within a 10-minute walk. Half our access is paid (keeping us sustainable), half is free or subsidized (keeping our mission alive).
+                <strong className="text-[#286BCD]">The long-term vision?</strong> Maslow becomes infrastructure—like libraries, like subway stations, like parks. Every neighborhood has access within a 10-minute walk. Half our access is paid (keeping us sustainable), half is free or subsidized (keeping our mission alive).
               </p>
-              <p className="text-lg text-[#3B5998] font-medium">
+              <p className="text-lg text-[#286BCD] font-medium">
                 This isn't charity. It's not a temporary solution. It's permanent urban infrastructure built by people who believe cities should work for everyone.
               </p>
             </div>
@@ -199,7 +199,7 @@ const ImpactPage: React.FC = () => {
       </section>
 
       {/* Get Involved Section */}
-      <section className="py-20 px-6 bg-[#3B5998]">
+      <section className="py-20 px-6 bg-[#286BCD]">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -207,10 +207,10 @@ const ImpactPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C5A059] mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C49F58] mb-4">
               Get Involved
             </h2>
-            <div className="w-16 h-0.5 bg-[#C5A059] mb-8"></div>
+            <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
 
             <h3 className="text-3xl md:text-4xl font-serif text-white mb-12">
               Help Us Build This
@@ -218,19 +218,19 @@ const ImpactPage: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="space-y-4">
-                <h4 className="text-xl font-bold text-[#C5A059]">Give Feedback</h4>
+                <h4 className="text-xl font-bold text-[#C49F58]">Give Feedback</h4>
                 <p className="text-white/80 leading-relaxed">
                   Use Maslow and tell us what we got wrong. What's missing? What could be better? What did we overlook?
                 </p>
               </div>
               <div className="space-y-4">
-                <h4 className="text-xl font-bold text-[#C5A059]">Partner With Us</h4>
+                <h4 className="text-xl font-bold text-[#C49F58]">Partner With Us</h4>
                 <p className="text-white/80 leading-relaxed">
                   Are you a city official, nonprofit leader, or community organizer? Let's talk about how Maslow can serve your constituents.
                 </p>
               </div>
               <div className="space-y-4">
-                <h4 className="text-xl font-bold text-[#C5A059]">Spread the Word</h4>
+                <h4 className="text-xl font-bold text-[#C49F58]">Spread the Word</h4>
                 <p className="text-white/80 leading-relaxed">
                   Tell someone who needs this. Share it with a parent struggling to find a changing table. A delivery worker with nowhere to go. A tourist who's tired of buying coffee just to use a bathroom.
                 </p>
@@ -239,7 +239,7 @@ const ImpactPage: React.FC = () => {
 
             <div className="mt-12 text-center">
               <p className="text-white/60 text-sm uppercase tracking-widest mb-2">Contact</p>
-              <a href="mailto:hello@maslow.nyc" className="text-2xl text-[#C5A059] hover:text-white transition-colors">
+              <a href="mailto:hello@maslow.nyc" className="text-2xl text-[#C49F58] hover:text-white transition-colors">
                 hello@maslow.nyc
               </a>
             </div>

@@ -275,7 +275,7 @@ const CreditsPurchaseModal: React.FC<CreditsPurchaseModalProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px] bg-white text-gray-900 border-none shadow-2xl rounded-xl max-h-[90vh] overflow-y-auto p-0">
-        <div className="bg-[#C5A059] p-6 text-white text-center">
+        <div className="bg-[#C49F58] p-6 text-white text-center">
           <DialogHeader>
             <DialogTitle className="text-2xl font-serif text-white">Buy Credits</DialogTitle>
             <DialogDescription className="text-white/80 text-lg">
@@ -321,7 +321,7 @@ const CreditsPurchaseModal: React.FC<CreditsPurchaseModalProps> = ({
                 required
                 value={name}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
-                className="bg-gray-50 border-gray-200 focus:border-[#C5A059] focus:ring-[#C5A059]"
+                className="bg-gray-50 border-gray-200 focus:border-[#C49F58] focus:ring-[#C49F58]"
               />
             </div>
 
@@ -334,13 +334,13 @@ const CreditsPurchaseModal: React.FC<CreditsPurchaseModalProps> = ({
                 required
                 value={email}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-                className="bg-gray-50 border-gray-200 focus:border-[#C5A059] focus:ring-[#C5A059]"
+                className="bg-gray-50 border-gray-200 focus:border-[#C49F58] focus:ring-[#C49F58]"
               />
             </div>
 
             <div className="grid gap-2">
               <Label htmlFor="card-element" className="text-sm font-medium text-gray-700">Card Details</Label>
-              <div className="p-4 border rounded-md bg-gray-50 border-gray-200 focus-within:border-[#C5A059] focus-within:ring-1 focus-within:ring-[#C5A059]">
+              <div className="p-4 border rounded-md bg-gray-50 border-gray-200 focus-within:border-[#C49F58] focus-within:ring-1 focus-within:ring-[#C49F58]">
                 <CardElement id="card-element" options={cardStyle} />
               </div>
             </div>
@@ -356,7 +356,7 @@ const CreditsPurchaseModal: React.FC<CreditsPurchaseModalProps> = ({
           <div className="space-y-3 pt-2">
             <Button
               type="submit"
-              className="w-full bg-[#C5A059] hover:bg-[#b08d4b] text-white py-6 text-lg font-bold shadow-lg transition-all"
+              className="w-full bg-[#C49F58] hover:bg-[#b08d4b] text-white py-6 text-lg font-bold shadow-lg transition-all"
               disabled={!stripe || loading}
             >
               {loading ? (

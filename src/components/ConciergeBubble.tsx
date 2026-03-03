@@ -126,7 +126,7 @@ export default function ConciergeBubble({ userId }: ConciergeBubbleProps) {
           <div className="absolute inset-0 rounded-full bg-[#286ABC] animate-pulse-glow" />
 
           {/* Main bubble */}
-          <div className="relative w-14 h-14 bg-[#286ABC] rounded-full flex items-center justify-center shadow-2xl border-2 border-[#286ABC]/30 group-hover:border-[#C5A059]/50 transition-all">
+          <div className="relative w-14 h-14 bg-[#286ABC] rounded-full flex items-center justify-center shadow-2xl border-2 border-[#286ABC]/30 group-hover:border-[#C49F58]/50 transition-all">
             {/* Maslow M Logo */}
             <div className="w-10 h-10 bg-[#FAF4ED] rounded-full flex items-center justify-center">
               <span className="text-[#286ABC] font-bold text-xl">M</span>

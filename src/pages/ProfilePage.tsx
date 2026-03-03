@@ -254,7 +254,7 @@ const ProfilePage: React.FC = () => {
       toast({
         title: "Photo Updated",
         description: "Your profile picture has been saved.",
-        className: "bg-[#3B5998] text-white"
+        className: "bg-[#286BCD] text-white"
       });
 
     } catch (error) {
@@ -297,7 +297,7 @@ const ProfilePage: React.FC = () => {
       toast({
         title: "Preferences Saved",
         description: "Your digital concierge is updated.",
-        className: "bg-[#3B5998] text-white border-[#C5A059]"
+        className: "bg-[#286BCD] text-white border-[#C49F58]"
       });
     } catch (error) {
       console.error(error);
@@ -317,33 +317,33 @@ const ProfilePage: React.FC = () => {
     });
   };
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center bg-[#F5F1E8]"><Loader2 className="animate-spin w-8 h-8 text-[#3B5998]" /></div>;
+  if (loading) return <div className="min-h-screen flex items-center justify-center bg-[#FAF4ED]"><Loader2 className="animate-spin w-8 h-8 text-[#286BCD]" /></div>;
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] pb-16 pt-4 px-3 md:pb-24 md:pt-8 md:px-4">
+    <div className="min-h-screen bg-[#FAF4ED] pb-16 pt-4 px-3 md:pb-24 md:pt-8 md:px-4">
       <div className="max-w-4xl mx-auto space-y-4 md:space-y-8">
 
         {/* Header */}
         <div className="flex flex-col md:flex-row items-center gap-4 mb-4 md:gap-6 md:mb-8">
           <div className="relative group">
             <div
-              className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-[#C5A059] shadow-lg bg-white cursor-pointer hover:border-[#b08d4b] transition-all"
+              className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-[#C49F58] shadow-lg bg-white cursor-pointer hover:border-[#b08d4b] transition-all"
               onClick={() => avatarUrl && setIsZoomed(true)}
             >
               {avatarUrl ? (
                 <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-[#3B5998] text-white">
+                <div className="w-full h-full flex items-center justify-center bg-[#286BCD] text-white">
                   <User className="w-12 h-12 md:w-16 md:h-16" />
                 </div>
               )}
             </div>
             {avatarUrl && (
-              <div className="absolute top-0 left-0 bg-[#3B5998]/80 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer" onClick={() => setIsZoomed(true)}>
+              <div className="absolute top-0 left-0 bg-[#286BCD]/80 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer" onClick={() => setIsZoomed(true)}>
                 <ZoomIn className="w-4 h-4" />
               </div>
             )}
-            <label className="absolute bottom-0 right-0 bg-[#C5A059] text-white p-2 rounded-full cursor-pointer hover:bg-[#b08d4b] transition-colors shadow-md" htmlFor="avatar-upload">
+            <label className="absolute bottom-0 right-0 bg-[#C49F58] text-white p-2 rounded-full cursor-pointer hover:bg-[#b08d4b] transition-colors shadow-md" htmlFor="avatar-upload">
               <Upload className="w-4 h-4" />
             </label>
             <input
@@ -356,13 +356,13 @@ const ProfilePage: React.FC = () => {
             />
           </div>
           <div className="text-center md:text-left">
-            <h1 className="text-2xl md:text-4xl font-serif font-bold text-[#3B5998]">Welcome Home, {profile.first_name || 'Member'}.</h1>
-            <p className="text-[#3B5998]/60 mt-1 md:mt-2 font-light text-sm md:text-lg">Manage your digital concierge preferences.</p>
+            <h1 className="text-2xl md:text-4xl font-serif font-bold text-[#286BCD]">Welcome Home, {profile.first_name || 'Member'}.</h1>
+            <p className="text-[#286BCD]/60 mt-1 md:mt-2 font-light text-sm md:text-lg">Manage your digital concierge preferences.</p>
 
             {/* Member Badge */}
-            <div className="mt-3 md:mt-4 inline-flex items-center gap-2 md:gap-3 bg-gradient-to-r from-[#3B5998] to-[#2a4070] text-white px-4 py-2 md:px-6 md:py-3 rounded-full shadow-lg">
+            <div className="mt-3 md:mt-4 inline-flex items-center gap-2 md:gap-3 bg-gradient-to-r from-[#286BCD] to-[#2a4070] text-white px-4 py-2 md:px-6 md:py-3 rounded-full shadow-lg">
               <div className="flex items-center gap-1 md:gap-2">
-                <span className="text-[#C5A059] font-bold text-xs md:text-sm uppercase tracking-wider">Member</span>
+                <span className="text-[#C49F58] font-bold text-xs md:text-sm uppercase tracking-wider">Member</span>
                 <span className="text-white font-mono text-sm md:text-lg font-bold">
                 #{(profile?.member_number || 0).toLocaleString()}
                 </span>
@@ -376,7 +376,7 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {/* Credits Banner - Prominent Placement */}
-        <div className="bg-gradient-to-r from-[#C5A059] to-[#B39149] rounded-lg p-4 md:p-8 shadow-lg mb-4 md:mb-6 text-white">
+        <div className="bg-gradient-to-r from-[#C49F58] to-[#B39149] rounded-lg p-4 md:p-8 shadow-lg mb-4 md:mb-6 text-white">
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-xs md:text-sm opacity-90 uppercase tracking-wide mb-1 md:mb-2">
@@ -396,7 +396,7 @@ const ProfilePage: React.FC = () => {
             </div>
             <a
               href="/buy-credits"
-              className="bg-white text-[#C5A059] px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-opacity-90 transition-opacity whitespace-nowrap"
+              className="bg-white text-[#C49F58] px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-opacity-90 transition-opacity whitespace-nowrap"
             >
               + Buy More
             </a>
@@ -417,7 +417,7 @@ const ProfilePage: React.FC = () => {
                   <p className="text-sm text-white/70">Make sure your face is centered and visible</p>
                 </div>
                 <button
-                  className="text-white bg-[#3B5998] rounded-full p-2 hover:bg-[#2A406E] transition-colors"
+                  className="text-white bg-[#286BCD] rounded-full p-2 hover:bg-[#2A406E] transition-colors"
                   onClick={() => setIsZoomed(false)}
                 >
                   <X className="w-6 h-6" />
@@ -438,7 +438,7 @@ const ProfilePage: React.FC = () => {
               <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-4">
                 <label
                   htmlFor="avatar-upload-modal"
-                  className="cursor-pointer bg-[#C5A059] hover:bg-[#b08d4b] text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-colors"
+                  className="cursor-pointer bg-[#C49F58] hover:bg-[#b08d4b] text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-colors"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <RotateCw className="w-5 h-5" />
@@ -467,9 +467,9 @@ const ProfilePage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
 
           {/* 1. IDENTITY CARD */}
-          <Card className="border-[#3B5998]/10 bg-white shadow-sm">
+          <Card className="border-[#286BCD]/10 bg-white shadow-sm">
             <CardHeader>
-              <CardTitle className="text-[#3B5998] flex items-center gap-2">
+              <CardTitle className="text-[#286BCD] flex items-center gap-2">
                 <User className="w-5 h-5" /> Identity
               </CardTitle>
               <CardDescription>Tell us a bit about yourself.</CardDescription>
@@ -501,10 +501,10 @@ const ProfilePage: React.FC = () => {
           </Card>
 
           {/* 2. THE USUAL (Amenities) */}
-          <Card className="border-[#3B5998]/10 bg-white shadow-sm">
+          <Card className="border-[#286BCD]/10 bg-white shadow-sm">
             <CardHeader>
-              <CardTitle className="text-[#3B5998] flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-[#C5A059]" /> The Usual
+              <CardTitle className="text-[#286BCD] flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-[#C49F58]" /> The Usual
               </CardTitle>
               <CardDescription>How should we prep the room for you?</CardDescription>
             </CardHeader>
@@ -515,19 +515,19 @@ const ProfilePage: React.FC = () => {
                     id={item.id}
                     checked={(profile.preferences_amenities || []).includes(item.id)}
                     onCheckedChange={() => togglePreference('preferences_amenities', item.id)}
-                    className="border-[#3B5998] data-[state=checked]:bg-[#3B5998]"
+                    className="border-[#286BCD] data-[state=checked]:bg-[#286BCD]"
                   />
-                  <Label htmlFor={item.id} className="cursor-pointer flex-grow text-[#3B5998] font-medium">{item.label}</Label>
+                  <Label htmlFor={item.id} className="cursor-pointer flex-grow text-[#286BCD] font-medium">{item.label}</Label>
                 </div>
               ))}
             </CardContent>
           </Card>
 
           {/* 3. KITS & USAGE */}
-          <Card className="border-[#3B5998]/10 bg-white shadow-sm">
+          <Card className="border-[#286BCD]/10 bg-white shadow-sm">
             <CardHeader>
-              <CardTitle className="text-[#3B5998] flex items-center gap-2">
-                <Coffee className="w-5 h-5 text-[#C5A059]" /> Usage Kits
+              <CardTitle className="text-[#286BCD] flex items-center gap-2">
+                <Coffee className="w-5 h-5 text-[#C49F58]" /> Usage Kits
               </CardTitle>
               <CardDescription>Select kits to have ready on arrival.</CardDescription>
             </CardHeader>
@@ -539,11 +539,11 @@ const ProfilePage: React.FC = () => {
                       id={item.id}
                       checked={(profile.preferences_usage || []).includes(item.id)}
                       onCheckedChange={() => togglePreference('preferences_usage', item.id)}
-                      className="border-[#C5A059] data-[state=checked]:bg-[#C5A059]"
+                      className="border-[#C49F58] data-[state=checked]:bg-[#C49F58]"
                     />
                     <Label
                       htmlFor={item.id}
-                      className="cursor-pointer flex-grow text-[#3B5998] font-medium flex items-center gap-2"
+                      className="cursor-pointer flex-grow text-[#286BCD] font-medium flex items-center gap-2"
                     >
                       <span className="text-xl">{item.icon}</span> {item.label}
                     </Label>
@@ -552,13 +552,13 @@ const ProfilePage: React.FC = () => {
                       variant="ghost"
                       size="sm"
                       onClick={() => setExpandedKit(expandedKit === item.id ? null : item.id)}
-                      className="text-[#3B5998]/60 hover:text-[#3B5998]"
+                      className="text-[#286BCD]/60 hover:text-[#286BCD]"
                     >
                       {expandedKit === item.id ? '−' : '+'}
                     </Button>
                   </div>
                   {expandedKit === item.id && item.description && (
-                    <div className="mt-2 ml-9 text-sm text-[#3B5998]/70 bg-[#F5F1E8] p-3 rounded">
+                    <div className="mt-2 ml-9 text-sm text-[#286BCD]/70 bg-[#FAF4ED] p-3 rounded">
                       {item.description}
                     </div>
                   )}
@@ -568,10 +568,10 @@ const ProfilePage: React.FC = () => {
           </Card>
 
           {/* 4. PRODUCTS */}
-          <Card className="border-[#3B5998]/10 bg-white shadow-sm">
+          <Card className="border-[#286BCD]/10 bg-white shadow-sm">
             <CardHeader>
-              <CardTitle className="text-[#3B5998] flex items-center gap-2">
-                <Wind className="w-5 h-5 text-[#C5A059]" /> Ethical Toiletries
+              <CardTitle className="text-[#286BCD] flex items-center gap-2">
+                <Wind className="w-5 h-5 text-[#C49F58]" /> Ethical Toiletries
               </CardTitle>
               <CardDescription>Select products to stock in your suite.</CardDescription>
             </CardHeader>
@@ -582,9 +582,9 @@ const ProfilePage: React.FC = () => {
                     id={item.id}
                     checked={(profile.preferences_products || []).includes(item.id)}
                     onCheckedChange={() => togglePreference('preferences_products', item.id)}
-                    className="border-[#3B5998] data-[state=checked]:bg-[#3B5998]"
+                    className="border-[#286BCD] data-[state=checked]:bg-[#286BCD]"
                   />
-                  <Label htmlFor={item.id} className="cursor-pointer flex-grow text-[#3B5998] font-medium">{item.label}</Label>
+                  <Label htmlFor={item.id} className="cursor-pointer flex-grow text-[#286BCD] font-medium">{item.label}</Label>
                 </div>
               ))}
             </CardContent>
@@ -597,7 +597,7 @@ const ProfilePage: React.FC = () => {
           <Button
             onClick={handleSave}
             disabled={saving}
-            className="bg-[#C5A059] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold py-4 px-8 md:py-6 md:px-12 rounded-full shadow-2xl text-base md:text-lg transition-all transform hover:scale-105"
+            className="bg-[#C49F58] hover:bg-[#b08d4b] text-[#1a1a1a] font-bold py-4 px-8 md:py-6 md:px-12 rounded-full shadow-2xl text-base md:text-lg transition-all transform hover:scale-105"
           >
             {saving ? <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin mr-2" /> : <Save className="w-4 h-4 md:w-5 md:h-5 mr-2" />}
             Save Profile
@@ -609,7 +609,7 @@ const ProfilePage: React.FC = () => {
           <Button
             variant="ghost"
             onClick={() => navigate('/profile/settings')}
-            className="text-[#3B5998]/60 hover:text-[#3B5998]"
+            className="text-[#286BCD]/60 hover:text-[#286BCD]"
           >
             <Settings className="w-4 h-4 mr-2" />
             Settings

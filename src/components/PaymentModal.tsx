@@ -258,14 +258,14 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, tierName, 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px] bg-white text-gray-900 border-none shadow-2xl rounded-xl max-h-[90vh] overflow-y-auto p-0">
-        <div className="bg-[#3B5998] p-6 text-white text-center">
+        <div className="bg-[#286BCD] p-6 text-white text-center">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-serif text-[#F5F1E8]">Secure Checkout</DialogTitle>
-            <DialogDescription className="text-[#F5F1E8]/80 text-lg">
+            <DialogTitle className="text-2xl font-serif text-[#FAF4ED]">Secure Checkout</DialogTitle>
+            <DialogDescription className="text-[#FAF4ED]/80 text-lg">
               {tierName} Sponsorship
             </DialogDescription>
           </DialogHeader>
-          <div className="mt-4 text-3xl font-bold text-[#C5A059]">
+          <div className="mt-4 text-3xl font-bold text-[#C49F58]">
             ${price.toLocaleString()}
           </div>
         </div>
@@ -299,7 +299,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, tierName, 
                 required
                 value={name}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
-                className="bg-gray-50 border-gray-200 focus:border-[#3B5998] focus:ring-[#3B5998]"
+                className="bg-gray-50 border-gray-200 focus:border-[#286BCD] focus:ring-[#286BCD]"
               />
             </div>
 
@@ -312,7 +312,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, tierName, 
                 required
                 value={email}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-                className="bg-gray-50 border-gray-200 focus:border-[#3B5998] focus:ring-[#3B5998]"
+                className="bg-gray-50 border-gray-200 focus:border-[#286BCD] focus:ring-[#286BCD]"
               />
             </div>
 
@@ -324,13 +324,13 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, tierName, 
                 placeholder="New York, NY"
                 value={location}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setLocation(e.target.value)}
-                className="bg-gray-50 border-gray-200 focus:border-[#3B5998] focus:ring-[#3B5998]"
+                className="bg-gray-50 border-gray-200 focus:border-[#286BCD] focus:ring-[#286BCD]"
               />
             </div>
 
             <div className="grid gap-2">
               <Label htmlFor="card-element" className="text-sm font-medium text-gray-700">Card Details</Label>
-              <div className="p-4 border rounded-md bg-gray-50 border-gray-200 focus-within:border-[#3B5998] focus-within:ring-1 focus-within:ring-[#3B5998]">
+              <div className="p-4 border rounded-md bg-gray-50 border-gray-200 focus-within:border-[#286BCD] focus-within:ring-1 focus-within:ring-[#286BCD]">
                 <CardElement id="card-element" options={cardStyle} />
               </div>
             </div>
@@ -346,7 +346,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, tierName, 
           <div className="space-y-3 pt-2">
             <Button
               type="submit"
-              className="w-full bg-[#3B5998] hover:bg-[#2d4474] text-white py-6 text-lg font-bold shadow-lg transition-all"
+              className="w-full bg-[#286BCD] hover:bg-[#2d4474] text-white py-6 text-lg font-bold shadow-lg transition-all"
               disabled={!stripe || loading}
             >
               {loading ? (

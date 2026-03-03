@@ -84,8 +84,8 @@ const TouchButton = ({
     onClick={onClick}
     className={`min-h-[50px] px-4 py-3 rounded-xl text-base font-medium transition-all ${
       selected
-        ? 'bg-[#3B5998] text-white shadow-lg'
-        : 'bg-white text-[#3B5998] border-2 border-[#3B5998]/20 hover:border-[#3B5998]/50'
+        ? 'bg-[#286BCD] text-white shadow-lg'
+        : 'bg-white text-[#286BCD] border-2 border-[#286BCD]/20 hover:border-[#286BCD]/50'
     } ${className}`}
   >
     {children}
@@ -103,7 +103,7 @@ const ScaleSelector = ({
   labels: { low: string; high: string };
 }) => (
   <div className="space-y-2">
-    <div className="flex justify-between text-sm text-[#3B5998]/60">
+    <div className="flex justify-between text-sm text-[#286BCD]/60">
       <span>{labels.low}</span>
       <span>{labels.high}</span>
     </div>
@@ -115,8 +115,8 @@ const ScaleSelector = ({
           onClick={() => onChange(num)}
           className={`flex-1 min-h-[50px] rounded-xl text-xl font-bold transition-all ${
             value === num
-              ? 'bg-[#3B5998] text-white shadow-lg'
-              : 'bg-white text-[#3B5998] border-2 border-[#3B5998]/20'
+              ? 'bg-[#286BCD] text-white shadow-lg'
+              : 'bg-white text-[#286BCD] border-2 border-[#286BCD]/20'
           }`}
         >
           {num}
@@ -167,8 +167,8 @@ const Section = ({
   children: React.ReactNode;
 }) => (
   <Card className="shadow-md">
-    <CardHeader className="bg-[#3B5998]/5 border-b py-3">
-      <CardTitle className="flex items-center gap-2 text-[#3B5998] text-lg">
+    <CardHeader className="bg-[#286BCD]/5 border-b py-3">
+      <CardTitle className="flex items-center gap-2 text-[#286BCD] text-lg">
         <Icon className="w-5 h-5" />
         {title}
       </CardTitle>
@@ -292,9 +292,9 @@ const FieldResearchPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8] pb-32">
+    <div className="min-h-screen bg-[#FAF4ED] pb-32">
       {/* Header */}
-      <div className="bg-[#3B5998] py-4 px-4 sticky top-0 z-10">
+      <div className="bg-[#286BCD] py-4 px-4 sticky top-0 z-10">
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <h1 className="text-xl font-bold text-white">Field Research</h1>
@@ -440,7 +440,7 @@ const FieldResearchPage = () => {
 
         {/* Solution Interest */}
         <Section title="Solution Interest" icon={Lightbulb}>
-          <div className="bg-[#3B5998]/10 p-4 rounded-xl text-sm text-[#3B5998] leading-relaxed">
+          <div className="bg-[#286BCD]/10 p-4 rounded-xl text-sm text-[#286BCD] leading-relaxed">
             "Maslow is a network of private, premium personal care suites in NYC. Clean,
             climate-controlled spaces with premium amenities."
           </div>
@@ -583,7 +583,7 @@ const FieldResearchPage = () => {
           <Button
             onClick={handleSubmit}
             disabled={submitting}
-            className="flex-1 h-14 text-lg bg-[#C5A059] hover:bg-[#b08d4b] text-white"
+            className="flex-1 h-14 text-lg bg-[#C49F58] hover:bg-[#b08d4b] text-white"
           >
             {submitting ? (
               <Loader2 className="w-5 h-5 animate-spin" />

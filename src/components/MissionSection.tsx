@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const MissionSection: React.FC = () => {
   return (
-    <section className="py-24 px-6 md:px-12 bg-[#F5F1E8] text-[#1a1a1a]">
+    <section className="py-24 px-6 md:px-12 bg-[#FAF4ED] text-[#1a1a1a]">
       <div className="max-w-4xl mx-auto space-y-16">
 
         {/* Intro */}
@@ -12,7 +12,7 @@ const MissionSection: React.FC = () => {
              initial={{ opacity: 0 }}
              whileInView={{ opacity: 1 }}
              viewport={{ once: true }}
-             className="w-12 h-0.5 bg-[#C5A059] mx-auto"
+             className="w-12 h-0.5 bg-[#C49F58] mx-auto"
           ></motion.div>
           <h2 className="text-3xl md:text-4xl font-serif leading-tight">
             Public sanitation is not a luxury.<br/>
@@ -23,7 +23,7 @@ const MissionSection: React.FC = () => {
         {/* The Problem / Solution Grid */}
         <div className="grid md:grid-cols-2 gap-12 mt-12">
           <div className="space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[#C5A059]">The Crisis</h3>
+            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[#C49F58]">The Crisis</h3>
             <p className="font-serif text-2xl leading-snug">
               New York City has 1 public restroom for every 7,000 residents.
             </p>
@@ -34,7 +34,7 @@ const MissionSection: React.FC = () => {
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[#3B5998]">The Blueprint</h3> {/* <--- CHANGED FROM MANIFESTO */}
+            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[#286BCD]">The Blueprint</h3> {/* <--- CHANGED FROM MANIFESTO */}
             <p className="font-serif text-2xl leading-snug">
               A private network for the public good.
             </p>

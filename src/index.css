@@ -6,23 +6,23 @@
 @layer base {
   :root {
     --background: 0 0% 100%; /* Default to white for the Cloud theme */
-    --foreground: 221 44% 41%; /* #3B5998 */
+    --foreground: 216 67% 48%; /* #286BCD */
     --card: 0 0% 100%;
-    --card-foreground: 221 44% 41%;
+    --card-foreground: 216 67% 48%;
     --popover: 0 0% 100%;
-    --popover-foreground: 221 44% 41%;
-    --primary: 221 44% 41%;
+    --popover-foreground: 216 67% 48%;
+    --primary: 216 67% 48%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 40 33% 94%; /* #F5F1E8 Cream */
-    --secondary-foreground: 221 44% 41%;
+    --secondary: 32 52% 95%; /* #FAF4ED Cream */
+    --secondary-foreground: 216 67% 48%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 39 49% 56%; /* #C5A059 Gold */
-    --accent-foreground: 221 44% 41%;
+    --accent: 39 51% 56%; /* #C49F58 Gold */
+    --accent-foreground: 216 67% 48%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 221 44% 41%;
-    --input: 221 44% 41%;
+    --border: 216 67% 48%;
+    --input: 216 67% 48%;
     --ring: 39 49% 56%;
     --radius: 0.75rem;
   }
@@ -43,6 +43,8 @@
   body {
     @apply antialiased overflow-x-hidden w-full relative text-foreground;
     font-family: 'Lato', sans-serif;
+    /* Subtle text shadow for improved readability */
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.3);
     /* Prevent mobile side-scrolling */
     overflow-x: hidden;
     width: 100%;
@@ -105,10 +107,10 @@
   color: rgba(255, 255, 255, 0.9) !important;
 }
 
-.high-contrast .text-\[\#3B5998\]\/80,
-.high-contrast .text-\[\#3B5998\]\/60,
-.high-contrast .text-\[\#3B5998\]\/50,
-.high-contrast .text-\[\#3B5998\]\/40 {
+.high-contrast .text-\[\#286BCD\]\/80,
+.high-contrast .text-\[\#286BCD\]\/60,
+.high-contrast .text-\[\#286BCD\]\/50,
+.high-contrast .text-\[\#286BCD\]\/40 {
   color: #1a1a1a !important;
 }
 

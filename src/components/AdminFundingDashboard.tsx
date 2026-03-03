@@ -315,25 +315,25 @@ const AdminFundingDashboard: React.FC = () => {
         <style>
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body { font-family: 'Georgia', serif; color: #1a1a1a; padding: 40px; max-width: 800px; margin: 0 auto; }
-          .header { border-bottom: 3px solid #C5A059; padding-bottom: 20px; margin-bottom: 30px; }
-          .logo { font-size: 32px; font-weight: bold; color: #3B5998; }
+          .header { border-bottom: 3px solid #C49F58; padding-bottom: 20px; margin-bottom: 30px; }
+          .logo { font-size: 32px; font-weight: bold; color: #286BCD; }
           .subtitle { color: #666; font-size: 14px; margin-top: 5px; }
           .date { color: #888; font-size: 12px; margin-top: 10px; }
-          h2 { color: #3B5998; font-size: 18px; margin: 25px 0 15px; border-bottom: 1px solid #ddd; padding-bottom: 8px; }
+          h2 { color: #286BCD; font-size: 18px; margin: 25px 0 15px; border-bottom: 1px solid #ddd; padding-bottom: 8px; }
           .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
           .kpi { background: #f8f8f8; padding: 15px; border-radius: 8px; text-align: center; }
           .kpi-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
-          .kpi-value { font-size: 24px; font-weight: bold; color: #3B5998; margin-top: 5px; }
+          .kpi-value { font-size: 24px; font-weight: bold; color: #286BCD; margin-top: 5px; }
           .kpi-value.success { color: #16a34a; }
           .kpi-value.warning { color: #dc2626; }
           .progress-bar { background: #e5e5e5; border-radius: 10px; height: 20px; margin: 15px 0; overflow: hidden; }
-          .progress-fill { background: linear-gradient(90deg, #3B5998, #C5A059); height: 100%; border-radius: 10px; }
+          .progress-fill { background: linear-gradient(90deg, #286BCD, #C49F58); height: 100%; border-radius: 10px; }
           .table { width: 100%; border-collapse: collapse; margin-top: 10px; }
           .table th, .table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #eee; }
-          .table th { background: #3B5998; color: white; font-size: 11px; text-transform: uppercase; }
+          .table th { background: #286BCD; color: white; font-size: 11px; text-transform: uppercase; }
           .table td { font-size: 13px; }
           .table .right { text-align: right; }
-          .total-row { background: #3B5998 !important; color: white !important; font-weight: bold; }
+          .total-row { background: #286BCD !important; color: white !important; font-weight: bold; }
           .total-row td { color: white !important; }
           .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 11px; color: #888; text-align: center; }
           @media print { body { padding: 20px; } }
@@ -365,7 +365,7 @@ const AdminFundingDashboard: React.FC = () => {
         <div style="margin-bottom: 25px;">
           <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
             <span style="font-size: 12px; color: #666;">Funding Progress</span>
-            <span style="font-size: 12px; font-weight: bold; color: #3B5998;">${percentRaised.toFixed(2)}%</span>
+            <span style="font-size: 12px; font-weight: bold; color: #286BCD;">${percentRaised.toFixed(2)}%</span>
           </div>
           <div class="progress-bar">
             <div class="progress-fill" style="width: ${percentRaised}%;"></div>
@@ -527,9 +527,9 @@ const AdminFundingDashboard: React.FC = () => {
 
   if (verifying || loadingData) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#F5F1E8]">
-        <Lock className="w-12 h-12 text-[#C5A059] mb-4 animate-pulse" />
-        <div className="text-[#3B5998] font-serif text-xl tracking-widest">VERIFYING SECURITY CLEARANCE...</div>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-[#FAF4ED]">
+        <Lock className="w-12 h-12 text-[#C49F58] mb-4 animate-pulse" />
+        <div className="text-[#286BCD] font-serif text-xl tracking-widest">VERIFYING SECURITY CLEARANCE...</div>
       </div>
     );
   }
@@ -544,19 +544,19 @@ const AdminFundingDashboard: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-6 bg-[#F5F1E8] min-h-screen">
+    <div className="max-w-7xl mx-auto p-4 md:p-6 bg-[#FAF4ED] min-h-screen">
 
       {/* TAB NAVIGATION */}
       <div className="mb-4">
-        <div className="flex gap-1 border-b-2 border-[#3B5998]/20">
+        <div className="flex gap-1 border-b-2 border-[#286BCD]/20">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-3 py-2 md:px-4 md:py-3 font-semibold text-xs md:text-sm uppercase tracking-wider transition-all duration-200 border-b-4 -mb-[2px] ${
                 activeTab === tab.id
-                  ? 'border-[#C5A059] text-[#3B5998] bg-white rounded-t-lg'
-                  : 'border-transparent text-[#3B5998]/60 hover:text-[#3B5998] hover:bg-white/50'
+                  ? 'border-[#C49F58] text-[#286BCD] bg-white rounded-t-lg'
+                  : 'border-transparent text-[#286BCD]/60 hover:text-[#286BCD] hover:bg-white/50'
               }`}
             >
               {tab.icon}
@@ -575,8 +575,8 @@ const AdminFundingDashboard: React.FC = () => {
         >
           {/* Header */}
           <div className="mb-4">
-            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Financial Tools</h1>
-            <p className="text-[#3B5998]/60 mt-1 text-sm">Revenue projections, pricing models, and payment testing.</p>
+            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#286BCD] uppercase tracking-widest">Financial Tools</h1>
+            <p className="text-[#286BCD]/60 mt-1 text-sm">Revenue projections, pricing models, and payment testing.</p>
           </div>
 
           {/* Revenue Simulator */}
@@ -595,8 +595,8 @@ const AdminFundingDashboard: React.FC = () => {
         >
           {/* Header */}
           <div className="mb-4">
-            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Session Pricing Calculator</h1>
-            <p className="text-[#3B5998]/60 mt-1 text-sm">Configure and simulate session pricing models.</p>
+            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#286BCD] uppercase tracking-widest">Session Pricing Calculator</h1>
+            <p className="text-[#286BCD]/60 mt-1 text-sm">Configure and simulate session pricing models.</p>
           </div>
 
           {/* Pricing Calculator */}
@@ -614,17 +614,17 @@ const AdminFundingDashboard: React.FC = () => {
           transition={{ duration: 0.2 }}
         >
           {/* Header */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4 border-b-4 border-[#C5A059] pb-3">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4 border-b-4 border-[#C49F58] pb-3">
             <div>
-              <h1 className="text-xl md:text-2xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Build-Out Planner</h1>
-              <p className="text-[#3B5998]/60 mt-1 text-xs">Capital requirements and funding tracker.</p>
+              <h1 className="text-xl md:text-2xl font-serif font-black text-[#286BCD] uppercase tracking-widest">Build-Out Planner</h1>
+              <p className="text-[#286BCD]/60 mt-1 text-xs">Capital requirements and funding tracker.</p>
             </div>
             <div className="flex gap-2">
               <Button
                 onClick={saveBuildOutData}
                 disabled={savingBuildOut}
                 size="sm"
-                className="bg-[#C5A059] hover:bg-[#b08d4b] text-white"
+                className="bg-[#C49F58] hover:bg-[#b08d4b] text-white"
               >
                 {savingBuildOut ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Save className="w-4 h-4 mr-1" />}
                 Save
@@ -633,7 +633,7 @@ const AdminFundingDashboard: React.FC = () => {
                 onClick={exportBuildOutPDF}
                 size="sm"
                 variant="outline"
-                className="border-[#3B5998] text-[#3B5998] hover:bg-[#3B5998] hover:text-white"
+                className="border-[#286BCD] text-[#286BCD] hover:bg-[#286BCD] hover:text-white"
               >
                 <FileDown className="w-4 h-4 mr-1" />
                 PDF
@@ -643,10 +643,10 @@ const AdminFundingDashboard: React.FC = () => {
 
           {/* KPI Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <Card className="bg-white border-t-4 border-t-[#3B5998]">
+            <Card className="bg-white border-t-4 border-t-[#286BCD]">
               <CardContent className="pt-4">
-                <div className="text-xs font-bold text-[#3B5998] uppercase tracking-wider mb-1">Total Capital Required</div>
-                <div className="text-3xl font-black text-[#3B5998]">${getTotalCapital().toLocaleString()}</div>
+                <div className="text-xs font-bold text-[#286BCD] uppercase tracking-wider mb-1">Total Capital Required</div>
+                <div className="text-3xl font-black text-[#286BCD]">${getTotalCapital().toLocaleString()}</div>
               </CardContent>
             </Card>
             <Card className="bg-white border-t-4 border-t-green-500">
@@ -672,17 +672,17 @@ const AdminFundingDashboard: React.FC = () => {
           </div>
 
           {/* Funding Progress Bar */}
-          <Card className="mb-6 bg-gradient-to-r from-[#3B5998]/5 to-[#C5A059]/5">
+          <Card className="mb-6 bg-gradient-to-r from-[#286BCD]/5 to-[#C49F58]/5">
             <CardContent className="pt-4">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-semibold text-[#3B5998]">Funding Progress</span>
-                <span className="text-sm font-bold text-[#C5A059]">
+                <span className="text-sm font-semibold text-[#286BCD]">Funding Progress</span>
+                <span className="text-sm font-bold text-[#C49F58]">
                   {((buildOutData.amountRaised / getTotalCapital()) * 100).toFixed(1)}%
                 </span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-[#3B5998] to-[#C5A059] transition-all duration-500"
+                  className="h-full rounded-full bg-gradient-to-r from-[#286BCD] to-[#C49F58] transition-all duration-500"
                   style={{ width: `${(buildOutData.amountRaised / getTotalCapital()) * 100}%` }}
                 />
               </div>
@@ -710,13 +710,13 @@ const AdminFundingDashboard: React.FC = () => {
                 >
                   <div className="flex items-center gap-2">
                     {expandedSections[key] ? (
-                      <ChevronDown className="w-4 h-4 text-[#3B5998]" />
+                      <ChevronDown className="w-4 h-4 text-[#286BCD]" />
                     ) : (
-                      <ChevronRight className="w-4 h-4 text-[#3B5998]" />
+                      <ChevronRight className="w-4 h-4 text-[#286BCD]" />
                     )}
-                    <span className="font-bold text-[#3B5998] text-sm">{data.name}</span>
+                    <span className="font-bold text-[#286BCD] text-sm">{data.name}</span>
                   </div>
-                  <span className="font-bold text-[#C5A059] text-sm">${getCategoryTotal(data).toLocaleString()}</span>
+                  <span className="font-bold text-[#C49F58] text-sm">${getCategoryTotal(data).toLocaleString()}</span>
                 </button>
                 {expandedSections[key] && (
                   <CardContent className="pt-0 pb-2 px-3">
@@ -755,7 +755,7 @@ const AdminFundingDashboard: React.FC = () => {
           </div>
 
           {/* Total Summary */}
-          <Card className="mt-6 bg-[#3B5998] text-white">
+          <Card className="mt-6 bg-[#286BCD] text-white">
             <CardContent className="py-4">
               <div className="flex justify-between items-center">
                 <span className="text-lg font-bold uppercase tracking-wider" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>Total Capital Required</span>
@@ -788,14 +788,14 @@ const AdminFundingDashboard: React.FC = () => {
           </div>
 
           {/* Header Row */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-6 border-b-4 border-[#C5A059] pb-3">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-6 border-b-4 border-[#C49F58] pb-3">
             <div>
-              <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3B5998] uppercase tracking-widest">Revenue Command</h1>
-              <p className="text-[#C5A059] font-bold mt-1 text-sm">Maslow Administrative Command</p>
+              <h1 className="text-2xl md:text-3xl font-serif font-black text-[#286BCD] uppercase tracking-widest">Revenue Command</h1>
+              <p className="text-[#C49F58] font-bold mt-1 text-sm">Maslow Administrative Command</p>
             </div>
             <Button
               onClick={downloadCSV}
-              className="bg-[#3B5998] text-white hover:bg-[#2d4475] flex items-center gap-2 text-sm"
+              className="bg-[#286BCD] text-white hover:bg-[#2d4475] flex items-center gap-2 text-sm"
             >
               <Download size={16} /> Export CSV
             </Button>
@@ -829,16 +829,16 @@ const AdminFundingDashboard: React.FC = () => {
 
             {/* Real-Time Grid Status */}
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-              <Card className="h-full bg-white border border-[#3B5998]/10">
+              <Card className="h-full bg-white border border-[#286BCD]/10">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-[#3B5998]">
+                  <CardTitle className="flex items-center gap-2 text-[#286BCD]">
                     <Activity className="h-5 w-5" />
                     Live Grid Utilization
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-baseline gap-2">
-                    <div className="text-4xl font-black text-[#3B5998]">82%</div>
+                    <div className="text-4xl font-black text-[#286BCD]">82%</div>
                     <span className="text-green-500 font-bold text-sm">+4% vs avg</span>
                   </div>
                   <p className="text-sm text-slate-500 mt-2">
@@ -851,32 +851,32 @@ const AdminFundingDashboard: React.FC = () => {
 
           {/* EXISTING METRICS ROW */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <motion.div className="bg-white p-4 md:p-5 rounded-lg shadow-md border border-[#3B5998]/10">
+            <motion.div className="bg-white p-4 md:p-5 rounded-lg shadow-md border border-[#286BCD]/10">
               <div className="flex items-center gap-3 mb-1">
-                <Users className="text-[#C5A059] w-6 h-6" />
-                <h3 className="text-xs font-bold text-[#3B5998] uppercase">Total Members</h3>
+                <Users className="text-[#C49F58] w-6 h-6" />
+                <h3 className="text-xs font-bold text-[#286BCD] uppercase">Total Members</h3>
               </div>
-              <p className="text-3xl md:text-4xl font-black text-[#3B5998]">{stats.totalUsers}</p>
+              <p className="text-3xl md:text-4xl font-black text-[#286BCD]">{stats.totalUsers}</p>
             </motion.div>
 
-            <motion.div className="bg-white p-4 md:p-5 rounded-lg shadow-md border border-[#3B5998]/10">
+            <motion.div className="bg-white p-4 md:p-5 rounded-lg shadow-md border border-[#286BCD]/10">
               <div className="flex items-center gap-3 mb-1">
                 <DollarSign className="text-green-600 w-6 h-6" />
-                <h3 className="text-xs font-bold text-[#3B5998] uppercase">Total Pledged</h3>
+                <h3 className="text-xs font-bold text-[#286BCD] uppercase">Total Pledged</h3>
               </div>
-              <p className="text-3xl md:text-4xl font-black text-[#3B5998]">{formatNumber(stats.totalFunding)}</p>
+              <p className="text-3xl md:text-4xl font-black text-[#286BCD]">{formatNumber(stats.totalFunding)}</p>
             </motion.div>
 
-            <motion.div className="bg-white p-4 md:p-5 rounded-lg shadow-md border border-[#3B5998]/10">
+            <motion.div className="bg-white p-4 md:p-5 rounded-lg shadow-md border border-[#286BCD]/10">
               <div className="flex items-center gap-3 mb-1">
-                <Shield className="text-[#3B5998] w-6 h-6" />
-                <h3 className="text-xs font-bold text-[#3B5998] uppercase">Top Tier</h3>
+                <Shield className="text-[#286BCD] w-6 h-6" />
+                <h3 className="text-xs font-bold text-[#286BCD] uppercase">Top Tier</h3>
               </div>
               <div className="text-sm space-y-1">
                 {Object.entries(stats.tierBreakdown).map(([tier, count]) => (
                   <div key={tier} className="flex justify-between border-b border-gray-100 pb-1 last:border-0">
-                    <span className="font-medium text-[#3B5998]">{tier}</span>
-                    <span className="font-bold text-[#C5A059]">{count}</span>
+                    <span className="font-medium text-[#286BCD]">{tier}</span>
+                    <span className="font-bold text-[#C49F58]">{count}</span>
                   </div>
                 ))}
               </div>
@@ -884,31 +884,31 @@ const AdminFundingDashboard: React.FC = () => {
           </div>
 
           {/* Recent Activity Table */}
-          <div className="bg-white rounded-lg shadow-md border border-[#3B5998]/10 overflow-hidden">
-            <div className="bg-[#3B5998] px-4 py-2">
+          <div className="bg-white rounded-lg shadow-md border border-[#286BCD]/10 overflow-hidden">
+            <div className="bg-[#286BCD] px-4 py-2">
               <h3 className="text-white font-bold uppercase tracking-wider text-sm">Recent Accessions</h3>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    <th className="px-3 py-2 text-xs font-bold text-[#3B5998] uppercase">Email</th>
-                    <th className="px-3 py-2 text-xs font-bold text-[#3B5998] uppercase">Tier</th>
-                    <th className="px-3 py-2 text-xs font-bold text-[#3B5998] uppercase">Date</th>
-                    <th className="px-3 py-2 text-xs font-bold text-[#3B5998] uppercase text-right">Value</th>
+                    <th className="px-3 py-2 text-xs font-bold text-[#286BCD] uppercase">Email</th>
+                    <th className="px-3 py-2 text-xs font-bold text-[#286BCD] uppercase">Tier</th>
+                    <th className="px-3 py-2 text-xs font-bold text-[#286BCD] uppercase">Date</th>
+                    <th className="px-3 py-2 text-xs font-bold text-[#286BCD] uppercase text-right">Value</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {recentPledges.map((profile) => (
                     <tr key={profile.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-3 py-2 text-[#3B5998] font-medium text-sm">{profile.email}</td>
+                      <td className="px-3 py-2 text-[#286BCD] font-medium text-sm">{profile.email}</td>
                       <td className="px-3 py-2 text-sm text-gray-600">
-                        <span className="bg-[#F5F1E8] px-2 py-0.5 rounded text-[#3B5998] font-bold text-xs border border-[#C5A059]/30">
+                        <span className="bg-[#FAF4ED] px-2 py-0.5 rounded text-[#286BCD] font-bold text-xs border border-[#C49F58]/30">
                           {profile.membership_tier || 'Member'}
                         </span>
                       </td>
                       <td className="px-3 py-2 text-sm text-gray-500">{new Date(profile.created_at || '').toLocaleDateString()}</td>
-                      <td className="px-3 py-2 text-right font-bold text-[#3B5998] text-sm">
+                      <td className="px-3 py-2 text-right font-bold text-[#286BCD] text-sm">
                         {formatNumber(profile.contribution_amount || getTierPrice(profile.membership_tier))}
                       </td>
                     </tr>

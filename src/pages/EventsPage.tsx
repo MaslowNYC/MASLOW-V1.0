@@ -50,7 +50,7 @@ interface Event {
 
 // Category configuration with colors and icons
 const CATEGORIES: { key: EventCategory | 'all'; label: string; color: string }[] = [
-  { key: 'all', label: 'All Events', color: '#3B5998' },
+  { key: 'all', label: 'All Events', color: '#286BCD' },
   { key: 'cultural', label: 'Cultural', color: '#8B5CF6' },
   { key: 'childrens', label: "Children's", color: '#F59E0B' },
   { key: 'dancing', label: 'Dancing', color: '#EC4899' },
@@ -62,7 +62,7 @@ const CATEGORIES: { key: EventCategory | 'all'; label: string; color: string }[]
 
 const getCategoryColor = (category: EventCategory): string => {
   const found = CATEGORIES.find(c => c.key === category);
-  return found?.color || '#C5A059';
+  return found?.color || '#C49F58';
 };
 
 const getCategoryLabel = (category: EventCategory): string => {
@@ -351,10 +351,10 @@ const EventsPage: React.FC = () => {
         className="group cursor-pointer"
         onClick={() => setSelectedEvent(event)}
       >
-        <div className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-[#3B5998]/10 h-full flex flex-col">
+        <div className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-[#286BCD]/10 h-full flex flex-col">
           {/* Image placeholder */}
           {event.image_url ? (
-            <div className="aspect-video bg-[#3B5998]/5 overflow-hidden">
+            <div className="aspect-video bg-[#286BCD]/5 overflow-hidden">
               <img
                 src={event.image_url}
                 alt={event.title}
@@ -383,7 +383,7 @@ const EventsPage: React.FC = () => {
                 {isFounder && (
                   <button
                     onClick={(e) => handleEditEvent(event, e)}
-                    className="p-1 rounded hover:bg-[#3B5998]/10 text-[#3B5998]/60 hover:text-[#3B5998] transition-colors"
+                    className="p-1 rounded hover:bg-[#286BCD]/10 text-[#286BCD]/60 hover:text-[#286BCD] transition-colors"
                     title="Edit event"
                   >
                     <Pencil className="w-4 h-4" />
@@ -394,7 +394,7 @@ const EventsPage: React.FC = () => {
             </div>
 
             {/* Title */}
-            <h3 className="text-lg font-bold text-[#3B5998] mb-2 group-hover:text-[#C5A059] transition-colors line-clamp-2">
+            <h3 className="text-lg font-bold text-[#286BCD] mb-2 group-hover:text-[#C49F58] transition-colors line-clamp-2">
               {event.title}
             </h3>
 
@@ -416,7 +416,7 @@ const EventsPage: React.FC = () => {
             <div className="flex-grow" />
 
             {/* Attendees and price */}
-            <div className="flex items-center justify-between mb-4 pt-3 border-t border-[#3B5998]/10">
+            <div className="flex items-center justify-between mb-4 pt-3 border-t border-[#286BCD]/10">
               <div className="flex items-center gap-2 text-sm text-[#1a1a1a]/60">
                 <Users className="w-4 h-4" />
                 <span>
@@ -424,7 +424,7 @@ const EventsPage: React.FC = () => {
                   {event.max_attendees ? `/${event.max_attendees}` : ''} attending
                 </span>
               </div>
-              <span className="text-sm font-semibold text-[#C5A059]">
+              <span className="text-sm font-semibold text-[#C49F58]">
                 {event.price_credits === 0 ? 'Free for members' : `${event.price_credits} credits`}
               </span>
             </div>
@@ -441,7 +441,7 @@ const EventsPage: React.FC = () => {
                   ? 'bg-[#10B981] hover:bg-[#10B981]/90 text-white'
                   : isFull
                   ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                  : 'bg-[#3B5998] hover:bg-[#3B5998]/90 text-white'
+                  : 'bg-[#286BCD] hover:bg-[#286BCD]/90 text-white'
               }`}
             >
               {rsvpLoading === event.id ? (
@@ -476,7 +476,7 @@ const EventsPage: React.FC = () => {
 
     return (
       <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-[#F5F1E8]">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-[#FAF4ED]">
           <DialogHeader>
             <div className="flex items-center gap-3 mb-2">
               <span
@@ -486,7 +486,7 @@ const EventsPage: React.FC = () => {
                 {getCategoryLabel(selectedEvent.category)}
               </span>
             </div>
-            <DialogTitle className="text-2xl md:text-3xl font-serif text-[#3B5998]">
+            <DialogTitle className="text-2xl md:text-3xl font-serif text-[#286BCD]">
               {selectedEvent.title}
             </DialogTitle>
             <DialogDescription className="sr-only">
@@ -509,46 +509,46 @@ const EventsPage: React.FC = () => {
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
-                <Calendar className="w-5 h-5 text-[#C5A059] mt-0.5" />
+                <Calendar className="w-5 h-5 text-[#C49F58] mt-0.5" />
                 <div>
                   <p className="text-xs uppercase tracking-wider text-[#1a1a1a]/50 mb-1">Date</p>
-                  <p className="text-[#3B5998] font-medium">{fullDate}</p>
+                  <p className="text-[#286BCD] font-medium">{fullDate}</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
-                <Clock className="w-5 h-5 text-[#C5A059] mt-0.5" />
+                <Clock className="w-5 h-5 text-[#C49F58] mt-0.5" />
                 <div>
                   <p className="text-xs uppercase tracking-wider text-[#1a1a1a]/50 mb-1">Time</p>
-                  <p className="text-[#3B5998] font-medium">{time}</p>
+                  <p className="text-[#286BCD] font-medium">{time}</p>
                 </div>
               </div>
 
               {selectedEvent.location && (
                 <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
-                  <MapPin className="w-5 h-5 text-[#C5A059] mt-0.5" />
+                  <MapPin className="w-5 h-5 text-[#C49F58] mt-0.5" />
                   <div>
                     <p className="text-xs uppercase tracking-wider text-[#1a1a1a]/50 mb-1">Location</p>
-                    <p className="text-[#3B5998] font-medium">{selectedEvent.location}</p>
+                    <p className="text-[#286BCD] font-medium">{selectedEvent.location}</p>
                   </div>
                 </div>
               )}
 
               {selectedEvent.host_name && (
                 <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
-                  <User className="w-5 h-5 text-[#C5A059] mt-0.5" />
+                  <User className="w-5 h-5 text-[#C49F58] mt-0.5" />
                   <div>
                     <p className="text-xs uppercase tracking-wider text-[#1a1a1a]/50 mb-1">Hosted by</p>
-                    <p className="text-[#3B5998] font-medium">{selectedEvent.host_name}</p>
+                    <p className="text-[#286BCD] font-medium">{selectedEvent.host_name}</p>
                   </div>
                 </div>
               )}
 
               <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
-                <Users className="w-5 h-5 text-[#C5A059] mt-0.5" />
+                <Users className="w-5 h-5 text-[#C49F58] mt-0.5" />
                 <div>
                   <p className="text-xs uppercase tracking-wider text-[#1a1a1a]/50 mb-1">Attendees</p>
-                  <p className="text-[#3B5998] font-medium">
+                  <p className="text-[#286BCD] font-medium">
                     {selectedEvent.current_attendees}
                     {selectedEvent.max_attendees ? ` of ${selectedEvent.max_attendees}` : ''} registered
                   </p>
@@ -556,10 +556,10 @@ const EventsPage: React.FC = () => {
               </div>
 
               <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
-                <Ticket className="w-5 h-5 text-[#C5A059] mt-0.5" />
+                <Ticket className="w-5 h-5 text-[#C49F58] mt-0.5" />
                 <div>
                   <p className="text-xs uppercase tracking-wider text-[#1a1a1a]/50 mb-1">Price</p>
-                  <p className="text-[#3B5998] font-medium">
+                  <p className="text-[#286BCD] font-medium">
                     {selectedEvent.price_credits === 0
                       ? 'Free for members'
                       : `${selectedEvent.price_credits} credits`}
@@ -584,7 +584,7 @@ const EventsPage: React.FC = () => {
                 {selectedEvent.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="text-xs px-3 py-1 bg-white rounded-full text-[#1a1a1a]/60 border border-[#3B5998]/10"
+                    className="text-xs px-3 py-1 bg-white rounded-full text-[#1a1a1a]/60 border border-[#286BCD]/10"
                   >
                     {tag}
                   </span>
@@ -593,7 +593,7 @@ const EventsPage: React.FC = () => {
             )}
 
             {/* Action buttons */}
-            <div className="flex gap-3 pt-4 border-t border-[#3B5998]/10">
+            <div className="flex gap-3 pt-4 border-t border-[#286BCD]/10">
               <Button
                 onClick={() => handleRSVP(selectedEvent)}
                 disabled={rsvpLoading === selectedEvent.id || (isFull && !isRSVPd)}
@@ -602,7 +602,7 @@ const EventsPage: React.FC = () => {
                     ? 'bg-red-500 hover:bg-red-600 text-white'
                     : isFull
                     ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                    : 'bg-[#3B5998] hover:bg-[#3B5998]/90 text-white'
+                    : 'bg-[#286BCD] hover:bg-[#286BCD]/90 text-white'
                 }`}
               >
                 {rsvpLoading === selectedEvent.id ? (
@@ -618,7 +618,7 @@ const EventsPage: React.FC = () => {
               <Button
                 variant="outline"
                 onClick={() => handleShare(selectedEvent)}
-                className="border-[#3B5998]/20 text-[#3B5998] hover:bg-[#3B5998]/5"
+                className="border-[#286BCD]/20 text-[#286BCD] hover:bg-[#286BCD]/5"
               >
                 <Share2 className="w-4 h-4 mr-2" />
                 Share
@@ -630,7 +630,7 @@ const EventsPage: React.FC = () => {
                     setSelectedEvent(null);
                     handleEditEvent(selectedEvent);
                   }}
-                  className="border-[#C5A059] text-[#C5A059] hover:bg-[#C5A059]/10"
+                  className="border-[#C49F58] text-[#C49F58] hover:bg-[#C49F58]/10"
                 >
                   <Pencil className="w-4 h-4 mr-2" />
                   Edit
@@ -644,7 +644,7 @@ const EventsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8]">
+    <div className="min-h-screen bg-[#FAF4ED]">
       <Helmet>
         <title>Events | Maslow NYC</title>
         <meta name="description" content="Upcoming events at Maslow - Connect, learn, and grow with our community." />
@@ -658,7 +658,7 @@ const EventsPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl md:text-6xl font-serif font-bold text-[#3B5998] mb-4">
+            <h1 className="text-4xl md:text-6xl font-serif font-bold text-[#286BCD] mb-4">
               Upcoming Events at Maslow
             </h1>
             <p className="text-xl text-[#1a1a1a]/70 max-w-2xl mx-auto">
@@ -669,7 +669,7 @@ const EventsPage: React.FC = () => {
       </section>
 
       {/* Filter Section */}
-      <section className="sticky top-20 z-40 bg-[#F5F1E8]/95 backdrop-blur-sm border-b border-[#3B5998]/10 py-4">
+      <section className="sticky top-20 z-40 bg-[#FAF4ED]/95 backdrop-blur-sm border-b border-[#286BCD]/10 py-4">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex items-center gap-4 overflow-x-auto pb-2 scrollbar-hide">
             {CATEGORIES.map((category) => {
@@ -681,7 +681,7 @@ const EventsPage: React.FC = () => {
                   className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
                     isSelected
                       ? 'text-white shadow-md'
-                      : 'bg-white text-[#3B5998] border border-[#3B5998]/20 hover:border-[#3B5998]/40'
+                      : 'bg-white text-[#286BCD] border border-[#286BCD]/20 hover:border-[#286BCD]/40'
                   }`}
                   style={isSelected ? { backgroundColor: category.color } : undefined}
                 >
@@ -698,7 +698,7 @@ const EventsPage: React.FC = () => {
         <div className="max-w-6xl mx-auto">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20">
-              <Loader2 className="w-8 h-8 animate-spin text-[#C5A059] mb-4" />
+              <Loader2 className="w-8 h-8 animate-spin text-[#C49F58] mb-4" />
               <p className="text-[#1a1a1a]/60">Loading events...</p>
             </div>
           ) : events.length === 0 ? (
@@ -707,8 +707,8 @@ const EventsPage: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               className="text-center py-20"
             >
-              <Calendar className="w-16 h-16 text-[#3B5998]/30 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-[#3B5998] mb-2">No Events Found</h3>
+              <Calendar className="w-16 h-16 text-[#286BCD]/30 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-[#286BCD] mb-2">No Events Found</h3>
               <p className="text-[#1a1a1a]/60 mb-6">
                 {selectedCategory === 'all'
                   ? 'No upcoming events scheduled at this time.'
@@ -718,7 +718,7 @@ const EventsPage: React.FC = () => {
                 <Button
                   onClick={() => setSelectedCategory('all')}
                   variant="outline"
-                  className="border-[#C5A059] text-[#C5A059] hover:bg-[#C5A059]/10"
+                  className="border-[#C49F58] text-[#C49F58] hover:bg-[#C49F58]/10"
                 >
                   Show All Events
                 </Button>
@@ -744,7 +744,7 @@ const EventsPage: React.FC = () => {
         <div className="fixed bottom-6 left-6 z-50">
           <Button
             onClick={handleAddEvent}
-            className="flex items-center gap-2 px-4 py-3 bg-[#C5A059] text-white rounded-full shadow-lg hover:bg-[#C5A059]/90 transition-colors"
+            className="flex items-center gap-2 px-4 py-3 bg-[#C49F58] text-white rounded-full shadow-lg hover:bg-[#C49F58]/90 transition-colors"
           >
             <Plus className="w-5 h-5" />
             <span className="font-medium">Add Event</span>
@@ -757,7 +757,7 @@ const EventsPage: React.FC = () => {
         <div className="fixed bottom-6 right-6 z-50">
           <Link
             to="/profile#events"
-            className="flex items-center gap-2 px-4 py-3 bg-[#3B5998] text-white rounded-full shadow-lg hover:bg-[#3B5998]/90 transition-colors"
+            className="flex items-center gap-2 px-4 py-3 bg-[#286BCD] text-white rounded-full shadow-lg hover:bg-[#286BCD]/90 transition-colors"
           >
             <Check className="w-4 h-4" />
             <span className="font-medium">My Events ({userRSVPs.size})</span>

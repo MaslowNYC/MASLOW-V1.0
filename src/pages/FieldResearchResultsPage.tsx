@@ -71,8 +71,8 @@ const StatCard = ({
   color?: 'blue' | 'gold' | 'green' | 'red';
 }) => {
   const colors = {
-    blue: 'bg-[#3B5998]/10 text-[#3B5998]',
-    gold: 'bg-[#C5A059]/10 text-[#C5A059]',
+    blue: 'bg-[#286BCD]/10 text-[#286BCD]',
+    gold: 'bg-[#C49F58]/10 text-[#C49F58]',
     green: 'bg-green-100 text-green-600',
     red: 'bg-red-100 text-red-600',
   };
@@ -83,7 +83,7 @@ const StatCard = ({
         <div className="flex items-start justify-between">
           <div>
             <p className="text-sm text-gray-500 mb-1">{title}</p>
-            <p className="text-3xl font-bold text-[#3B5998]">{value}</p>
+            <p className="text-3xl font-bold text-[#286BCD]">{value}</p>
             {subtitle && <p className="text-sm text-gray-400 mt-1">{subtitle}</p>}
           </div>
           <div className={`p-3 rounded-xl ${colors[color]}`}>
@@ -98,12 +98,12 @@ const StatCard = ({
 const ProgressBar = ({ label, value, max }: { label: string; value: number; max: number }) => (
   <div className="space-y-1">
     <div className="flex justify-between text-sm">
-      <span className="text-[#3B5998]">{label}</span>
+      <span className="text-[#286BCD]">{label}</span>
       <span className="text-gray-500">{value}</span>
     </div>
-    <div className="h-3 bg-[#3B5998]/10 rounded-full overflow-hidden">
+    <div className="h-3 bg-[#286BCD]/10 rounded-full overflow-hidden">
       <div
-        className="h-full bg-[#3B5998] rounded-full transition-all duration-500"
+        className="h-full bg-[#286BCD] rounded-full transition-all duration-500"
         style={{ width: `${(value / max) * 100}%` }}
       />
     </div>
@@ -298,16 +298,16 @@ const FieldResearchResultsPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F5F1E8] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-[#3B5998] animate-spin" />
+      <div className="min-h-screen bg-[#FAF4ED] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-[#286BCD] animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F1E8]">
+    <div className="min-h-screen bg-[#FAF4ED]">
       {/* Header */}
-      <div className="bg-[#3B5998] py-6 px-6">
+      <div className="bg-[#286BCD] py-6 px-6">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Button
@@ -332,7 +332,7 @@ const FieldResearchResultsPage = () => {
             <Button
               onClick={exportToCSV}
               disabled={responses.length === 0}
-              className="bg-[#C5A059] hover:bg-[#b08d4b] text-white"
+              className="bg-[#C49F58] hover:bg-[#b08d4b] text-white"
             >
               <Download className="w-4 h-4 mr-2" />
               Export CSV
@@ -386,7 +386,7 @@ const FieldResearchResultsPage = () => {
             {/* Top Features */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-[#3B5998]">
+                <CardTitle className="flex items-center gap-2 text-[#286BCD]">
                   <ThumbsUp className="w-5 h-5" />
                   Most Important Features
                 </CardTitle>
@@ -406,7 +406,7 @@ const FieldResearchResultsPage = () => {
             {/* Current Solutions */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-[#3B5998]">
+                <CardTitle className="flex items-center gap-2 text-[#286BCD]">
                   <MapPin className="w-5 h-5" />
                   Current Solutions Used
                 </CardTitle>
@@ -426,7 +426,7 @@ const FieldResearchResultsPage = () => {
             {/* Age Distribution */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-[#3B5998]">
+                <CardTitle className="flex items-center gap-2 text-[#286BCD]">
                   <Users className="w-5 h-5" />
                   Age Distribution
                 </CardTitle>
@@ -448,7 +448,7 @@ const FieldResearchResultsPage = () => {
             {/* Price Willingness */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-[#3B5998]">
+                <CardTitle className="flex items-center gap-2 text-[#286BCD]">
                   <DollarSign className="w-5 h-5" />
                   Price Willing to Pay
                 </CardTitle>
@@ -475,7 +475,7 @@ const FieldResearchResultsPage = () => {
         {/* Responses Table */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-[#3B5998]">
+            <CardTitle className="flex items-center gap-2 text-[#286BCD]">
               <BarChart3 className="w-5 h-5" />
               All Responses ({responses.length})
             </CardTitle>
@@ -487,7 +487,7 @@ const FieldResearchResultsPage = () => {
                 <p>No completed interviews yet.</p>
                 <Button
                   onClick={() => navigate('/admin/field-research')}
-                  className="mt-4 bg-[#3B5998]"
+                  className="mt-4 bg-[#286BCD]"
                 >
                   Start Interviewing
                 </Button>
@@ -512,7 +512,7 @@ const FieldResearchResultsPage = () => {
                       <>
                         <tr
                           key={r.id}
-                          className="border-b hover:bg-[#3B5998]/5 cursor-pointer"
+                          className="border-b hover:bg-[#286BCD]/5 cursor-pointer"
                           onClick={() => setExpandedRow(expandedRow === r.id ? null : r.id)}
                         >
                           <td className="py-3 text-sm">
@@ -556,27 +556,27 @@ const FieldResearchResultsPage = () => {
                         </tr>
                         {expandedRow === r.id && (
                           <tr key={`${r.id}-expanded`}>
-                            <td colSpan={8} className="bg-[#3B5998]/5 p-4">
+                            <td colSpan={8} className="bg-[#286BCD]/5 p-4">
                               <div className="grid grid-cols-2 gap-4 text-sm">
                                 <div>
                                   <p className="text-gray-500 mb-1">Biggest Pain Point</p>
-                                  <p className="text-[#3B5998]">{r.biggest_pain_point || '-'}</p>
+                                  <p className="text-[#286BCD]">{r.biggest_pain_point || '-'}</p>
                                 </div>
                                 <div>
                                   <p className="text-gray-500 mb-1">Use Case</p>
-                                  <p className="text-[#3B5998]">{r.use_case_scenario || '-'}</p>
+                                  <p className="text-[#286BCD]">{r.use_case_scenario || '-'}</p>
                                 </div>
                                 <div>
                                   <p className="text-gray-500 mb-1">Concerns</p>
-                                  <p className="text-[#3B5998]">{r.concerns || '-'}</p>
+                                  <p className="text-[#286BCD]">{r.concerns || '-'}</p>
                                 </div>
                                 <div>
                                   <p className="text-gray-500 mb-1">Additional Feedback</p>
-                                  <p className="text-[#3B5998]">{r.additional_feedback || '-'}</p>
+                                  <p className="text-[#286BCD]">{r.additional_feedback || '-'}</p>
                                 </div>
                                 <div>
                                   <p className="text-gray-500 mb-1">Preferred Features</p>
-                                  <p className="text-[#3B5998]">
+                                  <p className="text-[#286BCD]">
                                     {(r.preferred_features || [])
                                       .map((f) => featureLabels[f] || f)
                                       .join(', ') || '-'}
@@ -584,7 +584,7 @@ const FieldResearchResultsPage = () => {
                                 </div>
                                 <div>
                                   <p className="text-gray-500 mb-1">Interviewer Notes</p>
-                                  <p className="text-[#3B5998]">{r.notes || '-'}</p>
+                                  <p className="text-[#286BCD]">{r.notes || '-'}</p>
                                 </div>
                               </div>
                             </td>
