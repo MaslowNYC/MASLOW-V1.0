@@ -3,7 +3,7 @@ import { supabase } from '@/lib/customSupabaseClient';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Download, Users, DollarSign, Shield, Lock, AlertTriangle, Activity, CreditCard, Calculator, TrendingUp, BarChart3, Building, ChevronDown, ChevronRight, FileDown, Save, Loader2, MessageSquare } from 'lucide-react';
+import { Download, Users, DollarSign, Shield, Lock, AlertTriangle, Activity, CreditCard, Calculator, TrendingUp, BarChart3, Building, ChevronDown, ChevronRight, FileDown, Save, Loader2, MessageSquare, Video } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -16,7 +16,7 @@ import PricingCalculator from '@/components/PricingCalculator';
 import PaymentModal from '@/components/PaymentModal';
 import PaymentOptionsModal from '@/components/PaymentOptionsModal';
 
-type TabType = 'financial' | 'pricing' | 'buildout' | 'command';
+type TabType = 'financial' | 'pricing' | 'buildout' | 'command' | 'videos';
 
 interface Stats {
   totalUsers: number;
@@ -541,6 +541,7 @@ const AdminFundingDashboard: React.FC = () => {
     { id: 'pricing', label: 'Session Pricing', icon: <Calculator className="w-4 h-4" /> },
     { id: 'buildout', label: 'Build-Out Planner', icon: <Building className="w-4 h-4" /> },
     { id: 'command', label: 'Revenue Command', icon: <BarChart3 className="w-4 h-4" /> },
+    { id: 'videos', label: 'Videos', icon: <Video className="w-4 h-4" /> },
   ];
 
   return (
@@ -916,6 +917,72 @@ const AdminFundingDashboard: React.FC = () => {
                 </tbody>
               </table>
             </div>
+          </div>
+        </motion.div>
+      )}
+
+      {/* TAB 5: VIDEOS */}
+      {activeTab === 'videos' && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          {/* Header */}
+          <div className="mb-6">
+            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#286BCD] uppercase tracking-widest">Video Assets</h1>
+            <p className="text-[#286BCD]/60 mt-1 text-sm">Promotional videos and animations for sharing.</p>
+          </div>
+
+          {/* Video Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Video Ad 1 */}
+            <Card className="overflow-hidden">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-[#286BCD] text-lg">Maslow Video Ad 1</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <video
+                  controls
+                  className="w-full rounded-lg shadow-md"
+                  preload="metadata"
+                >
+                  <source src="/Videos/Maslow Video Ad 1 Final WM2.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </CardContent>
+            </Card>
+
+            {/* Video Ad 2 */}
+            <Card className="overflow-hidden">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-[#286BCD] text-lg">Maslow Video Ad 2</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <video
+                  controls
+                  className="w-full rounded-lg shadow-md"
+                  preload="metadata"
+                >
+                  <source src="/Videos/Maslow Video Ad 2 Final WM2.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </CardContent>
+            </Card>
+
+            {/* Splash Animation */}
+            <Card className="overflow-hidden">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-[#286BCD] text-lg">Splash Animation</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <img
+                  src="/Videos/splash-icon (1).gif"
+                  alt="Maslow Splash Animation"
+                  className="w-full rounded-lg shadow-md"
+                />
+              </CardContent>
+            </Card>
           </div>
         </motion.div>
       )}
