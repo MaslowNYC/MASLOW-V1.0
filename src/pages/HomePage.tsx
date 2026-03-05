@@ -87,7 +87,12 @@ const HomePage: React.FC = () => {
             >
               <h1
                 className="text-7xl md:text-8xl font-serif font-bold mb-6"
-                style={{ color: '#FFFFFF', textShadow: '0 2px 20px rgba(0,0,0,0.6), 0 4px 40px rgba(0,0,0,0.4)' }}
+                style={{
+                  color: '#286BCD',
+                  WebkitTextStroke: '3px white',
+                  paintOrder: 'stroke fill',
+                  textShadow: '0 2px 20px rgba(0,0,0,0.4), 0 4px 40px rgba(0,0,0,0.3)'
+                }}
               >
                 MASLOW
               </h1>
