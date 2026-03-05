@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavig
 import { Helmet } from 'react-helmet';
 import { Toaster } from '@/components/ui/toaster';
 import { StripeProvider } from '@/contexts/StripeContext';
-import { AuthProvider, useAuth } from '@/contexts/SupabaseAuthContext';
+import { AuthProvider } from '@/contexts/SupabaseAuthContext';
 import { CartProvider } from '@/hooks/useCart';
 import { AccessibilityProvider } from '@/contexts/AccessibilityContext';
 import { Analytics } from "@vercel/analytics/react";
@@ -19,7 +19,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 import ConciergeBubble from '@/components/ConciergeBubble';
 
 // Pages - Core
-import HeroSection from '@/components/HeroSection';
+// HeroSection removed - homepage now loads directly
 import HomePage from '@/pages/HomePage';
 import LoginPage from '@/components/LoginPage';
 import StorePage from '@/pages/StorePage';
@@ -67,8 +67,6 @@ const AppContent: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { user } = useAuth();
-
   // Detect password recovery links and redirect to reset-password page
   useEffect(() => {
     const hash = window.location.hash;
@@ -78,7 +76,7 @@ const AppContent: React.FC = () => {
     }
   }, [navigate]);
 
-  const isHideHeaderPath = location.pathname === '/login' || location.pathname === '/reset-password' || (!user && location.pathname === '/');
+  const isHideHeaderPath = location.pathname === '/login' || location.pathname === '/reset-password';
 
   return (
     <div className="min-h-screen bg-[#FAF4ED] flex flex-col overflow-x-hidden w-full max-w-full">
@@ -87,7 +85,7 @@ const AppContent: React.FC = () => {
       <main className="flex-grow">
         <Routes>
           {/* Public & Core Routes */}
-          <Route path="/" element={user ? <HomePage /> : <HeroSection />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/maslow" element={<MaslowPage />} />

@@ -39,9 +39,46 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  if (!user) return null;
-
   const isAdmin = user?.email && ADMIN_EMAILS.includes(user.email.toLowerCase());
+
+  // Show simplified header with Sign In button when not logged in
+  if (!user) {
+    return (
+      <header className="sticky top-0 z-50 w-full bg-[#FAF4ED]/90 backdrop-blur-md border-b border-[#286BCD]/10 shadow-sm transition-all duration-300">
+        <div className="container mx-auto px-4 h-20 flex items-center justify-between w-full">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-3 group shrink-0">
+            <div className="w-12 h-12 rounded-full overflow-hidden border border-[#286BCD]/20 group-hover:border-[#C49F58] transition-colors shadow-sm">
+              <img
+                src="/MASLOW - Round.png"
+                alt="Maslow Logo"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <span className="text-xl font-serif font-bold text-[#286BCD] tracking-widest group-hover:text-[#C49F58] transition-colors uppercase hidden sm:block">
+              Maslow
+            </span>
+          </Link>
+
+          {/* Sign In Button */}
+          <Link
+            to="/login"
+            className="px-5 py-2 rounded-full transition-all hover:bg-[rgba(40,107,205,0.06)]"
+            style={{
+              border: '1px solid rgba(40,107,205,0.3)',
+              color: '#286BCD',
+              fontFamily: "'Jost', sans-serif",
+              fontSize: '11px',
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+            }}
+          >
+            Sign In
+          </Link>
+        </div>
+      </header>
+    );
+  }
 
   const handleLogout = async () => {
     resetIdentity();

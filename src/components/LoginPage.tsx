@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, FormEvent, ChangeEvent, KeyboardEvent } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
@@ -17,6 +17,23 @@ interface ToastProps {
 
 // Google Fonts URL for page-scoped fonts
 const FONT_URL = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap';
+
+// Flag emoji mapping for all 13 supported languages
+const LANGUAGE_FLAGS: Record<string, { flag: string; name: string }> = {
+  en: { flag: '🇺🇸', name: 'English' },
+  es: { flag: '🇪🇸', name: 'Spanish' },
+  fr: { flag: '🇫🇷', name: 'French' },
+  pt: { flag: '🇧🇷', name: 'Portuguese' },
+  'zh-CN': { flag: '🇨🇳', name: 'Mandarin' },
+  ar: { flag: '🇸🇦', name: 'Arabic' },
+  hi: { flag: '🇮🇳', name: 'Hindi' },
+  ru: { flag: '🇷🇺', name: 'Russian' },
+  ja: { flag: '🇯🇵', name: 'Japanese' },
+  ko: { flag: '🇰🇷', name: 'Korean' },
+  ht: { flag: '🇭🇹', name: 'Haitian Creole' },
+  bn: { flag: '🇧🇩', name: 'Bengali' },
+  yi: { flag: '🇮🇱', name: 'Yiddish' },
+};
 
 const LoginPage = () => {
   // Form state
@@ -45,8 +62,9 @@ const LoginPage = () => {
   // Tab state
   const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin');
 
-  // Language modal
+  // Language modal and bar
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
+  const [isLanguageBarDismissed, setIsLanguageBarDismissed] = useState(false);
   const { language, setLanguage } = useLanguage();
   const { t } = useTranslation();
 
@@ -607,25 +625,53 @@ const LoginPage = () => {
         }}
       />
 
-      {/* Language Button - Top Right */}
-      <motion.button
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        onClick={() => setIsLanguageModalOpen(true)}
-        className="absolute top-5 right-5 z-20 px-4 py-1.5 rounded-full border transition-all hover:border-[#C49F58] hover:text-[#C49F58]"
-        style={{
-          fontFamily: "'Jost', sans-serif",
-          fontSize: '10px',
-          letterSpacing: '0.1em',
-          background: 'rgba(255,255,255,0.4)',
-          backdropFilter: 'blur(8px)',
-          border: '1px solid rgba(196,159,88,0.2)',
-          color: '#b8ad9e',
-        }}
-      >
-        {language.toUpperCase()} ▾
-      </motion.button>
+      {/* Dismissible Language Bar - Top */}
+      <AnimatePresence>
+        {!isLanguageBarDismissed && (
+          <motion.div
+            initial={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="absolute top-0 left-0 right-0 z-20 overflow-hidden"
+          >
+            <div
+              className="flex items-center justify-center px-4 py-2.5 relative"
+              style={{
+                background: 'rgba(196,159,88,0.08)',
+                borderBottom: '1px solid rgba(196,159,88,0.15)',
+              }}
+            >
+              <button
+                onClick={() => setIsLanguageModalOpen(true)}
+                className="flex items-center gap-2 transition-all hover:opacity-70"
+                style={{
+                  fontFamily: "'Jost', sans-serif",
+                  fontSize: '11px',
+                  letterSpacing: '0.15em',
+                  color: '#9a8e80',
+                  textTransform: 'uppercase',
+                }}
+              >
+                <span>{LANGUAGE_FLAGS[language]?.flag || '🌐'}</span>
+                <span>{LANGUAGE_FLAGS[language]?.name || 'English'}</span>
+              </button>
+
+              {/* Dismiss button */}
+              <button
+                onClick={() => setIsLanguageBarDismissed(true)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 transition-all hover:opacity-70"
+                style={{
+                  color: '#b8ad9e',
+                  fontSize: '14px',
+                  cursor: 'pointer',
+                }}
+              >
+                ×
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Main Content */}
       <motion.div
@@ -1040,7 +1086,22 @@ const LoginPage = () => {
           className="text-[9.5px] text-[#b8ad9e] text-center mt-5 leading-relaxed"
           style={{ fontFamily: "'Jost', sans-serif", letterSpacing: '0.06em' }}
         >
-          By continuing you agree to Maslow's<br />Terms of Service & Privacy Policy
+          By continuing you agree to Maslow's<br />
+          <Link
+            to="/terms"
+            className="hover:text-[#286BCD] transition-colors"
+            style={{ color: '#9a8e80', textDecoration: 'underline', textUnderlineOffset: '2px' }}
+          >
+            Terms of Service
+          </Link>
+          {' & '}
+          <Link
+            to="/privacy"
+            className="hover:text-[#286BCD] transition-colors"
+            style={{ color: '#9a8e80', textDecoration: 'underline', textUnderlineOffset: '2px' }}
+          >
+            Privacy Policy
+          </Link>
         </motion.p>
       </motion.div>
 
