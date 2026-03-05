@@ -772,10 +772,6 @@ const LoginPage = () => {
         <motion.div variants={itemVariants} className="flex flex-col items-center mb-2.5">
           <div
             className="w-[140px] h-[140px] rounded-full flex items-center justify-center mb-4"
-            style={{
-              border: '1px solid rgba(196,159,88,0.15)',
-              boxShadow: '0 4px 24px rgba(40,107,205,0.08)',
-            }}
           >
             <img
               src="/MASLOW - Round.png"
@@ -790,8 +786,8 @@ const LoginPage = () => {
 
           {/* Wordmark */}
           <div
-            className="text-[11px] font-light tracking-[0.55em] uppercase mb-2"
-            style={{ fontFamily: "'Cormorant Garamond', serif", color: '#b8ad9e' }}
+            className="text-[15px] font-normal tracking-[0.45em] uppercase mb-2"
+            style={{ fontFamily: "'Cormorant Garamond', serif", color: '#4a3f35' }}
           >
             Maslow NYC
           </div>
