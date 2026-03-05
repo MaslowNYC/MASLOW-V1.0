@@ -102,30 +102,22 @@ const LoginPage = () => {
   useEffect(() => {
     const fetchNextNumber = async () => {
       try {
-        // Query for the highest member_number to determine next number
-        // This works better with RLS than counting all rows
-        const { data, error } = await (supabase
-          .from('profiles') as any)
-          .select('member_number')
-          .order('member_number', { ascending: false })
-          .limit(1)
-          .single();
+        // Use RPC function to bypass RLS and get next member number
+        const { data, error } = await supabase.rpc('get_next_member_number');
 
-        if (error && error.code !== 'PGRST116') {
-          // PGRST116 = no rows returned (empty table)
-          console.error('Error fetching member count:', error);
+        if (error) {
+          console.error('Error fetching next member number:', error);
           setNextMemberNumber(null);
           return;
         }
 
-        if (data?.member_number) {
-          setNextMemberNumber(data.member_number + 1);
+        if (data !== null && data !== undefined) {
+          setNextMemberNumber(data);
         } else {
-          // No members yet, start at 1
           setNextMemberNumber(1);
         }
       } catch (err) {
-        console.error('Error fetching member count:', err);
+        console.error('Error fetching next member number:', err);
         setNextMemberNumber(null);
       }
     };
