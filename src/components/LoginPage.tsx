@@ -754,19 +754,19 @@ const LoginPage = () => {
         {/* Logo */}
         <motion.div variants={itemVariants} className="flex flex-col items-center mb-2.5">
           <div
-            className="w-[110px] h-[110px] rounded-full flex items-center justify-center mb-4"
+            className="w-[140px] h-[140px] rounded-full flex items-center justify-center mb-4"
             style={{
-              background: '#286BCD',
-              boxShadow: '0 8px 32px rgba(40,107,205,0.18), 0 2px 8px rgba(40,107,205,0.12), 0 0 0 6px rgba(40,107,205,0.06), 0 0 0 12px rgba(40,107,205,0.03)',
+              border: '1px solid rgba(196,159,88,0.15)',
+              boxShadow: '0 4px 24px rgba(40,107,205,0.08)',
             }}
           >
             <img
               src="/MASLOW - Round.png"
               alt="Maslow"
-              className="w-[92px] h-[92px] object-contain"
+              className="w-[140px] h-[140px] object-contain"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
-                e.currentTarget.parentElement!.innerHTML = '<span style="font-family: Cormorant Garamond, serif; font-size: 60px; font-weight: 300; color: #FAF4ED;">M</span>';
+                e.currentTarget.parentElement!.innerHTML = '<span style="font-family: Cormorant Garamond, serif; font-size: 72px; font-weight: 300; color: #286BCD;">M</span>';
               }}
             />
           </div>
