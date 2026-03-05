@@ -104,11 +104,11 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Preferences Modal - shown on first login */}
-      <PreferencesModal
+      {/* Preferences popup — hidden for now, restore when ready */}
+      {/* <PreferencesModal
         isOpen={showPreferences}
         onClose={() => setShowPreferences(false)}
-      />
+      /> */}
     </>
   );
 };

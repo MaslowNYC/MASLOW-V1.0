@@ -40,6 +40,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState('');
   const [countryCode] = useState('+1');
   const [loading, setLoading] = useState(false);
@@ -97,20 +98,36 @@ const LoginPage = () => {
     };
   }, []);
 
-  // Fetch next member number on mount
+  // Fetch next member number when signup tab is active
   useEffect(() => {
     const fetchNextNumber = async () => {
       try {
-        const { count } = await supabase
-          .from('profiles')
+        const { count, error } = await (supabase
+          .from('profiles') as any)
           .select('*', { count: 'exact', head: true });
-        setNextMemberNumber((count || 0) + 1);
+
+        if (error) {
+          console.error('Error fetching member count:', error);
+          setNextMemberNumber(null); // Hide teaser on error
+          return;
+        }
+
+        if (count !== null && count !== undefined) {
+          setNextMemberNumber(count + 1);
+        } else {
+          setNextMemberNumber(null); // Hide teaser if count unavailable
+        }
       } catch (err) {
         console.error('Error fetching member count:', err);
+        setNextMemberNumber(null); // Hide teaser on error
       }
     };
-    fetchNextNumber();
-  }, []);
+
+    // Only fetch when signup tab is shown
+    if (activeTab === 'signup') {
+      fetchNextNumber();
+    }
+  }, [activeTab]);
 
   const safeToast = (props: ToastProps) => {
     if (typeof toast === 'function') {
@@ -211,6 +228,15 @@ const LoginPage = () => {
       return;
     }
 
+    if (!lastName.trim()) {
+      safeToast({
+        title: t('login.signupFailed'),
+        description: 'Please enter your last name',
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (!email.trim() || !password.trim()) {
       safeToast({
         title: t('login.signupFailed'),
@@ -283,6 +309,22 @@ const LoginPage = () => {
             profileExists = true;
             console.log('✅ Profile exists!');
 
+            // Update the profile with signup data (trigger only creates with id/email)
+            const { error: updateError } = await (supabase
+              .from('profiles') as any)
+              .update({
+                first_name: firstName,
+                last_name: lastName,
+                phone: cleanedPhone,
+              })
+              .eq('id', data.user.id);
+
+            if (updateError) {
+              console.error('⚠️ Profile update failed:', updateError);
+            } else {
+              console.log('✅ Profile updated with signup data');
+            }
+
             try {
               identifyUser(data.user, { member_number: null, first_name: firstName });
             } catch (err) {
@@ -304,6 +346,7 @@ const LoginPage = () => {
               id: data.user.id,
               email: email,
               first_name: firstName,
+              last_name: lastName,
               phone: cleanedPhone,
               phone_verified: false
             });
@@ -368,15 +411,24 @@ const LoginPage = () => {
 
       console.log('✅ Code verified by Twilio!');
 
+      // Update profile with all signup data and mark phone as verified
       const { error: updateError } = await (supabase
         .from('profiles') as any)
-        .update({ phone_verified: true })
+        .update({
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+          phone: cleanedPhone,
+          phone_verified: true
+        })
         .eq('id', pendingUserId);
 
       if (updateError) {
         console.error('❌ Update error:', updateError);
         throw updateError;
       }
+
+      console.log('✅ Profile updated with signup data');
 
       safeToast({
         title: `${t('login.phoneVerified')} ✓`,
@@ -861,6 +913,18 @@ const LoginPage = () => {
                     placeholder="First name"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
+                    className={inputClassName}
+                    style={inputStyle}
+                    required
+                  />
+                </div>
+                <div>
+                  <label className={labelClassName} style={labelStyle}>{t('login.lastName', 'LAST NAME')}</label>
+                  <input
+                    type="text"
+                    placeholder="Last name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
                     className={inputClassName}
                     style={inputStyle}
                     required
