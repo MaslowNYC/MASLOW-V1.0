@@ -274,6 +274,9 @@ const LoginPage = () => {
       const { data, error } = await signUp({
         email,
         password,
+        options: {
+          data: { first_name: firstName, last_name: lastName }
+        }
       });
 
       if (error) {
@@ -290,6 +293,23 @@ const LoginPage = () => {
 
       if (data?.user) {
         console.log('✅ User created:', data.user.id);
+
+        // Immediately upsert profile with name so founder notification has it
+        const { error: upsertError } = await (supabase
+          .from('profiles') as any)
+          .upsert({
+            id: data.user.id,
+            email: email,
+            first_name: firstName,
+            last_name: lastName,
+          });
+
+        if (upsertError) {
+          console.error('⚠️ Immediate profile upsert failed:', upsertError);
+        } else {
+          console.log('✅ Profile upserted with name immediately');
+        }
+
         console.log('⏳ Waiting for profile to be created by trigger...');
 
         // Wait for the profile to be created by the trigger
