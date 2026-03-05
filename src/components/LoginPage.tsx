@@ -35,6 +35,23 @@ const LANGUAGE_FLAGS: Record<string, { flag: string; name: string }> = {
   yi: { flag: '🇮🇱', name: 'Yiddish' },
 };
 
+// Languages array for the modal (with native greetings)
+const LANGUAGES_FOR_MODAL = [
+  { code: 'en', text: '🇺🇸 Welcome', language: 'English' },
+  { code: 'es', text: '🇪🇸 Bienvenido', language: 'Spanish' },
+  { code: 'fr', text: '🇫🇷 Bienvenue', language: 'French' },
+  { code: 'pt', text: '🇧🇷 Bem-vindo', language: 'Portuguese' },
+  { code: 'zh-CN', text: '🇨🇳 欢迎', language: 'Mandarin' },
+  { code: 'ar', text: '🇸🇦 أهلاً', language: 'Arabic' },
+  { code: 'hi', text: '🇮🇳 स्वागत', language: 'Hindi' },
+  { code: 'ru', text: '🇷🇺 Добро пожаловать', language: 'Russian' },
+  { code: 'ja', text: '🇯🇵 ようこそ', language: 'Japanese' },
+  { code: 'ko', text: '🇰🇷 환영합니다', language: 'Korean' },
+  { code: 'ht', text: '🇭🇹 Byenveni', language: 'Haitian Creole' },
+  { code: 'bn', text: '🇧🇩 স্বাগতম', language: 'Bengali' },
+  { code: 'yi', text: '🇮🇱 ברוכים הבאים', language: 'Yiddish' },
+];
+
 const LoginPage = () => {
   // Form state
   const [email, setEmail] = useState('');
@@ -1192,10 +1209,12 @@ const LoginPage = () => {
       <LanguageModal
         isOpen={isLanguageModalOpen}
         onClose={() => setIsLanguageModalOpen(false)}
-        onSelectLanguage={(lang) => {
+        onSelect={(lang) => {
           setLanguage(lang);
           setIsLanguageModalOpen(false);
         }}
+        languages={LANGUAGES_FOR_MODAL}
+        selectedLanguage={language}
       />
     </div>
   );
