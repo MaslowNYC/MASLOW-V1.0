@@ -65,10 +65,16 @@ const HomePage: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-6xl md:text-7xl font-serif font-bold mb-4 drop-shadow-lg">
+              <h1
+                className="text-6xl md:text-7xl font-serif font-bold mb-4"
+                style={{ color: '#FFFFFF', textShadow: '0 2px 20px rgba(0,0,0,0.6), 0 4px 40px rgba(0,0,0,0.4)' }}
+              >
                 {t('home.welcomeBack')} {user.user_metadata?.full_name?.split(' ')[0] || 'Friend'}
               </h1>
-              <p className="text-xl md:text-2xl text-white/90 font-light drop-shadow">
+              <p
+                className="text-xl md:text-2xl font-light"
+                style={{ color: 'rgba(255,255,255,0.95)', textShadow: '0 1px 12px rgba(0,0,0,0.7), 0 2px 24px rgba(0,0,0,0.5)' }}
+              >
                 {t('home.yourSanctuaryAwaits')}
               </p>
             </motion.div>
@@ -79,13 +85,22 @@ const HomePage: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-7xl md:text-8xl font-serif font-bold mb-6 drop-shadow-lg">
+              <h1
+                className="text-7xl md:text-8xl font-serif font-bold mb-6"
+                style={{ color: '#FFFFFF', textShadow: '0 2px 20px rgba(0,0,0,0.6), 0 4px 40px rgba(0,0,0,0.4)' }}
+              >
                 MASLOW
               </h1>
-              <p className="text-2xl md:text-3xl text-white/90 mb-8 font-light drop-shadow">
+              <p
+                className="text-2xl md:text-3xl mb-8 font-light"
+                style={{ color: 'rgba(255,255,255,0.95)', textShadow: '0 1px 12px rgba(0,0,0,0.7), 0 2px 24px rgba(0,0,0,0.5)' }}
+              >
                 The Infrastructure of Dignity.
               </p>
-              <p className="text-sm text-white/50 mt-4">
+              <p
+                className="text-sm mt-4"
+                style={{ color: 'rgba(255,255,255,0.7)', textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}
+              >
                 {t('home.signUpCommunity')}
               </p>
             </motion.div>
