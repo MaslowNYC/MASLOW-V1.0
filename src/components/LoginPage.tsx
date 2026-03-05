@@ -769,7 +769,7 @@ const LoginPage = () => {
         animate="visible"
       >
         {/* Logo */}
-        <motion.div variants={itemVariants} className="flex flex-col items-center mb-2.5">
+        <motion.div variants={itemVariants} className="flex flex-col items-center mb-2.5 mt-12">
           <div
             className="w-[140px] h-[140px] rounded-full flex items-center justify-center mb-4"
           >
@@ -786,16 +786,16 @@ const LoginPage = () => {
 
           {/* Wordmark */}
           <div
-            className="text-[15px] font-normal tracking-[0.45em] uppercase mb-2"
-            style={{ fontFamily: "'Cormorant Garamond', serif", color: '#4a3f35' }}
+            className="text-[18px] font-medium tracking-[0.35em] uppercase mb-2"
+            style={{ fontFamily: "'Cormorant Garamond', serif", color: '#2a2218' }}
           >
             Maslow NYC
           </div>
 
           {/* Tagline */}
           <div
-            className="text-[15px] italic"
-            style={{ fontFamily: "'Cormorant Garamond', serif", color: 'rgba(154,142,128,0.85)', letterSpacing: '0.03em' }}
+            className="text-[16px] italic"
+            style={{ fontFamily: "'Cormorant Garamond', serif", color: '#6b5d4d', letterSpacing: '0.03em' }}
           >
             {t('hero.tagline')}
           </div>
