@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
-const POLICY_URL = 'https://policies.termageddon.com/api/policy/Y1dvcldESmlSalk0VG01dFkxRTlQUT09';
+const POLICY_URL = '/api/policy/Y1dvcldESmlSalk0VG01dFkxRTlQUT09';
 
 const PrivacyPolicyPage = () => {
   const [html, setHtml] = useState('<p>Loading policy...</p>');
