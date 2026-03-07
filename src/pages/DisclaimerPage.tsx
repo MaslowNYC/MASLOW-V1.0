@@ -1,16 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
-const DisclaimerPage = () => {
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://policies.termageddon.com/api/embed/YkZJMFpFRjJSblU0TDNBelJuYzlQUT09.js';
-    script.async = true;
-    document.body.appendChild(script);
+const POLICY_URL = 'https://policies.termageddon.com/api/policy/YkZJMFpFRjJSblU0TDNBelJuYzlQUT09';
 
-    return () => {
-      document.body.removeChild(script);
-    };
+const DisclaimerPage = () => {
+  const [html, setHtml] = useState('<p>Loading policy...</p>');
+
+  useEffect(() => {
+    fetch(POLICY_URL)
+      .then(res => res.text())
+      .then(text => setHtml(text))
+      .catch(() => setHtml('<p>Unable to load policy. Please try again later.</p>'));
   }, []);
 
   return (
@@ -34,24 +34,9 @@ const DisclaimerPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="prose prose-lg max-w-none"
-        >
-          <div
-            id="YkZJMFpFRjJSblU0TDNBelJuYzlQUT09"
-            className="policy_embed_div text-[#286BCD]"
-          >
-            Please wait while the policy is loaded. If it does not load, please{' '}
-            <a
-              rel="nofollow"
-              href="https://policies.termageddon.com/api/policy/YkZJMFpFRjJSblU0TDNBelJuYzlQUT09"
-              target="_blank"
-              className="text-[#C49F58] hover:underline"
-            >
-              click here
-            </a>{' '}
-            to view the policy.
-          </div>
-        </motion.div>
+          className="prose prose-lg max-w-none text-[#286BCD]"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
       </div>
     </div>
   );
