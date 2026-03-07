@@ -166,12 +166,12 @@ const FAQItem: React.FC<{ item: FAQItem; isOpen: boolean; onToggle: () => void }
   onToggle,
 }) => {
   return (
-    <div className="border-b border-[#286BCD]/10 last:border-b-0">
+    <div className="border-b border-[#3C5999]/10 last:border-b-0">
       <button
         onClick={onToggle}
-        className="w-full py-4 flex items-center justify-between text-left hover:bg-[#286BCD]/5 transition-colors rounded-lg px-2 -mx-2"
+        className="w-full py-4 flex items-center justify-between text-left hover:bg-[#3C5999]/5 transition-colors rounded-lg px-2 -mx-2"
       >
-        <span className="text-[#286BCD] font-medium pr-4">{item.question}</span>
+        <span className="text-[#3C5999] font-medium pr-4">{item.question}</span>
         <ChevronDown
           className={`w-5 h-5 text-[#C49F58] flex-shrink-0 transition-transform duration-200 ${
             isOpen ? 'rotate-180' : ''
@@ -187,7 +187,7 @@ const FAQItem: React.FC<{ item: FAQItem; isOpen: boolean; onToggle: () => void }
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <p className="text-[#286BCD]/70 pb-4 leading-relaxed pl-2">{item.answer}</p>
+            <p className="text-[#3C5999]/70 pb-4 leading-relaxed pl-2">{item.answer}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -209,7 +209,7 @@ const FAQPage = () => {
   return (
     <div className="min-h-screen bg-[#FAF4ED]">
       {/* Header */}
-      <div className="bg-[#286BCD] py-16">
+      <div className="bg-[#3C5999] py-16">
         <div className="container mx-auto px-4">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -239,7 +239,7 @@ const FAQPage = () => {
         >
           {faqData.map((section, sectionIndex) => (
             <section key={section.title} className="bg-white rounded-xl p-6 shadow-sm">
-              <h2 className="text-xl font-serif font-bold text-[#286BCD] mb-4 pb-2 border-b border-[#C49F58]/30">
+              <h2 className="text-xl font-serif font-bold text-[#3C5999] mb-4 pb-2 border-b border-[#C49F58]/30">
                 {section.title}
               </h2>
               <div>
@@ -256,7 +256,7 @@ const FAQPage = () => {
           ))}
 
           {/* Contact Section */}
-          <section className="bg-[#286BCD] rounded-xl p-8 text-center">
+          <section className="bg-[#3C5999] rounded-xl p-8 text-center">
             <h2 className="text-2xl font-serif font-bold text-white mb-3">
               Still have questions?
             </h2>
@@ -265,7 +265,7 @@ const FAQPage = () => {
             </p>
             <a
               href="mailto:hello@maslow.nyc?subject=Support Question"
-              className="inline-flex items-center gap-2 bg-[#C49F58] text-[#286BCD] font-bold px-6 py-3 rounded-lg hover:bg-[#d4af69] transition-colors"
+              className="inline-flex items-center gap-2 bg-[#C49F58] text-[#3C5999] font-bold px-6 py-3 rounded-lg hover:bg-[#d4af69] transition-colors"
             >
               <Mail className="w-5 h-5" />
               Contact Support

@@ -10,7 +10,7 @@ const PowderRoomInterior: React.FC = () => {
       className="relative w-full max-w-md mx-auto"
     >
       {/* Powder Room Container */}
-      <div className="relative h-96 bg-gradient-to-b from-white to-[#FAF4ED] rounded-lg shadow-2xl overflow-hidden border-2 border-[#286BCD]/10">
+      <div className="relative h-96 bg-gradient-to-b from-white to-[#FAF4ED] rounded-lg shadow-2xl overflow-hidden border-2 border-[#3C5999]/10">
 
         {/* Subway Tile Pattern Background */}
         <div className="absolute inset-0 opacity-30">

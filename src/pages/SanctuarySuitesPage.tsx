@@ -86,7 +86,7 @@ const SanctuarySuitesPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-5xl md:text-7xl font-serif font-bold text-[#286BCD] mb-6">
+            <h1 className="text-5xl md:text-7xl font-serif font-bold text-[#3C5999] mb-6">
               Maslow Suites
             </h1>
             <p className="text-xl md:text-2xl text-[#1a1a1a]/80 font-light max-w-3xl mx-auto">
@@ -110,7 +110,7 @@ const SanctuarySuitesPage: React.FC = () => {
             </h2>
             <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
 
-            <p className="text-xl text-[#286BCD] font-medium mb-6">
+            <p className="text-xl text-[#3C5999] font-medium mb-6">
               Every Maslow suite is designed with one goal: give you back your dignity.
             </p>
 
@@ -139,14 +139,14 @@ const SanctuarySuitesPage: React.FC = () => {
             </h2>
             <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
 
-            <h3 className="text-3xl md:text-4xl font-serif text-[#286BCD] mb-12">
+            <h3 className="text-3xl md:text-4xl font-serif text-[#3C5999] mb-12">
               Thoughtful Design, Every Detail
             </h3>
 
             <div className="space-y-12">
               {/* Bidet */}
-              <div className="border-b border-[#286BCD]/10 pb-12">
-                <h4 className="text-xl font-bold text-[#286BCD] mb-4">Luxury Bidet with Heated Seat</h4>
+              <div className="border-b border-[#3C5999]/10 pb-12">
+                <h4 className="text-xl font-bold text-[#3C5999] mb-4">Luxury Bidet with Heated Seat</h4>
                 <p className="text-lg text-[#1a1a1a]/70 leading-relaxed mb-4">
                   Every suite includes a luxury bidet with adjustable water pressure, temperature control, and a heated seat. An optional hand bidet is also available for those who prefer it.
                 </p>
@@ -156,18 +156,18 @@ const SanctuarySuitesPage: React.FC = () => {
               </div>
 
               {/* Layered Amenities */}
-              <div className="border-b border-[#286BCD]/10 pb-12">
-                <h4 className="text-xl font-bold text-[#286BCD] mb-4">Layered Amenities for Your Needs</h4>
+              <div className="border-b border-[#3C5999]/10 pb-12">
+                <h4 className="text-xl font-bold text-[#3C5999] mb-4">Layered Amenities for Your Needs</h4>
                 <p className="text-lg text-[#1a1a1a]/70 leading-relaxed mb-6">
                   Every suite starts with the essentials—a clean bathroom, bidet access, sink, and a bench. From there, we layer in what you need for your specific session.
                 </p>
-                <p className="text-[#286BCD] font-medium mb-4">When you book, tell us what you're coming for:</p>
+                <p className="text-[#3C5999] font-medium mb-4">When you book, tell us what you're coming for:</p>
                 <ul className="space-y-4">
                   {amenityItems.map((item, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <div className="w-2 h-2 bg-[#C49F58] rounded-full mt-2 shrink-0"></div>
                       <div>
-                        <span className="font-bold text-[#286BCD]">{item.title}:</span>{" "}
+                        <span className="font-bold text-[#3C5999]">{item.title}:</span>{" "}
                         <span className="text-[#1a1a1a]/70">{item.desc}</span>
                       </div>
                     </li>
@@ -179,32 +179,32 @@ const SanctuarySuitesPage: React.FC = () => {
               </div>
 
               {/* ADA Doors */}
-              <div className="border-b border-[#286BCD]/10 pb-12">
-                <h4 className="text-xl font-bold text-[#286BCD] mb-4">ADA-Compliant Automatic Doors</h4>
+              <div className="border-b border-[#3C5999]/10 pb-12">
+                <h4 className="text-xl font-bold text-[#3C5999] mb-4">ADA-Compliant Automatic Doors</h4>
                 <p className="text-lg text-[#1a1a1a]/70 leading-relaxed">
                   Wide, sensor-activated doors ensure accessibility for wheelchair users, parents with strollers, and anyone who needs hands-free entry. Every suite meets or exceeds ADA requirements.
                 </p>
               </div>
 
               {/* Skylight */}
-              <div className="border-b border-[#286BCD]/10 pb-12">
-                <h4 className="text-xl font-bold text-[#286BCD] mb-4">Artificial Skylight System</h4>
+              <div className="border-b border-[#3C5999]/10 pb-12">
+                <h4 className="text-xl font-bold text-[#3C5999] mb-4">Artificial Skylight System</h4>
                 <p className="text-lg text-[#1a1a1a]/70 leading-relaxed">
                   No harsh fluorescent lights. Each suite features a custom-built skylight system using LED strips and diffusion materials to create natural, calming light—even in windowless interior spaces.
                 </p>
               </div>
 
               {/* Music */}
-              <div className="border-b border-[#286BCD]/10 pb-12">
-                <h4 className="text-xl font-bold text-[#286BCD] mb-4">Curated Music Integration</h4>
+              <div className="border-b border-[#3C5999]/10 pb-12">
+                <h4 className="text-xl font-bold text-[#3C5999] mb-4">Curated Music Integration</h4>
                 <p className="text-lg text-[#1a1a1a]/70 leading-relaxed">
                   Your session, your soundtrack. Door-triggered music systems (built with ESP32 microcontrollers and magnetic sensors) start playing calming ambient music when you enter. Or bring your own device and use the Bluetooth connection.
                 </p>
               </div>
 
               {/* Cleaning */}
-              <div className="border-b border-[#286BCD]/10 pb-12">
-                <h4 className="text-xl font-bold text-[#286BCD] mb-4">Hospital-Grade Cleaning</h4>
+              <div className="border-b border-[#3C5999]/10 pb-12">
+                <h4 className="text-xl font-bold text-[#3C5999] mb-4">Hospital-Grade Cleaning</h4>
                 <p className="text-lg text-[#1a1a1a]/70 leading-relaxed mb-4">
                   After every session, we follow a rigorous four-step process:
                 </p>
@@ -213,7 +213,7 @@ const SanctuarySuitesPage: React.FC = () => {
                     <li key={i} className="flex items-start gap-4">
                       <span className="text-[#C49F58] font-bold">{item.num}.</span>
                       <div>
-                        <span className="font-medium text-[#286BCD]">{item.title}</span>
+                        <span className="font-medium text-[#3C5999]">{item.title}</span>
                         <span className="text-[#1a1a1a]/70"> – {item.desc}</span>
                       </div>
                     </li>
@@ -223,7 +223,7 @@ const SanctuarySuitesPage: React.FC = () => {
 
               {/* Timer */}
               <div>
-                <h4 className="text-xl font-bold text-[#286BCD] mb-4">Timer Display</h4>
+                <h4 className="text-xl font-bold text-[#3C5999] mb-4">Timer Display</h4>
                 <p className="text-lg text-[#1a1a1a]/70 leading-relaxed">
                   A clear digital timer shows how much time you have left in your session. No anxiety about overstaying. No surprise lock-outs. Just transparency.
                 </p>
@@ -247,14 +247,14 @@ const SanctuarySuitesPage: React.FC = () => {
             </h2>
             <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
 
-            <h3 className="text-3xl md:text-4xl font-serif text-[#286BCD] mb-12">
+            <h3 className="text-3xl md:text-4xl font-serif text-[#3C5999] mb-12">
               Built for Safety
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {safetyFeatures.map((item, i) => (
                 <div key={i} className="p-6 bg-[#FAF4ED] rounded-xl">
-                  <h4 className="font-bold text-[#286BCD] mb-2">{item.title}</h4>
+                  <h4 className="font-bold text-[#3C5999] mb-2">{item.title}</h4>
                   <p className="text-[#1a1a1a]/70 text-sm leading-relaxed">{item.desc}</p>
                 </div>
               ))}
@@ -277,14 +277,14 @@ const SanctuarySuitesPage: React.FC = () => {
             </h2>
             <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
 
-            <h3 className="text-3xl md:text-4xl font-serif text-[#286BCD] mb-12">
+            <h3 className="text-3xl md:text-4xl font-serif text-[#3C5999] mb-12">
               How It Works
             </h3>
 
             <div className="space-y-6">
               {bookingSteps.map((item, i) => (
                 <div key={i} className="flex items-start gap-6">
-                  <div className="w-12 h-12 bg-[#286BCD] rounded-full flex items-center justify-center shrink-0">
+                  <div className="w-12 h-12 bg-[#3C5999] rounded-full flex items-center justify-center shrink-0">
                     <span className="text-white font-bold">{item.num}</span>
                   </div>
                   <p className="text-lg text-[#1a1a1a]/70 pt-2">{item.text}</p>
@@ -309,7 +309,7 @@ const SanctuarySuitesPage: React.FC = () => {
             </h2>
             <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
 
-            <h3 className="text-3xl md:text-4xl font-serif text-[#286BCD] mb-8">
+            <h3 className="text-3xl md:text-4xl font-serif text-[#3C5999] mb-8">
               Why We Built It This Way
             </h3>
 
@@ -318,12 +318,12 @@ const SanctuarySuitesPage: React.FC = () => {
                 Most public bathrooms are designed to deter use. Uncomfortable seats. Harsh lighting. No privacy. Minimal amenities. The message is clear: Get in, get out, don't stay.
               </p>
               <p>
-                We designed Maslow suites with the opposite philosophy: <strong className="text-[#286BCD]">Stay as long as you need. Be comfortable. Feel safe.</strong>
+                We designed Maslow suites with the opposite philosophy: <strong className="text-[#3C5999]">Stay as long as you need. Be comfortable. Feel safe.</strong>
               </p>
               <p>
                 Because needing a bathroom isn't something to be ashamed of. Needing to nurse your baby isn't an inconvenience. Needing to pray isn't a disruption. These are basic human needs, and infrastructure should treat them that way.
               </p>
-              <p className="text-xl text-[#286BCD] font-medium border-l-4 border-[#C49F58] pl-6 my-8">
+              <p className="text-xl text-[#3C5999] font-medium border-l-4 border-[#C49F58] pl-6 my-8">
                 That's why we call them Maslow suites, not bathrooms. Because they're more than a toilet and a sink. They're a moment of peace in a city that doesn't give you many.
               </p>
             </div>
@@ -332,7 +332,7 @@ const SanctuarySuitesPage: React.FC = () => {
       </section>
 
       {/* Feedback Section */}
-      <section className="py-20 px-6 bg-[#286BCD]">
+      <section className="py-20 px-6 bg-[#3C5999]">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

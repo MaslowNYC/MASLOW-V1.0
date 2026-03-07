@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children, requireFounder = false }: ProtectedRouteProp
   if (loading) {
     return (
       <div className="h-screen w-full flex items-center justify-center bg-[#FAF4ED]">
-        <Loader2 className="w-8 h-8 text-[#286BCD] animate-spin" />
+        <Loader2 className="w-8 h-8 text-[#3C5999] animate-spin" />
       </div>
     );
   }

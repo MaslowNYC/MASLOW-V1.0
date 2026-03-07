@@ -96,7 +96,7 @@ const FuturePrototypesPage: React.FC = () => {
             alt="Future Vision"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#286BCD]/80 via-[#286BCD]/60 to-[#FAF4ED]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#3C5999]/80 via-[#3C5999]/60 to-[#FAF4ED]" />
         </div>
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
@@ -141,10 +141,10 @@ const FuturePrototypesPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#286BCD] mb-6">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#3C5999] mb-6">
               Building Tomorrow, Today
             </h2>
-            <p className="text-lg text-[#286BCD]/70 leading-relaxed">
+            <p className="text-lg text-[#3C5999]/70 leading-relaxed">
               Every Maslow location represents our commitment to continuous innovation.
               The features below are actively in development, informed by member feedback
               and our relentless pursuit of the perfect urban retreat. Your investment
@@ -200,10 +200,10 @@ const FuturePrototypesPage: React.FC = () => {
                     <p className="text-[#C49F58] font-semibold uppercase tracking-widest text-sm mb-2">
                       {feature.subtitle}
                     </p>
-                    <h3 className="text-3xl md:text-4xl font-serif font-bold text-[#286BCD] mb-4">
+                    <h3 className="text-3xl md:text-4xl font-serif font-bold text-[#3C5999] mb-4">
                       {feature.title}
                     </h3>
-                    <p className="text-[#286BCD]/70 text-lg leading-relaxed mb-8">
+                    <p className="text-[#3C5999]/70 text-lg leading-relaxed mb-8">
                       {feature.description}
                     </p>
 
@@ -212,7 +212,7 @@ const FuturePrototypesPage: React.FC = () => {
                       {feature.details.map((detail, i) => (
                         <div key={i} className="flex items-start gap-3">
                           <div className="w-2 h-2 rounded-full bg-[#C49F58] mt-2 flex-shrink-0" />
-                          <span className="text-[#286BCD]/80 text-sm">{detail}</span>
+                          <span className="text-[#3C5999]/80 text-sm">{detail}</span>
                         </div>
                       ))}
                     </div>
@@ -225,7 +225,7 @@ const FuturePrototypesPage: React.FC = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-[#286BCD] py-24 px-4">
+      <section className="bg-[#3C5999] py-24 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -263,7 +263,7 @@ const FuturePrototypesPage: React.FC = () => {
       {/* Footer Note */}
       <section className="py-12 px-4 bg-[#FAF4ED]">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-sm text-[#286BCD]/50">
+          <p className="text-sm text-[#3C5999]/50">
             Features shown are in active development. Final specifications, availability,
             and timelines may vary. Sovereign members will receive priority updates as
             features progress toward deployment.

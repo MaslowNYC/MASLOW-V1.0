@@ -71,7 +71,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isCartOpen, setIsCartOpen }
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-[#286BCD]/60 backdrop-blur-sm z-50"
+            className="fixed inset-0 bg-[#3C5999]/60 backdrop-blur-sm z-50"
             onClick={() => setIsCartOpen(false)}
           />
 
@@ -85,12 +85,12 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isCartOpen, setIsCartOpen }
             onClick={(e: MouseEvent) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-[#286BCD]/10 bg-white">
+            <div className="flex items-center justify-between p-6 border-b border-[#3C5999]/10 bg-white">
               <div className="flex items-center gap-3">
                 <ShoppingCartIcon className="w-6 h-6 text-[#C49F58]" />
-                <h2 className="text-xl font-bold text-[#286BCD] font-serif">Your Cart</h2>
+                <h2 className="text-xl font-bold text-[#3C5999] font-serif">Your Cart</h2>
               </div>
-              <Button onClick={() => setIsCartOpen(false)} variant="ghost" size="icon" className="text-[#286BCD] hover:bg-[#286BCD]/10">
+              <Button onClick={() => setIsCartOpen(false)} variant="ghost" size="icon" className="text-[#3C5999] hover:bg-[#3C5999]/10">
                 <X className="w-5 h-5" />
               </Button>
             </div>
@@ -98,8 +98,8 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isCartOpen, setIsCartOpen }
             {/* Cart Items */}
             <div className="flex-grow p-6 overflow-y-auto space-y-4 bg-[#FAF4ED]">
               {cartItems.length === 0 ? (
-                <div className="text-center text-[#286BCD]/40 h-full flex flex-col items-center justify-center">
-                  <div className="bg-[#286BCD]/5 p-6 rounded-full mb-4">
+                <div className="text-center text-[#3C5999]/40 h-full flex flex-col items-center justify-center">
+                  <div className="bg-[#3C5999]/5 p-6 rounded-full mb-4">
                      <ShoppingCartIcon size={48} />
                   </div>
                   <p className="font-serif text-lg">Your cart is empty.</p>
@@ -109,30 +109,30 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isCartOpen, setIsCartOpen }
                 </div>
               ) : (
                 cartItems.map(item => (
-                  <div key={item.variant.id} className="flex gap-4 bg-white p-4 rounded-xl shadow-sm border border-[#286BCD]/5">
-                    <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-[#FAF4ED] bg-[#286BCD]/10 flex items-center justify-center">
-                      <span className="text-[#286BCD] font-serif text-xs text-center px-1">{item.product.title.slice(0, 20)}</span>
+                  <div key={item.variant.id} className="flex gap-4 bg-white p-4 rounded-xl shadow-sm border border-[#3C5999]/5">
+                    <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border border-[#FAF4ED] bg-[#3C5999]/10 flex items-center justify-center">
+                      <span className="text-[#3C5999] font-serif text-xs text-center px-1">{item.product.title.slice(0, 20)}</span>
                     </div>
 
                     <div className="flex flex-1 flex-col">
-                      <div className="flex justify-between text-base font-medium text-[#286BCD]">
+                      <div className="flex justify-between text-base font-medium text-[#3C5999]">
                         <h3 className="line-clamp-1 font-serif">{item.product.title}</h3>
                         <p className="ml-4">{formatCurrency(item.variant.sale_price_in_cents ?? item.variant.price_in_cents, item.variant.currency_info)}</p>
                       </div>
-                      <p className="mt-1 text-sm text-[#286BCD]/60">{item.variant.title}</p>
+                      <p className="mt-1 text-sm text-[#3C5999]/60">{item.variant.title}</p>
 
                       <div className="flex flex-1 items-end justify-between text-sm">
-                        <div className="flex items-center border border-[#286BCD]/20 rounded-md bg-[#FAF4ED]">
+                        <div className="flex items-center border border-[#3C5999]/20 rounded-md bg-[#FAF4ED]">
                           <button
                             onClick={() => updateQuantity(item.variant.id, Math.max(1, item.quantity - 1))}
-                            className="px-2 py-1 text-[#286BCD] hover:bg-[#286BCD]/10 transition-colors"
+                            className="px-2 py-1 text-[#3C5999] hover:bg-[#3C5999]/10 transition-colors"
                           >
                             -
                           </button>
-                          <span className="px-2 text-[#286BCD] font-medium min-w-[1.5rem] text-center">{item.quantity}</span>
+                          <span className="px-2 text-[#3C5999] font-medium min-w-[1.5rem] text-center">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.variant.id, item.quantity + 1)}
-                            className="px-2 py-1 text-[#286BCD] hover:bg-[#286BCD]/10 transition-colors"
+                            className="px-2 py-1 text-[#3C5999] hover:bg-[#3C5999]/10 transition-colors"
                           >
                             +
                           </button>
@@ -155,12 +155,12 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isCartOpen, setIsCartOpen }
 
             {/* Footer */}
             {cartItems.length > 0 && (
-              <div className="p-6 border-t border-[#286BCD]/10 bg-white">
+              <div className="p-6 border-t border-[#3C5999]/10 bg-white">
                 <div className="flex justify-between items-center mb-4">
-                  <span className="text-base font-medium text-[#286BCD]">Subtotal</span>
-                  <span className="text-2xl font-bold text-[#286BCD] font-serif">{getCartTotal()}</span>
+                  <span className="text-base font-medium text-[#3C5999]">Subtotal</span>
+                  <span className="text-2xl font-bold text-[#3C5999] font-serif">{getCartTotal()}</span>
                 </div>
-                <p className="mt-0.5 text-sm text-[#286BCD]/60 mb-6">Shipping and taxes calculated at checkout.</p>
+                <p className="mt-0.5 text-sm text-[#3C5999]/60 mb-6">Shipping and taxes calculated at checkout.</p>
 
                 {/* UPDATED LOGIC HERE */}
                 {!featureFlags.enablePayments ? (
@@ -178,7 +178,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isCartOpen, setIsCartOpen }
                 ) : (
                   <Button
                     onClick={handleCheckout}
-                    className="w-full bg-[#C49F58] hover:bg-[#b08d4b] text-[#286BCD] font-bold py-6 text-lg tracking-wider transition-all shadow-lg hover:shadow-xl"
+                    className="w-full bg-[#C49F58] hover:bg-[#b08d4b] text-[#3C5999] font-bold py-6 text-lg tracking-wider transition-all shadow-lg hover:shadow-xl"
                   >
                     Checkout <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>

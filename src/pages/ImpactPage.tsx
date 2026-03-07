@@ -28,7 +28,7 @@ const ImpactPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-5xl md:text-7xl font-serif font-bold text-[#286BCD] mb-6">
+            <h1 className="text-5xl md:text-7xl font-serif font-bold text-[#3C5999] mb-6">
               The Infrastructure of Dignity
             </h1>
             <p className="text-xl md:text-2xl text-[#1a1a1a]/80 font-light max-w-3xl mx-auto mb-8">
@@ -55,7 +55,7 @@ const ImpactPage: React.FC = () => {
             </h2>
             <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
 
-            <h3 className="text-3xl md:text-4xl font-serif text-[#286BCD] mb-6">
+            <h3 className="text-3xl md:text-4xl font-serif text-[#3C5999] mb-6">
               How Maslow Works
             </h3>
 
@@ -69,7 +69,7 @@ const ImpactPage: React.FC = () => {
             </div>
 
             <div className="mt-12">
-              <h4 className="text-xl font-bold text-[#286BCD] mb-6">The Path Forward</h4>
+              <h4 className="text-xl font-bold text-[#3C5999] mb-6">The Path Forward</h4>
               <div className="space-y-6">
                 <div className="flex gap-4">
                   <div className="w-24 shrink-0">
@@ -119,7 +119,7 @@ const ImpactPage: React.FC = () => {
             </h2>
             <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
 
-            <h3 className="text-3xl md:text-4xl font-serif text-[#286BCD] mb-6">
+            <h3 className="text-3xl md:text-4xl font-serif text-[#3C5999] mb-6">
               Built for Everyone
             </h3>
 
@@ -131,7 +131,7 @@ const ImpactPage: React.FC = () => {
               Maslow is being built with communities, not just for them. We've researched accessibility requirements, cultural practices, and dignity standards, but we know we don't have all the answers.
             </p>
 
-            <h4 className="text-xl font-bold text-[#286BCD] mb-6">What we've considered so far:</h4>
+            <h4 className="text-xl font-bold text-[#3C5999] mb-6">What we've considered so far:</h4>
 
             <ul className="space-y-4 mb-10">
               {accessibilityItems.map((item, i) => (
@@ -142,8 +142,8 @@ const ImpactPage: React.FC = () => {
               ))}
             </ul>
 
-            <div className="bg-[#286BCD]/5 rounded-xl p-8 border border-[#286BCD]/10">
-              <h4 className="text-xl font-bold text-[#286BCD] mb-4">But we're still learning.</h4>
+            <div className="bg-[#3C5999]/5 rounded-xl p-8 border border-[#3C5999]/10">
+              <h4 className="text-xl font-bold text-[#3C5999] mb-4">But we're still learning.</h4>
               <p className="text-[#1a1a1a]/70 leading-relaxed">
                 If you use Maslow and something doesn't work for you—whether it's a design choice, a missing amenity, or something we didn't think of—please tell us. This is infrastructure for 8 million people with 8 million different needs. We can't get it right without your input.
               </p>
@@ -166,7 +166,7 @@ const ImpactPage: React.FC = () => {
             </h2>
             <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
 
-            <h3 className="text-3xl md:text-4xl font-serif text-[#286BCD] mb-6">
+            <h3 className="text-3xl md:text-4xl font-serif text-[#3C5999] mb-6">
               Where We're Headed
             </h3>
 
@@ -188,9 +188,9 @@ const ImpactPage: React.FC = () => {
 
             <div className="mt-10 p-8 bg-[#FAF4ED] rounded-xl">
               <p className="text-lg text-[#1a1a1a]/80 leading-relaxed mb-4">
-                <strong className="text-[#286BCD]">The long-term vision?</strong> Maslow becomes infrastructure—like libraries, like subway stations, like parks. Every neighborhood has access within a 10-minute walk. Half our access is paid (keeping us sustainable), half is free or subsidized (keeping our mission alive).
+                <strong className="text-[#3C5999]">The long-term vision?</strong> Maslow becomes infrastructure—like libraries, like subway stations, like parks. Every neighborhood has access within a 10-minute walk. Half our access is paid (keeping us sustainable), half is free or subsidized (keeping our mission alive).
               </p>
-              <p className="text-lg text-[#286BCD] font-medium">
+              <p className="text-lg text-[#3C5999] font-medium">
                 This isn't charity. It's not a temporary solution. It's permanent urban infrastructure built by people who believe cities should work for everyone.
               </p>
             </div>
@@ -199,7 +199,7 @@ const ImpactPage: React.FC = () => {
       </section>
 
       {/* Get Involved Section */}
-      <section className="py-20 px-6 bg-[#286BCD]">
+      <section className="py-20 px-6 bg-[#3C5999]">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

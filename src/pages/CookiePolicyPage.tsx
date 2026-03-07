@@ -31,7 +31,7 @@ const CookiePolicyPage = () => {
   return (
     <div className="min-h-screen bg-[#FAF4ED]">
       {/* Header */}
-      <div className="bg-[#286BCD] py-16">
+      <div className="bg-[#3C5999] py-16">
         <div className="container mx-auto px-4">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -49,7 +49,7 @@ const CookiePolicyPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="prose prose-lg max-w-none text-[#286BCD]"
+          className="prose prose-lg max-w-none text-[#3C5999]"
         >
           <p className="text-lg leading-relaxed mb-6">
             We use cookies and similar technologies to enhance your experience on our website.
@@ -58,19 +58,19 @@ const CookiePolicyPage = () => {
 
           <button
             onClick={openCookieSettings}
-            className="bg-[#286BCD] text-white px-6 py-3 rounded-lg hover:bg-[#1e5ab0] transition-colors font-medium"
+            className="bg-[#3C5999] text-white px-6 py-3 rounded-lg hover:bg-[#1e5ab0] transition-colors font-medium"
           >
             Manage Cookie Settings
           </button>
 
           <div className="mt-8 space-y-4">
-            <h2 className="text-2xl font-serif font-bold text-[#286BCD]">What are cookies?</h2>
+            <h2 className="text-2xl font-serif font-bold text-[#3C5999]">What are cookies?</h2>
             <p className="leading-relaxed">
               Cookies are small text files that are stored on your device when you visit a website.
               They help websites remember your preferences and improve your browsing experience.
             </p>
 
-            <h2 className="text-2xl font-serif font-bold text-[#286BCD] mt-6">Types of cookies we use</h2>
+            <h2 className="text-2xl font-serif font-bold text-[#3C5999] mt-6">Types of cookies we use</h2>
             <ul className="space-y-2 list-disc list-inside">
               <li><strong>Essential cookies:</strong> Required for the website to function properly</li>
               <li><strong>Analytics cookies:</strong> Help us understand how visitors interact with our website</li>

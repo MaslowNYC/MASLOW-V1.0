@@ -34,7 +34,7 @@ const WelcomeMessages: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.6 }}
-          className="text-2xl md:text-3xl font-serif text-[#286BCD]/80 text-center px-4"
+          className="text-2xl md:text-3xl font-serif text-[#3C5999]/80 text-center px-4"
         >
           {messages[currentIndex]}
         </motion.h2>

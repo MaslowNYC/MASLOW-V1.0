@@ -20,7 +20,7 @@ const LocationDetail: React.FC = () => {
 
         {/* Hero */}
         <div className="relative h-[60vh] overflow-hidden">
-          <div className="absolute inset-0 bg-[#286BCD]">
+          <div className="absolute inset-0 bg-[#3C5999]">
             <img
               src="https://images.unsplash.com/photo-1577412647305-991150c7d163?q=80&w=2070&auto=format&fit=crop"
               alt="SoHo Streets"
@@ -39,8 +39,8 @@ const LocationDetail: React.FC = () => {
                     <MapPin className="w-5 h-5" />
                     <span className="uppercase tracking-widest text-sm font-bold">Flagship Location</span>
                 </div>
-                <h1 className="text-6xl md:text-8xl font-serif text-[#286BCD] mb-4">SoHo</h1>
-                <p className="text-2xl text-[#286BCD] font-light max-w-xl">
+                <h1 className="text-6xl md:text-8xl font-serif text-[#3C5999] mb-4">SoHo</h1>
+                <p className="text-2xl text-[#3C5999] font-light max-w-xl">
                     SoHo Historic District<br/>
                     New York, NY 10013
                 </p>
@@ -59,9 +59,9 @@ const LocationDetail: React.FC = () => {
                     className="bg-white p-8 rounded-xl shadow-xl border-t-4 border-[#C49F58]"
                 >
                     <Calendar className="w-8 h-8 text-[#C49F58] mb-4" />
-                    <h3 className="text-xl font-serif text-[#286BCD] mb-2">Opening Timeline</h3>
-                    <p className="text-[#286BCD]/70">Grand Opening: <span className="font-bold">Spring 2026</span></p>
-                    <p className="text-[#286BCD]/70 text-sm mt-2 italic">Founding Member previews begin Winter 2025.</p>
+                    <h3 className="text-xl font-serif text-[#3C5999] mb-2">Opening Timeline</h3>
+                    <p className="text-[#3C5999]/70">Grand Opening: <span className="font-bold">Spring 2026</span></p>
+                    <p className="text-[#3C5999]/70 text-sm mt-2 italic">Founding Member previews begin Winter 2025.</p>
                 </motion.div>
 
                 {/* Card 2: Hours */}
@@ -69,11 +69,11 @@ const LocationDetail: React.FC = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="bg-white p-8 rounded-xl shadow-xl border-t-4 border-[#286BCD]"
+                    className="bg-white p-8 rounded-xl shadow-xl border-t-4 border-[#3C5999]"
                 >
-                    <Clock className="w-8 h-8 text-[#286BCD] mb-4" />
-                    <h3 className="text-xl font-serif text-[#286BCD] mb-2">Hours of Operation</h3>
-                    <ul className="text-[#286BCD]/70 text-sm space-y-1">
+                    <Clock className="w-8 h-8 text-[#3C5999] mb-4" />
+                    <h3 className="text-xl font-serif text-[#3C5999] mb-2">Hours of Operation</h3>
+                    <ul className="text-[#3C5999]/70 text-sm space-y-1">
                         <li className="flex justify-between"><span>Mon - Fri</span> <span>6:00 AM - 10:00 PM</span></li>
                         <li className="flex justify-between"><span>Sat - Sun</span> <span>8:00 AM - 12:00 AM</span></li>
                     </ul>
@@ -97,35 +97,35 @@ const LocationDetail: React.FC = () => {
 
         {/* Immersive Features */}
         <div className="container mx-auto px-4 py-24">
-            <h2 className="text-4xl font-serif text-[#286BCD] mb-12 text-center">Sanctuary Features</h2>
+            <h2 className="text-4xl font-serif text-[#3C5999] mb-12 text-center">Sanctuary Features</h2>
 
             <div className="grid md:grid-cols-3 gap-8">
                 <div className="group">
-                    <div className="aspect-square bg-[#286BCD]/5 rounded-lg mb-6 flex items-center justify-center group-hover:bg-[#286BCD]/10 transition-colors">
+                    <div className="aspect-square bg-[#3C5999]/5 rounded-lg mb-6 flex items-center justify-center group-hover:bg-[#3C5999]/10 transition-colors">
                         <Sun className="w-16 h-16 text-[#C49F58]" />
                     </div>
-                    <h3 className="text-2xl font-serif text-[#286BCD] mb-2">The Artificial Sky</h3>
-                    <p className="text-[#286BCD]/70 text-sm leading-relaxed">
+                    <h3 className="text-2xl font-serif text-[#3C5999] mb-2">The Artificial Sky</h3>
+                    <p className="text-[#3C5999]/70 text-sm leading-relaxed">
                         Circadian lighting that adjusts from cool noon capability to warm sunset restoration, recalibrating your biological clock instantly.
                     </p>
                 </div>
 
                 <div className="group">
-                    <div className="aspect-square bg-[#286BCD]/5 rounded-lg mb-6 flex items-center justify-center group-hover:bg-[#286BCD]/10 transition-colors">
+                    <div className="aspect-square bg-[#3C5999]/5 rounded-lg mb-6 flex items-center justify-center group-hover:bg-[#3C5999]/10 transition-colors">
                         <Volume2 className="w-16 h-16 text-[#C49F58]" />
                     </div>
-                    <h3 className="text-2xl font-serif text-[#286BCD] mb-2">The Maslow Console</h3>
-                    <p className="text-[#286BCD]/70 text-sm leading-relaxed">
+                    <h3 className="text-2xl font-serif text-[#3C5999] mb-2">The Maslow Console</h3>
+                    <p className="text-[#3C5999]/70 text-sm leading-relaxed">
                         Tactile audio control allowing you to switch between four distinct sonic environments: Source, Shield, Nature, and Void.
                     </p>
                 </div>
 
                 <div className="group">
-                    <div className="aspect-square bg-[#286BCD]/5 rounded-lg mb-6 flex items-center justify-center group-hover:bg-[#286BCD]/10 transition-colors">
+                    <div className="aspect-square bg-[#3C5999]/5 rounded-lg mb-6 flex items-center justify-center group-hover:bg-[#3C5999]/10 transition-colors">
                         <Shield className="w-16 h-16 text-[#C49F58]" />
                     </div>
-                    <h3 className="text-2xl font-serif text-[#286BCD] mb-2">Invisible Hygiene</h3>
-                    <p className="text-[#286BCD]/70 text-sm leading-relaxed">
+                    <h3 className="text-2xl font-serif text-[#3C5999] mb-2">Invisible Hygiene</h3>
+                    <p className="text-[#3C5999]/70 text-sm leading-relaxed">
                         Self-cleaning UV-C interlocks and Phantom Corridor maintenance ensure a hospital-grade sterile environment without intrusion.
                     </p>
                 </div>

@@ -39,8 +39,8 @@ const Switch: React.FC<{
     onClick={() => onCheckedChange(!checked)}
     className={`
       relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent
-      transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#286BCD] focus:ring-offset-2
-      ${checked ? 'bg-[#286BCD]' : 'bg-gray-200'}
+      transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#3C5999] focus:ring-offset-2
+      ${checked ? 'bg-[#3C5999]' : 'bg-gray-200'}
       ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
     `}
   >
@@ -67,7 +67,7 @@ const ProfileSettingsPage: React.FC = () => {
     toast({
       title: t('settings.languageChanged'),
       description: t('settings.languageChangedDesc'),
-      className: 'bg-[#286BCD] text-white',
+      className: 'bg-[#3C5999] text-white',
     });
   };
 
@@ -77,7 +77,7 @@ const ProfileSettingsPage: React.FC = () => {
     toast({
       title: t('settings.saved'),
       description: t('settings.savedDesc'),
-      className: 'bg-[#286BCD] text-white',
+      className: 'bg-[#3C5999] text-white',
     });
   };
 
@@ -91,7 +91,7 @@ const ProfileSettingsPage: React.FC = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#FAF4ED]">
-        <Loader2 className="animate-spin w-8 h-8 text-[#286BCD]" />
+        <Loader2 className="animate-spin w-8 h-8 text-[#3C5999]" />
       </div>
     );
   }
@@ -101,17 +101,17 @@ const ProfileSettingsPage: React.FC = () => {
       <div className="max-w-2xl mx-auto space-y-4">
         {/* Header */}
         <div className="text-center mb-4">
-          <h1 className="text-2xl md:text-3xl font-serif font-bold text-[#286BCD] flex items-center justify-center gap-2">
+          <h1 className="text-2xl md:text-3xl font-serif font-bold text-[#3C5999] flex items-center justify-center gap-2">
             <Settings className="w-6 h-6 md:w-8 md:h-8" />
             {t('settings.title')}
           </h1>
-          <p className="text-[#286BCD]/60 mt-2">{t('settings.subtitle')}</p>
+          <p className="text-[#3C5999]/60 mt-2">{t('settings.subtitle')}</p>
         </div>
 
         {/* Preferences Section */}
-        <Card className="border-[#286BCD]/10 bg-white shadow-sm">
+        <Card className="border-[#3C5999]/10 bg-white shadow-sm">
           <CardHeader>
-            <CardTitle className="text-[#286BCD] text-sm uppercase tracking-wider">
+            <CardTitle className="text-[#3C5999] text-sm uppercase tracking-wider">
               {t('settings.preferences')}
             </CardTitle>
           </CardHeader>
@@ -119,17 +119,17 @@ const ProfileSettingsPage: React.FC = () => {
             {/* Language Selector */}
             <div className="flex items-center justify-between py-2 border-b border-gray-100">
               <div className="flex items-center gap-3">
-                <Globe className="w-5 h-5 text-[#286BCD]/60" />
+                <Globe className="w-5 h-5 text-[#3C5999]/60" />
                 <div>
-                  <Label className="text-[#286BCD] font-medium">{t('settings.language')}</Label>
-                  <p className="text-xs text-[#286BCD]/50">{t('settings.languageDesc')}</p>
+                  <Label className="text-[#3C5999] font-medium">{t('settings.language')}</Label>
+                  <p className="text-xs text-[#3C5999]/50">{t('settings.languageDesc')}</p>
                 </div>
               </div>
               <select
                 value={language}
                 onChange={(e) => handleLanguageChange(e.target.value)}
                 disabled={languageLoading}
-                className="bg-[#FAF4ED] border border-[#286BCD]/20 rounded-lg px-3 py-2 text-[#286BCD] text-sm focus:outline-none focus:ring-2 focus:ring-[#286BCD] cursor-pointer"
+                className="bg-[#FAF4ED] border border-[#3C5999]/20 rounded-lg px-3 py-2 text-[#3C5999] text-sm focus:outline-none focus:ring-2 focus:ring-[#3C5999] cursor-pointer"
               >
                 {WELCOME_TRANSLATIONS.map((lang) => (
                   <option key={lang.code} value={lang.code}>
@@ -142,10 +142,10 @@ const ProfileSettingsPage: React.FC = () => {
             {/* Show Concierge Toggle */}
             <div className="flex items-center justify-between py-2">
               <div className="flex items-center gap-3 flex-1">
-                <MessageCircle className="w-5 h-5 text-[#286BCD]/60" />
+                <MessageCircle className="w-5 h-5 text-[#3C5999]/60" />
                 <div>
-                  <Label className="text-[#286BCD] font-medium">{t('settings.showConcierge')}</Label>
-                  <p className="text-xs text-[#286BCD]/50">{t('settings.showConciergeDesc')}</p>
+                  <Label className="text-[#3C5999] font-medium">{t('settings.showConcierge')}</Label>
+                  <p className="text-xs text-[#3C5999]/50">{t('settings.showConciergeDesc')}</p>
                 </div>
               </div>
               <Switch
@@ -157,9 +157,9 @@ const ProfileSettingsPage: React.FC = () => {
         </Card>
 
         {/* Accessibility Section */}
-        <Card className="border-[#286BCD]/10 bg-white shadow-sm">
+        <Card className="border-[#3C5999]/10 bg-white shadow-sm">
           <CardHeader>
-            <CardTitle className="text-[#286BCD] text-sm uppercase tracking-wider">
+            <CardTitle className="text-[#3C5999] text-sm uppercase tracking-wider">
               {t('settings.accessibility')}
             </CardTitle>
           </CardHeader>
@@ -167,10 +167,10 @@ const ProfileSettingsPage: React.FC = () => {
             {/* Reduce Animations */}
             <div className="flex items-center justify-between py-2 border-b border-gray-100">
               <div className="flex items-center gap-3 flex-1">
-                <Sparkles className="w-5 h-5 text-[#286BCD]/60" />
+                <Sparkles className="w-5 h-5 text-[#3C5999]/60" />
                 <div>
-                  <Label className="text-[#286BCD] font-medium">{t('settings.reduceAnimations')}</Label>
-                  <p className="text-xs text-[#286BCD]/50">{t('settings.reduceAnimationsDesc')}</p>
+                  <Label className="text-[#3C5999] font-medium">{t('settings.reduceAnimations')}</Label>
+                  <p className="text-xs text-[#3C5999]/50">{t('settings.reduceAnimationsDesc')}</p>
                 </div>
               </div>
               <Switch
@@ -182,10 +182,10 @@ const ProfileSettingsPage: React.FC = () => {
             {/* High Contrast */}
             <div className="flex items-center justify-between py-2 border-b border-gray-100">
               <div className="flex items-center gap-3 flex-1">
-                <Contrast className="w-5 h-5 text-[#286BCD]/60" />
+                <Contrast className="w-5 h-5 text-[#3C5999]/60" />
                 <div>
-                  <Label className="text-[#286BCD] font-medium">{t('settings.highContrast')}</Label>
-                  <p className="text-xs text-[#286BCD]/50">{t('settings.highContrastDesc')}</p>
+                  <Label className="text-[#3C5999] font-medium">{t('settings.highContrast')}</Label>
+                  <p className="text-xs text-[#3C5999]/50">{t('settings.highContrastDesc')}</p>
                 </div>
               </div>
               <Switch
@@ -197,10 +197,10 @@ const ProfileSettingsPage: React.FC = () => {
             {/* Larger Text */}
             <div className="flex items-center justify-between py-2">
               <div className="flex items-center gap-3 flex-1">
-                <Type className="w-5 h-5 text-[#286BCD]/60" />
+                <Type className="w-5 h-5 text-[#3C5999]/60" />
                 <div>
-                  <Label className="text-[#286BCD] font-medium">{t('settings.largerText')}</Label>
-                  <p className="text-xs text-[#286BCD]/50">{t('settings.largerTextDesc')}</p>
+                  <Label className="text-[#3C5999] font-medium">{t('settings.largerText')}</Label>
+                  <p className="text-xs text-[#3C5999]/50">{t('settings.largerTextDesc')}</p>
                 </div>
               </div>
               <Switch
@@ -212,9 +212,9 @@ const ProfileSettingsPage: React.FC = () => {
         </Card>
 
         {/* Support Section */}
-        <Card className="border-[#286BCD]/10 bg-white shadow-sm">
+        <Card className="border-[#3C5999]/10 bg-white shadow-sm">
           <CardHeader>
-            <CardTitle className="text-[#286BCD] text-sm uppercase tracking-wider">
+            <CardTitle className="text-[#3C5999] text-sm uppercase tracking-wider">
               {t('settings.support')}
             </CardTitle>
           </CardHeader>
@@ -225,10 +225,10 @@ const ProfileSettingsPage: React.FC = () => {
               className="flex items-center justify-between py-2 border-b border-gray-100 w-full text-left hover:bg-gray-50 transition-colors rounded"
             >
               <div className="flex items-center gap-3">
-                <HelpCircle className="w-5 h-5 text-[#286BCD]/60" />
-                <span className="text-[#286BCD] font-medium">FAQ</span>
+                <HelpCircle className="w-5 h-5 text-[#3C5999]/60" />
+                <span className="text-[#3C5999] font-medium">FAQ</span>
               </div>
-              <ChevronRight className="w-4 h-4 text-[#286BCD]/40" />
+              <ChevronRight className="w-4 h-4 text-[#3C5999]/40" />
             </Link>
 
             {/* Contact Support */}
@@ -237,10 +237,10 @@ const ProfileSettingsPage: React.FC = () => {
               className="flex items-center justify-between py-2 border-b border-gray-100 w-full text-left hover:bg-gray-50 transition-colors rounded"
             >
               <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-[#286BCD]/60" />
-                <span className="text-[#286BCD] font-medium">Contact Support</span>
+                <Mail className="w-5 h-5 text-[#3C5999]/60" />
+                <span className="text-[#3C5999] font-medium">Contact Support</span>
               </div>
-              <ChevronRight className="w-4 h-4 text-[#286BCD]/40" />
+              <ChevronRight className="w-4 h-4 text-[#3C5999]/40" />
             </a>
 
             {/* Terms & Conditions */}
@@ -249,10 +249,10 @@ const ProfileSettingsPage: React.FC = () => {
               className="flex items-center justify-between py-2 border-b border-gray-100 w-full text-left hover:bg-gray-50 transition-colors rounded"
             >
               <div className="flex items-center gap-3">
-                <FileText className="w-5 h-5 text-[#286BCD]/60" />
-                <span className="text-[#286BCD] font-medium">Terms & Conditions</span>
+                <FileText className="w-5 h-5 text-[#3C5999]/60" />
+                <span className="text-[#3C5999] font-medium">Terms & Conditions</span>
               </div>
-              <ChevronRight className="w-4 h-4 text-[#286BCD]/40" />
+              <ChevronRight className="w-4 h-4 text-[#3C5999]/40" />
             </Link>
 
             {/* Privacy Policy */}
@@ -261,16 +261,16 @@ const ProfileSettingsPage: React.FC = () => {
               className="flex items-center justify-between py-2 w-full text-left hover:bg-gray-50 transition-colors rounded"
             >
               <div className="flex items-center gap-3">
-                <Shield className="w-5 h-5 text-[#286BCD]/60" />
-                <span className="text-[#286BCD] font-medium">Privacy Policy</span>
+                <Shield className="w-5 h-5 text-[#3C5999]/60" />
+                <span className="text-[#3C5999] font-medium">Privacy Policy</span>
               </div>
-              <ChevronRight className="w-4 h-4 text-[#286BCD]/40" />
+              <ChevronRight className="w-4 h-4 text-[#3C5999]/40" />
             </Link>
           </CardContent>
         </Card>
 
         {/* Sign Out */}
-        <Card className="border-[#286BCD]/10 bg-white shadow-sm">
+        <Card className="border-[#3C5999]/10 bg-white shadow-sm">
           <CardContent className="pt-4">
             <Button
               variant="ghost"
@@ -284,7 +284,7 @@ const ProfileSettingsPage: React.FC = () => {
         </Card>
 
         {/* Version */}
-        <p className="text-center text-[#286BCD]/40 text-xs">
+        <p className="text-center text-[#3C5999]/40 text-xs">
           Maslow v2.1.0
         </p>
       </div>

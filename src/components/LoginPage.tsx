@@ -600,7 +600,7 @@ const LoginPage = () => {
     border: '1px solid rgba(196,159,88,0.2)',
   };
 
-  const inputClassName = "w-full px-4 py-3 rounded-lg text-[#2a2218] placeholder-[#b8ad9e] transition-all duration-200 focus:border-[#286BCD] focus:ring-2 focus:ring-[#286BCD]/10 focus:bg-white outline-none";
+  const inputClassName = "w-full px-4 py-3 rounded-lg text-[#2a2218] placeholder-[#b8ad9e] transition-all duration-200 focus:border-[#3C5999] focus:ring-2 focus:ring-[#3C5999]/10 focus:bg-white outline-none";
 
   const labelClassName = "block text-[9px] font-normal tracking-[0.24em] uppercase mb-1.5";
   const labelStyle = { color: 'rgba(196,159,88,0.85)', fontFamily: "'Jost', sans-serif" };
@@ -631,7 +631,7 @@ const LoginPage = () => {
           >
             <button
               onClick={handleBackToLogin}
-              className="flex items-center gap-1 text-[#b8ad9e] hover:text-[#286BCD] transition-colors mb-4 text-sm"
+              className="flex items-center gap-1 text-[#b8ad9e] hover:text-[#3C5999] transition-colors mb-4 text-sm"
               style={{ fontFamily: "'Jost', sans-serif" }}
             >
               ← {t('login.backToLogin')}
@@ -650,15 +650,15 @@ const LoginPage = () => {
 
             {resetEmailSent ? (
               <div className="text-center space-y-4">
-                <div className="w-14 h-14 mx-auto bg-[#286BCD]/10 rounded-full flex items-center justify-center">
-                  <svg className="w-7 h-7 text-[#286BCD]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-14 h-14 mx-auto bg-[#3C5999]/10 rounded-full flex items-center justify-center">
+                  <svg className="w-7 h-7 text-[#3C5999]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
                 <button
                   onClick={handleBackToLogin}
                   className="w-full py-3 rounded-lg text-white uppercase tracking-[0.26em] text-[11px] font-normal transition-all hover:opacity-90 hover:-translate-y-0.5"
-                  style={{ fontFamily: "'Jost', sans-serif", background: '#286BCD', boxShadow: '0 4px 16px rgba(40,107,205,0.2)' }}
+                  style={{ fontFamily: "'Jost', sans-serif", background: '#3C5999', boxShadow: '0 4px 16px rgba(40,107,205,0.2)' }}
                 >
                   {t('login.backToLogin')}
                 </button>
@@ -681,7 +681,7 @@ const LoginPage = () => {
                   type="submit"
                   disabled={loading}
                   className="w-full py-3 rounded-lg text-white uppercase tracking-[0.26em] text-[11px] font-normal transition-all hover:opacity-90 hover:-translate-y-0.5 disabled:opacity-50"
-                  style={{ fontFamily: "'Jost', sans-serif", background: '#286BCD', boxShadow: '0 4px 16px rgba(40,107,205,0.2)' }}
+                  style={{ fontFamily: "'Jost', sans-serif", background: '#3C5999', boxShadow: '0 4px 16px rgba(40,107,205,0.2)' }}
                 >
                   {loading ? (
                     <motion.span animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
@@ -779,7 +779,7 @@ const LoginPage = () => {
               className="w-[140px] h-[140px] object-contain"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
-                e.currentTarget.parentElement!.innerHTML = '<span style="font-family: Cormorant Garamond, serif; font-size: 72px; font-weight: 300; color: #286BCD;">M</span>';
+                e.currentTarget.parentElement!.innerHTML = '<span style="font-family: Cormorant Garamond, serif; font-size: 72px; font-weight: 300; color: #3C5999;">M</span>';
               }}
             />
           </div>
@@ -892,7 +892,7 @@ const LoginPage = () => {
                   type="submit"
                   disabled={loading}
                   className="w-full py-3.5 rounded-lg text-white uppercase tracking-[0.26em] text-[11px] font-normal transition-all hover:opacity-90 hover:-translate-y-0.5 disabled:opacity-50"
-                  style={{ fontFamily: "'Jost', sans-serif", background: '#286BCD', boxShadow: '0 4px 16px rgba(40,107,205,0.2)' }}
+                  style={{ fontFamily: "'Jost', sans-serif", background: '#3C5999', boxShadow: '0 4px 16px rgba(40,107,205,0.2)' }}
                 >
                   {loading ? (
                     <motion.span animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
@@ -904,7 +904,7 @@ const LoginPage = () => {
                   <button
                     type="button"
                     onClick={() => setShowForgotPassword(true)}
-                    className="text-[13px] text-[#b8ad9e] hover:text-[#286BCD] transition-colors"
+                    className="text-[13px] text-[#b8ad9e] hover:text-[#3C5999] transition-colors"
                     style={{ fontFamily: "'Jost', sans-serif" }}
                   >
                     {t('login.forgotPassword')}?
@@ -931,7 +931,7 @@ const LoginPage = () => {
                       key={step}
                       className="w-1 h-1 rounded-full transition-all duration-300"
                       style={{
-                        background: signupStep === step ? '#286BCD' : 'rgba(196,159,88,0.25)',
+                        background: signupStep === step ? '#3C5999' : 'rgba(196,159,88,0.25)',
                         transform: signupStep === step ? 'scale(1.3)' : 'scale(1)',
                       }}
                     />
@@ -993,14 +993,14 @@ const LoginPage = () => {
                     className="text-center text-[13px] italic"
                     style={{ fontFamily: "'Cormorant Garamond', serif", color: '#b8ad9e' }}
                   >
-                    You'll be member <span style={{ color: '#286BCD' }}>#{String(nextMemberNumber).padStart(5, '0')}</span>
+                    You'll be member <span style={{ color: '#3C5999' }}>#{String(nextMemberNumber).padStart(5, '0')}</span>
                   </div>
                 )}
 
                 <button
                   type="submit"
                   className="w-full py-3.5 rounded-lg text-white uppercase tracking-[0.26em] text-[11px] font-normal transition-all hover:opacity-90 hover:-translate-y-0.5"
-                  style={{ fontFamily: "'Jost', sans-serif", background: '#286BCD', boxShadow: '0 4px 16px rgba(40,107,205,0.2)' }}
+                  style={{ fontFamily: "'Jost', sans-serif", background: '#3C5999', boxShadow: '0 4px 16px rgba(40,107,205,0.2)' }}
                 >
                   Continue
                 </button>
@@ -1025,7 +1025,7 @@ const LoginPage = () => {
                       key={step}
                       className="w-1 h-1 rounded-full transition-all duration-300"
                       style={{
-                        background: signupStep === step ? '#286BCD' : 'rgba(196,159,88,0.25)',
+                        background: signupStep === step ? '#3C5999' : 'rgba(196,159,88,0.25)',
                         transform: signupStep === step ? 'scale(1.3)' : 'scale(1)',
                       }}
                     />
@@ -1065,7 +1065,7 @@ const LoginPage = () => {
                   type="submit"
                   disabled={loading}
                   className="w-full py-3.5 rounded-lg text-white uppercase tracking-[0.26em] text-[11px] font-normal transition-all hover:opacity-90 hover:-translate-y-0.5 disabled:opacity-50"
-                  style={{ fontFamily: "'Jost', sans-serif", background: '#286BCD', boxShadow: '0 4px 16px rgba(40,107,205,0.2)' }}
+                  style={{ fontFamily: "'Jost', sans-serif", background: '#3C5999', boxShadow: '0 4px 16px rgba(40,107,205,0.2)' }}
                 >
                   {loading ? (
                     <motion.span animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
@@ -1077,7 +1077,7 @@ const LoginPage = () => {
                 <button
                   type="button"
                   onClick={handleBackStep}
-                  className="w-full py-3 rounded-lg text-[#b8ad9e] uppercase tracking-[0.2em] text-[11px] font-normal transition-all border hover:border-[#286BCD]/30 hover:text-[#286BCD]"
+                  className="w-full py-3 rounded-lg text-[#b8ad9e] uppercase tracking-[0.2em] text-[11px] font-normal transition-all border hover:border-[#3C5999]/30 hover:text-[#3C5999]"
                   style={{ fontFamily: "'Jost', sans-serif", border: '1px solid rgba(196,159,88,0.22)' }}
                 >
                   ← Back
@@ -1103,7 +1103,7 @@ const LoginPage = () => {
                       key={step}
                       className="w-1 h-1 rounded-full transition-all duration-300"
                       style={{
-                        background: signupStep === step ? '#286BCD' : 'rgba(196,159,88,0.25)',
+                        background: signupStep === step ? '#3C5999' : 'rgba(196,159,88,0.25)',
                         transform: signupStep === step ? 'scale(1.3)' : 'scale(1)',
                       }}
                     />
@@ -1127,7 +1127,7 @@ const LoginPage = () => {
                       value={digit}
                       onChange={(e) => handleDigitChange(index, e.target.value)}
                       onKeyDown={(e) => handleDigitKeyDown(index, e)}
-                      className="w-[42px] h-[46px] text-center text-xl font-light rounded-lg transition-all focus:border-[#286BCD] focus:ring-2 focus:ring-[#286BCD]/10 focus:bg-white outline-none"
+                      className="w-[42px] h-[46px] text-center text-xl font-light rounded-lg transition-all focus:border-[#3C5999] focus:ring-2 focus:ring-[#3C5999]/10 focus:bg-white outline-none"
                       style={{
                         fontFamily: "'Jost', sans-serif",
                         color: '#2a2218',
@@ -1144,7 +1144,7 @@ const LoginPage = () => {
                     type="button"
                     onClick={handleResendCode}
                     disabled={loading}
-                    className="text-[#286BCD] hover:underline"
+                    className="text-[#3C5999] hover:underline"
                   >
                     Resend
                   </button>
@@ -1154,7 +1154,7 @@ const LoginPage = () => {
                   type="submit"
                   disabled={loading || codeDigits.some(d => !d)}
                   className="w-full py-3.5 rounded-lg text-white uppercase tracking-[0.26em] text-[11px] font-normal transition-all hover:opacity-90 hover:-translate-y-0.5 disabled:opacity-50"
-                  style={{ fontFamily: "'Jost', sans-serif", background: '#286BCD', boxShadow: '0 4px 16px rgba(40,107,205,0.2)' }}
+                  style={{ fontFamily: "'Jost', sans-serif", background: '#3C5999', boxShadow: '0 4px 16px rgba(40,107,205,0.2)' }}
                 >
                   {loading ? (
                     <motion.span animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
@@ -1166,7 +1166,7 @@ const LoginPage = () => {
                 <button
                   type="button"
                   onClick={handleBackStep}
-                  className="w-full py-3 rounded-lg text-[#b8ad9e] uppercase tracking-[0.2em] text-[11px] font-normal transition-all border hover:border-[#286BCD]/30 hover:text-[#286BCD]"
+                  className="w-full py-3 rounded-lg text-[#b8ad9e] uppercase tracking-[0.2em] text-[11px] font-normal transition-all border hover:border-[#3C5999]/30 hover:text-[#3C5999]"
                   style={{ fontFamily: "'Jost', sans-serif", border: '1px solid rgba(196,159,88,0.22)' }}
                 >
                   ← Back
@@ -1185,7 +1185,7 @@ const LoginPage = () => {
           By continuing you agree to Maslow's<br />
           <Link
             to="/terms-of-service"
-            className="hover:text-[#286BCD] transition-colors"
+            className="hover:text-[#3C5999] transition-colors"
             style={{ color: '#9a8e80', textDecoration: 'underline', textUnderlineOffset: '2px' }}
           >
             Terms of Service
@@ -1193,7 +1193,7 @@ const LoginPage = () => {
           {' & '}
           <Link
             to="/privacy-policy"
-            className="hover:text-[#286BCD] transition-colors"
+            className="hover:text-[#3C5999] transition-colors"
             style={{ color: '#9a8e80', textDecoration: 'underline', textUnderlineOffset: '2px' }}
           >
             Privacy Policy

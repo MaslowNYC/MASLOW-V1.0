@@ -271,7 +271,7 @@ export default function ConciergeModal({ userId, onClose }: ConciergeModalProps)
         aria-labelledby="concierge-title"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-gradient-to-r from-[#286ABC] to-[#286BCD]">
+        <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-gradient-to-r from-[#286ABC] to-[#3C5999]">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-[#FAF4ED] rounded-full flex items-center justify-center">
               <span className="text-[#286ABC] font-bold text-lg">M</span>

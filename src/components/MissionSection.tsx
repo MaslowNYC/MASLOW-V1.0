@@ -34,7 +34,7 @@ const MissionSection: React.FC = () => {
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[#286BCD]">The Blueprint</h3> {/* <--- CHANGED FROM MANIFESTO */}
+            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[#3C5999]">The Blueprint</h3> {/* <--- CHANGED FROM MANIFESTO */}
             <p className="font-serif text-2xl leading-snug">
               A private network for the public good.
             </p>

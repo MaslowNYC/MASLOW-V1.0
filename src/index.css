@@ -6,7 +6,7 @@
 @layer base {
   :root {
     --background: 0 0% 100%; /* Default to white for the Cloud theme */
-    --foreground: 216 67% 48%; /* #286BCD */
+    --foreground: 216 67% 48%; /* #3C5999 */
     --card: 0 0% 100%;
     --card-foreground: 216 67% 48%;
     --popover: 0 0% 100%;
@@ -107,10 +107,10 @@
   color: rgba(255, 255, 255, 0.9) !important;
 }
 
-.high-contrast .text-\[\#286BCD\]\/80,
-.high-contrast .text-\[\#286BCD\]\/60,
-.high-contrast .text-\[\#286BCD\]\/50,
-.high-contrast .text-\[\#286BCD\]\/40 {
+.high-contrast .text-\[\#3C5999\]\/80,
+.high-contrast .text-\[\#3C5999\]\/60,
+.high-contrast .text-\[\#3C5999\]\/50,
+.high-contrast .text-\[\#3C5999\]\/40 {
   color: #1a1a1a !important;
 }
 

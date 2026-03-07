@@ -16,7 +16,7 @@ const MaslowPage: React.FC = () => {
         <div className="container mx-auto px-6 pt-8">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-[#286BCD] hover:text-[#C49F58] transition-colors"
+            className="inline-flex items-center gap-2 text-[#3C5999] hover:text-[#C49F58] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span className="text-sm font-medium">Back to Home</span>
@@ -30,15 +30,15 @@ const MaslowPage: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="container mx-auto px-6 py-16 max-w-4xl"
         >
-          <h1 className="text-6xl md:text-7xl font-serif font-bold text-[#286BCD] mb-6">
+          <h1 className="text-6xl md:text-7xl font-serif font-bold text-[#3C5999] mb-6">
             Abraham Maslow
           </h1>
-          <p className="text-2xl text-[#286BCD]/70 font-light mb-12">
+          <p className="text-2xl text-[#3C5999]/70 font-light mb-12">
             1908 – 1970
           </p>
 
           {/* The Story */}
-          <div className="space-y-8 text-[#286BCD]/90 leading-relaxed text-lg">
+          <div className="space-y-8 text-[#3C5999]/90 leading-relaxed text-lg">
             <p className="text-xl font-light">
               Abraham Maslow was an American psychologist who revolutionized our understanding
               of human motivation and potential. Best known for his Hierarchy of Needs, Maslow
@@ -47,15 +47,15 @@ const MaslowPage: React.FC = () => {
             </p>
 
             <div className="bg-white/50 border-l-4 border-[#C49F58] p-8 my-12">
-              <p className="text-2xl font-serif italic text-[#286BCD]">
+              <p className="text-2xl font-serif italic text-[#3C5999]">
                 "What a man can be, he must be."
               </p>
-              <p className="text-sm text-[#286BCD]/60 mt-2">
+              <p className="text-sm text-[#3C5999]/60 mt-2">
                 — Abraham Maslow
               </p>
             </div>
 
-            <h2 className="text-3xl font-serif font-bold text-[#286BCD] mt-12 mb-6">
+            <h2 className="text-3xl font-serif font-bold text-[#3C5999] mt-12 mb-6">
               The Hierarchy of Needs
             </h2>
 
@@ -73,7 +73,7 @@ const MaslowPage: React.FC = () => {
               and that foundation remains fractured.
             </p>
 
-            <h2 className="text-3xl font-serif font-bold text-[#286BCD] mt-12 mb-6">
+            <h2 className="text-3xl font-serif font-bold text-[#3C5999] mt-12 mb-6">
               The Missing Infrastructure
             </h2>
 
@@ -91,13 +91,13 @@ const MaslowPage: React.FC = () => {
             </p>
 
             <div className="bg-white/50 border-l-4 border-[#C49F58] p-8 my-12">
-              <p className="text-lg font-medium text-[#286BCD]">
+              <p className="text-lg font-medium text-[#3C5999]">
                 If we cannot guarantee basic sanitation, we have no right to talk about building
                 a just society, a creative economy, or a compassionate city.
               </p>
             </div>
 
-            <h2 className="text-3xl font-serif font-bold text-[#286BCD] mt-12 mb-6">
+            <h2 className="text-3xl font-serif font-bold text-[#3C5999] mt-12 mb-6">
               Our Mission
             </h2>
 
@@ -114,7 +114,7 @@ const MaslowPage: React.FC = () => {
               the community—rests on that foundation.
             </p>
 
-            <p className="text-xl font-light italic text-[#286BCD] mt-12">
+            <p className="text-xl font-light italic text-[#3C5999] mt-12">
               Dr. Maslow showed us the pyramid. We're building the base.
             </p>
           </div>
@@ -126,12 +126,12 @@ const MaslowPage: React.FC = () => {
 
           {/* Footer */}
           <div className="text-center mt-16 pb-16">
-            <p className="text-sm uppercase tracking-widest text-[#286BCD]/60 mb-4">
+            <p className="text-sm uppercase tracking-widest text-[#3C5999]/60 mb-4">
               The Infrastructure of Dignity
             </p>
             <Link
               to="/"
-              className="text-[#C49F58] hover:text-[#286BCD] font-medium transition-colors"
+              className="text-[#C49F58] hover:text-[#3C5999] font-medium transition-colors"
             >
               Return Home
             </Link>

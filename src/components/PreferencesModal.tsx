@@ -48,8 +48,8 @@ const Switch: React.FC<{
     onClick={() => onCheckedChange(!checked)}
     className={`
       relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent
-      transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#286BCD] focus:ring-offset-2
-      ${checked ? 'bg-[#286BCD]' : 'bg-gray-200'}
+      transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#3C5999] focus:ring-offset-2
+      ${checked ? 'bg-[#3C5999]' : 'bg-gray-200'}
       ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
     `}
   >
@@ -203,7 +203,7 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({
           >
             <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
               {/* Header */}
-              <div className="bg-gradient-to-r from-[#286BCD] to-[#4A6FB3] px-6 py-5 text-white">
+              <div className="bg-gradient-to-r from-[#3C5999] to-[#4A6FB3] px-6 py-5 text-white">
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="text-xl font-serif font-bold text-[#C49F58]">
@@ -225,18 +225,18 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({
               {/* Content */}
               {loading ? (
                 <div className="flex items-center justify-center py-12">
-                  <Loader2 className="animate-spin w-8 h-8 text-[#286BCD]" />
+                  <Loader2 className="animate-spin w-8 h-8 text-[#3C5999]" />
                 </div>
               ) : (
                 <div className="p-6 space-y-5 max-h-[60vh] overflow-y-auto">
                   {/* Language */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[#286BCD]/10 flex items-center justify-center">
-                        <Globe className="w-5 h-5 text-[#286BCD]" />
+                      <div className="w-10 h-10 rounded-full bg-[#3C5999]/10 flex items-center justify-center">
+                        <Globe className="w-5 h-5 text-[#3C5999]" />
                       </div>
                       <div>
-                        <Label className="text-[#286BCD] font-medium">
+                        <Label className="text-[#3C5999] font-medium">
                           {t('settings.language', 'Language')}
                         </Label>
                         <p className="text-xs text-gray-500">
@@ -248,7 +248,7 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({
                       value={language}
                       onChange={(e) => handleLanguageChange(e.target.value)}
                       disabled={languageLoading}
-                      className="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-[#286BCD] text-sm focus:outline-none focus:ring-2 focus:ring-[#286BCD] cursor-pointer"
+                      className="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-[#3C5999] text-sm focus:outline-none focus:ring-2 focus:ring-[#3C5999] cursor-pointer"
                     >
                       {WELCOME_TRANSLATIONS.map((lang) => (
                         <option key={lang.code} value={lang.code}>
@@ -263,11 +263,11 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({
                   {/* Show Concierge */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[#286BCD]/10 flex items-center justify-center">
-                        <MessageCircle className="w-5 h-5 text-[#286BCD]" />
+                      <div className="w-10 h-10 rounded-full bg-[#3C5999]/10 flex items-center justify-center">
+                        <MessageCircle className="w-5 h-5 text-[#3C5999]" />
                       </div>
                       <div>
-                        <Label className="text-[#286BCD] font-medium">
+                        <Label className="text-[#3C5999] font-medium">
                           {t('settings.showConcierge', 'AI Concierge')}
                         </Label>
                         <p className="text-xs text-gray-500">
@@ -287,11 +287,11 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({
                   {/* Reduce Animations */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[#286BCD]/10 flex items-center justify-center">
-                        <Sparkles className="w-5 h-5 text-[#286BCD]" />
+                      <div className="w-10 h-10 rounded-full bg-[#3C5999]/10 flex items-center justify-center">
+                        <Sparkles className="w-5 h-5 text-[#3C5999]" />
                       </div>
                       <div>
-                        <Label className="text-[#286BCD] font-medium">
+                        <Label className="text-[#3C5999] font-medium">
                           {t('settings.reduceAnimations', 'Reduce Animations')}
                         </Label>
                         <p className="text-xs text-gray-500">
@@ -309,11 +309,11 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({
                   {/* High Contrast */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[#286BCD]/10 flex items-center justify-center">
-                        <Contrast className="w-5 h-5 text-[#286BCD]" />
+                      <div className="w-10 h-10 rounded-full bg-[#3C5999]/10 flex items-center justify-center">
+                        <Contrast className="w-5 h-5 text-[#3C5999]" />
                       </div>
                       <div>
-                        <Label className="text-[#286BCD] font-medium">
+                        <Label className="text-[#3C5999] font-medium">
                           {t('settings.highContrast', 'High Contrast')}
                         </Label>
                         <p className="text-xs text-gray-500">
@@ -331,11 +331,11 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({
                   {/* Larger Text */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[#286BCD]/10 flex items-center justify-center">
-                        <Type className="w-5 h-5 text-[#286BCD]" />
+                      <div className="w-10 h-10 rounded-full bg-[#3C5999]/10 flex items-center justify-center">
+                        <Type className="w-5 h-5 text-[#3C5999]" />
                       </div>
                       <div>
-                        <Label className="text-[#286BCD] font-medium">
+                        <Label className="text-[#3C5999] font-medium">
                           {t('settings.largerText', 'Larger Text')}
                         </Label>
                         <p className="text-xs text-gray-500">
@@ -363,7 +363,7 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({
                       onChange={(e) => setDontShowAgain(e.target.checked)}
                       className="sr-only peer"
                     />
-                    <div className="w-5 h-5 border-2 border-gray-300 rounded peer-checked:border-[#286BCD] peer-checked:bg-[#286BCD] transition-colors flex items-center justify-center">
+                    <div className="w-5 h-5 border-2 border-gray-300 rounded peer-checked:border-[#3C5999] peer-checked:bg-[#3C5999] transition-colors flex items-center justify-center">
                       {dontShowAgain && <Check className="w-3 h-3 text-white" />}
                     </div>
                   </div>
@@ -375,7 +375,7 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({
                 <Button
                   onClick={handleConfirm}
                   disabled={saving || loading}
-                  className="w-full bg-[#286BCD] hover:bg-[#2d4a7c] text-white font-medium py-3 rounded-xl flex items-center justify-center gap-2"
+                  className="w-full bg-[#3C5999] hover:bg-[#2d4a7c] text-white font-medium py-3 rounded-xl flex items-center justify-center gap-2"
                 >
                   {saving ? (
                     <Loader2 className="animate-spin w-5 h-5" />

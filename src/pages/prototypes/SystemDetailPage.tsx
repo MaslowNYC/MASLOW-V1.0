@@ -108,7 +108,7 @@ const SystemDetailPage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#FAF4ED] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-[#286BCD] animate-spin" />
+        <Loader2 className="w-8 h-8 text-[#3C5999] animate-spin" />
       </div>
     );
   }
@@ -117,7 +117,7 @@ const SystemDetailPage: React.FC = () => {
     return (
       <div className="min-h-screen bg-[#FAF4ED] flex items-center justify-center">
         <div className="text-center">
-          <div className="text-2xl text-[#286BCD] mb-4">System not found</div>
+          <div className="text-2xl text-[#3C5999] mb-4">System not found</div>
           <Link to="/prototypes" className="text-[#C49F58] hover:underline">
             ← Back to all systems
           </Link>
@@ -130,16 +130,16 @@ const SystemDetailPage: React.FC = () => {
     <div className="min-h-screen bg-[#FAF4ED] p-4 md:p-8">
       {/* Navigation */}
       <div className="max-w-6xl mx-auto flex flex-wrap gap-3 mb-6">
-        <Link to="/prototypes" className="px-4 py-2 bg-[#286BCD] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
+        <Link to="/prototypes" className="px-4 py-2 bg-[#3C5999] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
           📋 Systems
         </Link>
-        <Link to="/prototypes/boxes" className="px-4 py-2 bg-[#286BCD] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
+        <Link to="/prototypes/boxes" className="px-4 py-2 bg-[#3C5999] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
           📦 Boxes
         </Link>
-        <Link to="/prototypes/shopping" className="px-4 py-2 bg-[#286BCD] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
+        <Link to="/prototypes/shopping" className="px-4 py-2 bg-[#3C5999] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
           🛒 Shopping
         </Link>
-        <Link to="/prototypes/shopping-cart" className="px-4 py-2 bg-[#286BCD]/20 text-[#286BCD] rounded-lg text-sm font-semibold hover:bg-[#286BCD]/30 transition">
+        <Link to="/prototypes/shopping-cart" className="px-4 py-2 bg-[#3C5999]/20 text-[#3C5999] rounded-lg text-sm font-semibold hover:bg-[#3C5999]/30 transition">
           🛒 Cart
         </Link>
       </div>
@@ -154,7 +154,7 @@ const SystemDetailPage: React.FC = () => {
           <span className="text-6xl">{system.icon}</span>
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-4xl font-serif font-bold text-[#286BCD]">
+              <h1 className="text-4xl font-serif font-bold text-[#3C5999]">
                 {system.name}
               </h1>
               {(system.phase || 1) === 2 && (
@@ -163,16 +163,16 @@ const SystemDetailPage: React.FC = () => {
                 </span>
               )}
             </div>
-            <p className="text-lg text-[#286BCD]/60">
+            <p className="text-lg text-[#3C5999]/60">
               {system.description}
             </p>
           </div>
         </div>
 
-        <div className="flex gap-6 text-sm text-[#286BCD]/60">
-          <div><strong className="text-[#286BCD]">{prototypes.length}</strong> Prototypes</div>
-          <div><strong className="text-[#286BCD]">${system.total_budget}</strong> Budget</div>
-          <div><strong className="text-[#286BCD]">{system.total_hours}h</strong> Time Estimate</div>
+        <div className="flex gap-6 text-sm text-[#3C5999]/60">
+          <div><strong className="text-[#3C5999]">{prototypes.length}</strong> Prototypes</div>
+          <div><strong className="text-[#3C5999]">${system.total_budget}</strong> Budget</div>
+          <div><strong className="text-[#3C5999]">{system.total_hours}h</strong> Time Estimate</div>
         </div>
       </div>
 
@@ -200,7 +200,7 @@ const SystemDetailPage: React.FC = () => {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2 flex-wrap">
-                    <h2 className="text-2xl font-serif font-bold text-[#286BCD]">
+                    <h2 className="text-2xl font-serif font-bold text-[#3C5999]">
                       Prototype {prototype.id}: {prototype.name}
                     </h2>
                     {getStatusBadge(prototype.status)}
@@ -210,7 +210,7 @@ const SystemDetailPage: React.FC = () => {
                       </span>
                     )}
                   </div>
-                  <p className="text-[#286BCD]/60 mb-3">
+                  <p className="text-[#3C5999]/60 mb-3">
                     {prototype.description}
                   </p>
                 </div>
@@ -218,7 +218,7 @@ const SystemDetailPage: React.FC = () => {
                   <div className="text-2xl font-bold text-[#C49F58]">
                     Box #{prototype.box_number}
                   </div>
-                  <div className="text-xs text-[#286BCD]/60">
+                  <div className="text-xs text-[#3C5999]/60">
                     Sterilite Box
                   </div>
                 </div>
@@ -227,31 +227,31 @@ const SystemDetailPage: React.FC = () => {
               {/* Stats Grid */}
               <div className="grid grid-cols-3 md:grid-cols-5 gap-4 mb-4">
                 <div>
-                  <div className="text-xs text-[#286BCD]/60 mb-1">Budget</div>
-                  <div className="text-lg font-bold text-[#286BCD]">
+                  <div className="text-xs text-[#3C5999]/60 mb-1">Budget</div>
+                  <div className="text-lg font-bold text-[#3C5999]">
                     ${prototype.budget}
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-[#286BCD]/60 mb-1">Hours</div>
-                  <div className="text-lg font-bold text-[#286BCD]">
+                  <div className="text-xs text-[#3C5999]/60 mb-1">Hours</div>
+                  <div className="text-lg font-bold text-[#3C5999]">
                     {prototype.hours}h
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-[#286BCD]/60 mb-1">Difficulty</div>
+                  <div className="text-xs text-[#3C5999]/60 mb-1">Difficulty</div>
                   <div className="text-lg">
                     {getDifficultyStars(prototype.difficulty)}
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-[#286BCD]/60 mb-1">Components</div>
-                  <div className="text-lg font-bold text-[#286BCD]">
+                  <div className="text-xs text-[#3C5999]/60 mb-1">Components</div>
+                  <div className="text-lg font-bold text-[#3C5999]">
                     {prototype.components_purchased || 0}/{prototype.component_count || 0}
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs text-[#286BCD]/60 mb-1">Progress</div>
+                  <div className="text-xs text-[#3C5999]/60 mb-1">Progress</div>
                   <div className="text-lg font-bold text-[#C49F58]">
                     {prototype.progress}%
                   </div>

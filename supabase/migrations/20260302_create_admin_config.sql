@@ -16,6 +16,7 @@ CREATE INDEX IF NOT EXISTS idx_admin_config_key ON admin_config(config_key);
 ALTER TABLE admin_config ENABLE ROW LEVEL SECURITY;
 
 -- Only admins can read/write admin_config
+DROP POLICY IF EXISTS "Admins can read admin_config" ON admin_config;
 CREATE POLICY "Admins can read admin_config" ON admin_config
   FOR SELECT
   USING (
@@ -26,6 +27,7 @@ CREATE POLICY "Admins can read admin_config" ON admin_config
     )
   );
 
+DROP POLICY IF EXISTS "Admins can insert admin_config" ON admin_config;
 CREATE POLICY "Admins can insert admin_config" ON admin_config
   FOR INSERT
   WITH CHECK (
@@ -36,6 +38,7 @@ CREATE POLICY "Admins can insert admin_config" ON admin_config
     )
   );
 
+DROP POLICY IF EXISTS "Admins can update admin_config" ON admin_config;
 CREATE POLICY "Admins can update admin_config" ON admin_config
   FOR UPDATE
   USING (

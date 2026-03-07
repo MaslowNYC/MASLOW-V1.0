@@ -122,7 +122,7 @@ const PrototypeDetailPage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#FAF4ED] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-[#286BCD] animate-spin" />
+        <Loader2 className="w-8 h-8 text-[#3C5999] animate-spin" />
       </div>
     );
   }
@@ -131,7 +131,7 @@ const PrototypeDetailPage: React.FC = () => {
     return (
       <div className="min-h-screen bg-[#FAF4ED] flex items-center justify-center">
         <div className="text-center">
-          <div className="text-2xl text-[#286BCD] mb-4">Prototype not found</div>
+          <div className="text-2xl text-[#3C5999] mb-4">Prototype not found</div>
           <Link to="/prototypes" className="text-[#C49F58] hover:underline">
             ← Back to all prototypes
           </Link>
@@ -145,16 +145,16 @@ const PrototypeDetailPage: React.FC = () => {
       <div className="max-w-5xl mx-auto">
         {/* Navigation */}
         <div className="flex flex-wrap gap-3 mb-6">
-          <Link to="/prototypes" className="px-4 py-2 bg-[#286BCD] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
+          <Link to="/prototypes" className="px-4 py-2 bg-[#3C5999] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
             📋 Systems
           </Link>
-          <Link to="/prototypes/boxes" className="px-4 py-2 bg-[#286BCD] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
+          <Link to="/prototypes/boxes" className="px-4 py-2 bg-[#3C5999] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
             📦 Boxes
           </Link>
-          <Link to="/prototypes/shopping" className="px-4 py-2 bg-[#286BCD] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
+          <Link to="/prototypes/shopping" className="px-4 py-2 bg-[#3C5999] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
             🛒 Shopping
           </Link>
-          <Link to="/prototypes/shopping-cart" className="px-4 py-2 bg-[#286BCD]/20 text-[#286BCD] rounded-lg text-sm font-semibold hover:bg-[#286BCD]/30 transition">
+          <Link to="/prototypes/shopping-cart" className="px-4 py-2 bg-[#3C5999]/20 text-[#3C5999] rounded-lg text-sm font-semibold hover:bg-[#3C5999]/30 transition">
             🛒 Cart
           </Link>
         </div>
@@ -174,7 +174,7 @@ const PrototypeDetailPage: React.FC = () => {
               <span className="text-2xl">⏳</span>
               <div>
                 <div className="font-bold text-[#C49F58]">Phase 2: Post-Launch Feature</div>
-                <div className="text-sm text-[#286BCD]/60">
+                <div className="text-sm text-[#3C5999]/60">
                   Not included in initial MVP — planned for implementation after successful launch
                 </div>
               </div>
@@ -186,7 +186,7 @@ const PrototypeDetailPage: React.FC = () => {
           <div className="flex flex-col md:flex-row items-start justify-between mb-4 gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2 flex-wrap">
-                <h1 className="text-3xl font-serif font-bold text-[#286BCD]">
+                <h1 className="text-3xl font-serif font-bold text-[#3C5999]">
                   Prototype {prototype.id}: {prototype.name}
                 </h1>
                 {(prototype.phase || 1) === 2 && (
@@ -195,32 +195,32 @@ const PrototypeDetailPage: React.FC = () => {
                   </span>
                 )}
               </div>
-              <p className="text-[#286BCD]/60">{prototype.description}</p>
+              <p className="text-[#3C5999]/60">{prototype.description}</p>
             </div>
             <div className="text-right">
               <div className="text-3xl font-bold text-[#C49F58] mb-1">
                 Box #{prototype.box_number}
               </div>
-              <div className="text-sm text-[#286BCD]/60">Sterilite Box</div>
+              <div className="text-sm text-[#3C5999]/60">Sterilite Box</div>
             </div>
           </div>
 
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
-              <div className="text-xs text-[#286BCD]/60 mb-1">Budget</div>
-              <div className="text-xl font-bold text-[#286BCD]">${prototype.budget}</div>
+              <div className="text-xs text-[#3C5999]/60 mb-1">Budget</div>
+              <div className="text-xl font-bold text-[#3C5999]">${prototype.budget}</div>
             </div>
             <div>
-              <div className="text-xs text-[#286BCD]/60 mb-1">Time</div>
-              <div className="text-xl font-bold text-[#286BCD]">{prototype.hours}h</div>
+              <div className="text-xs text-[#3C5999]/60 mb-1">Time</div>
+              <div className="text-xl font-bold text-[#3C5999]">{prototype.hours}h</div>
             </div>
             <div>
-              <div className="text-xs text-[#286BCD]/60 mb-1">Difficulty</div>
+              <div className="text-xs text-[#3C5999]/60 mb-1">Difficulty</div>
               <div className="text-xl">{'⭐'.repeat(prototype.difficulty)}</div>
             </div>
             <div>
-              <div className="text-xs text-[#286BCD]/60 mb-1">Progress</div>
+              <div className="text-xs text-[#3C5999]/60 mb-1">Progress</div>
               <div className="text-xl font-bold text-[#C49F58]">{prototype.progress}%</div>
             </div>
           </div>
@@ -236,7 +236,7 @@ const PrototypeDetailPage: React.FC = () => {
                 className={`flex-1 px-4 md:px-6 py-4 font-semibold capitalize transition text-sm md:text-base ${
                   activeTab === tab
                     ? 'text-[#C49F58] border-b-2 border-[#C49F58] bg-[#C49F58]/5'
-                    : 'text-[#286BCD]/60 hover:text-[#286BCD]'
+                    : 'text-[#3C5999]/60 hover:text-[#3C5999]'
                 }`}
               >
                 {tab}
@@ -249,14 +249,14 @@ const PrototypeDetailPage: React.FC = () => {
             {activeTab === 'components' && (
               <div>
                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
-                  <h2 className="text-2xl font-serif font-bold text-[#286BCD]">
+                  <h2 className="text-2xl font-serif font-bold text-[#3C5999]">
                     Components ({purchasedCount}/{components.length})
                   </h2>
                   <div className="text-right">
                     <div className="text-2xl font-bold text-[#C49F58]">
                       ${totalCost.toFixed(2)}
                     </div>
-                    <div className="text-xs text-[#286BCD]/60">
+                    <div className="text-xs text-[#3C5999]/60">
                       {purchaseProgress}% purchased
                     </div>
                   </div>
@@ -292,10 +292,10 @@ const PrototypeDetailPage: React.FC = () => {
                               {getStatusIcon(component.status)}
                             </button>
                             <div>
-                              <h3 className="text-lg font-semibold text-[#286BCD]">
+                              <h3 className="text-lg font-semibold text-[#3C5999]">
                                 {component.name}
                               </h3>
-                              <div className="text-sm text-[#286BCD]/60">
+                              <div className="text-sm text-[#3C5999]/60">
                                 Qty: {component.quantity} | ${(component.price * component.quantity).toFixed(2)}
                               </div>
                             </div>
@@ -303,15 +303,15 @@ const PrototypeDetailPage: React.FC = () => {
 
                           <div className="flex flex-wrap gap-4 text-sm">
                             <div>
-                              <span className="text-[#286BCD]/60">Vendor:</span>{' '}
-                              <span className="font-semibold text-[#286BCD]">
+                              <span className="text-[#3C5999]/60">Vendor:</span>{' '}
+                              <span className="font-semibold text-[#3C5999]">
                                 {component.vendor}
                               </span>
                             </div>
                             {component.location && (
                               <div>
-                                <span className="text-[#286BCD]/60">Location:</span>{' '}
-                                <span className="font-semibold text-[#286BCD]">
+                                <span className="text-[#3C5999]/60">Location:</span>{' '}
+                                <span className="font-semibold text-[#3C5999]">
                                   {component.location}
                                 </span>
                               </div>
@@ -319,7 +319,7 @@ const PrototypeDetailPage: React.FC = () => {
                           </div>
 
                           {component.notes && (
-                            <p className="text-sm text-[#286BCD]/60 mt-2 italic">
+                            <p className="text-sm text-[#3C5999]/60 mt-2 italic">
                               {component.notes}
                             </p>
                           )}
@@ -342,7 +342,7 @@ const PrototypeDetailPage: React.FC = () => {
                   ))}
 
                   {components.length === 0 && (
-                    <div className="text-center py-12 text-[#286BCD]/60">
+                    <div className="text-center py-12 text-[#3C5999]/60">
                       No components added yet
                     </div>
                   )}
@@ -353,7 +353,7 @@ const PrototypeDetailPage: React.FC = () => {
             {/* BUILD STEPS TAB */}
             {activeTab === 'steps' && (
               <div>
-                <h2 className="text-2xl font-serif font-bold text-[#286BCD] mb-6">
+                <h2 className="text-2xl font-serif font-bold text-[#3C5999] mb-6">
                   Build Steps ({buildSteps.filter(s => s.completed).length}/{buildSteps.length})
                 </h2>
                 <div className="space-y-4">
@@ -364,19 +364,19 @@ const PrototypeDetailPage: React.FC = () => {
                     >
                       <div className="flex items-start gap-4">
                         <div className="flex-shrink-0">
-                          <div className="w-10 h-10 rounded-full bg-[#286BCD] text-white flex items-center justify-center font-bold">
+                          <div className="w-10 h-10 rounded-full bg-[#3C5999] text-white flex items-center justify-center font-bold">
                             {step.step_number}
                           </div>
                         </div>
                         <div className="flex-1">
-                          <h3 className="text-lg font-semibold text-[#286BCD] mb-2">
+                          <h3 className="text-lg font-semibold text-[#3C5999] mb-2">
                             {step.title}
                           </h3>
-                          <p className="text-[#286BCD]/60 mb-2">
+                          <p className="text-[#3C5999]/60 mb-2">
                             {step.description}
                           </p>
                           {step.estimated_minutes && (
-                            <div className="text-sm text-[#286BCD]/60">
+                            <div className="text-sm text-[#3C5999]/60">
                               ⏱️ Estimated time: {step.estimated_minutes} minutes
                             </div>
                           )}
@@ -386,7 +386,7 @@ const PrototypeDetailPage: React.FC = () => {
                   ))}
 
                   {buildSteps.length === 0 && (
-                    <div className="text-center py-12 text-[#286BCD]/60">
+                    <div className="text-center py-12 text-[#3C5999]/60">
                       No build steps added yet
                     </div>
                   )}
@@ -398,10 +398,10 @@ const PrototypeDetailPage: React.FC = () => {
             {activeTab === 'wiring' && (
               <div className="text-center py-12">
                 <div className="text-6xl mb-4">📐</div>
-                <h3 className="text-xl font-bold text-[#286BCD] mb-2">
+                <h3 className="text-xl font-bold text-[#3C5999] mb-2">
                   Wiring Diagrams
                 </h3>
-                <p className="text-[#286BCD]/60 mb-4">
+                <p className="text-[#3C5999]/60 mb-4">
                   Upload wiring diagrams and connection guides
                 </p>
                 <button className="px-6 py-3 bg-[#C49F58] text-white rounded-lg hover:bg-[#b08d4b] transition">
@@ -414,10 +414,10 @@ const PrototypeDetailPage: React.FC = () => {
             {activeTab === 'code' && (
               <div className="text-center py-12">
                 <div className="text-6xl mb-4">💻</div>
-                <h3 className="text-xl font-bold text-[#286BCD] mb-2">
+                <h3 className="text-xl font-bold text-[#3C5999] mb-2">
                   Code Snippets
                 </h3>
-                <p className="text-[#286BCD]/60 mb-4">
+                <p className="text-[#3C5999]/60 mb-4">
                   Arduino/ESP32 code for this prototype
                 </p>
                 <button className="px-6 py-3 bg-[#C49F58] text-white rounded-lg hover:bg-[#b08d4b] transition">

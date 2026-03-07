@@ -5,7 +5,7 @@ import { Droplets, Snowflake, Wifi, Hand, Accessibility, BatteryCharging, Layout
 
 const HullSection: React.FC = () => {
   return (
-    <section className="bg-[#286BCD] pt-20 pb-0 w-full overflow-hidden">
+    <section className="bg-[#3C5999] pt-20 pb-0 w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Architecture Header */}
@@ -36,13 +36,13 @@ const HullSection: React.FC = () => {
             className="bg-[#FAF4ED] rounded-xl p-8 relative overflow-hidden group"
           >
             <div className="absolute top-0 right-0 p-4 opacity-10">
-              <DoorOpen className="w-24 h-24 text-[#286BCD]" />
+              <DoorOpen className="w-24 h-24 text-[#3C5999]" />
             </div>
-            <h4 className="text-2xl font-serif font-bold text-[#286BCD] mb-4 flex items-center gap-3">
+            <h4 className="text-2xl font-serif font-bold text-[#3C5999] mb-4 flex items-center gap-3">
               <span className="bg-[#C49F58] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
               The Entry
             </h4>
-            <p className="text-[#286BCD]/80 leading-relaxed font-medium">
+            <p className="text-[#3C5999]/80 leading-relaxed font-medium">
               Designed for New York's seasons. In summer, the entire storefront rolls up via garage doors to welcome the street breeze. In winter, an accessible "wicket door" preserves warmth while maintaining our open invitation to the city.
             </p>
           </motion.div>
@@ -53,13 +53,13 @@ const HullSection: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="bg-[#286BCD] border-2 border-[#C49F58] rounded-xl p-8 relative overflow-hidden group shadow-2xl"
+            className="bg-[#3C5999] border-2 border-[#C49F58] rounded-xl p-8 relative overflow-hidden group shadow-2xl"
           >
             <div className="absolute top-0 right-0 p-4 opacity-10">
               <Layout className="w-24 h-24 text-[#FAF4ED]" />
             </div>
             <h4 className="text-2xl font-serif font-bold text-[#FAF4ED] mb-4 flex items-center gap-3">
-              <span className="bg-[#C49F58] text-[#286BCD] w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">2</span>
+              <span className="bg-[#C49F58] text-[#3C5999] w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">2</span>
               The Center: "The Hull"
             </h4>
             <p className="text-[#FAF4ED]/90 leading-relaxed">
@@ -79,7 +79,7 @@ const HullSection: React.FC = () => {
               <ShieldCheck className="w-24 h-24 text-[#C49F58]" />
             </div>
             <h4 className="text-2xl font-serif font-bold text-[#C49F58] mb-4 flex items-center gap-3">
-              <span className="bg-[#FAF4ED] text-[#286BCD] w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">3</span>
+              <span className="bg-[#FAF4ED] text-[#3C5999] w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">3</span>
               The Perimeter: "The Suites"
             </h4>
             <p className="text-[#FAF4ED]/80 leading-relaxed">
@@ -96,13 +96,13 @@ const HullSection: React.FC = () => {
             className="bg-[#FAF4ED] rounded-xl p-8 relative overflow-hidden group"
           >
             <div className="absolute top-0 right-0 p-4 opacity-10">
-              <Zap className="w-24 h-24 text-[#286BCD]" />
+              <Zap className="w-24 h-24 text-[#3C5999]" />
             </div>
-            <h4 className="text-2xl font-serif font-bold text-[#286BCD] mb-4 flex items-center gap-3">
+            <h4 className="text-2xl font-serif font-bold text-[#3C5999] mb-4 flex items-center gap-3">
               <span className="bg-[#C49F58] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
               The Service Corridor
             </h4>
-            <p className="text-[#286BCD]/80 leading-relaxed font-medium">
+            <p className="text-[#3C5999]/80 leading-relaxed font-medium">
               The secret to our operations. A hidden service alley runs behind the suites, allowing staff to clean, restock, and maintain utilities from the rear without ever entering the public lobby or disrupting the user experience.
             </p>
           </motion.div>
@@ -110,7 +110,7 @@ const HullSection: React.FC = () => {
         </div>
 
         {/* Free Amenities */}
-        <div className="bg-[#286BCD]/50 border-t border-[#FAF4ED]/20 pt-16 pb-16">
+        <div className="bg-[#3C5999]/50 border-t border-[#FAF4ED]/20 pt-16 pb-16">
             <h4 className="text-center text-[#C49F58] font-bold tracking-widest uppercase mb-12">Included in The Hull (Free Access)</h4>
             <div className="flex flex-wrap justify-center gap-8 md:gap-12">
             <div className="flex flex-col items-center gap-3 w-32">

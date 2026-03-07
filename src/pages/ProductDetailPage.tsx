@@ -240,17 +240,17 @@ const ProductDetailPage: React.FC = () => {
     return (
       <div className="min-h-screen bg-[#FAF4ED] px-4 py-8 w-full overflow-x-hidden">
         <div className="max-w-5xl mx-auto w-full">
-          <Link to="/store" className="inline-flex items-center gap-2 text-[#286BCD] hover:text-[#C49F58] transition-colors mb-6 font-bold">
+          <Link to="/store" className="inline-flex items-center gap-2 text-[#3C5999] hover:text-[#C49F58] transition-colors mb-6 font-bold">
             <ArrowLeft size={16} />
             Back to Store
           </Link>
           <div className="text-center text-red-400 p-12 bg-white rounded-2xl shadow-lg border border-red-100">
             <XCircle className="mx-auto h-16 w-16 mb-4 text-red-400" />
-            <h2 className="text-2xl font-bold text-[#286BCD] mb-2">Product Not Found</h2>
-            <p className="mb-6 font-medium text-[#286BCD]/60">
+            <h2 className="text-2xl font-bold text-[#3C5999] mb-2">Product Not Found</h2>
+            <p className="mb-6 font-medium text-[#3C5999]/60">
               We couldn't find the product you're looking for. It may have been removed or the link is incorrect.
             </p>
-            <Button onClick={() => navigate('/store')} className="bg-[#286BCD] text-white hover:bg-[#2d4475]">
+            <Button onClick={() => navigate('/store')} className="bg-[#3C5999] text-white hover:bg-[#2d4475]">
               Return to Store
             </Button>
           </div>
@@ -277,15 +277,15 @@ const ProductDetailPage: React.FC = () => {
 
       <div className="min-h-screen bg-[#FAF4ED] pb-12 w-full overflow-x-hidden">
         <div className="container mx-auto px-4 py-8 w-full">
-          <Link to="/store" className="inline-flex items-center gap-2 text-[#286BCD] hover:text-[#C49F58] transition-colors mb-8 font-bold">
+          <Link to="/store" className="inline-flex items-center gap-2 text-[#3C5999] hover:text-[#C49F58] transition-colors mb-8 font-bold">
             <ArrowLeft size={16} />
             Back to Collection
           </Link>
 
-          <div className="grid md:grid-cols-2 gap-12 bg-white p-6 md:p-12 rounded-2xl shadow-xl border border-[#286BCD]/5">
+          <div className="grid md:grid-cols-2 gap-12 bg-white p-6 md:p-12 rounded-2xl shadow-xl border border-[#3C5999]/5">
             {/* Image Gallery */}
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} className="relative w-full">
-              <div className="relative overflow-hidden rounded-xl shadow-lg h-64 sm:h-96 md:h-[500px] bg-[#FAF4ED] border border-[#286BCD]/10 w-full">
+              <div className="relative overflow-hidden rounded-xl shadow-lg h-64 sm:h-96 md:h-[500px] bg-[#FAF4ED] border border-[#3C5999]/10 w-full">
                 <img
                   src={!currentImage?.url ? placeholderImage : currentImage.url}
                   alt={product.title}
@@ -296,14 +296,14 @@ const ProductDetailPage: React.FC = () => {
                   <>
                     <button
                       onClick={handlePrevImage}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-[#286BCD] p-2 rounded-full transition-colors shadow-md"
+                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-[#3C5999] p-2 rounded-full transition-colors shadow-md"
                       aria-label="Previous image"
                     >
                       <ChevronLeft size={20} />
                     </button>
                     <button
                       onClick={handleNextImage}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-[#286BCD] p-2 rounded-full transition-colors shadow-md"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-[#3C5999] p-2 rounded-full transition-colors shadow-md"
                       aria-label="Next image"
                     >
                       <ChevronRight size={20} />
@@ -312,7 +312,7 @@ const ProductDetailPage: React.FC = () => {
                 )}
 
                 {product.ribbon_text && (
-                  <div className="absolute top-4 left-4 bg-[#C49F58] text-[#286BCD] text-xs sm:text-sm font-bold px-3 py-1 sm:px-4 sm:py-2 rounded shadow-lg uppercase tracking-wider">
+                  <div className="absolute top-4 left-4 bg-[#C49F58] text-[#3C5999] text-xs sm:text-sm font-bold px-3 py-1 sm:px-4 sm:py-2 rounded shadow-lg uppercase tracking-wider">
                     {product.ribbon_text}
                   </div>
                 )}
@@ -325,7 +325,7 @@ const ProductDetailPage: React.FC = () => {
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
                       className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 transition-all ${
-                        index === currentImageIndex ? 'border-[#C49F58] scale-105 shadow-md' : 'border-[#286BCD]/10 opacity-70 hover:opacity-100'
+                        index === currentImageIndex ? 'border-[#C49F58] scale-105 shadow-md' : 'border-[#3C5999]/10 opacity-70 hover:opacity-100'
                       }`}
                     >
                       <img
@@ -341,21 +341,21 @@ const ProductDetailPage: React.FC = () => {
 
             {/* Product Info */}
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="flex flex-col w-full">
-              <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#286BCD] mb-3 break-words">{product.title}</h1>
-              <p className="text-lg text-[#286BCD]/60 mb-6 italic break-words">{product.subtitle}</p>
+              <h1 className="text-3xl md:text-5xl font-serif font-bold text-[#3C5999] mb-3 break-words">{product.title}</h1>
+              <p className="text-lg text-[#3C5999]/60 mb-6 italic break-words">{product.subtitle}</p>
 
               <div className="flex items-baseline gap-4 mb-8 pb-8 border-b border-[#FAF4ED]">
                 <span className="text-3xl md:text-4xl font-bold text-[#C49F58]">{price}</span>
                 {selectedVariant?.sale_price_in_cents && (
-                  <span className="text-xl md:text-2xl text-[#286BCD]/40 line-through">{originalPrice}</span>
+                  <span className="text-xl md:text-2xl text-[#3C5999]/40 line-through">{originalPrice}</span>
                 )}
               </div>
 
-              <div className="prose prose-blue text-[#286BCD]/80 mb-8 max-w-none" dangerouslySetInnerHTML={{ __html: product.description || '' }} />
+              <div className="prose prose-blue text-[#3C5999]/80 mb-8 max-w-none" dangerouslySetInnerHTML={{ __html: product.description || '' }} />
 
               {product.variants.length > 1 && (
                 <div className="mb-8">
-                  <h3 className="text-sm font-bold text-[#286BCD] uppercase tracking-wide mb-3">Style / Option</h3>
+                  <h3 className="text-sm font-bold text-[#3C5999] uppercase tracking-wide mb-3">Style / Option</h3>
                   <div className="flex flex-wrap gap-3">
                     {product.variants.map(variant => (
                       <Button
@@ -364,8 +364,8 @@ const ProductDetailPage: React.FC = () => {
                         onClick={() => handleVariantSelect(variant)}
                         className={`transition-all h-auto py-2 px-4 whitespace-normal text-left ${
                           selectedVariant?.id === variant.id
-                            ? 'bg-[#286BCD] text-[#FAF4ED] border-[#286BCD] hover:bg-[#2d4475] hover:text-white'
-                            : 'border-[#286BCD]/30 text-[#286BCD] hover:border-[#C49F58] hover:text-[#C49F58]'
+                            ? 'bg-[#3C5999] text-[#FAF4ED] border-[#3C5999] hover:bg-[#2d4475] hover:text-white'
+                            : 'border-[#3C5999]/30 text-[#3C5999] hover:border-[#C49F58] hover:text-[#C49F58]'
                         }`}
                       >
                         {variant.title}
@@ -376,10 +376,10 @@ const ProductDetailPage: React.FC = () => {
               )}
 
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-8">
-                <div className="flex items-center border-2 border-[#286BCD]/10 rounded-lg p-1 bg-[#FAF4ED]">
-                  <Button onClick={() => handleQuantityChange(-1)} variant="ghost" size="icon" className="h-10 w-10 text-[#286BCD] hover:bg-[#286BCD]/10 rounded-md"><Minus size={18} /></Button>
-                  <span className="w-12 text-center text-[#286BCD] font-bold text-lg">{quantity}</span>
-                  <Button onClick={() => handleQuantityChange(1)} variant="ghost" size="icon" className="h-10 w-10 text-[#286BCD] hover:bg-[#286BCD]/10 rounded-md"><Plus size={18} /></Button>
+                <div className="flex items-center border-2 border-[#3C5999]/10 rounded-lg p-1 bg-[#FAF4ED]">
+                  <Button onClick={() => handleQuantityChange(-1)} variant="ghost" size="icon" className="h-10 w-10 text-[#3C5999] hover:bg-[#3C5999]/10 rounded-md"><Minus size={18} /></Button>
+                  <span className="w-12 text-center text-[#3C5999] font-bold text-lg">{quantity}</span>
+                  <Button onClick={() => handleQuantityChange(1)} variant="ghost" size="icon" className="h-10 w-10 text-[#3C5999] hover:bg-[#3C5999]/10 rounded-md"><Plus size={18} /></Button>
                 </div>
                 <div className="text-sm">
                    {isStockManaged && canAddToCart && product.purchasable && (
@@ -399,7 +399,7 @@ const ProductDetailPage: React.FC = () => {
                 <Button
                   onClick={handleAddToCart}
                   size="lg"
-                  className="w-full bg-[#C49F58] hover:bg-[#b08d4b] text-[#286BCD] font-bold py-8 text-xl tracking-widest uppercase transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-[#C49F58] hover:bg-[#b08d4b] text-[#3C5999] font-bold py-8 text-xl tracking-widest uppercase transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={!canAddToCart || !product.purchasable}
                 >
                   <ShoppingCart className="mr-3 h-6 w-6" />
@@ -425,15 +425,15 @@ const ProductDetailPage: React.FC = () => {
           </div>
 
           {product.additional_info && product.additional_info.length > 0 && (
-              <div className="mt-12 max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-xl shadow border border-[#286BCD]/5 w-full">
-                <h3 className="text-2xl font-serif font-bold text-[#286BCD] mb-6">Product Details</h3>
+              <div className="mt-12 max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-xl shadow border border-[#3C5999]/5 w-full">
+                <h3 className="text-2xl font-serif font-bold text-[#3C5999] mb-6">Product Details</h3>
                 <div className="grid gap-6">
                   {product.additional_info
                     .sort((a, b) => a.order - b.order)
                     .map((info) => (
                       <div key={info.id} className="border-l-4 border-[#C49F58] pl-6 py-1">
-                        <h4 className="text-lg font-bold text-[#286BCD] mb-2">{info.title}</h4>
-                        <div className="prose prose-sm text-[#286BCD]/70 max-w-none" dangerouslySetInnerHTML={{ __html: info.description }} />
+                        <h4 className="text-lg font-bold text-[#3C5999] mb-2">{info.title}</h4>
+                        <div className="prose prose-sm text-[#3C5999]/70 max-w-none" dangerouslySetInnerHTML={{ __html: info.description }} />
                       </div>
                     ))}
                 </div>

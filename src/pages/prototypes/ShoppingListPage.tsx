@@ -217,7 +217,7 @@ const ShoppingListPage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#FAF4ED] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-[#286BCD] animate-spin" />
+        <Loader2 className="w-8 h-8 text-[#3C5999] animate-spin" />
       </div>
     );
   }
@@ -227,26 +227,26 @@ const ShoppingListPage: React.FC = () => {
       <div className="max-w-5xl mx-auto">
         {/* Navigation */}
         <div className="flex flex-wrap gap-3 mb-6">
-          <Link to="/prototypes" className="px-4 py-2 bg-[#286BCD] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
+          <Link to="/prototypes" className="px-4 py-2 bg-[#3C5999] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
             📋 Systems
           </Link>
-          <Link to="/prototypes/boxes" className="px-4 py-2 bg-[#286BCD] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
+          <Link to="/prototypes/boxes" className="px-4 py-2 bg-[#3C5999] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
             📦 Boxes
           </Link>
           <Link to="/prototypes/shopping" className="px-4 py-2 bg-[#C49F58] text-white rounded-lg text-sm font-semibold">
             🛒 Shopping
           </Link>
-          <Link to="/prototypes/shopping-cart" className="px-4 py-2 bg-[#286BCD]/20 text-[#286BCD] rounded-lg text-sm font-semibold hover:bg-[#286BCD]/30 transition">
+          <Link to="/prototypes/shopping-cart" className="px-4 py-2 bg-[#3C5999]/20 text-[#3C5999] rounded-lg text-sm font-semibold hover:bg-[#3C5999]/30 transition">
             🛒 Cart
           </Link>
         </div>
 
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-3xl md:text-4xl font-serif font-bold text-[#286BCD] mb-2">
+          <h1 className="text-3xl md:text-4xl font-serif font-bold text-[#3C5999] mb-2">
             🛒 Aggregated Shopping List
           </h1>
-          <p className="text-[#286BCD]/60">
+          <p className="text-[#3C5999]/60">
             Components needed across all prototypes, grouped and totaled.
           </p>
         </div>
@@ -254,20 +254,20 @@ const ShoppingListPage: React.FC = () => {
         {/* Summary Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div className="bg-white rounded-xl p-4 shadow">
-            <div className="text-sm text-[#286BCD]/60">Total Cost</div>
+            <div className="text-sm text-[#3C5999]/60">Total Cost</div>
             <div className="text-2xl font-bold text-[#C49F58]">${totalCost.toFixed(2)}</div>
           </div>
           <div className="bg-white rounded-xl p-4 shadow">
-            <div className="text-sm text-[#286BCD]/60">Items Needed</div>
-            <div className="text-2xl font-bold text-[#286BCD]">{totalItems}</div>
+            <div className="text-sm text-[#3C5999]/60">Items Needed</div>
+            <div className="text-2xl font-bold text-[#3C5999]">{totalItems}</div>
           </div>
           <div className="bg-white rounded-xl p-4 shadow">
-            <div className="text-sm text-[#286BCD]/60">Unique Products</div>
-            <div className="text-2xl font-bold text-[#286BCD]">{filteredItems.length}</div>
+            <div className="text-sm text-[#3C5999]/60">Unique Products</div>
+            <div className="text-2xl font-bold text-[#3C5999]">{filteredItems.length}</div>
           </div>
           <div className="bg-white rounded-xl p-4 shadow">
-            <div className="text-sm text-[#286BCD]/60">Vendors</div>
-            <div className="text-2xl font-bold text-[#286BCD]">{vendorGroups.length}</div>
+            <div className="text-sm text-[#3C5999]/60">Vendors</div>
+            <div className="text-2xl font-bold text-[#3C5999]">{vendorGroups.length}</div>
           </div>
         </div>
 
@@ -278,13 +278,13 @@ const ShoppingListPage: React.FC = () => {
             <div className="flex rounded-lg overflow-hidden border">
               <button
                 onClick={() => setViewMode('items')}
-                className={`px-4 py-2 text-sm font-semibold transition ${viewMode === 'items' ? 'bg-[#286BCD] text-white' : 'bg-white text-[#286BCD]'}`}
+                className={`px-4 py-2 text-sm font-semibold transition ${viewMode === 'items' ? 'bg-[#3C5999] text-white' : 'bg-white text-[#3C5999]'}`}
               >
                 By Item
               </button>
               <button
                 onClick={() => setViewMode('vendors')}
-                className={`px-4 py-2 text-sm font-semibold transition ${viewMode === 'vendors' ? 'bg-[#286BCD] text-white' : 'bg-white text-[#286BCD]'}`}
+                className={`px-4 py-2 text-sm font-semibold transition ${viewMode === 'vendors' ? 'bg-[#3C5999] text-white' : 'bg-white text-[#3C5999]'}`}
               >
                 By Vendor
               </button>
@@ -292,7 +292,7 @@ const ShoppingListPage: React.FC = () => {
 
             {/* Search */}
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#286BCD]/40" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#3C5999]/40" />
               <input
                 type="text"
                 placeholder="Search components..."
@@ -322,13 +322,13 @@ const ShoppingListPage: React.FC = () => {
                 onChange={(e) => setShowOnlyNeeded(e.target.checked)}
                 className="w-4 h-4"
               />
-              <span className="text-sm text-[#286BCD]">Only needed</span>
+              <span className="text-sm text-[#3C5999]">Only needed</span>
             </label>
 
             {/* Export Button */}
             <button
               onClick={exportToCSV}
-              className="px-4 py-2 bg-[#286BCD]/10 text-[#286BCD] rounded-lg hover:bg-[#286BCD]/20 transition flex items-center gap-2"
+              className="px-4 py-2 bg-[#3C5999]/10 text-[#3C5999] rounded-lg hover:bg-[#3C5999]/20 transition flex items-center gap-2"
             >
               <Download className="w-4 h-4" />
               Export CSV
@@ -346,15 +346,15 @@ const ShoppingListPage: React.FC = () => {
               >
                 <div className="flex flex-col md:flex-row items-start justify-between gap-4">
                   <div className="flex-1">
-                    <h3 className="text-lg font-bold text-[#286BCD]">
+                    <h3 className="text-lg font-bold text-[#3C5999]">
                       📦 {item.component_name}
                     </h3>
-                    <p className="text-sm text-[#286BCD]/60">
+                    <p className="text-sm text-[#3C5999]/60">
                       Need: <span className="font-bold text-red-600">{item.still_needed}x</span> |
                       Cost: <span className="font-bold text-[#C49F58]">${(item.unit_price * item.still_needed).toFixed(2)}</span> |
                       {item.vendor}
                     </p>
-                    <p className="text-xs text-[#286BCD]/40 mt-1">
+                    <p className="text-xs text-[#3C5999]/40 mt-1">
                       Used in: {item.used_in_prototypes}
                     </p>
                     {item.quantity_have > 0 && (
@@ -393,13 +393,13 @@ const ShoppingListPage: React.FC = () => {
                           className={`px-3 py-2 rounded-lg text-sm transition flex items-center gap-2 ${
                             option.primary
                               ? 'bg-[#C49F58] text-white hover:bg-[#b08d4b]'
-                              : 'bg-[#286BCD]/10 text-[#286BCD] hover:bg-[#286BCD]/20'
+                              : 'bg-[#3C5999]/10 text-[#3C5999] hover:bg-[#3C5999]/20'
                           }`}
                         >
                           <span>{option.icon}</span>
                           <div className="text-left">
                             <div className="font-semibold">{option.name}</div>
-                            <div className={`text-xs ${option.primary ? 'text-white/80' : 'text-[#286BCD]/60'}`}>
+                            <div className={`text-xs ${option.primary ? 'text-white/80' : 'text-[#3C5999]/60'}`}>
                               ~${option.price.toFixed(2)}
                             </div>
                           </div>
@@ -415,7 +415,7 @@ const ShoppingListPage: React.FC = () => {
             {filteredItems.length === 0 && (
               <div className="text-center py-12 bg-white rounded-xl">
                 <div className="text-6xl mb-4">✅</div>
-                <p className="text-[#286BCD]/60">
+                <p className="text-[#3C5999]/60">
                   {showOnlyNeeded ? 'All components purchased!' : 'No components found.'}
                 </p>
               </div>
@@ -432,7 +432,7 @@ const ShoppingListPage: React.FC = () => {
                 className="bg-white rounded-xl shadow overflow-hidden"
               >
                 {/* Vendor Header */}
-                <div className="p-4 bg-[#286BCD] text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div className="p-4 bg-[#3C5999] text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                   <div>
                     <h3 className="text-xl font-bold">{group.vendor}</h3>
                     <p className="text-sm text-white/80">
@@ -456,8 +456,8 @@ const ShoppingListPage: React.FC = () => {
                       className="p-4 flex items-center justify-between gap-4"
                     >
                       <div className="flex-1">
-                        <p className="font-semibold text-[#286BCD]">{item.component_name}</p>
-                        <p className="text-sm text-[#286BCD]/60">
+                        <p className="font-semibold text-[#3C5999]">{item.component_name}</p>
+                        <p className="text-sm text-[#3C5999]/60">
                           {item.still_needed}x @ ${item.unit_price} = ${(item.unit_price * item.still_needed).toFixed(2)}
                         </p>
                       </div>
@@ -471,7 +471,7 @@ const ShoppingListPage: React.FC = () => {
                             className={`px-2 py-1 rounded text-xs transition flex items-center gap-1 ${
                               option.primary
                                 ? 'bg-[#C49F58] text-white'
-                                : 'bg-[#286BCD]/10 text-[#286BCD]'
+                                : 'bg-[#3C5999]/10 text-[#3C5999]'
                             }`}
                             title={`~$${option.price.toFixed(2)}`}
                           >
@@ -488,7 +488,7 @@ const ShoppingListPage: React.FC = () => {
             {vendorGroups.length === 0 && (
               <div className="text-center py-12 bg-white rounded-xl">
                 <div className="text-6xl mb-4">✅</div>
-                <p className="text-[#286BCD]/60">No items to purchase!</p>
+                <p className="text-[#3C5999]/60">No items to purchase!</p>
               </div>
             )}
           </div>

@@ -299,7 +299,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ variant = 'default', children
             <h1 className={`${isSanctuary ? 'text-slate-800' : 'text-[#FAF4ED]'} text-sm md:text-lg font-serif tracking-[0.25em] uppercase mb-4 opacity-90 transition-colors duration-1000`}>
               The Infrastructure of Dignity
             </h1>
-            <div className={`w-8 h-0.5 mx-auto opacity-60 mb-8 transition-colors duration-1000 ${isSanctuary ? 'bg-[#286BCD]' : 'bg-[#C49F58]'}`}></div>
+            <div className={`w-8 h-0.5 mx-auto opacity-60 mb-8 transition-colors duration-1000 ${isSanctuary ? 'bg-[#3C5999]' : 'bg-[#C49F58]'}`}></div>
           </div>
 
           {/* DYNAMIC CONTENT */}

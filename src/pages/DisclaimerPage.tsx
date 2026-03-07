@@ -16,7 +16,7 @@ const DisclaimerPage = () => {
   return (
     <div className="min-h-screen bg-[#FAF4ED]">
       {/* Header */}
-      <div className="bg-[#286BCD] py-16">
+      <div className="bg-[#3C5999] py-16">
         <div className="container mx-auto px-4">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -32,7 +32,7 @@ const DisclaimerPage = () => {
       <div className="container mx-auto px-4 py-12 max-w-3xl">
         <style>{`
           .policy-content, .policy-content * {
-            color: #286BCD !important;
+            color: #3C5999 !important;
           }
           .policy-content a {
             color: #C49F58 !important;
