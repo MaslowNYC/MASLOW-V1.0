@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-const TermsOfServicePage = () => {
+const DisclaimerPage = () => {
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = 'https://policies.termageddon.com/api/embed/Y25Zdk1FUjNhV1ZQYmpBM1NWRTlQUT09.js';
+    script.src = 'https://policies.termageddon.com/api/embed/YkZJMFpFRjJSblU0TDNBelJuYzlQUT09.js';
     script.async = true;
     document.body.appendChild(script);
 
@@ -23,7 +23,7 @@ const TermsOfServicePage = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-serif font-bold text-white text-center"
           >
-            Terms of Service
+            Disclaimer
           </motion.h1>
         </div>
       </div>
@@ -37,13 +37,13 @@ const TermsOfServicePage = () => {
           className="prose prose-lg max-w-none"
         >
           <div
-            id="Y25Zdk1FUjNhV1ZQYmpBM1NWRTlQUT09"
+            id="YkZJMFpFRjJSblU0TDNBelJuYzlQUT09"
             className="policy_embed_div text-[#286BCD]"
           >
             Please wait while the policy is loaded. If it does not load, please{' '}
             <a
               rel="nofollow"
-              href="https://policies.termageddon.com/api/policy/Y25Zdk1FUjNhV1ZQYmpBM1NWRTlQUT09"
+              href="https://policies.termageddon.com/api/policy/YkZJMFpFRjJSblU0TDNBelJuYzlQUT09"
               target="_blank"
               className="text-[#C49F58] hover:underline"
             >
@@ -57,4 +57,4 @@ const TermsOfServicePage = () => {
   );
 };
 
-export default TermsOfServicePage;
+export default DisclaimerPage;

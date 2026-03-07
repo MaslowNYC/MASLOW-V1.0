@@ -1184,7 +1184,7 @@ const LoginPage = () => {
         >
           By continuing you agree to Maslow's<br />
           <Link
-            to="/terms"
+            to="/terms-of-service"
             className="hover:text-[#286BCD] transition-colors"
             style={{ color: '#9a8e80', textDecoration: 'underline', textUnderlineOffset: '2px' }}
           >
@@ -1192,7 +1192,7 @@ const LoginPage = () => {
           </Link>
           {' & '}
           <Link
-            to="/privacy"
+            to="/privacy-policy"
             className="hover:text-[#286BCD] transition-colors"
             style={{ color: '#9a8e80', textDecoration: 'underline', textUnderlineOffset: '2px' }}
           >

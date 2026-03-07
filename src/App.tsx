@@ -53,6 +53,8 @@ import FuturePrototypesPage from '@/pages/FuturePrototypesPage';
 // Legal
 import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
 import TermsOfServicePage from '@/pages/TermsOfServicePage';
+import DisclaimerPage from '@/pages/DisclaimerPage';
+import CookiePolicyPage from '@/pages/CookiePolicyPage';
 import FAQPage from '@/pages/FAQPage';
 
 // Prototypes pages (admin)
@@ -116,8 +118,10 @@ const AppContent: React.FC = () => {
           <Route path="/profile/settings" element={<ProtectedRoute><ProfileSettingsPage /></ProtectedRoute>} />
           <Route path="/mission" element={<MissionPage />} />
           <Route path="/partnerships" element={<Partnerships />} />
-          <Route path="/privacy" element={<PrivacyPolicyPage />} />
-          <Route path="/terms" element={<TermsOfServicePage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+          <Route path="/disclaimer" element={<DisclaimerPage />} />
+          <Route path="/cookie-policy" element={<CookiePolicyPage />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} />
 

@@ -245,7 +245,7 @@ const ProfileSettingsPage: React.FC = () => {
 
             {/* Terms & Conditions */}
             <Link
-              to="/terms"
+              to="/terms-of-service"
               className="flex items-center justify-between py-2 border-b border-gray-100 w-full text-left hover:bg-gray-50 transition-colors rounded"
             >
               <div className="flex items-center gap-3">
@@ -257,7 +257,7 @@ const ProfileSettingsPage: React.FC = () => {
 
             {/* Privacy Policy */}
             <Link
-              to="/privacy"
+              to="/privacy-policy"
               className="flex items-center justify-between py-2 w-full text-left hover:bg-gray-50 transition-colors rounded"
             >
               <div className="flex items-center gap-3">
