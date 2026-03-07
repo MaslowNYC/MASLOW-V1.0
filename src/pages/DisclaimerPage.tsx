@@ -30,11 +30,36 @@ const DisclaimerPage = () => {
 
       {/* Content */}
       <div className="container mx-auto px-4 py-12 max-w-3xl">
+        <style>{`
+          .policy-content, .policy-content * {
+            color: #286BCD !important;
+          }
+          .policy-content a {
+            color: #C49F58 !important;
+            text-decoration: underline;
+          }
+          .policy-content h2, .policy-content h3, .policy-content h4 {
+            font-weight: bold;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+          }
+          .policy-content p {
+            margin-bottom: 1em;
+            line-height: 1.7;
+          }
+          .policy-content ul, .policy-content ol {
+            margin-left: 1.5em;
+            margin-bottom: 1em;
+          }
+          .policy-content li {
+            margin-bottom: 0.5em;
+          }
+        `}</style>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="prose prose-lg max-w-none text-[#286BCD]"
+          className="policy-content"
           dangerouslySetInnerHTML={{ __html: html }}
         />
       </div>
