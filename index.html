@@ -45,7 +45,13 @@
 		<link rel='preload' href='//privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js' as='script'>
 		<script type='application/javascript' src='https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js'></script>
 		<script id='usercentrics-cmp' src='https://app.usercentrics.eu/browser-ui/latest/loader.js' data-settings-id='gqjTe8iFYhRZOc' async></script>
-		<script>uc.setCustomTranslations('https://termageddon.ams3.cdn.digitaloceanspaces.com/translations/');</script>
+		<script>
+		  window.addEventListener('UC_UI_INITIALIZED', function() {
+		    if (typeof uc !== 'undefined') {
+		      uc.setCustomTranslations('https://termageddon.ams3.cdn.digitaloceanspaces.com/translations/');
+		    }
+		  });
+		</script>
 	</head>
 	<body>
 		<div id="root"></div>
