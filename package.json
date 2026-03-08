@@ -36,6 +36,7 @@
     "react-helmet": "^6.1.0",
     "react-i18next": "^16.5.4",
     "react-router-dom": "^7.1.1",
+    "stripe": "^20.4.1",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"
   },
