@@ -30,6 +30,14 @@ export default defineConfig({
   server: {
     headers: {
       'Content-Security-Policy': "connect-src 'self' https://*.supabase.co https://api.stripe.com https://verify.twilio.com"
-    }
-  }
+    },
+    // Proxy /api/* to the Vercel dev server (port 3001) during local development.
+    // In production, Vercel handles /api/* natively — this only applies to `vite dev`.
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
+    },
+  },
 });

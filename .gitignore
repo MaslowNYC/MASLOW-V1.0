@@ -35,3 +35,4 @@ dist-ssr
 # Screenshots and large media files (root level only)
 /Screenshot*.png
 /*.gif
+.env*.local

@@ -96,11 +96,11 @@ const AppContent: React.FC = () => {
 
           {/* Protected Routes */}
           <Route path="/events" element={<ProtectedRoute><EventsPage /></ProtectedRoute>} />
-          <Route path="/hull" element={<ProtectedRoute><HullPage /></ProtectedRoute>} />
+          <Route path="/hull" element={<HullPage />} />
           <Route path="/suites" element={<ProtectedRoute><SanctuarySuitesPage /></ProtectedRoute>} />
           <Route path="/sanctuary" element={<Navigate to="/hull" replace />} />
-          <Route path="/impact" element={<ProtectedRoute><ImpactPage /></ProtectedRoute>} />
-          <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
+          <Route path="/impact" element={<ImpactPage />} />
+          <Route path="/membership" element={<MembershipPage />} />
           <Route path="/future" element={<ProtectedRoute><FuturePrototypesPage /></ProtectedRoute>} />
 
           {/* Commerce */}

@@ -1,6 +1,7 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
-import { Sparkles, Bike, Package, Sofa, ArrowRight, Star } from 'lucide-react';
+import { Bike, Package, Sofa, ArrowRight, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface FutureFeature {
@@ -39,7 +40,7 @@ const futureFeatures: FutureFeature[] = [
     description: 'An automated, temperature-controlled dispensing system for premium beauty and wellness samples. Members select products via the app before arrival; samples await in their suite.',
     details: [
       'Temperature-controlled compartments',
-      'Partnerships with Aesop, Le Labo, Byredo',
+      'Curated premium brand partnerships',
       'App-based pre-selection',
       'Freshness-sealed individual portions',
       'Usage analytics for brand partners',
@@ -88,6 +89,11 @@ const futureFeatures: FutureFeature[] = [
 const FuturePrototypesPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#FAF4ED]">
+      <Helmet>
+        <title>Maslow NYC | The Future</title>
+        <meta name="description" content="A look at what's coming — innovations in development that will define the next generation of Maslow locations." />
+      </Helmet>
+
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
@@ -105,19 +111,13 @@ const FuturePrototypesPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="inline-flex items-center gap-2 bg-[#C49F58]/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
-              <Sparkles className="w-4 h-4 text-[#C49F58]" />
-              <span className="text-sm font-semibold text-white uppercase tracking-widest">Sovereign Preview</span>
-            </div>
-
             <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 tracking-tight">
               The Future of<br />
               <span className="text-[#C49F58]">Urban Sanctuary</span>
             </h1>
 
             <p className="text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
-              An exclusive preview of innovations in development. As a visionary supporter,
-              you're helping shape the next chapter of Maslow.
+              A look at what's coming — innovations in development that will define the next generation of Maslow locations.
             </p>
           </motion.div>
         </div>

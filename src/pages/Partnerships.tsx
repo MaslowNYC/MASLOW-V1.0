@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { Mail, Building2, Users, TrendingUp, MapPin, CheckCircle2, Package, Sparkles } from 'lucide-react';
 
 type TabType = 'city' | 'vendor';
@@ -8,6 +9,10 @@ const Partnerships: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#F5F0E6]">
+      <Helmet>
+        <title>Maslow NYC | Partnerships</title>
+        <meta name="description" content="Partner with Maslow NYC - City agencies and vendors working together to build the infrastructure of dignity." />
+      </Helmet>
 
       {/* Tab Navigation */}
       <div className="bg-white border-b-2 border-[#3C5999]/10 sticky top-0 z-40">

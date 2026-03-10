@@ -312,50 +312,6 @@ const HomePage = () => {
 
       {/* ===== BOOKING SECTION ===== */}
       <BookingSection selectedSession={selectedSession} />
-
-      {/* ===== FOOTER SECTION ===== */}
-      <section className="py-16" style={{ background: 'var(--charcoal)' }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="text-center md:text-left">
-              <h3
-                className="text-2xl font-light mb-2"
-                style={{ color: 'var(--cream)', fontFamily: 'var(--serif)' }}
-              >
-                Maslow NYC
-              </h3>
-              <p
-                className="text-sm"
-                style={{ color: 'var(--cream)', fontFamily: 'var(--sans)', opacity: 0.6 }}
-              >
-                The Infrastructure of Dignity
-              </p>
-            </div>
-            <div className="flex gap-8" style={{ fontFamily: 'var(--sans)' }}>
-              <Link to="/mission" className="text-sm transition-opacity hover:opacity-100" style={{ color: 'var(--cream)', opacity: 0.7 }}>
-                Mission
-              </Link>
-              <Link to="/faq" className="text-sm transition-opacity hover:opacity-100" style={{ color: 'var(--cream)', opacity: 0.7 }}>
-                FAQ
-              </Link>
-              <Link to="/privacy-policy" className="text-sm transition-opacity hover:opacity-100" style={{ color: 'var(--cream)', opacity: 0.7 }}>
-                Privacy
-              </Link>
-              <Link to="/terms-of-service" className="text-sm transition-opacity hover:opacity-100" style={{ color: 'var(--cream)', opacity: 0.7 }}>
-                Terms
-              </Link>
-            </div>
-          </div>
-          <div className="mt-12 pt-8 border-t" style={{ borderColor: 'rgba(250,244,237,0.1)' }}>
-            <p
-              className="text-center text-xs"
-              style={{ color: 'var(--cream)', fontFamily: 'var(--sans)', opacity: 0.4 }}
-            >
-              &copy; {new Date().getFullYear()} Maslow NYC. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </section>
     </>
   );
 };

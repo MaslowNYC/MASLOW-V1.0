@@ -64,7 +64,7 @@ const SanctuarySuitesPage: React.FC = () => {
   const bookingSteps: BookingStep[] = [
     { num: "1", text: "Open the Maslow app or visit maslownyc.com" },
     { num: "2", text: "Find a Maslow location (map shows availability in real-time)" },
-    { num: "3", text: "Book a session (15 or 30 minutes, $5-10 depending on location)" },
+    { num: "3", text: "Book a session (10 minutes, $5 per session)" },
     { num: "4", text: "Get your QR code (displays on your phone)" },
     { num: "5", text: "Scan at the door (opens member hallway; proximity sensors unlock your suite door automatically when you arrive)" },
     { num: "6", text: "Use the suite (do what you came to do)" },
@@ -74,7 +74,7 @@ const SanctuarySuitesPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#FAF4ED]">
       <Helmet>
-        <title>Maslow Suites | Maslow NYC</title>
+        <title>Maslow NYC | The Suites</title>
         <meta name="description" content="Private, safe, thoughtfully designed spaces for bathroom access, nursing, prayer, changing—whatever you need." />
       </Helmet>
 
@@ -225,7 +225,7 @@ const SanctuarySuitesPage: React.FC = () => {
               <div>
                 <h4 className="text-xl font-bold text-[#3C5999] mb-4">Timer Display</h4>
                 <p className="text-lg text-[#1a1a1a]/70 leading-relaxed">
-                  A clear digital timer shows how much time you have left in your session. No anxiety about overstaying. No surprise lock-outs. Just transparency.
+                  A timer appears when your session nears its end—giving you a heads-up without counting down every minute. No anxiety about overstaying. No surprise lock-outs. Just transparency.
                 </p>
               </div>
             </div>
