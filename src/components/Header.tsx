@@ -88,12 +88,9 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
   };
 
   const navLinks = [
-    { name: 'IMPACT', path: '/impact' },
     { name: 'THE HULL', path: '/hull' },
-    { name: 'EVENTS', path: '/events' },
-    { name: 'SUITES', path: '/suites' },
-    { name: 'PARTNERSHIPS', path: '/partnerships' },
-    { name: 'FUTURE', path: '/future' },
+    { name: 'THE IMPACT', path: '/impact' },
+    { name: 'MEMBERSHIP', path: '/membership' },
   ];
 
   const isActive = (path: string) => location.pathname === path;

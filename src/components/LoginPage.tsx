@@ -699,7 +699,7 @@ const LoginPage = () => {
 
   // Main Login/Signup Screen
   return (
-    <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-4">
+    <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-4" style={{ background: 'linear-gradient(160deg, #fdf8f0 0%, #f5ede0 40%, #ede4d4 100%)' }}>
       {/* Warm cream background with light bloom */}
       <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #fdf8f0 0%, #f5ede0 40%, #ede4d4 100%)' }} />
       <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 80% 60% at 30% 0%, rgba(255,255,255,0.8) 0%, transparent 60%)' }} />

@@ -17,7 +17,14 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   isFounder: boolean;
-  signUp: (data: { email: string; password: string }) => Promise<AuthResponse>;
+  signUp: (data: {
+    email: string;
+    password: string;
+    options?: {
+      data?: Record<string, unknown>;
+      emailRedirectTo?: string;
+    };
+  }) => Promise<AuthResponse>;
   signIn: (data: { email: string; password: string }) => Promise<AuthResponse>;
   signOut: () => Promise<{ error: AuthError | null }>;
 }
@@ -94,7 +101,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   // Wrapped methods to ensure they return consistent structure even on crash
-  const signUp = async (data: { email: string; password: string }): Promise<AuthResponse> => {
+  const signUp = async (data: {
+    email: string;
+    password: string;
+    options?: {
+      data?: Record<string, unknown>;
+      emailRedirectTo?: string;
+    };
+  }): Promise<AuthResponse> => {
     try {
       return await supabase.auth.signUp(data);
     } catch (error) {

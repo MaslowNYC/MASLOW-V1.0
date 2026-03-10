@@ -20,9 +20,9 @@ const ProtectedRoute = ({ children, requireFounder = false }: ProtectedRouteProp
     );
   }
 
-  // 2. Not Logged In? -> Go to Lock Screen
+  // 2. Not Logged In? -> Go to Login
   if (!user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   // 3. Logged In but NOT Founder? -> Go to The Hull

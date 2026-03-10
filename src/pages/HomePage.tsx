@@ -1,129 +1,361 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
-import { useTranslation } from 'react-i18next';
-import HeroCarousel from '@/components/HeroCarousel';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
-import { motion } from 'framer-motion';
-import { supabase } from '@/lib/customSupabaseClient';
-import PreferencesModal from '@/components/PreferencesModal';
+import SessionsSection, { SessionType } from '@/components/SessionsSection';
+import BookingSection from '@/components/BookingSection';
 
-const HomePage: React.FC = () => {
-  const { user } = useAuth();
-  const { t } = useTranslation();
-  const [showPreferences, setShowPreferences] = useState(false);
+// Generate random leaf positions for SVG layers
+const generateLeaves = (count: number, excludeZone?: { x1: number; x2: number; y1: number; y2: number }) => {
+  const leaves: { x: number; y: number; rotation: number; scale: number; type: 1 | 2 }[] = [];
+  for (let i = 0; i < count; i++) {
+    let x = Math.random() * 1440;
+    let y = Math.random() * 900;
 
-  // Check if we should show preferences modal on login
-  useEffect(() => {
-    const checkPreferences = async () => {
-      if (!user) return;
+    // If in exclude zone, thin out (skip 70% of leaves)
+    if (excludeZone && x > excludeZone.x1 && x < excludeZone.x2 && y > excludeZone.y1 && y < excludeZone.y2) {
+      if (Math.random() < 0.7) continue;
+    }
 
-      // Check if user has already seen/skipped the modal this session
-      const sessionKey = `maslow_prefs_shown_${user.id}`;
-      if (sessionStorage.getItem(sessionKey)) return;
+    leaves.push({
+      x,
+      y,
+      rotation: Math.random() * 360,
+      scale: 0.6 + Math.random() * 0.8,
+      type: Math.random() > 0.5 ? 1 : 2,
+    });
+  }
+  return leaves;
+};
 
-      try {
-        const { data } = await (supabase
-          .from('profiles') as any)
-          .select('accessibility_settings')
-          .eq('id', user.id)
-          .single();
+// Pre-generate leaf positions for each layer
+const layer1Leaves = generateLeaves(80);
+const layer2Leaves = generateLeaves(70);
+const layer3Leaves = generateLeaves(60, { x1: 1000, x2: 1350, y1: 150, y2: 600 });
 
-        // Show modal if user hasn't opted out
-        const skipModal = data?.accessibility_settings?.skip_preferences_modal;
-        if (!skipModal) {
-          setShowPreferences(true);
+const IvyLayer = ({
+  leaves,
+  fill,
+  opacity,
+  animationDuration,
+  offset,
+}: {
+  leaves: typeof layer1Leaves;
+  fill: string;
+  opacity: number;
+  animationDuration: number;
+  offset: { x: number; y: number };
+}) => (
+  <svg
+    className="absolute inset-0 w-[110%] h-[110%] -left-[5%] -top-[5%]"
+    viewBox="0 0 1440 900"
+    preserveAspectRatio="xMidYMid slice"
+    style={{
+      transform: `translate(${offset.x}px, ${offset.y}px)`,
+      transition: 'transform 0.1s ease-out',
+    }}
+  >
+    <defs>
+      <path id="lf" d="M0,-16 C6,-16 14,-8 14,0 C14,6 8,14 0,16 C-8,14 -14,6 -14,0 C-14,-8 -6,-16 0,-16 Z" />
+      <path id="lf2" d="M0,-14 C8,-12 16,-4 14,4 C12,12 6,16 0,16 C-6,16 -12,12 -14,4 C-16,-4 -8,-12 0,-14 Z" />
+    </defs>
+    <g fill={fill} opacity={opacity}>
+      <style>{`
+        @keyframes sway-${animationDuration} {
+          0%, 100% { transform: translateX(0) rotate(0deg); }
+          50% { transform: translateX(8px) rotate(2deg); }
         }
+        .sway-${animationDuration} {
+          animation: sway-${animationDuration} ${animationDuration}s ease-in-out infinite;
+        }
+      `}</style>
+      <g className={`sway-${animationDuration}`}>
+        {leaves.map((leaf, i) => (
+          <use
+            key={i}
+            href={leaf.type === 1 ? '#lf' : '#lf2'}
+            transform={`translate(${leaf.x}, ${leaf.y}) rotate(${leaf.rotation}) scale(${leaf.scale})`}
+          />
+        ))}
+      </g>
+    </g>
+  </svg>
+);
 
-        // Mark as shown for this session
-        sessionStorage.setItem(sessionKey, 'true');
-      } catch (err) {
-        console.error('Error checking preferences:', err);
-      }
+const HomePage = () => {
+  const { user } = useAuth();
+  const [selectedSession, setSelectedSession] = useState<SessionType | null>(null);
+  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
+  const heroRef = useRef<HTMLElement>(null);
+
+  // Mouse parallax effect
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!heroRef.current) return;
+      const rect = heroRef.current.getBoundingClientRect();
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const x = (e.clientX - rect.left - centerX) / centerX;
+      const y = (e.clientY - rect.top - centerY) / centerY;
+      setMouseOffset({ x: x * 8, y: y * 6 });
     };
 
-    checkPreferences();
-  }, [user]);
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  const scrollToSessions = () => {
+    document.getElementById('sessions')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <>
       <Helmet>
-        <title>Maslow NYC | The Infrastructure of Dignity</title>
+        <title>Maslow NYC | Where the city can wait</title>
       </Helmet>
 
-      {/* Full-screen hero with carousel background */}
-      <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
-
-        {/* Background Carousel */}
-        <HeroCarousel />
-
-        {/* Content Overlay */}
-        <div className="relative z-10 text-center text-white px-6 max-w-4xl">
-          {user ? (
-            // Logged in view - clean, no buttons
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h1
-                className="text-6xl md:text-7xl font-serif font-bold mb-4"
-                style={{ color: '#FFFFFF', textShadow: '0 2px 20px rgba(0,0,0,0.6), 0 4px 40px rgba(0,0,0,0.4)' }}
-              >
-                {t('home.welcomeBack')} {user.user_metadata?.full_name?.split(' ')[0] || 'Friend'}
-              </h1>
-              <p
-                className="text-xl md:text-2xl font-light"
-                style={{ color: 'rgba(255,255,255,0.95)', textShadow: '0 1px 12px rgba(0,0,0,0.7), 0 2px 24px rgba(0,0,0,0.5)' }}
-              >
-                {t('home.yourSanctuaryAwaits')}
-              </p>
-            </motion.div>
-          ) : (
-            // Logged out view
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h1
-                className="text-7xl md:text-8xl font-serif font-bold mb-6"
-                style={{ color: '#FFFFFF', textShadow: '0 2px 20px rgba(0,0,0,0.6), 0 4px 40px rgba(0,0,0,0.4)' }}
-              >
-                MASLOW
-              </h1>
-              <p
-                className="text-2xl md:text-3xl mb-8 font-light"
-                style={{ color: 'rgba(255,255,255,0.95)', textShadow: '0 1px 12px rgba(0,0,0,0.7), 0 2px 24px rgba(0,0,0,0.5)' }}
-              >
-                The Infrastructure of Dignity.
-              </p>
-              <p
-                className="text-sm mt-4"
-                style={{ color: 'rgba(255,255,255,0.7)', textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}
-              >
-                {t('home.signUpCommunity')}
-              </p>
-            </motion.div>
-          )}
+      {/* ===== HERO SECTION ===== */}
+      <section
+        ref={heroRef}
+        className="relative h-screen w-full overflow-hidden"
+        style={{ background: 'var(--ivy-0)' }}
+      >
+        {/* Ivy SVG Layers */}
+        <div className="absolute inset-0 pointer-events-none">
+          <IvyLayer
+            leaves={layer1Leaves}
+            fill="#182210"
+            opacity={0.95}
+            animationDuration={18}
+            offset={{ x: mouseOffset.x * 0.5, y: mouseOffset.y * 0.5 }}
+          />
+          <IvyLayer
+            leaves={layer2Leaves}
+            fill="#2E4420"
+            opacity={0.88}
+            animationDuration={13}
+            offset={{ x: mouseOffset.x * 0.7, y: mouseOffset.y * 0.7 }}
+          />
+          <IvyLayer
+            leaves={layer3Leaves}
+            fill="#4A6E38"
+            opacity={0.80}
+            animationDuration={9}
+            offset={{ x: mouseOffset.x, y: mouseOffset.y }}
+          />
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
-          <div className="w-6 h-10 border-2 border-white/40 rounded-full flex items-start justify-center p-2">
-            <motion.div
-              className="w-1.5 h-1.5 bg-white/60 rounded-full"
-              animate={{ y: [0, 16, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            />
+        {/* Hero Content - Left side */}
+        <div className="absolute bottom-24 left-8 md:left-16 lg:left-24 z-10 max-w-xl">
+          <p
+            className="text-sm uppercase tracking-[0.4em] mb-6"
+            style={{ color: 'var(--gold)', fontFamily: 'var(--sans)' }}
+          >
+            SoHo, New York City
+          </p>
+          <h1
+            className="text-5xl md:text-6xl lg:text-7xl font-light leading-tight mb-8"
+            style={{ color: 'var(--cream)', fontFamily: 'var(--serif)' }}
+          >
+            Where the city<br />can wait.
+          </h1>
+          <div className="flex flex-wrap gap-4">
+            <button
+              onClick={scrollToSessions}
+              className="px-8 py-4 text-sm uppercase tracking-wider transition-opacity hover:opacity-90"
+              style={{
+                background: 'var(--gold)',
+                color: 'var(--charcoal)',
+                fontFamily: 'var(--sans)',
+                fontWeight: 400,
+              }}
+            >
+              Book a Visit
+            </button>
+            <Link
+              to="/hull"
+              className="px-8 py-4 text-sm uppercase tracking-wider border transition-colors hover:bg-white/10"
+              style={{
+                borderColor: 'var(--cream)',
+                color: 'var(--cream)',
+                fontFamily: 'var(--sans)',
+                fontWeight: 300,
+              }}
+            >
+              The Hull &rarr;
+            </Link>
+          </div>
+        </div>
+
+        {/* Badge - Right side */}
+        <div className="absolute right-8 md:right-[8vw] top-1/2 -translate-y-1/2 z-10 hidden md:block">
+          <img
+            src="/MASLOW - Square.png"
+            alt="Maslow"
+            className="w-48 h-48 object-contain"
+          />
+        </div>
+
+        {/* Bottom wave transition */}
+        <svg
+          className="absolute bottom-0 left-0 w-full h-24"
+          viewBox="0 0 1440 96"
+          preserveAspectRatio="none"
+          fill="var(--cream)"
+        >
+          <path d="M0,64 C240,32 480,96 720,64 C960,32 1200,80 1440,48 L1440,96 L0,96 Z" />
+        </svg>
+      </section>
+
+      {/* ===== SUITE SECTION ===== */}
+      <section className="py-24" style={{ background: 'var(--cream)' }}>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+              <p
+                className="text-sm uppercase tracking-[0.3em] mb-4"
+                style={{ color: 'var(--gold)', fontFamily: 'var(--sans)' }}
+              >
+                Private Sanctuary
+              </p>
+              <h2
+                className="text-4xl md:text-5xl font-light mb-6"
+                style={{ color: 'var(--charcoal)', fontFamily: 'var(--serif)' }}
+              >
+                The Suite
+              </h2>
+              <p
+                className="text-lg leading-relaxed mb-8"
+                style={{ color: 'var(--charcoal)', fontFamily: 'var(--sans)', opacity: 0.8 }}
+              >
+                Every Maslow suite is a private, fully-enclosed sanctuary. Hospital-grade sanitation meets
+                boutique hospitality in spaces designed for complete peace of mind. Premium amenities,
+                accessibility features, and absolute privacy - because some moments should be yours alone.
+              </p>
+              <ul className="space-y-3" style={{ fontFamily: 'var(--sans)' }}>
+                {['Private, fully-enclosed suite', 'Hospital-grade sanitation', 'Premium amenities included', 'Full ADA accessibility'].map((item) => (
+                  <li key={item} className="flex items-center gap-3" style={{ color: 'var(--charcoal)' }}>
+                    <span className="w-2 h-2 rounded-full" style={{ background: 'var(--gold)' }} />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div
+              className="aspect-[4/3] rounded-sm"
+              style={{
+                background: 'linear-gradient(135deg, var(--cream-2) 0%, var(--moss) 100%)',
+                opacity: 0.3,
+              }}
+            >
+              {/* Image placeholder */}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Preferences popup — hidden for now, restore when ready */}
-      {/* <PreferencesModal
-        isOpen={showPreferences}
-        onClose={() => setShowPreferences(false)}
-      /> */}
+      {/* ===== SESSIONS SECTION ===== */}
+      <SessionsSection
+        onSelect={setSelectedSession}
+        selectedId={selectedSession?.id}
+      />
+
+      {/* ===== HULL SECTION ===== */}
+      <section className="py-24" style={{ background: 'var(--moss)' }}>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div
+              className="aspect-[4/3] rounded-sm order-2 md:order-1"
+              style={{
+                background: 'linear-gradient(135deg, var(--ivy-3) 0%, var(--ivy-4) 100%)',
+                opacity: 0.4,
+              }}
+            >
+              {/* Image placeholder */}
+            </div>
+            <div className="order-1 md:order-2">
+              <p
+                className="text-sm uppercase tracking-[0.3em] mb-4"
+                style={{ color: 'var(--gold)', fontFamily: 'var(--sans)' }}
+              >
+                Member Space
+              </p>
+              <h2
+                className="text-4xl md:text-5xl font-light mb-6"
+                style={{ color: 'var(--cream)', fontFamily: 'var(--serif)' }}
+              >
+                The Hull
+              </h2>
+              <p
+                className="text-lg leading-relaxed mb-8"
+                style={{ color: 'var(--cream)', fontFamily: 'var(--sans)', opacity: 0.85 }}
+              >
+                Beyond the suites lies The Hull - a members-only lounge where time moves differently.
+                Comfortable seating, complimentary refreshments, and the company of like-minded New Yorkers
+                who understand that some spaces are worth protecting.
+              </p>
+              <Link
+                to="/hull"
+                className="inline-flex items-center gap-2 px-8 py-4 text-sm uppercase tracking-wider transition-opacity hover:opacity-90"
+                style={{
+                  background: 'var(--gold)',
+                  color: 'var(--charcoal)',
+                  fontFamily: 'var(--sans)',
+                }}
+              >
+                Explore The Hull
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== BOOKING SECTION ===== */}
+      <BookingSection selectedSession={selectedSession} />
+
+      {/* ===== FOOTER SECTION ===== */}
+      <section className="py-16" style={{ background: 'var(--charcoal)' }}>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="text-center md:text-left">
+              <h3
+                className="text-2xl font-light mb-2"
+                style={{ color: 'var(--cream)', fontFamily: 'var(--serif)' }}
+              >
+                Maslow NYC
+              </h3>
+              <p
+                className="text-sm"
+                style={{ color: 'var(--cream)', fontFamily: 'var(--sans)', opacity: 0.6 }}
+              >
+                The Infrastructure of Dignity
+              </p>
+            </div>
+            <div className="flex gap-8" style={{ fontFamily: 'var(--sans)' }}>
+              <Link to="/mission" className="text-sm transition-opacity hover:opacity-100" style={{ color: 'var(--cream)', opacity: 0.7 }}>
+                Mission
+              </Link>
+              <Link to="/faq" className="text-sm transition-opacity hover:opacity-100" style={{ color: 'var(--cream)', opacity: 0.7 }}>
+                FAQ
+              </Link>
+              <Link to="/privacy-policy" className="text-sm transition-opacity hover:opacity-100" style={{ color: 'var(--cream)', opacity: 0.7 }}>
+                Privacy
+              </Link>
+              <Link to="/terms-of-service" className="text-sm transition-opacity hover:opacity-100" style={{ color: 'var(--cream)', opacity: 0.7 }}>
+                Terms
+              </Link>
+            </div>
+          </div>
+          <div className="mt-12 pt-8 border-t" style={{ borderColor: 'rgba(250,244,237,0.1)' }}>
+            <p
+              className="text-center text-xs"
+              style={{ color: 'var(--cream)', fontFamily: 'var(--sans)', opacity: 0.4 }}
+            >
+              &copy; {new Date().getFullYear()} Maslow NYC. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </section>
     </>
   );
 };

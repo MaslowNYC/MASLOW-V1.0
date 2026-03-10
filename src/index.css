@@ -3,6 +3,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* V4 Design Tokens */
+:root {
+  --cream:      #FAF4ED;
+  --cream-2:    #F2E8DC;
+  --charcoal:   #2A2724;
+  --gold:       #C49F58;
+  --blue:       #2C6BC4;
+  --moss:       #4A5C3A;
+  --water:      #7AABCC;
+  --ivy-0:      #0D1509;
+  --ivy-3:      #355228;
+  --ivy-4:      #4A6E38;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Jost', sans-serif;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%; /* Default to white for the Cloud theme */

@@ -26,7 +26,6 @@ import StorePage from '@/pages/StorePage';
 import ProductDetailPage from '@/pages/ProductDetailPage';
 import CheckoutSuccessPage from '@/pages/CheckoutSuccessPage';
 import LocationDetail from '@/pages/LocationDetail';
-import TheLotusPage from '@/pages/TheLotusPage';
 import MembershipPage from '@/pages/MembershipPage';
 import ImpactPage from '@/pages/ImpactPage';
 import HullPage from '@/pages/HullPage';
@@ -91,7 +90,7 @@ const AppContent: React.FC = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/maslow" element={<MaslowPage />} />
-          <Route path="/staff/inventory" element={<StaffInventory />} />
+          <Route path="/staff/inventory" element={<ProtectedRoute requireFounder={true}><StaffInventory /></ProtectedRoute>} />
           <Route path="/buy-credits" element={<ProtectedRoute><BuyCreditsPage /></ProtectedRoute>} />
           
 
@@ -100,7 +99,6 @@ const AppContent: React.FC = () => {
           <Route path="/hull" element={<ProtectedRoute><HullPage /></ProtectedRoute>} />
           <Route path="/suites" element={<ProtectedRoute><SanctuarySuitesPage /></ProtectedRoute>} />
           <Route path="/sanctuary" element={<Navigate to="/hull" replace />} />
-          <Route path="/lotus" element={<ProtectedRoute><TheLotusPage /></ProtectedRoute>} />
           <Route path="/impact" element={<ProtectedRoute><ImpactPage /></ProtectedRoute>} />
           <Route path="/membership" element={<ProtectedRoute><MembershipPage /></ProtectedRoute>} />
           <Route path="/future" element={<ProtectedRoute><FuturePrototypesPage /></ProtectedRoute>} />
