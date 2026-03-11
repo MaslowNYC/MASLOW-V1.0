@@ -35,6 +35,7 @@ import AdminFundingDashboard from '@/components/AdminFundingDashboard';
 import Dashboard from '@/pages/Dashboard';
 import MaslowPage from '@/pages/MaslowPage';
 import StaffInventory from '@/pages/StaffInventory';
+import RevenueModelPage from '@/pages/RevenueModelPage';
 
 // Restored imports
 import ProfilePage from '@/pages/ProfilePage';
@@ -77,7 +78,7 @@ const AppContent: React.FC = () => {
     }
   }, [navigate]);
 
-  const isHideHeaderPath = location.pathname === '/login' || location.pathname === '/reset-password';
+  const isHideHeaderPath = location.pathname === '/login' || location.pathname === '/reset-password' || location.pathname === '/model';
 
   return (
     <div className="min-h-screen bg-[#FAF4ED] flex flex-col overflow-x-hidden w-full max-w-full">
@@ -90,6 +91,7 @@ const AppContent: React.FC = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/maslow" element={<MaslowPage />} />
+          <Route path="/model" element={<RevenueModelPage />} />
           <Route path="/staff/inventory" element={<ProtectedRoute requireFounder={true}><StaffInventory /></ProtectedRoute>} />
           <Route path="/buy-credits" element={<ProtectedRoute><BuyCreditsPage /></ProtectedRoute>} />
           
