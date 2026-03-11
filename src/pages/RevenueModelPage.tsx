@@ -23,6 +23,7 @@ interface StoredState {
   utilization: number;
   bookedDuration: number;
   actualDuration: number;
+  turnaroundSec: number;
   avgTicket: number;
   rent: number;
   staffCost: number;
@@ -149,6 +150,7 @@ export default function RevenueModelPage() {
   const [utilization, setUtilization] = useState(initialState.utilization ?? 65);
   const [bookedDuration, setBookedDuration] = useState(initialState.bookedDuration ?? 20);
   const [actualDuration, setActualDuration] = useState(initialState.actualDuration ?? 13);
+  const [turnaroundSec, setTurnaroundSec] = useState(initialState.turnaroundSec ?? 90);
   const [avgTicket, setAvgTicket] = useState(initialState.avgTicket ?? 12);
   const [rent, setRent] = useState(initialState.rent ?? 41700);
   const [staffCost, setStaffCost] = useState(initialState.staffCost ?? 22000);
@@ -177,14 +179,14 @@ export default function RevenueModelPage() {
   // Persist state to localStorage
   useEffect(() => {
     const state: StoredState = {
-      suites, hoursPerDay, utilization, bookedDuration, actualDuration, avgTicket,
+      suites, hoursPerDay, utilization, bookedDuration, actualDuration, turnaroundSec, avgTicket,
       rent, staffCost, supplies, otherCosts, sampleEnabled, sampleRate, samplesPerSession,
       brandEnabled, brandCategories, brandPerCategory, commissionEnabled, commissionConversion,
       commissionAvgOrder, commissionPct, hullEnabled, hullMonthly, corporateEnabled,
       corporateSessions, corporateAvgRate, membershipEnabled, memberCount, memberPrice, memberUsagePerMonth
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }, [suites, hoursPerDay, utilization, bookedDuration, actualDuration, avgTicket,
+  }, [suites, hoursPerDay, utilization, bookedDuration, actualDuration, turnaroundSec, avgTicket,
     rent, staffCost, supplies, otherCosts, sampleEnabled, sampleRate, samplesPerSession,
     brandEnabled, brandCategories, brandPerCategory, commissionEnabled, commissionConversion,
     commissionAvgOrder, commissionPct, hullEnabled, hullMonthly, corporateEnabled,
@@ -257,11 +259,12 @@ export default function RevenueModelPage() {
   }, [isExporting]);
 
   const calc = useMemo(() => {
-    // Use actual duration for capacity - shorter stays = more sessions possible
-    const slotsPerDay = (hoursPerDay * 60) / actualDuration;
+    const turnaroundMin = turnaroundSec / 60;
+    // Each slot = booked duration + turnaround gap before next guest
+    const slotsPerDay = (hoursPerDay * 60) / (actualDuration + turnaroundMin);
     const totalSessions = suites * slotsPerDay * 30 * (utilization / 100);
-    // Also track booked-only capacity for comparison
-    const slotsBooked = (hoursPerDay * 60) / bookedDuration;
+    // Booked-only capacity (for early-exit comparison) also includes turnaround
+    const slotsBooked = (hoursPerDay * 60) / (bookedDuration + turnaroundMin);
     const sessionsIfBookedOnly = suites * slotsBooked * 30 * (utilization / 100);
     const sessionRevenue = totalSessions * avgTicket;
     const sampleRevenue = sampleEnabled ? totalSessions * samplesPerSession * sampleRate : 0;
@@ -297,7 +300,7 @@ export default function RevenueModelPage() {
         { label: "Memberships", value: membershipRevenue, color: "#C49F58" },
       ],
     };
-  }, [suites, hoursPerDay, utilization, bookedDuration, actualDuration, avgTicket,
+  }, [suites, hoursPerDay, utilization, bookedDuration, actualDuration, turnaroundSec, avgTicket,
     rent, staffCost, supplies, otherCosts, sampleEnabled, sampleRate, samplesPerSession,
     brandEnabled, brandCategories, brandPerCategory, commissionEnabled, commissionConversion,
     commissionAvgOrder, commissionPct, hullEnabled, hullMonthly, corporateEnabled,
@@ -364,6 +367,10 @@ export default function RevenueModelPage() {
             <div style={{ fontSize: 11, color: COLORS.water, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #4A4540" }}>Duration Model</div>
             <Slider label="Avg Booked Duration" value={bookedDuration} min={5} max={60} onChange={setBookedDuration} format={v => `${v} min`} accent={COLORS.water} />
             <Slider label="Avg Actual Duration" value={actualDuration} min={3} max={bookedDuration} onChange={setActualDuration} format={v => `${v} min`} accent={COLORS.water} />
+            <Slider label="Suite Turnaround" value={turnaroundSec} min={60} max={180} step={15} onChange={setTurnaroundSec} format={v => `${v}s`} accent={COLORS.water} />
+            <div style={{ fontSize: 11, color: COLORS.muted, marginTop: -8, marginBottom: 12, paddingLeft: 2 }}>
+              {turnaroundSec}s reset (staff + UV‑C) — reduces available capacity
+            </div>
             <div style={{ background: "#1E1B18", borderRadius: 6, padding: "10px 14px", fontSize: 12, color: COLORS.muted, lineHeight: 1.5 }}>
               {calc.extraSessions > 0
                 ? <>Faster exits unlock <span style={{ color: COLORS.water }}>{calc.extraSessions} extra sessions/mo</span> vs booked-only model.</>
@@ -465,7 +472,7 @@ export default function RevenueModelPage() {
             <div style={{ fontSize: 11, color: COLORS.label, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 16 }}>Utilization Scenarios</div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 1, background: "#4A4540", borderRadius: 6, overflow: "hidden" }}>
               {[40, 55, 70, 85, 100].map((u) => {
-                const slotsB = (hoursPerDay * 60) / bookedDuration;
+                const slotsB = (hoursPerDay * 60) / (bookedDuration + turnaroundSec / 60);
                 const sessions = suites * slotsB * 30 * (u / 100);
                 const rev = sessions * avgTicket
                   + (sampleEnabled ? sessions * samplesPerSession * sampleRate : 0)
