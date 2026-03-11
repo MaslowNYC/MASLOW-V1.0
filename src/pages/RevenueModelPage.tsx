@@ -257,15 +257,17 @@ export default function RevenueModelPage() {
   }, [isExporting]);
 
   const calc = useMemo(() => {
-    const slotsActual = (hoursPerDay * 60) / actualDuration;
-    const sessionsActual = suites * slotsActual * 30 * (utilization / 100);
+    // Use actual duration for capacity - shorter stays = more sessions possible
+    const slotsPerDay = (hoursPerDay * 60) / actualDuration;
+    const totalSessions = suites * slotsPerDay * 30 * (utilization / 100);
+    // Also track booked-only capacity for comparison
     const slotsBooked = (hoursPerDay * 60) / bookedDuration;
-    const sessionsBooked = suites * slotsBooked * 30 * (utilization / 100);
-    const sessionRevenue = sessionsBooked * avgTicket;
-    const sampleRevenue = sampleEnabled ? sessionsBooked * samplesPerSession * sampleRate : 0;
+    const sessionsIfBookedOnly = suites * slotsBooked * 30 * (utilization / 100);
+    const sessionRevenue = totalSessions * avgTicket;
+    const sampleRevenue = sampleEnabled ? totalSessions * samplesPerSession * sampleRate : 0;
     const brandRevenue = brandEnabled ? brandCategories * brandPerCategory : 0;
     const commissionRevenue = commissionEnabled
-      ? sessionsBooked * (commissionConversion / 100) * commissionAvgOrder * (commissionPct / 100) : 0;
+      ? totalSessions * (commissionConversion / 100) * commissionAvgOrder * (commissionPct / 100) : 0;
     const hullRevenue = hullEnabled ? hullMonthly : 0;
     const corporateRevenue = corporateEnabled ? corporateSessions * corporateAvgRate : 0;
     const membershipCostPerMember = memberUsagePerMonth * avgTicket;
@@ -274,13 +276,13 @@ export default function RevenueModelPage() {
     const totalRevenue = sessionRevenue + sampleRevenue + brandRevenue + commissionRevenue + hullRevenue + corporateRevenue + membershipRevenue;
     const totalCosts = rent + staffCost + supplies + otherCosts;
     const netCashFlow = totalRevenue - totalCosts;
-    const revPerPct = (suites * slotsBooked * 30 * avgTicket) / 100
-      + (sampleEnabled ? (suites * slotsBooked * 30 * samplesPerSession * sampleRate) / 100 : 0);
+    const revPerPct = (suites * slotsPerDay * 30 * avgTicket) / 100
+      + (sampleEnabled ? (suites * slotsPerDay * 30 * samplesPerSession * sampleRate) / 100 : 0);
     const fixedRev = brandRevenue + hullRevenue;
     const breakEvenUtil = revPerPct > 0 ? Math.max(0, (totalCosts - fixedRev) / revPerPct) : null;
-    const extraSessions = Math.round(sessionsActual - sessionsBooked);
+    const extraSessions = Math.round(totalSessions - sessionsIfBookedOnly);
     return {
-      sessionsBooked: Math.round(sessionsBooked), extraSessions,
+      totalSessions: Math.round(totalSessions), extraSessions,
       sessionRevenue, sampleRevenue, brandRevenue, commissionRevenue,
       hullRevenue, corporateRevenue, membershipRevenue,
       membershipSafe, membershipCostPerMember, totalRevenue, totalCosts, netCashFlow,
@@ -436,7 +438,7 @@ export default function RevenueModelPage() {
 
         <div className="main-content" ref={mainContentRef} style={{ padding: "28px 28px", background: COLORS.charcoal }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 20 }}>
-            <MetricCard label="Monthly Revenue" value={fmt(calc.totalRevenue)} sub={`${calc.sessionsBooked.toLocaleString()} sessions (booked)`} color={COLORS.gold} big />
+            <MetricCard label="Monthly Revenue" value={fmt(calc.totalRevenue)} sub={`${calc.totalSessions.toLocaleString()} sessions (booked)`} color={COLORS.gold} big />
             <MetricCard label="Monthly Costs" value={`-${fmt(calc.totalCosts)}`} sub="Rent + staff + ops" color="#C07070" big />
             <MetricCard label="Net Cash Flow" value={fmt(calc.netCashFlow)}
               sub={calc.netCashFlow >= 0 ? "Cash flow positive" : `Need ${Math.ceil(calc.breakEvenUtil || 0)}% to break even`}
@@ -487,9 +489,9 @@ export default function RevenueModelPage() {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
             <MetricCard label="Break-Even Util." value={calc.breakEvenUtil !== null ? `${Math.ceil(calc.breakEvenUtil)}%` : "N/A"} color={COLORS.gold} />
-            <MetricCard label="Sessions / Month" value={calc.sessionsBooked.toLocaleString()} sub="at booked duration" />
+            <MetricCard label="Sessions / Month" value={calc.totalSessions.toLocaleString()} sub="at booked duration" />
             <MetricCard label="Revenue / Suite / Day" value={fmtK(calc.totalRevenue / suites / 30)} color={COLORS.cream2} />
-            <MetricCard label="Cost per Session" value={fmt(calc.totalCosts / Math.max(calc.sessionsBooked, 1))} color={COLORS.muted} />
+            <MetricCard label="Cost per Session" value={fmt(calc.totalCosts / Math.max(calc.totalSessions, 1))} color={COLORS.muted} />
           </div>
         </div>
       </div>
