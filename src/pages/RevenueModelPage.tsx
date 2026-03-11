@@ -76,7 +76,7 @@ function Toggle({ label, enabled, onChange, color = COLORS.gold }: {
       <div style={{ width: 36, height: 20, borderRadius: 10, background: enabled ? color : "#4A4540", position: "relative", transition: "background 0.2s", flexShrink: 0 }}>
         <div style={{ width: 14, height: 14, borderRadius: "50%", background: "#fff", position: "absolute", top: 3, left: enabled ? 19 : 3, transition: "left 0.2s" }} />
       </div>
-      <span style={{ fontSize: 14, color: COLORS.cream, fontFamily: "'Jost', sans-serif", letterSpacing: "0.04em" }}>{label}</span>
+      <span style={{ fontSize: 14, color: COLORS.cream, fontFamily: "system-ui, -apple-system, sans-serif", letterSpacing: "0.04em" }}>{label}</span>
     </button>
   );
 }
@@ -89,8 +89,8 @@ function Slider({ label, value, min, max, step = 1, onChange, format = (v: numbe
   return (
     <div style={{ marginBottom: 16 }}>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-        <span style={{ fontSize: 13, color: COLORS.label, fontFamily: "'Jost', sans-serif", letterSpacing: "0.06em", textTransform: "uppercase" }}>{label}</span>
-        <span style={{ fontSize: 14, color: accent, fontFamily: "'Cormorant Garamond', serif", fontWeight: 600 }}>{format(value)}</span>
+        <span style={{ fontSize: 13, color: COLORS.label, fontFamily: "system-ui, -apple-system, sans-serif", letterSpacing: "0.06em", textTransform: "uppercase" }}>{label}</span>
+        <span style={{ fontSize: 14, color: accent, fontFamily: "Georgia, 'Times New Roman', serif", fontWeight: 600 }}>{format(value)}</span>
       </div>
       <div style={{ position: "relative", height: 4, background: "#4A4540", borderRadius: 2 }}>
         <div style={{ position: "absolute", left: 0, width: `${pct}%`, height: "100%", background: accent, borderRadius: 2, transition: "width 0.1s" }} />
@@ -106,9 +106,9 @@ function MetricCard({ label, value, sub, color, big = false }: {
 }) {
   return (
     <div style={{ background: "#1E1B18", border: "1px solid #4A4540", borderRadius: 8, padding: big ? "20px 24px" : "16px 20px", display: "flex", flexDirection: "column", gap: 4 }}>
-      <span style={{ fontSize: 12, color: COLORS.label, fontFamily: "'Jost', sans-serif", letterSpacing: "0.08em", textTransform: "uppercase" }}>{label}</span>
-      <span style={{ fontSize: big ? 30 : 24, color: color || COLORS.cream, fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, lineHeight: 1.1 }}>{value}</span>
-      {sub && <span style={{ fontSize: 12, color: COLORS.muted, fontFamily: "'Jost', sans-serif" }}>{sub}</span>}
+      <span style={{ fontSize: 12, color: COLORS.label, fontFamily: "system-ui, -apple-system, sans-serif", letterSpacing: "0.08em", textTransform: "uppercase" }}>{label}</span>
+      <span style={{ fontSize: big ? 30 : 24, color: color || COLORS.cream, fontFamily: "Georgia, 'Times New Roman', serif", fontWeight: 600, lineHeight: 1.1 }}>{value}</span>
+      {sub && <span style={{ fontSize: 12, color: COLORS.muted, fontFamily: "system-ui, -apple-system, sans-serif" }}>{sub}</span>}
     </div>
   );
 }
@@ -120,8 +120,8 @@ function RevenueBar({ channels, total, costs }: { channels: { label: string; val
       {channels.filter(c => c.value > 0).map((ch) => (
         <div key={ch.label} style={{ marginBottom: 8 }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 3 }}>
-            <span style={{ fontSize: 13, color: COLORS.cream2, fontFamily: "'Jost', sans-serif" }}>{ch.label}</span>
-            <span style={{ fontSize: 13, color: ch.color, fontFamily: "'Cormorant Garamond', serif", fontWeight: 600 }}>{fmtK(ch.value)}/mo</span>
+            <span style={{ fontSize: 13, color: COLORS.cream2, fontFamily: "system-ui, -apple-system, sans-serif" }}>{ch.label}</span>
+            <span style={{ fontSize: 13, color: ch.color, fontFamily: "Georgia, 'Times New Roman', serif", fontWeight: 600 }}>{fmtK(ch.value)}/mo</span>
           </div>
           <div style={{ height: 6, background: "#2A2724", borderRadius: 3 }}>
             <div style={{ height: "100%", width: `${(ch.value / maxVal) * 100}%`, background: ch.color, borderRadius: 3, transition: "width 0.3s ease" }} />
@@ -130,8 +130,8 @@ function RevenueBar({ channels, total, costs }: { channels: { label: string; val
       ))}
       <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid #4A4540" }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 3 }}>
-          <span style={{ fontSize: 12, color: COLORS.label, fontFamily: "'Jost', sans-serif" }}>Operating Costs</span>
-          <span style={{ fontSize: 12, color: COLORS.red, fontFamily: "'Cormorant Garamond', serif", fontWeight: 600 }}>-{fmtK(costs)}/mo</span>
+          <span style={{ fontSize: 12, color: COLORS.label, fontFamily: "system-ui, -apple-system, sans-serif" }}>Operating Costs</span>
+          <span style={{ fontSize: 12, color: COLORS.red, fontFamily: "Georgia, 'Times New Roman', serif", fontWeight: 600 }}>-{fmtK(costs)}/mo</span>
         </div>
         <div style={{ height: 6, background: "#2A2724", borderRadius: 3 }}>
           <div style={{ height: "100%", width: `${(costs / maxVal) * 100}%`, background: COLORS.red, borderRadius: 3 }} />
@@ -304,11 +304,10 @@ export default function RevenueModelPage() {
   const cashFlowColor = calc.netCashFlow >= 0 ? COLORS.green : calc.netCashFlow > -20000 ? COLORS.gold : COLORS.red;
 
   return (
-    <div style={{ background: COLORS.charcoal, minHeight: "100vh", fontFamily: "'Jost', sans-serif", padding: "0 0 60px" }}>
-      <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+    <div style={{ background: COLORS.charcoal, minHeight: "100vh", fontFamily: "system-ui, -apple-system, sans-serif", padding: "0 0 60px" }}>
 
       <div style={{ borderBottom: "1px solid #4A4540", padding: "24px 32px 20px", display: "flex", alignItems: "center", gap: 16, background: "#1A1714" }}>
-        <span style={{ fontSize: 22, color: COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, letterSpacing: "0.12em" }}>MASLOW</span>
+        <span style={{ fontSize: 22, color: COLORS.gold, fontFamily: "Georgia, 'Times New Roman', serif", fontWeight: 600, letterSpacing: "0.12em" }}>MASLOW</span>
         <span style={{ fontSize: 13, color: COLORS.label, letterSpacing: "0.1em", textTransform: "uppercase" }}>Revenue Model</span>
         <div style={{ marginLeft: "auto", display: "flex", gap: 16, alignItems: "center" }}>
           <button
@@ -321,7 +320,7 @@ export default function RevenueModelPage() {
               padding: "8px 16px",
               fontSize: 12,
               color: COLORS.gold,
-              fontFamily: "'Jost', sans-serif",
+              fontFamily: "system-ui, -apple-system, sans-serif",
               letterSpacing: "0.08em",
               textTransform: "uppercase",
               cursor: isExporting ? "wait" : "pointer",
@@ -478,7 +477,7 @@ export default function RevenueModelPage() {
                 return (
                   <div key={u} style={{ background: isCurrent ? "#2A2520" : "#1A1714", padding: "14px 12px", textAlign: "center", borderBottom: isCurrent ? `2px solid ${COLORS.gold}` : "2px solid transparent" }}>
                     <div style={{ fontSize: 12, color: isCurrent ? COLORS.gold : COLORS.muted, marginBottom: 6, fontWeight: isCurrent ? 500 : 400 }}>{u}%</div>
-                    <div style={{ fontSize: 15, color: net >= 0 ? COLORS.green : COLORS.cream, fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, marginBottom: 3 }}>{fmtK(rev)}</div>
+                    <div style={{ fontSize: 15, color: net >= 0 ? COLORS.green : COLORS.cream, fontFamily: "Georgia, 'Times New Roman', serif", fontWeight: 600, marginBottom: 3 }}>{fmtK(rev)}</div>
                     <div style={{ fontSize: 11, color: net >= 0 ? COLORS.green : COLORS.red }}>{net >= 0 ? "+" : ""}{fmtK(net)}</div>
                   </div>
                 );
