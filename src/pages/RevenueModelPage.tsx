@@ -3,13 +3,13 @@ import { useState, useMemo } from "react";
 const COLORS = {
   charcoal: "#2A2724",
   cream: "#FAF4ED",
-  cream2: "#F2E8DC",
-  gold: "#C49F58",
-  moss: "#4A5C3A",
-  water: "#7AABCC",
-  red: "#C0392B",
-  green: "#4A7C59",
-  muted: "#8A8278",
+  cream2: "#EDE0D0",
+  gold: "#D4AF6A",
+  moss: "#6A8A56",
+  water: "#8BBFD8",
+  red: "#D45555",
+  green: "#5A9E6A",
+  muted: "#A89E94",
 };
 
 const fmt = (n: number) =>
@@ -30,7 +30,7 @@ function Toggle({ label, enabled, onChange, color = COLORS.gold }: {
       <div style={{ width: 36, height: 20, borderRadius: 10, background: enabled ? color : "#4A4540", position: "relative", transition: "background 0.2s", flexShrink: 0 }}>
         <div style={{ width: 14, height: 14, borderRadius: "50%", background: "#fff", position: "absolute", top: 3, left: enabled ? 19 : 3, transition: "left 0.2s" }} />
       </div>
-      <span style={{ fontSize: 13, color: COLORS.cream, fontFamily: "'Jost', sans-serif", letterSpacing: "0.04em" }}>{label}</span>
+      <span style={{ fontSize: 14, color: COLORS.cream, fontFamily: "'Jost', sans-serif", letterSpacing: "0.04em" }}>{label}</span>
     </button>
   );
 }
@@ -43,8 +43,8 @@ function Slider({ label, value, min, max, step = 1, onChange, format = (v: numbe
   return (
     <div style={{ marginBottom: 16 }}>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-        <span style={{ fontSize: 12, color: COLORS.muted, fontFamily: "'Jost', sans-serif", letterSpacing: "0.06em", textTransform: "uppercase" }}>{label}</span>
-        <span style={{ fontSize: 13, color: accent, fontFamily: "'Cormorant Garamond', serif", fontWeight: 600 }}>{format(value)}</span>
+        <span style={{ fontSize: 13, color: COLORS.muted, fontFamily: "'Jost', sans-serif", letterSpacing: "0.06em", textTransform: "uppercase" }}>{label}</span>
+        <span style={{ fontSize: 14, color: accent, fontFamily: "'Cormorant Garamond', serif", fontWeight: 600 }}>{format(value)}</span>
       </div>
       <div style={{ position: "relative", height: 4, background: "#3A3530", borderRadius: 2 }}>
         <div style={{ position: "absolute", left: 0, width: `${pct}%`, height: "100%", background: accent, borderRadius: 2, transition: "width 0.1s" }} />
@@ -60,9 +60,9 @@ function MetricCard({ label, value, sub, color, big = false }: {
 }) {
   return (
     <div style={{ background: "#1E1B18", border: "1px solid #3A3530", borderRadius: 8, padding: big ? "20px 24px" : "16px 20px", display: "flex", flexDirection: "column", gap: 4 }}>
-      <span style={{ fontSize: 11, color: COLORS.muted, fontFamily: "'Jost', sans-serif", letterSpacing: "0.08em", textTransform: "uppercase" }}>{label}</span>
-      <span style={{ fontSize: big ? 28 : 22, color: color || COLORS.cream, fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, lineHeight: 1.1 }}>{value}</span>
-      {sub && <span style={{ fontSize: 11, color: COLORS.muted, fontFamily: "'Jost', sans-serif" }}>{sub}</span>}
+      <span style={{ fontSize: 12, color: COLORS.muted, fontFamily: "'Jost', sans-serif", letterSpacing: "0.08em", textTransform: "uppercase" }}>{label}</span>
+      <span style={{ fontSize: big ? 30 : 24, color: color || COLORS.cream, fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, lineHeight: 1.1 }}>{value}</span>
+      {sub && <span style={{ fontSize: 12, color: COLORS.muted, fontFamily: "'Jost', sans-serif" }}>{sub}</span>}
     </div>
   );
 }
@@ -74,8 +74,8 @@ function RevenueBar({ channels, total, costs }: { channels: { label: string; val
       {channels.filter(c => c.value > 0).map((ch) => (
         <div key={ch.label} style={{ marginBottom: 8 }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 3 }}>
-            <span style={{ fontSize: 12, color: COLORS.cream2, fontFamily: "'Jost', sans-serif" }}>{ch.label}</span>
-            <span style={{ fontSize: 12, color: ch.color, fontFamily: "'Cormorant Garamond', serif", fontWeight: 600 }}>{fmtK(ch.value)}/mo</span>
+            <span style={{ fontSize: 13, color: COLORS.cream2, fontFamily: "'Jost', sans-serif" }}>{ch.label}</span>
+            <span style={{ fontSize: 13, color: ch.color, fontFamily: "'Cormorant Garamond', serif", fontWeight: 600 }}>{fmtK(ch.value)}/mo</span>
           </div>
           <div style={{ height: 6, background: "#2A2724", borderRadius: 3 }}>
             <div style={{ height: "100%", width: `${(ch.value / maxVal) * 100}%`, background: ch.color, borderRadius: 3, transition: "width 0.3s ease" }} />
@@ -192,7 +192,7 @@ export default function RevenueModelPage() {
         <div style={{ borderRight: "1px solid #3A3530", padding: "28px 24px", overflowY: "auto", maxHeight: "calc(100vh - 80px)", position: "sticky", top: 0 }}>
 
           <div style={{ marginBottom: 28 }}>
-            <div style={{ fontSize: 10, color: COLORS.gold, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #3A3530" }}>Operations</div>
+            <div style={{ fontSize: 11, color: COLORS.gold, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #3A3530" }}>Operations</div>
             <Slider label="Suites" value={suites} min={1} max={10} onChange={setSuites} format={v => `${v} suites`} />
             <Slider label="Hours / Day" value={hoursPerDay} min={8} max={24} onChange={setHoursPerDay} format={v => `${v} hrs`} />
             <Slider label="Utilization" value={utilization} min={10} max={100} onChange={setUtilization} format={v => `${v}%`}
@@ -206,7 +206,7 @@ export default function RevenueModelPage() {
           </div>
 
           <div style={{ marginBottom: 28 }}>
-            <div style={{ fontSize: 10, color: COLORS.water, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #3A3530" }}>Duration Model</div>
+            <div style={{ fontSize: 11, color: COLORS.water, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #3A3530" }}>Duration Model</div>
             <Slider label="Avg Booked Duration" value={bookedDuration} min={5} max={60} onChange={setBookedDuration} format={v => `${v} min`} accent={COLORS.water} />
             <Slider label="Avg Actual Duration" value={actualDuration} min={3} max={bookedDuration} onChange={setActualDuration} format={v => `${v} min`} accent={COLORS.water} />
             <div style={{ background: "#1E1B18", borderRadius: 6, padding: "10px 14px", fontSize: 12, color: COLORS.muted, lineHeight: 1.5 }}>
@@ -217,7 +217,7 @@ export default function RevenueModelPage() {
           </div>
 
           <div style={{ marginBottom: 28 }}>
-            <div style={{ fontSize: 10, color: "#C05050", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #3A3530" }}>Monthly Costs</div>
+            <div style={{ fontSize: 11, color: "#C05050", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #3A3530" }}>Monthly Costs</div>
             <Slider label="Rent" value={rent} min={20000} max={80000} step={500} onChange={setRent} format={v => fmtK(v)} accent="#C05050" />
             <Slider label="Staff" value={staffCost} min={5000} max={40000} step={500} onChange={setStaffCost} format={v => fmtK(v)} accent="#C05050" />
             <Slider label="Supplies & Amenities" value={supplies} min={1000} max={20000} step={250} onChange={setSupplies} format={v => fmtK(v)} accent="#C05050" />
@@ -225,7 +225,7 @@ export default function RevenueModelPage() {
           </div>
 
           <div>
-            <div style={{ fontSize: 10, color: COLORS.gold, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #3A3530" }}>Revenue Channels</div>
+            <div style={{ fontSize: 11, color: COLORS.gold, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #3A3530" }}>Revenue Channels</div>
             <Toggle label="Sample Add-ons" enabled={sampleEnabled} onChange={setSampleEnabled} />
             {sampleEnabled && (
               <div style={{ paddingLeft: 12, paddingBottom: 8 }}>
