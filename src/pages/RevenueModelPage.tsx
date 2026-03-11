@@ -1,4 +1,6 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef, useCallback } from "react";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 
 const COLORS = {
   charcoal: "#2A2724",
@@ -9,8 +11,52 @@ const COLORS = {
   water: "#8BBFD8",
   red: "#D45555",
   green: "#5A9E6A",
-  muted: "#A89E94",
+  muted: "#C5BDB4", // Lightened for better contrast
+  label: "#E0D8D0", // New: high contrast label color
 };
+
+const STORAGE_KEY = "maslow-revenue-model";
+
+interface StoredState {
+  suites: number;
+  hoursPerDay: number;
+  utilization: number;
+  bookedDuration: number;
+  actualDuration: number;
+  avgTicket: number;
+  rent: number;
+  staffCost: number;
+  supplies: number;
+  otherCosts: number;
+  sampleEnabled: boolean;
+  sampleRate: number;
+  samplesPerSession: number;
+  brandEnabled: boolean;
+  brandCategories: number;
+  brandPerCategory: number;
+  commissionEnabled: boolean;
+  commissionConversion: number;
+  commissionAvgOrder: number;
+  commissionPct: number;
+  hullEnabled: boolean;
+  hullMonthly: number;
+  corporateEnabled: boolean;
+  corporateSessions: number;
+  corporateAvgRate: number;
+  membershipEnabled: boolean;
+  memberCount: number;
+  memberPrice: number;
+  memberUsagePerMonth: number;
+}
+
+function loadState(): Partial<StoredState> {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : {};
+  } catch {
+    return {};
+  }
+}
 
 const fmt = (n: number) =>
   n < 0 ? `-$${Math.abs(Math.round(n)).toLocaleString()}` : `$${Math.round(n).toLocaleString()}`;
@@ -43,10 +89,10 @@ function Slider({ label, value, min, max, step = 1, onChange, format = (v: numbe
   return (
     <div style={{ marginBottom: 16 }}>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-        <span style={{ fontSize: 13, color: COLORS.muted, fontFamily: "'Jost', sans-serif", letterSpacing: "0.06em", textTransform: "uppercase" }}>{label}</span>
+        <span style={{ fontSize: 13, color: COLORS.label, fontFamily: "'Jost', sans-serif", letterSpacing: "0.06em", textTransform: "uppercase" }}>{label}</span>
         <span style={{ fontSize: 14, color: accent, fontFamily: "'Cormorant Garamond', serif", fontWeight: 600 }}>{format(value)}</span>
       </div>
-      <div style={{ position: "relative", height: 4, background: "#3A3530", borderRadius: 2 }}>
+      <div style={{ position: "relative", height: 4, background: "#4A4540", borderRadius: 2 }}>
         <div style={{ position: "absolute", left: 0, width: `${pct}%`, height: "100%", background: accent, borderRadius: 2, transition: "width 0.1s" }} />
         <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(Number(e.target.value))}
           style={{ position: "absolute", top: -8, left: 0, width: "100%", height: 20, opacity: 0, cursor: "pointer", margin: 0 }} />
@@ -59,8 +105,8 @@ function MetricCard({ label, value, sub, color, big = false }: {
   label: string; value: string; sub?: string; color?: string; big?: boolean;
 }) {
   return (
-    <div style={{ background: "#1E1B18", border: "1px solid #3A3530", borderRadius: 8, padding: big ? "20px 24px" : "16px 20px", display: "flex", flexDirection: "column", gap: 4 }}>
-      <span style={{ fontSize: 12, color: COLORS.muted, fontFamily: "'Jost', sans-serif", letterSpacing: "0.08em", textTransform: "uppercase" }}>{label}</span>
+    <div style={{ background: "#1E1B18", border: "1px solid #4A4540", borderRadius: 8, padding: big ? "20px 24px" : "16px 20px", display: "flex", flexDirection: "column", gap: 4 }}>
+      <span style={{ fontSize: 12, color: COLORS.label, fontFamily: "'Jost', sans-serif", letterSpacing: "0.08em", textTransform: "uppercase" }}>{label}</span>
       <span style={{ fontSize: big ? 30 : 24, color: color || COLORS.cream, fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, lineHeight: 1.1 }}>{value}</span>
       {sub && <span style={{ fontSize: 12, color: COLORS.muted, fontFamily: "'Jost', sans-serif" }}>{sub}</span>}
     </div>
@@ -82,9 +128,9 @@ function RevenueBar({ channels, total, costs }: { channels: { label: string; val
           </div>
         </div>
       ))}
-      <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid #3A3530" }}>
+      <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid #4A4540" }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 3 }}>
-          <span style={{ fontSize: 12, color: COLORS.muted, fontFamily: "'Jost', sans-serif" }}>Operating Costs</span>
+          <span style={{ fontSize: 12, color: COLORS.label, fontFamily: "'Jost', sans-serif" }}>Operating Costs</span>
           <span style={{ fontSize: 12, color: COLORS.red, fontFamily: "'Cormorant Garamond', serif", fontWeight: 600 }}>-{fmtK(costs)}/mo</span>
         </div>
         <div style={{ height: 6, background: "#2A2724", borderRadius: 3 }}>
@@ -96,35 +142,119 @@ function RevenueBar({ channels, total, costs }: { channels: { label: string; val
 }
 
 export default function RevenueModelPage() {
-  const [suites, setSuites] = useState(3);
-  const [hoursPerDay, setHoursPerDay] = useState(14);
-  const [utilization, setUtilization] = useState(70);
-  const [bookedDuration, setBookedDuration] = useState(20);
-  const [actualDuration, setActualDuration] = useState(13);
-  const [avgTicket, setAvgTicket] = useState(12);
-  const [rent, setRent] = useState(41700);
-  const [staffCost, setStaffCost] = useState(17000);
-  const [supplies, setSupplies] = useState(6000);
-  const [otherCosts, setOtherCosts] = useState(8000);
-  const [sampleEnabled, setSampleEnabled] = useState(true);
-  const [sampleRate, setSampleRate] = useState(2.0);
-  const [samplesPerSession, setSamplesPerSession] = useState(2.2);
-  const [brandEnabled, setBrandEnabled] = useState(true);
-  const [brandCategories, setBrandCategories] = useState(5);
-  const [brandPerCategory, setBrandPerCategory] = useState(800);
-  const [commissionEnabled, setCommissionEnabled] = useState(false);
-  const [commissionConversion, setCommissionConversion] = useState(15);
-  const [commissionAvgOrder, setCommissionAvgOrder] = useState(28);
-  const [commissionPct, setCommissionPct] = useState(25);
-  const [hullEnabled, setHullEnabled] = useState(false);
-  const [hullMonthly, setHullMonthly] = useState(3000);
-  const [corporateEnabled, setCorporateEnabled] = useState(false);
-  const [corporateSessions, setCorporateSessions] = useState(80);
-  const [corporateAvgRate, setCorporateAvgRate] = useState(18);
-  const [membershipEnabled, setMembershipEnabled] = useState(false);
-  const [memberCount, setMemberCount] = useState(30);
-  const [memberPrice, setMemberPrice] = useState(49);
-  const [memberUsagePerMonth, setMemberUsagePerMonth] = useState(3);
+  const initialState = loadState();
+
+  const [suites, setSuites] = useState(initialState.suites ?? 10);
+  const [hoursPerDay, setHoursPerDay] = useState(initialState.hoursPerDay ?? 20);
+  const [utilization, setUtilization] = useState(initialState.utilization ?? 65);
+  const [bookedDuration, setBookedDuration] = useState(initialState.bookedDuration ?? 20);
+  const [actualDuration, setActualDuration] = useState(initialState.actualDuration ?? 13);
+  const [avgTicket, setAvgTicket] = useState(initialState.avgTicket ?? 12);
+  const [rent, setRent] = useState(initialState.rent ?? 41700);
+  const [staffCost, setStaffCost] = useState(initialState.staffCost ?? 22000);
+  const [supplies, setSupplies] = useState(initialState.supplies ?? 6000);
+  const [otherCosts, setOtherCosts] = useState(initialState.otherCosts ?? 14367);
+  const [sampleEnabled, setSampleEnabled] = useState(initialState.sampleEnabled ?? true);
+  const [sampleRate, setSampleRate] = useState(initialState.sampleRate ?? 2.0);
+  const [samplesPerSession, setSamplesPerSession] = useState(initialState.samplesPerSession ?? 2.2);
+  const [brandEnabled, setBrandEnabled] = useState(initialState.brandEnabled ?? true);
+  const [brandCategories, setBrandCategories] = useState(initialState.brandCategories ?? 5);
+  const [brandPerCategory, setBrandPerCategory] = useState(initialState.brandPerCategory ?? 800);
+  const [commissionEnabled, setCommissionEnabled] = useState(initialState.commissionEnabled ?? false);
+  const [commissionConversion, setCommissionConversion] = useState(initialState.commissionConversion ?? 15);
+  const [commissionAvgOrder, setCommissionAvgOrder] = useState(initialState.commissionAvgOrder ?? 28);
+  const [commissionPct, setCommissionPct] = useState(initialState.commissionPct ?? 25);
+  const [hullEnabled, setHullEnabled] = useState(initialState.hullEnabled ?? false);
+  const [hullMonthly, setHullMonthly] = useState(initialState.hullMonthly ?? 3000);
+  const [corporateEnabled, setCorporateEnabled] = useState(initialState.corporateEnabled ?? false);
+  const [corporateSessions, setCorporateSessions] = useState(initialState.corporateSessions ?? 80);
+  const [corporateAvgRate, setCorporateAvgRate] = useState(initialState.corporateAvgRate ?? 18);
+  const [membershipEnabled, setMembershipEnabled] = useState(initialState.membershipEnabled ?? false);
+  const [memberCount, setMemberCount] = useState(initialState.memberCount ?? 30);
+  const [memberPrice, setMemberPrice] = useState(initialState.memberPrice ?? 49);
+  const [memberUsagePerMonth, setMemberUsagePerMonth] = useState(initialState.memberUsagePerMonth ?? 3);
+
+  // Persist state to localStorage
+  useEffect(() => {
+    const state: StoredState = {
+      suites, hoursPerDay, utilization, bookedDuration, actualDuration, avgTicket,
+      rent, staffCost, supplies, otherCosts, sampleEnabled, sampleRate, samplesPerSession,
+      brandEnabled, brandCategories, brandPerCategory, commissionEnabled, commissionConversion,
+      commissionAvgOrder, commissionPct, hullEnabled, hullMonthly, corporateEnabled,
+      corporateSessions, corporateAvgRate, membershipEnabled, memberCount, memberPrice, memberUsagePerMonth
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }, [suites, hoursPerDay, utilization, bookedDuration, actualDuration, avgTicket,
+    rent, staffCost, supplies, otherCosts, sampleEnabled, sampleRate, samplesPerSession,
+    brandEnabled, brandCategories, brandPerCategory, commissionEnabled, commissionConversion,
+    commissionAvgOrder, commissionPct, hullEnabled, hullMonthly, corporateEnabled,
+    corporateSessions, corporateAvgRate, membershipEnabled, memberCount, memberPrice, memberUsagePerMonth]);
+
+  const [isExporting, setIsExporting] = useState(false);
+  const mainContentRef = useRef<HTMLDivElement>(null);
+
+  const handleDownloadPDF = useCallback(async () => {
+    if (!mainContentRef.current || isExporting) return;
+    setIsExporting(true);
+
+    try {
+      const canvas = await html2canvas(mainContentRef.current, {
+        scale: 2,
+        backgroundColor: "#2A2724",
+        logging: false,
+        useCORS: true,
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "in",
+        format: "letter",
+      });
+
+      const pageWidth = 8.5;
+      const pageHeight = 11;
+      const margin = 0.5;
+      const contentWidth = pageWidth - margin * 2;
+      const contentHeight = pageHeight - margin * 2;
+
+      // Calculate aspect ratio to fit on one page
+      const imgAspect = canvas.width / canvas.height;
+      const pageAspect = contentWidth / contentHeight;
+
+      let finalWidth = contentWidth;
+      let finalHeight = contentWidth / imgAspect;
+
+      if (finalHeight > contentHeight) {
+        finalHeight = contentHeight;
+        finalWidth = contentHeight * imgAspect;
+      }
+
+      const xOffset = margin + (contentWidth - finalWidth) / 2;
+      const yOffset = margin;
+
+      // Add header
+      pdf.setFillColor(26, 23, 20);
+      pdf.rect(0, 0, pageWidth, 0.7, "F");
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(14);
+      pdf.setTextColor(212, 175, 106);
+      pdf.text("MASLOW", margin, 0.45);
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(10);
+      pdf.setTextColor(224, 216, 208);
+      pdf.text("Revenue Model", margin + 1.1, 0.45);
+      pdf.text(new Date().toLocaleDateString(), pageWidth - margin, 0.45, { align: "right" });
+
+      pdf.addImage(imgData, "PNG", xOffset, 0.8, finalWidth, finalHeight);
+
+      pdf.save("maslow-revenue-model.pdf");
+    } catch (error) {
+      console.error("PDF generation failed:", error);
+    } finally {
+      setIsExporting(false);
+    }
+  }, [isExporting]);
 
   const calc = useMemo(() => {
     const slotsActual = (hoursPerDay * 60) / actualDuration;
@@ -177,28 +307,52 @@ export default function RevenueModelPage() {
     <div style={{ background: COLORS.charcoal, minHeight: "100vh", fontFamily: "'Jost', sans-serif", padding: "0 0 60px" }}>
       <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
 
-      <div style={{ borderBottom: "1px solid #3A3530", padding: "24px 32px 20px", display: "flex", alignItems: "baseline", gap: 16, background: "#1A1714" }}>
+      <div style={{ borderBottom: "1px solid #4A4540", padding: "24px 32px 20px", display: "flex", alignItems: "center", gap: 16, background: "#1A1714" }}>
         <span style={{ fontSize: 22, color: COLORS.gold, fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, letterSpacing: "0.12em" }}>MASLOW</span>
-        <span style={{ fontSize: 13, color: COLORS.muted, letterSpacing: "0.1em", textTransform: "uppercase" }}>Revenue Model</span>
-        <div style={{ marginLeft: "auto", display: "flex", gap: 8, alignItems: "center" }}>
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: calc.netCashFlow >= 0 ? COLORS.green : COLORS.red }} />
-          <span style={{ fontSize: 12, color: COLORS.muted, letterSpacing: "0.06em" }}>
-            {calc.netCashFlow >= 0 ? "CASH FLOW POSITIVE" : "RAMP-UP MODE"}
-          </span>
+        <span style={{ fontSize: 13, color: COLORS.label, letterSpacing: "0.1em", textTransform: "uppercase" }}>Revenue Model</span>
+        <div style={{ marginLeft: "auto", display: "flex", gap: 16, alignItems: "center" }}>
+          <button
+            onClick={handleDownloadPDF}
+            disabled={isExporting}
+            style={{
+              background: "transparent",
+              border: `1px solid ${COLORS.gold}`,
+              borderRadius: 4,
+              padding: "8px 16px",
+              fontSize: 12,
+              color: COLORS.gold,
+              fontFamily: "'Jost', sans-serif",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              cursor: isExporting ? "wait" : "pointer",
+              transition: "all 0.2s",
+              opacity: isExporting ? 0.6 : 1,
+            }}
+            onMouseOver={(e) => { if (!isExporting) { e.currentTarget.style.background = COLORS.gold; e.currentTarget.style.color = COLORS.charcoal; }}}
+            onMouseOut={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = COLORS.gold; }}
+          >
+            {isExporting ? "Generating..." : "Download PDF"}
+          </button>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <div style={{ width: 8, height: 8, borderRadius: "50%", background: calc.netCashFlow >= 0 ? COLORS.green : COLORS.red }} />
+            <span style={{ fontSize: 12, color: COLORS.label, letterSpacing: "0.06em" }}>
+              {calc.netCashFlow >= 0 ? "CASH FLOW POSITIVE" : "RAMP-UP MODE"}
+            </span>
+          </div>
         </div>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "340px 1fr", gap: 0, maxWidth: 1200, margin: "0 auto" }}>
-        <div style={{ borderRight: "1px solid #3A3530", padding: "28px 24px", overflowY: "auto", maxHeight: "calc(100vh - 80px)", position: "sticky", top: 0 }}>
+        <div style={{ borderRight: "1px solid #4A4540", padding: "28px 24px", overflowY: "auto", maxHeight: "calc(100vh - 80px)", position: "sticky", top: 0 }}>
 
           <div style={{ marginBottom: 28 }}>
-            <div style={{ fontSize: 11, color: COLORS.gold, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #3A3530" }}>Operations</div>
+            <div style={{ fontSize: 11, color: COLORS.gold, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #4A4540" }}>Operations</div>
             <Slider label="Suites" value={suites} min={1} max={10} onChange={setSuites} format={v => `${v} suites`} />
             <Slider label="Hours / Day" value={hoursPerDay} min={8} max={24} onChange={setHoursPerDay} format={v => `${v} hrs`} />
             <Slider label="Utilization" value={utilization} min={10} max={100} onChange={setUtilization} format={v => `${v}%`}
               accent={utilization >= (calc.breakEvenUtil || 60) ? COLORS.green : COLORS.gold} />
             {calc.breakEvenUtil !== null && (
-              <div style={{ fontSize: 11, color: COLORS.muted, marginTop: -8, marginBottom: 12, paddingLeft: 2 }}>
+              <div style={{ fontSize: 11, color: COLORS.label, marginTop: -8, marginBottom: 12, paddingLeft: 2 }}>
                 Break-even approx <span style={{ color: COLORS.gold }}>{Math.ceil(calc.breakEvenUtil)}%</span> utilization
               </div>
             )}
@@ -206,7 +360,7 @@ export default function RevenueModelPage() {
           </div>
 
           <div style={{ marginBottom: 28 }}>
-            <div style={{ fontSize: 11, color: COLORS.water, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #3A3530" }}>Duration Model</div>
+            <div style={{ fontSize: 11, color: COLORS.water, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #4A4540" }}>Duration Model</div>
             <Slider label="Avg Booked Duration" value={bookedDuration} min={5} max={60} onChange={setBookedDuration} format={v => `${v} min`} accent={COLORS.water} />
             <Slider label="Avg Actual Duration" value={actualDuration} min={3} max={bookedDuration} onChange={setActualDuration} format={v => `${v} min`} accent={COLORS.water} />
             <div style={{ background: "#1E1B18", borderRadius: 6, padding: "10px 14px", fontSize: 12, color: COLORS.muted, lineHeight: 1.5 }}>
@@ -217,7 +371,7 @@ export default function RevenueModelPage() {
           </div>
 
           <div style={{ marginBottom: 28 }}>
-            <div style={{ fontSize: 11, color: "#C05050", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #3A3530" }}>Monthly Costs</div>
+            <div style={{ fontSize: 11, color: "#C05050", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #4A4540" }}>Monthly Costs</div>
             <Slider label="Rent" value={rent} min={20000} max={80000} step={500} onChange={setRent} format={v => fmtK(v)} accent="#C05050" />
             <Slider label="Staff" value={staffCost} min={5000} max={40000} step={500} onChange={setStaffCost} format={v => fmtK(v)} accent="#C05050" />
             <Slider label="Supplies & Amenities" value={supplies} min={1000} max={20000} step={250} onChange={setSupplies} format={v => fmtK(v)} accent="#C05050" />
@@ -225,7 +379,7 @@ export default function RevenueModelPage() {
           </div>
 
           <div>
-            <div style={{ fontSize: 11, color: COLORS.gold, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #3A3530" }}>Revenue Channels</div>
+            <div style={{ fontSize: 11, color: COLORS.gold, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #4A4540" }}>Revenue Channels</div>
             <Toggle label="Sample Add-ons" enabled={sampleEnabled} onChange={setSampleEnabled} />
             {sampleEnabled && (
               <div style={{ paddingLeft: 12, paddingBottom: 8 }}>
@@ -281,7 +435,7 @@ export default function RevenueModelPage() {
           </div>
         </div>
 
-        <div style={{ padding: "28px 28px" }}>
+        <div className="main-content" ref={mainContentRef} style={{ padding: "28px 28px", background: COLORS.charcoal }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 20 }}>
             <MetricCard label="Monthly Revenue" value={fmt(calc.totalRevenue)} sub={`${calc.sessionsBooked.toLocaleString()} sessions (booked)`} color={COLORS.gold} big />
             <MetricCard label="Monthly Costs" value={`-${fmt(calc.totalCosts)}`} sub="Rent + staff + ops" color="#C07070" big />
@@ -301,14 +455,14 @@ export default function RevenueModelPage() {
             </div>
           )}
 
-          <div style={{ background: "#1E1B18", border: "1px solid #3A3530", borderRadius: 8, padding: "20px 24px", marginBottom: 20 }}>
-            <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 16 }}>Revenue Breakdown</div>
+          <div style={{ background: "#1E1B18", border: "1px solid #4A4540", borderRadius: 8, padding: "20px 24px", marginBottom: 20 }}>
+            <div style={{ fontSize: 11, color: COLORS.label, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 16 }}>Revenue Breakdown</div>
             <RevenueBar channels={calc.channels} total={calc.totalRevenue} costs={calc.totalCosts} />
           </div>
 
-          <div style={{ background: "#1E1B18", border: "1px solid #3A3530", borderRadius: 8, padding: "20px 24px", marginBottom: 20 }}>
-            <div style={{ fontSize: 11, color: COLORS.muted, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 16 }}>Utilization Scenarios</div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 1, background: "#3A3530", borderRadius: 6, overflow: "hidden" }}>
+          <div style={{ background: "#1E1B18", border: "1px solid #4A4540", borderRadius: 8, padding: "20px 24px", marginBottom: 20 }}>
+            <div style={{ fontSize: 11, color: COLORS.label, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 16 }}>Utilization Scenarios</div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 1, background: "#4A4540", borderRadius: 6, overflow: "hidden" }}>
               {[40, 55, 70, 85, 100].map((u) => {
                 const slotsB = (hoursPerDay * 60) / bookedDuration;
                 const sessions = suites * slotsB * 30 * (u / 100);
