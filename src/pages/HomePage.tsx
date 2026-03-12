@@ -1,108 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/SupabaseAuthContext';
 import SessionsSection, { SessionType } from '@/components/SessionsSection';
 import BookingSection from '@/components/BookingSection';
 
-// Generate random leaf positions for SVG layers
-const generateLeaves = (count: number, excludeZone?: { x1: number; x2: number; y1: number; y2: number }) => {
-  const leaves: { x: number; y: number; rotation: number; scale: number; type: 1 | 2 }[] = [];
-  for (let i = 0; i < count; i++) {
-    let x = Math.random() * 1440;
-    let y = Math.random() * 900;
-
-    // If in exclude zone, thin out (skip 70% of leaves)
-    if (excludeZone && x > excludeZone.x1 && x < excludeZone.x2 && y > excludeZone.y1 && y < excludeZone.y2) {
-      if (Math.random() < 0.7) continue;
-    }
-
-    leaves.push({
-      x,
-      y,
-      rotation: Math.random() * 360,
-      scale: 0.6 + Math.random() * 0.8,
-      type: Math.random() > 0.5 ? 1 : 2,
-    });
-  }
-  return leaves;
-};
-
-// Pre-generate leaf positions for each layer
-const layer1Leaves = generateLeaves(80);
-const layer2Leaves = generateLeaves(70);
-const layer3Leaves = generateLeaves(60, { x1: 1000, x2: 1350, y1: 150, y2: 600 });
-
-const IvyLayer = ({
-  leaves,
-  fill,
-  opacity,
-  animationDuration,
-  offset,
-}: {
-  leaves: typeof layer1Leaves;
-  fill: string;
-  opacity: number;
-  animationDuration: number;
-  offset: { x: number; y: number };
-}) => (
-  <svg
-    className="absolute inset-0 w-[110%] h-[110%] -left-[5%] -top-[5%]"
-    viewBox="0 0 1440 900"
-    preserveAspectRatio="xMidYMid slice"
-    style={{
-      transform: `translate(${offset.x}px, ${offset.y}px)`,
-      transition: 'transform 0.1s ease-out',
-    }}
-  >
-    <defs>
-      <path id="lf" d="M0,-16 C6,-16 14,-8 14,0 C14,6 8,14 0,16 C-8,14 -14,6 -14,0 C-14,-8 -6,-16 0,-16 Z" />
-      <path id="lf2" d="M0,-14 C8,-12 16,-4 14,4 C12,12 6,16 0,16 C-6,16 -12,12 -14,4 C-16,-4 -8,-12 0,-14 Z" />
-    </defs>
-    <g fill={fill} opacity={opacity}>
-      <style>{`
-        @keyframes sway-${animationDuration} {
-          0%, 100% { transform: translateX(0) rotate(0deg); }
-          50% { transform: translateX(8px) rotate(2deg); }
-        }
-        .sway-${animationDuration} {
-          animation: sway-${animationDuration} ${animationDuration}s ease-in-out infinite;
-        }
-      `}</style>
-      <g className={`sway-${animationDuration}`}>
-        {leaves.map((leaf, i) => (
-          <use
-            key={i}
-            href={leaf.type === 1 ? '#lf' : '#lf2'}
-            transform={`translate(${leaf.x}, ${leaf.y}) rotate(${leaf.rotation}) scale(${leaf.scale})`}
-          />
-        ))}
-      </g>
-    </g>
-  </svg>
-);
-
 const HomePage = () => {
-  const { user } = useAuth();
   const [selectedSession, setSelectedSession] = useState<SessionType | null>(null);
-  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
-  const heroRef = useRef<HTMLElement>(null);
-
-  // Mouse parallax effect
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!heroRef.current) return;
-      const rect = heroRef.current.getBoundingClientRect();
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const x = (e.clientX - rect.left - centerX) / centerX;
-      const y = (e.clientY - rect.top - centerY) / centerY;
-      setMouseOffset({ x: x * 8, y: y * 6 });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
 
   const scrollToSessions = () => {
     document.getElementById('sessions')?.scrollIntoView({ behavior: 'smooth' });
@@ -118,35 +21,14 @@ const HomePage = () => {
       </Helmet>
 
       {/* ===== HERO SECTION ===== */}
-      <section
-        ref={heroRef}
-        className="relative h-screen w-full overflow-hidden"
-        style={{ background: 'var(--ivy-0)' }}
-      >
-        {/* Ivy SVG Layers */}
-        <div className="absolute inset-0 pointer-events-none">
-          <IvyLayer
-            leaves={layer1Leaves}
-            fill="#182210"
-            opacity={0.95}
-            animationDuration={18}
-            offset={{ x: mouseOffset.x * 0.5, y: mouseOffset.y * 0.5 }}
-          />
-          <IvyLayer
-            leaves={layer2Leaves}
-            fill="#2E4420"
-            opacity={0.88}
-            animationDuration={13}
-            offset={{ x: mouseOffset.x * 0.7, y: mouseOffset.y * 0.7 }}
-          />
-          <IvyLayer
-            leaves={layer3Leaves}
-            fill="#4A6E38"
-            opacity={0.80}
-            animationDuration={9}
-            offset={{ x: mouseOffset.x, y: mouseOffset.y }}
-          />
-        </div>
+      <section className="relative h-screen w-full overflow-hidden">
+        {/* Ivy wall background */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: 'url(/ivy.jpeg)' }}
+        />
+        {/* Dark overlay for text legibility */}
+        <div className="absolute inset-0 bg-black/30" />
 
         {/* Hero Content - Left side */}
         <div className="absolute bottom-24 left-8 md:left-16 lg:left-24 z-10 max-w-xl">
@@ -190,18 +72,20 @@ const HomePage = () => {
           </div>
         </div>
 
-        {/* Badge - Right side */}
+        {/* Logo "Sign" - Right side */}
         <div className="absolute right-8 md:right-[8vw] top-1/2 -translate-y-1/2 z-10 hidden md:block">
-          <img
-            src="/MASLOW - Square.png"
-            alt="Maslow"
-            className="w-48 h-48 object-contain"
-          />
+          <div className="bg-[#2A2724]/80 backdrop-blur-sm p-6 rounded-sm shadow-2xl">
+            <img
+              src="/MASLOW - Square.png"
+              alt="Maslow"
+              className="w-40 h-40 object-contain"
+            />
+          </div>
         </div>
 
         {/* Bottom wave transition */}
         <svg
-          className="absolute bottom-0 left-0 w-full h-24"
+          className="absolute bottom-0 left-0 w-full h-24 z-10"
           viewBox="0 0 1440 96"
           preserveAspectRatio="none"
           fill="var(--cream)"
