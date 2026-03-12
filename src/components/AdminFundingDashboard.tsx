@@ -3,7 +3,7 @@ import { supabase } from '@/lib/customSupabaseClient';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useNavigate, NavigateFunction } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Download, Users, DollarSign, Shield, Lock, AlertTriangle, Activity, CreditCard, Calculator, TrendingUp, BarChart3, Building, ChevronDown, ChevronRight, FileDown, Save, Loader2, MessageSquare, Video } from 'lucide-react';
+import { Download, Users, DollarSign, Shield, Lock, AlertTriangle, Activity, CreditCard, Calculator, TrendingUp, BarChart3, Building, ChevronDown, ChevronRight, FileDown, Save, Loader2, MessageSquare, Video, Layers, Zap, Globe, Smartphone, Server, Cpu, CheckCircle, Clock, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -16,7 +16,7 @@ import PricingCalculator from '@/components/PricingCalculator';
 import PaymentModal from '@/components/PaymentModal';
 import PaymentOptionsModal from '@/components/PaymentOptionsModal';
 
-type TabType = 'financial' | 'pricing' | 'buildout' | 'command' | 'videos';
+type TabType = 'financial' | 'pricing' | 'buildout' | 'stack' | 'stackpricing' | 'journeys';
 
 interface Stats {
   totalUsers: number;
@@ -540,8 +540,9 @@ const AdminFundingDashboard: React.FC = () => {
     { id: 'financial', label: 'Financial Tools', icon: <TrendingUp className="w-4 h-4" /> },
     { id: 'pricing', label: 'Session Pricing', icon: <Calculator className="w-4 h-4" /> },
     { id: 'buildout', label: 'Build-Out Planner', icon: <Building className="w-4 h-4" /> },
-    { id: 'command', label: 'Revenue Command', icon: <BarChart3 className="w-4 h-4" /> },
-    { id: 'videos', label: 'Videos', icon: <Video className="w-4 h-4" /> },
+    { id: 'stack', label: 'Stack', icon: <Activity className="w-4 h-4" /> },
+    { id: 'stackpricing', label: 'Stack Pricing', icon: <DollarSign className="w-4 h-4" /> },
+    { id: 'journeys', label: 'Guest Journeys', icon: <Users className="w-4 h-4" /> },
   ];
 
   return (
@@ -580,30 +581,35 @@ const AdminFundingDashboard: React.FC = () => {
             <p className="text-[#3C5999]/60 mt-1 text-sm">Revenue projections, pricing models, and payment testing.</p>
           </div>
 
-          {/* Revenue Simulator */}
-          <div>
-            <RevenueSimulator />
+          {/* Revenue Simulator — commented out, replaced by /model page */}
+          {/* <RevenueSimulator /> */}
+          <div className="bg-white rounded-xl border border-[#C49F58]/30 p-8 text-center shadow-sm">
+            <TrendingUp className="w-10 h-10 text-[#C49F58] mx-auto mb-3" />
+            <h3 className="text-xl font-serif font-bold text-[#3C5999] mb-2">Revenue Model</h3>
+            <p className="text-[#3C5999]/60 mb-4 text-sm">The full interactive model lives at /model</p>
+            <a
+              href="/model"
+              target="_blank"
+              className="inline-flex items-center gap-2 bg-[#3C5999] text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-[#2d4475] transition-colors"
+            >
+              Open Revenue Model →
+            </a>
           </div>
         </motion.div>
       )}
 
-      {/* TAB 2: SESSION PRICING CALCULATOR */}
+      {/* TAB 2: SESSION PRICING */}
       {activeTab === 'pricing' && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
         >
-          {/* Header */}
-          <div className="mb-4">
-            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3C5999] uppercase tracking-widest">Session Pricing Calculator</h1>
-            <p className="text-[#3C5999]/60 mt-1 text-sm">Configure and simulate session pricing models.</p>
-          </div>
-
-          {/* Pricing Calculator */}
           <div className="mb-6">
-            <PricingCalculator />
+            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3C5999] uppercase tracking-widest">Session Pricing</h1>
+            <p className="text-[#3C5999]/60 mt-1 text-sm">Current session tiers — duration, samples included, and price.</p>
           </div>
+          <SessionPricingTable />
         </motion.div>
       )}
 
@@ -987,6 +993,51 @@ const AdminFundingDashboard: React.FC = () => {
         </motion.div>
       )}
 
+      {/* TAB: STACK POSTER */}
+      {activeTab === 'stack' && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <div className="mb-4">
+            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3C5999] uppercase tracking-widest">Tech Stack</h1>
+            <p className="text-[#3C5999]/60 mt-1 text-sm">Three-layer architecture — Guest · Platform · Physical</p>
+          </div>
+          <StackPoster />
+        </motion.div>
+      )}
+
+      {/* TAB: STACK PRICING */}
+      {activeTab === 'stackpricing' && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <div className="mb-4">
+            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3C5999] uppercase tracking-widest">Stack Upgrades</h1>
+            <p className="text-[#3C5999]/60 mt-1 text-sm">What to upgrade, when, and why — before we take real money.</p>
+          </div>
+          <StackPricingTable />
+        </motion.div>
+      )}
+
+      {/* TAB: GUEST JOURNEYS */}
+      {activeTab === 'journeys' && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <div className="mb-4">
+            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3C5999] uppercase tracking-widest">Guest Journeys</h1>
+            <p className="text-[#3C5999]/60 mt-1 text-sm">The four paths from need to suite entry.</p>
+          </div>
+          <GuestJourneys />
+        </motion.div>
+      )}
+
       {/* Payment Modals (shared across tabs) */}
       <PaymentOptionsModal
         isOpen={showPaymentOptions}
@@ -1005,6 +1056,465 @@ const AdminFundingDashboard: React.FC = () => {
         tierName={selectedTier.name}
         price={selectedTier.price}
       />
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────
+// SESSION PRICING TABLE
+// ─────────────────────────────────────────
+const SessionPricingTable: React.FC = () => {
+  const tiers = [
+    {
+      name: 'Quick Stop',
+      duration: 10,
+      samples: 0,
+      price: 5,
+      note: 'In and out. No frills, no samples — just the suite.',
+      color: '#7AABCC',
+    },
+    {
+      name: 'Standard',
+      duration: 15,
+      samples: 2,
+      price: 10,
+      note: 'The most common booking. Enough time to decompress, try two products.',
+      color: '#C49F58',
+    },
+    {
+      name: 'Extended',
+      duration: 30,
+      samples: 3,
+      price: 18,
+      note: 'For guests who want to take their time. Three product samples included.',
+      color: '#4A5C3A',
+    },
+    {
+      name: 'Full Session',
+      duration: 60,
+      samples: 5,
+      price: 32,
+      note: 'The full Maslow experience. Best per-minute value. Five samples.',
+      color: '#3C5999',
+    },
+  ];
+
+  return (
+    <div className="space-y-3">
+      {tiers.map((tier) => (
+        <div
+          key={tier.name}
+          className="bg-white rounded-xl border border-[#3C5999]/10 overflow-hidden"
+        >
+          <div className="flex items-stretch">
+            {/* Color bar */}
+            <div className="w-1.5 flex-shrink-0" style={{ backgroundColor: tier.color }} />
+            <div className="flex-1 p-5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                {/* Left: name + note */}
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-1">
+                    <h3 className="font-serif font-bold text-lg text-[#2A2724]">{tier.name}</h3>
+                  </div>
+                  <p className="text-sm text-[#2A2724]/60">{tier.note}</p>
+                </div>
+                {/* Right: stats */}
+                <div className="flex items-center gap-6 flex-shrink-0">
+                  <div className="text-center">
+                    <div className="text-2xl font-black" style={{ color: tier.color }}>{tier.duration}</div>
+                    <div className="text-xs text-[#2A2724]/50 uppercase tracking-wider">min</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-black text-[#2A2724]">{tier.samples}</div>
+                    <div className="text-xs text-[#2A2724]/50 uppercase tracking-wider">samples</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-black" style={{ color: tier.color }}>${tier.price}</div>
+                    <div className="text-xs text-[#2A2724]/50 uppercase tracking-wider">price</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {/* Footer note */}
+      <div className="bg-[#FAF4ED] rounded-xl border border-[#C49F58]/20 p-4 mt-4">
+        <p className="text-xs text-[#2A2724]/60 leading-relaxed">
+          <span className="font-bold text-[#2A2724]">Pricing rationale:</span> Longer sessions carry a volume discount on a per-minute basis.
+          10 min = $0.50/min · 15 min = $0.67/min · 30 min = $0.60/min · 60 min = $0.53/min.
+          Guests are rewarded for committing to more time. Samples are a product discovery mechanism, not a core deliverable.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────
+// STACK POSTER
+// ─────────────────────────────────────────
+const StackPoster: React.FC = () => {
+  const layers = [
+    {
+      id: 'guest',
+      label: 'GUEST LAYER',
+      color: '#C49F58',
+      bg: 'bg-amber-50',
+      border: 'border-amber-300',
+      icon: <Globe className="w-5 h-5" />,
+      nodes: [
+        { name: 'maslow.nyc', sub: 'React + Vite · Vercel', icon: <Globe className="w-4 h-4" /> },
+        { name: 'Mobile App', sub: 'React Native · Expo · iOS + Android', icon: <Smartphone className="w-4 h-4" /> },
+        { name: '/go Page', sub: 'Walk-up QR · Magic Link · Apple/Google Pay', icon: <Zap className="w-4 h-4" /> },
+      ],
+    },
+    {
+      id: 'platform',
+      label: 'PLATFORM LAYER',
+      color: '#3C5999',
+      bg: 'bg-blue-50',
+      border: 'border-blue-300',
+      icon: <Server className="w-5 h-5" />,
+      nodes: [
+        { name: 'Supabase', sub: 'Auth · Database · Realtime · Edge Functions', icon: <Server className="w-4 h-4" /> },
+        { name: 'Stripe', sub: 'Payment Intents · Webhooks · Apple/Google Pay', icon: <DollarSign className="w-4 h-4" /> },
+        { name: 'Vercel', sub: 'CDN · Edge Network · Serverless', icon: <Layers className="w-4 h-4" /> },
+      ],
+    },
+    {
+      id: 'physical',
+      label: 'PHYSICAL LAYER',
+      color: '#4A5C3A',
+      bg: 'bg-green-50',
+      border: 'border-green-300',
+      icon: <Cpu className="w-5 h-5" />,
+      nodes: [
+        { name: 'ESP32 ×10', sub: 'Suite controllers · Supabase Realtime listener', icon: <Cpu className="w-4 h-4" /> },
+        { name: 'UV-C System', sub: 'Post-session auto · ESP32 scheduled trigger', icon: <Zap className="w-4 h-4" /> },
+        { name: 'Door Lock', sub: 'QR-controlled · Suite entry/exit', icon: <Lock className="w-4 h-4" /> },
+      ],
+    },
+  ];
+
+  const flow = [
+    'Guest scans QR or opens app',
+    'App calls Supabase Edge Function',
+    'Edge Function creates Stripe Payment Intent',
+    'Stripe webhook confirms → Supabase session created',
+    'Supabase Realtime pushes to ESP32',
+    'ESP32 unlocks door · starts UV-C timer',
+  ];
+
+  return (
+    <div className="space-y-4">
+      {layers.map((layer) => (
+        <div key={layer.id} className={`rounded-xl border-2 ${layer.border} ${layer.bg} p-5`}>
+          <div className="flex items-center gap-2 mb-4" style={{ color: layer.color }}>
+            {layer.icon}
+            <span className="text-xs font-black uppercase tracking-widest">{layer.label}</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {layer.nodes.map((node) => (
+              <div key={node.name} className="bg-white rounded-lg p-4 border border-white/80 shadow-sm">
+                <div className="flex items-center gap-2 mb-1" style={{ color: layer.color }}>
+                  {node.icon}
+                  <span className="font-bold text-sm text-[#2A2724]">{node.name}</span>
+                </div>
+                <p className="text-xs text-[#2A2724]/60 leading-relaxed">{node.sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      {/* Data flow */}
+      <div className="bg-[#2A2724] rounded-xl p-5 mt-2">
+        <p className="text-xs font-black text-[#C49F58] uppercase tracking-widest mb-4">Request Flow</p>
+        <div className="space-y-2">
+          {flow.map((step, i) => (
+            <div key={i} className="flex items-start gap-3">
+              <span className="text-[#C49F58] font-black text-xs w-5 flex-shrink-0 mt-0.5">{i + 1}.</span>
+              <p className="text-white/80 text-xs leading-relaxed">{step}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────
+// STACK PRICING TABLE
+// ─────────────────────────────────────────
+const StackPricingTable: React.FC = () => {
+  const [expanded, setExpanded] = React.useState<string | null>(null);
+
+  const upgrades = [
+    {
+      id: 'supabase',
+      timing: 'Before taking money',
+      priority: 'CRITICAL',
+      service: 'Supabase',
+      from: 'Free',
+      to: 'Pro',
+      cost: '$25/mo',
+      why: 'Free tier PAUSES after 1 week of inactivity. This kills production. Non-negotiable before accepting real payments.',
+    },
+    {
+      id: 'stripe',
+      timing: 'Before taking money',
+      priority: 'CRITICAL',
+      service: 'Stripe',
+      from: 'Test Mode',
+      to: 'Live Mode',
+      cost: '2.9% + 30¢/txn',
+      why: 'Flip the API key from test to live. No monthly fee. Just needs to happen before real cards are charged.',
+    },
+    {
+      id: 'vercel',
+      timing: 'Before taking money',
+      priority: 'CRITICAL',
+      service: 'Vercel',
+      from: 'Hobby',
+      to: 'Pro',
+      cost: '$20/mo',
+      why: 'Hobby TOS explicitly prohibits commercial use. Currently in violation. Must upgrade before any real transactions.',
+    },
+    {
+      id: 'expo',
+      timing: 'Before opening doors',
+      priority: 'HIGH',
+      service: 'Expo / EAS',
+      from: 'Free',
+      to: 'Production',
+      cost: '$99/mo',
+      why: 'Free build queue takes 30–60 min per build. Production is minutes. Needed before app store launch.',
+    },
+    {
+      id: 'xero',
+      timing: 'When scaling',
+      priority: 'MEDIUM',
+      service: 'Xero',
+      from: 'Trial',
+      to: 'Starter',
+      cost: '$15/mo',
+      why: 'Before first revenue or contractors. Already chosen over QuickBooks.',
+    },
+    {
+      id: 'github',
+      timing: 'When scaling',
+      priority: 'LOW',
+      service: 'GitHub',
+      from: 'Free',
+      to: 'Team',
+      cost: '$4/user/mo',
+      why: 'Only needed when adding collaborators. Fine on Free for solo founder.',
+    },
+  ];
+
+  const priorityColor: Record<string, string> = {
+    CRITICAL: 'bg-red-100 text-red-700 border-red-200',
+    HIGH: 'bg-amber-100 text-amber-700 border-amber-200',
+    MEDIUM: 'bg-blue-100 text-blue-700 border-blue-200',
+    LOW: 'bg-gray-100 text-gray-600 border-gray-200',
+  };
+
+  const timingGroups = ['Before taking money', 'Before opening doors', 'When scaling'];
+
+  return (
+    <div className="space-y-6">
+      {timingGroups.map((group) => {
+        const items = upgrades.filter(u => u.timing === group);
+        return (
+          <div key={group}>
+            <div className="flex items-center gap-2 mb-3">
+              <Clock className="w-4 h-4 text-[#C49F58]" />
+              <h3 className="text-sm font-black text-[#3C5999] uppercase tracking-widest">{group}</h3>
+            </div>
+            <div className="space-y-2">
+              {items.map((item) => (
+                <div
+                  key={item.id}
+                  className="bg-white rounded-xl border border-[#3C5999]/10 overflow-hidden"
+                >
+                  <button
+                    onClick={() => setExpanded(expanded === item.id ? null : item.id)}
+                    className="w-full flex items-center justify-between px-5 py-4 hover:bg-[#FAF4ED]/50 transition-colors text-left"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className={`text-xs font-bold px-2 py-0.5 rounded border ${priorityColor[item.priority]}`}>
+                        {item.priority}
+                      </span>
+                      <span className="font-bold text-[#2A2724]">{item.service}</span>
+                      <span className="text-[#3C5999]/50 text-sm hidden sm:inline">
+                        {item.from} → {item.to}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="font-black text-[#C49F58] text-sm">{item.cost}</span>
+                      <ArrowRight className={`w-4 h-4 text-[#3C5999]/40 transition-transform ${expanded === item.id ? 'rotate-90' : ''}`} />
+                    </div>
+                  </button>
+                  {expanded === item.id && (
+                    <div className="px-5 pb-4 border-t border-[#3C5999]/10 pt-3">
+                      <p className="text-sm text-[#2A2724]/70 leading-relaxed">{item.why}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+
+      {/* Total before launch */}
+      <div className="bg-[#3C5999] text-white rounded-xl p-5">
+        <p className="text-xs font-black uppercase tracking-widest text-[#C49F58] mb-2">Before Taking Real Money</p>
+        <div className="flex items-baseline gap-2">
+          <span className="text-3xl font-black">$45</span>
+          <span className="text-white/60 text-sm">/month (Supabase + Vercel) + Stripe per-transaction</span>
+        </div>
+        <p className="text-white/50 text-xs mt-2">Stripe live mode flip is free. Total fixed overhead before launch: $45/mo.</p>
+      </div>
+    </div>
+  );
+};
+
+// ─────────────────────────────────────────
+// GUEST JOURNEYS
+// ─────────────────────────────────────────
+const GuestJourneys: React.FC = () => {
+  const [active, setActive] = React.useState(0);
+
+  const journeys = [
+    {
+      id: 'preplanner',
+      number: '01',
+      title: 'Pre-Trip Planner',
+      subtitle: 'Books from abroad before arriving in NYC',
+      color: '#3C5999',
+      bg: 'bg-blue-50',
+      steps: [
+        { label: 'Finds Maslow online or via recommendation' },
+        { label: 'Creates account on maslow.nyc or the app' },
+        { label: 'Browses session types and selects a time window' },
+        { label: 'Pays via Stripe (card, Apple Pay, Google Pay)' },
+        { label: 'Receives confirmation + QR code via email/app' },
+        { label: 'Arrives in SoHo, opens app or email, scans QR' },
+        { label: 'Suite unlocks — session begins' },
+      ],
+      note: 'Highest intent guest. Already committed before touching NYC pavement. The session is part of the trip plan.',
+    },
+    {
+      id: 'appwalkup',
+      number: '02',
+      title: 'App-First Walk-Up',
+      subtitle: 'Has the app, decides on the spot',
+      color: '#C49F58',
+      bg: 'bg-amber-50',
+      steps: [
+        { label: 'Is in SoHo, sees or knows about Maslow' },
+        { label: 'Opens the Maslow app (already installed)' },
+        { label: 'Selects location → session type → books' },
+        { label: 'Pays in-app via Stripe' },
+        { label: 'QR generated immediately in app' },
+        { label: 'Walks to suite, scans QR on door panel' },
+        { label: 'Suite unlocks — session begins' },
+      ],
+      note: 'The smoothest in-person path. App does the heavy lifting. Target: under 2 minutes from "I need a suite" to door unlocked.',
+    },
+    {
+      id: 'web',
+      number: '03',
+      title: 'Web Booking',
+      subtitle: 'Books via maslow.nyc on desktop or mobile',
+      color: '#4A5C3A',
+      bg: 'bg-green-50',
+      steps: [
+        { label: 'Discovers Maslow via search, social, or referral' },
+        { label: 'Visits maslow.nyc — browses, reads, gets interested' },
+        { label: 'Clicks Book → logs in or creates account' },
+        { label: 'Selects location, session type, time' },
+        { label: 'Pays via Stripe on the web' },
+        { label: 'QR sent via email and available in account' },
+        { label: 'Arrives, presents QR, suite unlocks' },
+      ],
+      note: 'Important for international guests and discovery. Web booking needs parity with app — same session types, same payment options.',
+    },
+    {
+      id: 'truewalkup',
+      number: '04',
+      title: 'True Walk-Up',
+      subtitle: 'No app, no account — scans QR on the door',
+      color: '#7AABCC',
+      bg: 'bg-sky-50',
+      steps: [
+        { label: 'Walks by, sees the suite, wants in — has nothing pre-installed' },
+        { label: 'Scans QR code on the door with phone camera' },
+        { label: 'Lands on maslow.nyc/go — mobile-optimized, no install required' },
+        { label: 'Magic link auth — no password, just email or phone' },
+        { label: 'One-tap Apple Pay or Google Pay' },
+        { label: 'QR generated instantly in browser' },
+        { label: 'Scans QR on door panel — suite unlocks. Under 90 seconds total.' },
+      ],
+      note: 'The hardest journey — and the most important. If we nail this, we serve everyone. This is the /go page. It is live.',
+    },
+  ];
+
+  const current = journeys[active];
+
+  return (
+    <div className="space-y-4">
+      {/* Journey selector */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+        {journeys.map((j, i) => (
+          <button
+            key={j.id}
+            onClick={() => setActive(i)}
+            className={`rounded-xl p-4 text-left border-2 transition-all ${
+              active === i
+                ? 'border-[#C49F58] bg-white shadow-md'
+                : 'border-transparent bg-white/60 hover:bg-white hover:shadow-sm'
+            }`}
+          >
+            <div className="text-2xl font-black mb-1" style={{ color: j.color }}>{j.number}</div>
+            <div className="text-sm font-bold text-[#2A2724] leading-tight">{j.title}</div>
+          </button>
+        ))}
+      </div>
+
+      {/* Active journey detail */}
+      <div className={`rounded-xl ${current.bg} border-2 p-6`} style={{ borderColor: current.color + '40' }}>
+        <div className="flex items-start justify-between mb-5">
+          <div>
+            <div className="text-4xl font-black mb-1" style={{ color: current.color }}>{current.number}</div>
+            <h3 className="text-xl font-serif font-bold text-[#2A2724]">{current.title}</h3>
+            <p className="text-sm text-[#2A2724]/60 mt-0.5">{current.subtitle}</p>
+          </div>
+          {current.id === 'truewalkup' && (
+            <span className="bg-green-600 text-white text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider">LIVE</span>
+          )}
+        </div>
+
+        <div className="space-y-2 mb-5">
+          {current.steps.map((step, i) => (
+            <div key={i} className="flex items-start gap-3">
+              <div
+                className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 text-white text-xs font-black"
+                style={{ backgroundColor: current.color }}
+              >
+                {i + 1}
+              </div>
+              <p className="text-sm text-[#2A2724]/80 leading-relaxed pt-0.5">{step.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="bg-white/70 rounded-lg p-4 border border-white">
+          <p className="text-sm text-[#2A2724]/70 italic leading-relaxed">{current.note}</p>
+        </div>
+      </div>
     </div>
   );
 };

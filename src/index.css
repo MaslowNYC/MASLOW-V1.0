@@ -3,42 +3,42 @@
 @tailwind components;
 @tailwind utilities;
 
-/* V4 Design Tokens */
+/* V5 Design Tokens — Navy + Ivory */
 :root {
-  --cream:      #FAF4ED;
-  --cream-2:    #F2E8DC;
-  --charcoal:   #2A2724;
+  --cream:      #F8F7F4;  /* cool ivory — replaces warm cream */
+  --cream-2:    #EEECEA;  /* cool ivory-2 — replaces warm cream-2 */
+  --charcoal:   #1C2B3A;  /* deep navy-black — replaces warm brown */
   --gold:       #C49F58;
-  --blue:       #2C6BC4;
+  --blue:       #286BCD;  /* logo blue — unchanged */
   --moss:       #4A5C3A;
   --water:      #7AABCC;
-  --ivy-0:      #0D1509;
-  --ivy-3:      #355228;
-  --ivy-4:      #4A6E38;
+  --navy:       #1C2B3A;  /* alias for clarity */
+  --navy-mid:   #243347;  /* hover states */
+  --ivory:      #F8F7F4;  /* alias for clarity */
   --serif: 'Cormorant Garamond', Georgia, serif;
   --sans:  'Jost', sans-serif;
 }
 
 @layer base {
   :root {
-    --background: 0 0% 100%; /* Default to white for the Cloud theme */
-    --foreground: 216 67% 48%; /* #3C5999 */
+    --background: 210 20% 98%;  /* #F8F7F4 ivory */
+    --foreground: 210 35% 17%;   /* #1C2B3A navy */
     --card: 0 0% 100%;
-    --card-foreground: 216 67% 48%;
+    --card-foreground: 210 35% 17%;
     --popover: 0 0% 100%;
-    --popover-foreground: 216 67% 48%;
-    --primary: 216 67% 48%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 32 52% 95%; /* #FAF4ED Cream */
-    --secondary-foreground: 216 67% 48%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 39 51% 56%; /* #C49F58 Gold */
-    --accent-foreground: 216 67% 48%;
+    --popover-foreground: 210 35% 17%;
+    --primary: 210 35% 17%;      /* navy is the primary now */
+    --primary-foreground: 210 20% 98%;
+    --secondary: 210 18% 93%;    /* #EEECEA ivory-2 */
+    --secondary-foreground: 210 35% 17%;
+    --muted: 210 16% 93%;
+    --muted-foreground: 210 16% 46%;
+    --accent: 39 51% 56%;        /* #C49F58 Gold — unchanged */
+    --accent-foreground: 210 35% 17%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 216 67% 48%;
-    --input: 216 67% 48%;
+    --border: 210 20% 88%;
+    --input: 210 20% 88%;
     --ring: 39 49% 56%;
     --radius: 0.75rem;
   }

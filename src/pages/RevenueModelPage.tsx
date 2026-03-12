@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect, useRef, useCallback } from "react";
+import { Helmet } from "react-helmet";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 
@@ -309,7 +310,14 @@ export default function RevenueModelPage() {
   const cashFlowColor = calc.netCashFlow >= 0 ? COLORS.green : calc.netCashFlow > -20000 ? COLORS.gold : COLORS.red;
 
   return (
-    <div style={{ background: COLORS.charcoal, minHeight: "100vh", fontFamily: "system-ui, -apple-system, sans-serif", padding: "0 0 60px" }}>
+    <>
+      <Helmet>
+        <title>Revenue Model — Maslow NYC</title>
+        <meta name="description" content="Interactive financial model for Maslow NYC. Explore utilization scenarios, session types, and break-even projections." />
+        <meta property="og:title" content="Revenue Model — Maslow NYC" />
+        <meta property="og:description" content="Interactive financial model for Maslow NYC. Explore utilization scenarios, session types, and break-even projections." />
+      </Helmet>
+      <div style={{ background: COLORS.charcoal, minHeight: "100vh", fontFamily: "system-ui, -apple-system, sans-serif", padding: "0 0 60px" }}>
 
       <div style={{ borderBottom: "1px solid #4A4540", padding: "24px 32px 20px", display: "flex", alignItems: "center", gap: 16, background: "#1A1714" }}>
         <span style={{ fontSize: 22, color: COLORS.gold, fontFamily: "Georgia, 'Times New Roman', serif", fontWeight: 600, letterSpacing: "0.12em" }}>MASLOW</span>
@@ -503,5 +511,6 @@ export default function RevenueModelPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

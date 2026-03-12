@@ -111,7 +111,10 @@ const HomePage = () => {
   return (
     <>
       <Helmet>
-        <title>Maslow NYC | Where the city can wait</title>
+        <title>Maslow NYC — Private Suites in SoHo, NYC</title>
+        <meta name="description" content="Premium private restroom suites in SoHo. Book a session from $5. Walk up, scan the QR, or reserve in advance." />
+        <meta property="og:title" content="Maslow NYC — Private Suites in SoHo, NYC" />
+        <meta property="og:description" content="Premium private restroom suites in SoHo. Book a session from $5. Walk up, scan the QR, or reserve in advance." />
       </Helmet>
 
       {/* ===== HERO SECTION ===== */}

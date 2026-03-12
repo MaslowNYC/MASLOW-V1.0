@@ -23,17 +23,19 @@ module.exports = {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				maslow: {
-					blue: '#286BCD',
-					cream: '#FAF4ED',
+					blue: '#286BCD',   /* logo — unchanged */
+					navy: '#1C2B3A',   /* new primary */
+					ivory: '#F8F7F4',  /* new background */
+					cream: '#F8F7F4',  /* alias kept for compat */
 					gold: '#C49F58',
 				},
 				primary: {
-					DEFAULT: '#286BCD',
-					foreground: '#FAF4ED',
+					DEFAULT: '#1C2B3A',  /* navy */
+					foreground: '#F8F7F4',
 				},
 				secondary: {
-					DEFAULT: '#FAF4ED',
-					foreground: '#286BCD',
+					DEFAULT: '#F8F7F4',  /* ivory */
+					foreground: '#1C2B3A',
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',

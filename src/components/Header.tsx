@@ -91,6 +91,7 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
     { name: 'THE HULL', path: '/hull' },
     { name: 'THE IMPACT', path: '/impact' },
     { name: 'MEMBERSHIP', path: '/membership' },
+    { name: 'FIELD NOTES', path: '/field-notes' },
   ];
 
   const isActive = (path: string) => location.pathname === path;

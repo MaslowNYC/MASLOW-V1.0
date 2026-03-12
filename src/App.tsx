@@ -46,6 +46,8 @@ import ConciergeDashboard from '@/pages/ConciergeDashboard';
 import Partnerships from '@/pages/Partnerships';
 import FieldResearchPage from '@/pages/FieldResearchPage';
 import FieldResearchResultsPage from '@/pages/FieldResearchResultsPage';
+import FieldNotesIndex from '@/pages/FieldNotesIndex';
+import FieldNotePost from '@/pages/FieldNotePost';
 
 // Future Innovations (public showcase)
 import FuturePrototypesPage from '@/pages/FuturePrototypesPage';
@@ -123,6 +125,8 @@ const AppContent: React.FC = () => {
           <Route path="/disclaimer" element={<DisclaimerPage />} />
           <Route path="/cookie-policy" element={<CookiePolicyPage />} />
           <Route path="/faq" element={<FAQPage />} />
+          <Route path="/field-notes" element={<FieldNotesIndex />} />
+          <Route path="/field-notes/:slug" element={<FieldNotePost />} />
           <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} />
 
           {/* Field Research - Admin Only */}
@@ -163,8 +167,8 @@ const App: React.FC = () => {
           <CartProvider>
             <Router>
               <Helmet>
-                <title>Maslow NYC</title>
-                <meta name="description" content="The Infrastructure of Dignity." />
+                <title>Maslow NYC — Premium Private Restroom Suites in SoHo</title>
+                <meta name="description" content="Private, app-controlled restroom suites in SoHo, New York City. Book by the session. Walk up or reserve in advance. Premium is the floor, not an upgrade." />
               </Helmet>
               <AppContent />
             </Router>
