@@ -6,6 +6,7 @@ import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useToast } from '@/components/ui/use-toast';
 import { identifyUser } from '@/utils/customerio';
+import { toE164 } from '@/utils/phoneFormat';
 import LanguageModal from '@/components/LanguageModal';
 import { useLanguage } from '@/hooks/useLanguage';
 
@@ -448,14 +449,19 @@ const LoginPage = () => {
       console.log('✅ Code verified by Twilio!');
 
       // Update profile with all signup data and mark phone as verified
+      // Clear verification_code and code_expires_at for security
+      // Store phone in E.164 format (+1XXXXXXXXXX)
+      const e164Phone = toE164(cleanedPhone);
       const { error: updateError } = await (supabase
         .from('profiles') as any)
         .update({
           first_name: firstName,
           last_name: lastName,
           email: email,
-          phone: cleanedPhone,
-          phone_verified: true
+          phone: e164Phone,
+          phone_verified: true,
+          verification_code: null,
+          code_expires_at: null
         })
         .eq('id', pendingUserId);
 
