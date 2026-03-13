@@ -19,17 +19,17 @@ export default function ResearchPage() {
       </Helmet>
 
       <div className="min-h-screen bg-[var(--color-ivory)]">
-        <div className="max-w-2xl mx-auto px-6 py-16 md:py-24">
+        <div className="max-w-2xl mx-auto px-6 py-10 md:py-14">
           {/* Hero */}
-          <header className="text-center mb-16">
+          <header className="text-center mb-8">
             <h1
-              className="text-4xl md:text-5xl text-[var(--color-navy)] mb-4"
+              className="text-3xl md:text-4xl text-[var(--color-navy)] mb-2"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               Unseen Standards
             </h1>
             <p
-              className="text-lg text-[var(--color-navy)]/70"
+              className="text-base text-[var(--color-navy)]/70"
               style={{ fontFamily: "'Jost', sans-serif" }}
             >
               A community research initiative by Maslow NYC
@@ -37,9 +37,9 @@ export default function ResearchPage() {
           </header>
 
           {/* Research Statement */}
-          <section className="mb-16">
+          <section className="mb-8">
             <p
-              className="text-[var(--color-navy)]/90 leading-relaxed mb-6"
+              className="text-[var(--color-navy)]/90 leading-relaxed mb-4"
               style={{ fontFamily: "'Jost', sans-serif" }}
             >
               Maslow NYC is conducting anonymous community research into the cultural,
@@ -58,21 +58,21 @@ export default function ResearchPage() {
           </section>
 
           {/* What We're Researching */}
-          <section className="mb-16">
+          <section className="mb-8">
             <h2
-              className="text-2xl text-[var(--color-navy)] mb-8"
+              className="text-xl text-[var(--color-navy)] mb-4"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               What We're Researching
             </h2>
-            <div className="space-y-4">
+            <div className="space-y-2">
               {researchTopics.map((topic) => (
                 <div
                   key={topic}
-                  className="pl-4 border-l-2 border-[var(--color-gold)]/40"
+                  className="pl-3 border-l-2 border-[var(--color-gold)]/40"
                 >
                   <p
-                    className="text-[var(--color-navy)]/90"
+                    className="text-[var(--color-navy)]/90 text-sm"
                     style={{ fontFamily: "'Jost', sans-serif" }}
                   >
                     {topic}
@@ -83,15 +83,15 @@ export default function ResearchPage() {
           </section>
 
           {/* How We Collect Data */}
-          <section className="mb-16">
+          <section className="mb-8">
             <h2
-              className="text-2xl text-[var(--color-navy)] mb-8"
+              className="text-xl text-[var(--color-navy)] mb-4"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               How We Collect Data
             </h2>
             <p
-              className="text-[var(--color-navy)]/90 leading-relaxed mb-6"
+              className="text-[var(--color-navy)]/90 leading-relaxed mb-3"
               style={{ fontFamily: "'Jost', sans-serif" }}
             >
               All responses are completely anonymous. We collect no names, email addresses,
@@ -99,24 +99,24 @@ export default function ResearchPage() {
               guest account data and cannot be linked to an individual.
             </p>
             <p
-              className="text-[var(--color-navy)]/90 leading-relaxed mb-4"
+              className="text-[var(--color-navy)]/90 leading-relaxed mb-2"
               style={{ fontFamily: "'Jost', sans-serif" }}
             >
               Research is collected in two ways:
             </p>
-            <div className="space-y-4 mb-6">
-              <div className="pl-4 border-l-2 border-[var(--color-gold)]/40">
+            <div className="space-y-2 mb-3">
+              <div className="pl-3 border-l-2 border-[var(--color-gold)]/40">
                 <p
-                  className="text-[var(--color-navy)]/90"
+                  className="text-[var(--color-navy)]/90 text-sm"
                   style={{ fontFamily: "'Jost', sans-serif" }}
                 >
                   <strong>In-person conversations</strong> — Maslow's founder conducts brief, voluntary
                   conversations in public spaces across New York City.
                 </p>
               </div>
-              <div className="pl-4 border-l-2 border-[var(--color-gold)]/40">
+              <div className="pl-3 border-l-2 border-[var(--color-gold)]/40">
                 <p
-                  className="text-[var(--color-navy)]/90"
+                  className="text-[var(--color-navy)]/90 text-sm"
                   style={{ fontFamily: "'Jost', sans-serif" }}
                 >
                   <strong>Online survey</strong> — Available at maslow.nyc/survey, open to anyone.
@@ -124,7 +124,7 @@ export default function ResearchPage() {
               </div>
             </div>
             <p
-              className="text-[var(--color-navy)]/70 text-sm leading-relaxed"
+              className="text-[var(--color-navy)]/70 text-xs leading-relaxed"
               style={{ fontFamily: "'Jost', sans-serif" }}
             >
               By participating, you consent to your anonymous response being used to inform
@@ -134,15 +134,15 @@ export default function ResearchPage() {
           </section>
 
           {/* What We Do With the Data */}
-          <section className="mb-16">
+          <section className="mb-8">
             <h2
-              className="text-2xl text-[var(--color-navy)] mb-8"
+              className="text-xl text-[var(--color-navy)] mb-4"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               What We Do With the Data
             </h2>
             <p
-              className="text-[var(--color-navy)]/90 leading-relaxed mb-6"
+              className="text-[var(--color-navy)]/90 leading-relaxed mb-3"
               style={{ fontFamily: "'Jost', sans-serif" }}
             >
               Research findings directly inform how we design every Maslow suite — from
@@ -161,18 +161,18 @@ export default function ResearchPage() {
           </section>
 
           {/* CTA Section */}
-          <section className="mb-16 py-12 border-t border-b border-[var(--color-navy)]/10">
-            <div className="text-center space-y-8">
+          <section className="mb-8 py-6 border-t border-b border-[var(--color-navy)]/10">
+            <div className="text-center space-y-4">
               <div>
                 <p
-                  className="text-xl text-[var(--color-navy)] mb-4"
+                  className="text-lg text-[var(--color-navy)] mb-3"
                   style={{ fontFamily: "'Cormorant Garamond', serif" }}
                 >
                   Want to contribute?
                 </p>
                 <Link
                   to="/survey"
-                  className="inline-block px-8 py-3 bg-[var(--color-gold)] text-[var(--color-navy)] rounded-lg font-medium hover:bg-[var(--color-gold)]/90 transition-colors"
+                  className="inline-block px-6 py-2.5 bg-[var(--color-gold)] text-[var(--color-navy)] rounded-lg font-medium hover:bg-[var(--color-gold)]/90 transition-colors"
                   style={{ fontFamily: "'Jost', sans-serif" }}
                 >
                   Take the survey &rarr;
@@ -180,14 +180,14 @@ export default function ResearchPage() {
               </div>
               <div>
                 <p
-                  className="text-[var(--color-navy)]/70 mb-2"
+                  className="text-[var(--color-navy)]/70 text-sm mb-1"
                   style={{ fontFamily: "'Jost', sans-serif" }}
                 >
                   Questions about the research?
                 </p>
                 <a
                   href="mailto:patrick@maslow.nyc"
-                  className="text-[var(--color-gold)] hover:underline"
+                  className="text-[var(--color-gold)] text-sm hover:underline"
                   style={{ fontFamily: "'Jost', sans-serif" }}
                 >
                   patrick@maslow.nyc

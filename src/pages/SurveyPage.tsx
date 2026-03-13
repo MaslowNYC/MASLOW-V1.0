@@ -158,9 +158,7 @@ export default function SurveyPage() {
         .from('survey_responses')
         .insert({
           session_token: sessionToken,
-          completed_at: new Date().toISOString(),
-          user_agent: navigator.userAgent,
-          referrer: document.referrer || null,
+          input_method: 'web',
         })
         .select('id')
         .single();
@@ -213,7 +211,8 @@ export default function SurveyPage() {
           avoids_fragrance: data.avoids_fragrance,
           avoids_none: data.avoids_none,
           avoids_other: data.avoids_other || null,
-          product_source_preference: data.product_source_preference || null,
+          prefers_own_products: data.product_source_preference === 'own',
+          prefers_provided_products: data.product_source_preference === 'provided',
           scent_preference: data.scent_preference || null,
         }),
         // Signage & Language
@@ -329,32 +328,29 @@ export default function SurveyPage() {
   return (
     <div className="min-h-screen bg-[#F8F7F4]">
       {/* Header */}
-      <header className="pt-8 pb-6 px-4 text-center border-b border-[#1C2B3A]/10">
+      <header className="pt-4 pb-3 px-4 text-center border-b border-[#1C2B3A]/10">
         <img
           src="/maslow-logo.png"
           alt="Maslow"
-          className="h-10 mx-auto mb-4"
+          className="h-8 mx-auto mb-2"
         />
-        <h1 className="text-2xl font-serif text-[#1C2B3A] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+        <h1 className="text-xl font-serif text-[#1C2B3A] mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Unseen Standards
         </h1>
-        <p className="text-[#1C2B3A]/70 text-sm max-w-xs mx-auto" style={{ fontFamily: "'Jost', sans-serif" }}>
-          Help us build a restroom that actually works for you.
-        </p>
-        <p className="text-[#1C2B3A]/50 text-xs mt-1" style={{ fontFamily: "'Jost', sans-serif" }}>
-          Takes about 2 minutes. Completely anonymous.
+        <p className="text-[#1C2B3A]/70 text-xs max-w-xs mx-auto" style={{ fontFamily: "'Jost', sans-serif" }}>
+          Help us build a restroom that actually works for you. ~2 min, anonymous.
         </p>
       </header>
 
       {/* Progress Bar */}
-      <div className="px-4 py-4 bg-white border-b border-[#1C2B3A]/10">
+      <div className="px-4 py-2 bg-white border-b border-[#1C2B3A]/10">
         <div className="max-w-md mx-auto">
-          <div className="flex justify-between items-center mb-2">
+          <div className="flex justify-between items-center mb-1">
             <span className="text-xs text-[#1C2B3A]/60" style={{ fontFamily: "'Jost', sans-serif" }}>
-              Section {currentSection} of {totalSections}
+              {currentSection} / {totalSections}
             </span>
           </div>
-          <div className="h-2 bg-[#1C2B3A]/10 rounded-full overflow-hidden">
+          <div className="h-1.5 bg-[#1C2B3A]/10 rounded-full overflow-hidden">
             <div
               className="h-full bg-[#C49F58] transition-all duration-300"
               style={{ width: `${(currentSection / totalSections) * 100}%` }}
@@ -364,15 +360,15 @@ export default function SurveyPage() {
       </div>
 
       {/* Form Content */}
-      <main className="max-w-md mx-auto px-4 py-8">
+      <main className="max-w-md mx-auto px-4 py-5">
         {/* Section 1: Water & Hygiene */}
         {currentSection === 1 && (
           <section>
-            <h2 className="text-xl font-serif text-[#1C2B3A] mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-lg font-serif text-[#1C2B3A] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               How do you prefer to clean up?
             </h2>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               <YesNoToggle
                 label="Do you use water (not just soap) as part of your routine?"
                 value={data.uses_water_not_just_soap}
@@ -419,11 +415,11 @@ export default function SurveyPage() {
         {/* Section 2: Faith & Ritual */}
         {currentSection === 2 && (
           <section>
-            <h2 className="text-xl font-serif text-[#1C2B3A] mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-lg font-serif text-[#1C2B3A] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Does your faith or background include a washing routine?
             </h2>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               <YesNoToggle
                 label="Does your faith or background include ritual washing?"
                 value={data.has_faith_based_washing}
@@ -465,11 +461,11 @@ export default function SurveyPage() {
         {/* Section 3: Privacy */}
         {currentSection === 3 && (
           <section>
-            <h2 className="text-xl font-serif text-[#1C2B3A] mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-lg font-serif text-[#1C2B3A] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               What makes a restroom feel private to you?
             </h2>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               <ScaleInput
                 label="How important is sound privacy?"
                 sublabel="1 = not important, 5 = essential"
@@ -508,11 +504,11 @@ export default function SurveyPage() {
         {/* Section 4: Time */}
         {currentSection === 4 && (
           <section>
-            <h2 className="text-xl font-serif text-[#1C2B3A] mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-lg font-serif text-[#1C2B3A] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               How long do you typically need?
             </h2>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               <RadioGroup
                 label="Typical duration"
                 options={['Under 5 min', '5-15 min', '15-30 min', '30 min+']}
@@ -541,11 +537,11 @@ export default function SurveyPage() {
         {/* Section 5: Products & Scent */}
         {currentSection === 5 && (
           <section>
-            <h2 className="text-xl font-serif text-[#1C2B3A] mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-lg font-serif text-[#1C2B3A] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Any preferences on what's in the products you use?
             </h2>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div>
                 <p className="text-sm text-[#1C2B3A]/70 mb-3" style={{ fontFamily: "'Jost', sans-serif" }}>
                   I avoid products containing: (select all that apply)
@@ -603,11 +599,11 @@ export default function SurveyPage() {
         {/* Section 6: Signage & Language */}
         {currentSection === 6 && (
           <section>
-            <h2 className="text-xl font-serif text-[#1C2B3A] mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-lg font-serif text-[#1C2B3A] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Can you find your way around easily?
             </h2>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               <TextInput
                 label="What language do you prefer for reading instructions?"
                 value={data.preferred_language}
@@ -646,7 +642,7 @@ export default function SurveyPage() {
               Completely optional. This helps us understand which communities we're reaching.
             </p>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               <RadioGroup
                 label="Region of origin or heritage"
                 options={[
@@ -705,11 +701,11 @@ export default function SurveyPage() {
         )}
 
         {/* Navigation */}
-        <div className="mt-8 flex gap-3">
+        <div className="mt-6 flex gap-2">
           {currentSection > 1 && (
             <button
               onClick={() => setCurrentSection(prev => prev - 1)}
-              className="flex-1 py-4 px-6 rounded-xl border-2 border-[#1C2B3A]/20 text-[#1C2B3A] font-medium"
+              className="flex-1 py-3 px-4 rounded-lg border-2 border-[#1C2B3A]/20 text-[#1C2B3A] text-sm font-medium"
               style={{ fontFamily: "'Jost', sans-serif" }}
             >
               Back
@@ -720,12 +716,12 @@ export default function SurveyPage() {
             <button
               onClick={() => setCurrentSection(prev => prev + 1)}
               disabled={!canProceed()}
-              className={`flex-1 py-4 px-6 rounded-xl font-medium transition-all ${
+              className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all ${
                 canProceed()
                   ? 'bg-[#1C2B3A] text-white hover:bg-[#1C2B3A]/90'
                   : 'bg-[#1C2B3A]/30 text-white cursor-not-allowed'
               }`}
-              style={{ fontFamily: "'Jost', sans-serif", minHeight: '56px' }}
+              style={{ fontFamily: "'Jost', sans-serif", minHeight: '44px' }}
             >
               Continue
             </button>
@@ -733,14 +729,14 @@ export default function SurveyPage() {
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className={`flex-1 py-4 px-6 rounded-xl font-medium transition-all ${
+              className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all ${
                 isSubmitting
                   ? 'bg-[#C49F58]/50 text-[#1C2B3A]/50 cursor-not-allowed'
                   : 'bg-[#C49F58] text-[#1C2B3A] hover:bg-[#C49F58]/90'
               }`}
-              style={{ fontFamily: "'Jost', sans-serif", minHeight: '56px' }}
+              style={{ fontFamily: "'Jost', sans-serif", minHeight: '44px' }}
             >
-              {isSubmitting ? 'Submitting...' : 'Submit \u2014 Get Your Free Pass'}
+              {isSubmitting ? 'Submitting...' : 'Submit \u2014 Get Free Pass'}
             </button>
           )}
         </div>
@@ -763,31 +759,31 @@ interface YesNoToggleProps {
 function YesNoToggle({ label, value, onChange, required }: YesNoToggleProps) {
   return (
     <div>
-      <p className="text-sm text-[#1C2B3A] mb-3" style={{ fontFamily: "'Jost', sans-serif" }}>
+      <p className="text-sm text-[#1C2B3A] mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
         {label} {required && <span className="text-[#C49F58]">*</span>}
       </p>
-      <div className="flex gap-3">
+      <div className="flex gap-2">
         <button
           type="button"
           onClick={() => onChange(true)}
-          className={`flex-1 py-3 px-4 rounded-xl border-2 font-medium transition-all ${
+          className={`flex-1 py-2.5 px-3 rounded-lg border-2 text-sm font-medium transition-all ${
             value === true
               ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A]'
               : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
           }`}
-          style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
+          style={{ fontFamily: "'Jost', sans-serif", minHeight: '42px' }}
         >
           Yes
         </button>
         <button
           type="button"
           onClick={() => onChange(false)}
-          className={`flex-1 py-3 px-4 rounded-xl border-2 font-medium transition-all ${
+          className={`flex-1 py-2.5 px-3 rounded-lg border-2 text-sm font-medium transition-all ${
             value === false
               ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A]'
               : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
           }`}
-          style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
+          style={{ fontFamily: "'Jost', sans-serif", minHeight: '42px' }}
         >
           No
         </button>
@@ -804,16 +800,16 @@ interface CheckboxProps {
 
 function Checkbox({ label, checked, onChange }: CheckboxProps) {
   return (
-    <label className="flex items-center gap-3 p-3 rounded-xl border-2 border-[#1C2B3A]/10 hover:border-[#1C2B3A]/20 cursor-pointer transition-all" style={{ minHeight: '48px' }}>
+    <label className="flex items-center gap-2.5 p-2.5 rounded-lg border border-[#1C2B3A]/10 hover:border-[#1C2B3A]/20 cursor-pointer transition-all" style={{ minHeight: '40px' }}>
       <div
-        className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all ${
+        className={`w-5 h-5 rounded flex items-center justify-center transition-all ${
           checked
             ? 'border-[#C49F58] bg-[#C49F58]'
-            : 'border-[#1C2B3A]/30'
+            : 'border-2 border-[#1C2B3A]/30'
         }`}
       >
         {checked && (
-          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
           </svg>
         )}
@@ -840,21 +836,21 @@ interface RadioGroupProps {
 function RadioGroup({ label, options, value, onChange, vertical }: RadioGroupProps) {
   return (
     <div>
-      <p className="text-sm text-[#1C2B3A]/70 mb-3" style={{ fontFamily: "'Jost', sans-serif" }}>
+      <p className="text-sm text-[#1C2B3A]/70 mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
         {label}
       </p>
-      <div className={vertical ? 'space-y-2' : 'flex flex-wrap gap-2'}>
+      <div className={vertical ? 'space-y-1.5' : 'flex flex-wrap gap-1.5'}>
         {options.map((option) => (
           <button
             key={option}
             type="button"
             onClick={() => onChange(option)}
-            className={`${vertical ? 'w-full text-left' : ''} py-3 px-4 rounded-xl border-2 text-sm font-medium transition-all ${
+            className={`${vertical ? 'w-full text-left' : ''} py-2 px-3 rounded-lg border text-sm transition-all ${
               value === option
-                ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A]'
+                ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A] font-medium'
                 : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
             }`}
-            style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
+            style={{ fontFamily: "'Jost', sans-serif", minHeight: '38px' }}
           >
             {option}
           </button>
@@ -878,7 +874,7 @@ function ScaleInput({ label, sublabel, value, onChange }: ScaleInputProps) {
         {label}
       </p>
       {sublabel && (
-        <p className="text-xs text-[#1C2B3A]/50 mb-3" style={{ fontFamily: "'Jost', sans-serif" }}>
+        <p className="text-xs text-[#1C2B3A]/50 mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
           {sublabel}
         </p>
       )}
@@ -888,7 +884,7 @@ function ScaleInput({ label, sublabel, value, onChange }: ScaleInputProps) {
             key={n}
             type="button"
             onClick={() => onChange(n)}
-            className={`w-14 h-14 rounded-full border-2 text-lg font-medium transition-all ${
+            className={`w-11 h-11 rounded-full border-2 text-base font-medium transition-all ${
               value === n
                 ? 'border-[#C49F58] bg-[#C49F58] text-white'
                 : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
@@ -913,7 +909,7 @@ interface TextInputProps {
 function TextInput({ label, value, onChange, placeholder }: TextInputProps) {
   return (
     <div>
-      <label className="text-sm text-[#1C2B3A]/70 block mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
+      <label className="text-sm text-[#1C2B3A]/70 block mb-1.5" style={{ fontFamily: "'Jost', sans-serif" }}>
         {label}
       </label>
       <input
@@ -921,8 +917,8 @@ function TextInput({ label, value, onChange, placeholder }: TextInputProps) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full py-3 px-4 rounded-xl border-2 border-[#1C2B3A]/20 focus:border-[#C49F58] outline-none text-[#1C2B3A] placeholder-[#1C2B3A]/40 transition-all"
-        style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
+        className="w-full py-2.5 px-3 rounded-lg border border-[#1C2B3A]/20 focus:border-[#C49F58] outline-none text-sm text-[#1C2B3A] placeholder-[#1C2B3A]/40 transition-all"
+        style={{ fontFamily: "'Jost', sans-serif", minHeight: '40px' }}
       />
     </div>
   );
@@ -937,14 +933,14 @@ interface TextareaProps {
 function Textarea({ label, value, onChange }: TextareaProps) {
   return (
     <div>
-      <label className="text-sm text-[#1C2B3A]/70 block mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
+      <label className="text-sm text-[#1C2B3A]/70 block mb-1.5" style={{ fontFamily: "'Jost', sans-serif" }}>
         {label}
       </label>
       <textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        rows={3}
-        className="w-full py-3 px-4 rounded-xl border-2 border-[#1C2B3A]/20 focus:border-[#C49F58] outline-none text-[#1C2B3A] placeholder-[#1C2B3A]/40 resize-none transition-all"
+        rows={2}
+        className="w-full py-2.5 px-3 rounded-lg border border-[#1C2B3A]/20 focus:border-[#C49F58] outline-none text-sm text-[#1C2B3A] placeholder-[#1C2B3A]/40 resize-none transition-all"
         style={{ fontFamily: "'Jost', sans-serif" }}
       />
     </div>
