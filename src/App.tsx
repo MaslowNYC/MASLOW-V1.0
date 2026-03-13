@@ -48,6 +48,7 @@ import FieldResearchPage from '@/pages/FieldResearchPage';
 import FieldResearchResultsPage from '@/pages/FieldResearchResultsPage';
 import FieldNotesIndex from '@/pages/FieldNotesIndex';
 import FieldNotePost from '@/pages/FieldNotePost';
+import AuthCallbackPage from '@/pages/AuthCallbackPage';
 
 // Future Innovations (public showcase)
 import FuturePrototypesPage from '@/pages/FuturePrototypesPage';
@@ -91,6 +92,7 @@ const AppContent: React.FC = () => {
           {/* Public & Core Routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/auth/callback" element={<AuthCallbackPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/maslow" element={<MaslowPage />} />
           <Route path="/model" element={<RevenueModelPage />} />
