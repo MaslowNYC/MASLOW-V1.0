@@ -49,6 +49,7 @@ import FieldResearchResultsPage from '@/pages/FieldResearchResultsPage';
 import FieldNotesIndex from '@/pages/FieldNotesIndex';
 import FieldNotePost from '@/pages/FieldNotePost';
 import AuthCallbackPage from '@/pages/AuthCallbackPage';
+import SurveyPage from '@/pages/SurveyPage';
 
 // Future Innovations (public showcase)
 import FuturePrototypesPage from '@/pages/FuturePrototypesPage';
@@ -81,7 +82,7 @@ const AppContent: React.FC = () => {
     }
   }, [navigate]);
 
-  const isHideHeaderPath = location.pathname === '/login' || location.pathname === '/reset-password' || location.pathname === '/model';
+  const isHideHeaderPath = location.pathname === '/login' || location.pathname === '/reset-password' || location.pathname === '/model' || location.pathname === '/survey';
 
   return (
     <div className="min-h-screen bg-[#FAF4ED] flex flex-col overflow-x-hidden w-full max-w-full">
@@ -96,6 +97,7 @@ const AppContent: React.FC = () => {
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/maslow" element={<MaslowPage />} />
           <Route path="/model" element={<RevenueModelPage />} />
+          <Route path="/survey" element={<SurveyPage />} />
           <Route path="/staff/inventory" element={<ProtectedRoute requireFounder={true}><StaffInventory /></ProtectedRoute>} />
           <Route path="/buy-credits" element={<ProtectedRoute><BuyCreditsPage /></ProtectedRoute>} />
           
