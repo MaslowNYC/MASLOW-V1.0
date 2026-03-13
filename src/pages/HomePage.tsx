@@ -25,7 +25,7 @@ const HomePage = () => {
         {/* Ivy wall background */}
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/ivy.jpeg)' }}
+          style={{ backgroundImage: 'url(/ivy.jpg)' }}
         />
         {/* Dark overlay for text legibility */}
         <div className="absolute inset-0 bg-black/30" />
@@ -69,17 +69,6 @@ const HomePage = () => {
             >
               The Hull &rarr;
             </Link>
-          </div>
-        </div>
-
-        {/* Logo "Sign" - Right side */}
-        <div className="absolute right-8 md:right-[8vw] top-1/2 -translate-y-1/2 z-10 hidden md:block">
-          <div className="bg-[#2A2724]/80 backdrop-blur-sm p-6 rounded-sm shadow-2xl">
-            <img
-              src="/MASLOW - Square.png"
-              alt="Maslow"
-              className="w-40 h-40 object-contain"
-            />
           </div>
         </div>
 
