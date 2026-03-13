@@ -50,6 +50,7 @@ import FieldNotesIndex from '@/pages/FieldNotesIndex';
 import FieldNotePost from '@/pages/FieldNotePost';
 import AuthCallbackPage from '@/pages/AuthCallbackPage';
 import SurveyPage from '@/pages/SurveyPage';
+import ResearchPage from '@/pages/ResearchPage';
 
 // Future Innovations (public showcase)
 import FuturePrototypesPage from '@/pages/FuturePrototypesPage';
@@ -98,6 +99,7 @@ const AppContent: React.FC = () => {
           <Route path="/maslow" element={<MaslowPage />} />
           <Route path="/model" element={<RevenueModelPage />} />
           <Route path="/survey" element={<SurveyPage />} />
+          <Route path="/research" element={<ResearchPage />} />
           <Route path="/staff/inventory" element={<ProtectedRoute requireFounder={true}><StaffInventory /></ProtectedRoute>} />
           <Route path="/buy-credits" element={<ProtectedRoute><BuyCreditsPage /></ProtectedRoute>} />
           
