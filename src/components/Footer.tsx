@@ -58,6 +58,13 @@ const Footer = () => {
           <p className="text-white/30 text-xs">
             © 2026 Maslow NYC. {t('footer.allRightsReserved')}
           </p>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="text-white/40 hover:text-white/80 text-xs uppercase tracking-widest transition-colors"
+            style={{ fontFamily: 'var(--sans)' }}
+          >
+            ↑ Back to Top
+          </button>
           <div className="flex items-center gap-2 text-white/30 text-xs">
             <ShieldCheck className="w-3 h-3" />
             <span>{t('footer.secureInfrastructure')}</span>

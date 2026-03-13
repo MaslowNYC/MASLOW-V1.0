@@ -14,10 +14,10 @@ const HomePage = () => {
   return (
     <>
       <Helmet>
-        <title>Maslow NYC — Private Suites in SoHo, NYC</title>
-        <meta name="description" content="Premium private restroom suites in SoHo. Book a session from $5. Walk up, scan the QR, or reserve in advance." />
-        <meta property="og:title" content="Maslow NYC — Private Suites in SoHo, NYC" />
-        <meta property="og:description" content="Premium private restroom suites in SoHo. Book a session from $5. Walk up, scan the QR, or reserve in advance." />
+        <title>New York's First Real Restroom — Maslow NYC</title>
+        <meta name="description" content="Not a stall. Not a hotel lobby. Private restroom suites in SoHo, NYC. From $5." />
+        <meta property="og:title" content="New York's First Real Restroom — Maslow NYC" />
+        <meta property="og:description" content="Not a stall. Not a hotel lobby. Private restroom suites in SoHo, NYC. From $5." />
       </Helmet>
 
       {/* ===== HERO SECTION ===== */}
@@ -34,7 +34,7 @@ const HomePage = () => {
         <div className="absolute bottom-24 left-8 md:left-16 lg:left-24 z-10 max-w-xl">
           <p
             className="text-sm uppercase tracking-[0.4em] mb-6"
-            style={{ color: 'var(--gold)', fontFamily: 'var(--sans)' }}
+            style={{ color: 'var(--cream)', fontFamily: 'var(--sans)' }}
           >
             SoHo, New York City
           </p>
