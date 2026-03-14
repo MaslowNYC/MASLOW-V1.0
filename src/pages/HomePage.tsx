@@ -14,10 +14,10 @@ const HomePage = () => {
   return (
     <>
       <Helmet>
-        <title>New York's First Real Restroom — Maslow NYC</title>
-        <meta name="description" content="Not a stall. Not a hotel lobby. Private restroom suites in SoHo, NYC. From $5." />
-        <meta property="og:title" content="New York's First Real Restroom — Maslow NYC" />
-        <meta property="og:description" content="Not a stall. Not a hotel lobby. Private restroom suites in SoHo, NYC. From $5." />
+        <title>Maslow NYC — New York's First Real Restroom</title>
+        <meta name="description" content="New York's first real restroom. Private suites in SoHo — not a stall, not a hotel lobby. Yours, for as long as you need. From $5." />
+        <meta property="og:title" content="Maslow NYC — New York's First Real Restroom" />
+        <meta property="og:description" content="New York's first real restroom. Private suites in SoHo — not a stall, not a hotel lobby. Yours, for as long as you need. From $5." />
       </Helmet>
 
       {/* ===== HERO SECTION ===== */}
