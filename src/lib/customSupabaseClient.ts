@@ -8,7 +8,9 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Missing Supabase environment variables: VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are required');
 }
 
-const customSupabaseClient: SupabaseClient<Database> = createClient<Database>(supabaseUrl, supabaseAnonKey);
+const customSupabaseClient: SupabaseClient<Database> = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+  db: { schema: 'public' },
+});
 
 export default customSupabaseClient;
 

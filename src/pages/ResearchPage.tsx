@@ -186,11 +186,11 @@ export default function ResearchPage() {
                   Questions about the research?
                 </p>
                 <a
-                  href="mailto:patrick@maslow.nyc"
+                  href="mailto:hello@maslow.nyc"
                   className="text-[var(--color-gold)] text-sm hover:underline"
                   style={{ fontFamily: "'Jost', sans-serif" }}
                 >
-                  patrick@maslow.nyc
+                  hello@maslow.nyc
                 </a>
               </div>
             </div>

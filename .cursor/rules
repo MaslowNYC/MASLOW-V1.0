@@ -1,0 +1,16 @@
+# MASLOW-V1.0 — Cline/Cursor Rules
+
+## Deployment (CRITICAL)
+After any code change, deployment requires TWO steps:
+1. `git add -A && git commit -m "..."` → commits to GitHub
+2. `vercel --prod` → deploys to production
+
+Do NOT assume Vercel auto-deploys. Always run `vercel --prod` explicitly after committing.
+
+## Commit Messages
+Do NOT add "Co-Authored-By: Claude" or any Co-Authored-By lines to commit messages.
+
+## General
+- MVP first. Do not add unrequested features.
+- Always confirm scope before starting large changes.
+- Ask before installing new packages.

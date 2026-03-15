@@ -1,6 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
+import { useAuth } from '@/contexts/SupabaseAuthContext';
+import { supabase } from '@/lib/customSupabaseClient';
+
+const HULL_QUEUE_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/hull-queue`;
+
+interface HullStatus {
+  occupancy: number;
+  max_capacity: number;
+  available: number;
+  queue_length: number;
+  upcoming_reservations: number;
+}
+
+interface QueueEntry {
+  id: string;
+  queue_type: 'walk_up' | 'reservation';
+  status: string;
+  position: number | null;
+  reserved_for: string | null;
+  checked_in_at: string | null;
+}
 
 interface ProgramItem {
   title: string;
@@ -8,6 +29,241 @@ interface ProgramItem {
 }
 
 const HullPage: React.FC = () => {
+  const { user } = useAuth();
+  const [status, setStatus] = useState<HullStatus | null>(null);
+  const [activeEntry, setActiveEntry] = useState<QueueEntry | null>(null);
+  const [activeTab, setActiveTab] = useState<'now' | 'later'>('now');
+  const [selectedTime, setSelectedTime] = useState<string>('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch Hull status (public, no auth)
+  const fetchStatus = useCallback(async () => {
+    try {
+      const res = await fetch(`${HULL_QUEUE_URL}?action=status`);
+      const data = await res.json();
+      if (res.ok) {
+        setStatus(data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch Hull status:', err);
+    }
+  }, []);
+
+  // Fetch user's active queue entry
+  const fetchActiveEntry = useCallback(async () => {
+    if (!user) {
+      setActiveEntry(null);
+      return;
+    }
+    try {
+      const { data, error } = await supabase
+        .from('queue')
+        .select('*')
+        .eq('user_id', user.id)
+        .is('checked_out_at', null)
+        .in('status', ['waiting', 'called', 'checked_in'])
+        .order('joined_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (!error && data) {
+        setActiveEntry(data as QueueEntry);
+      } else {
+        setActiveEntry(null);
+      }
+    } catch (err) {
+      setActiveEntry(null);
+    }
+  }, [user]);
+
+  // Poll status every 30 seconds
+  useEffect(() => {
+    fetchStatus();
+    const interval = setInterval(fetchStatus, 30000);
+    return () => clearInterval(interval);
+  }, [fetchStatus]);
+
+  // Fetch active entry when user changes
+  useEffect(() => {
+    fetchActiveEntry();
+  }, [fetchActiveEntry]);
+
+  // Get auth token for authenticated requests
+  const getAuthHeaders = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${session?.access_token}`,
+    };
+  };
+
+  // Join walk-up queue
+  const handleJoinQueue = async () => {
+    if (!user) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const headers = await getAuthHeaders();
+      const res = await fetch(`${HULL_QUEUE_URL}?action=join`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ queue_type: 'walk_up', location_id: 1 }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Failed to join queue');
+      } else {
+        await fetchActiveEntry();
+        await fetchStatus();
+      }
+    } catch (err) {
+      setError('Failed to join queue');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Make reservation
+  const handleReservation = async () => {
+    if (!user || !selectedTime) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const headers = await getAuthHeaders();
+      const res = await fetch(`${HULL_QUEUE_URL}?action=join`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          queue_type: 'reservation',
+          reserved_for: selectedTime,
+          location_id: 1,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Failed to make reservation');
+      } else {
+        await fetchActiveEntry();
+        await fetchStatus();
+      }
+    } catch (err) {
+      setError('Failed to make reservation');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Check in
+  const handleCheckin = async () => {
+    if (!user) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const headers = await getAuthHeaders();
+      const res = await fetch(`${HULL_QUEUE_URL}?action=checkin`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ location_id: 1 }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Failed to check in');
+      } else {
+        await fetchActiveEntry();
+        await fetchStatus();
+      }
+    } catch (err) {
+      setError('Failed to check in');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Check out
+  const handleCheckout = async () => {
+    if (!user) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const headers = await getAuthHeaders();
+      const res = await fetch(`${HULL_QUEUE_URL}?action=checkout`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ location_id: 1 }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Failed to check out');
+      } else {
+        await fetchActiveEntry();
+        await fetchStatus();
+      }
+    } catch (err) {
+      setError('Failed to check out');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Cancel reservation/queue
+  const handleCancel = async () => {
+    if (!user) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const headers = await getAuthHeaders();
+      const res = await fetch(`${HULL_QUEUE_URL}?action=cancel`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ location_id: 1 }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Failed to cancel');
+      } else {
+        setActiveEntry(null);
+        await fetchStatus();
+      }
+    } catch (err) {
+      setError('Failed to cancel');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Generate time slots (7AM - 10PM, 30-min intervals)
+  const generateTimeSlots = () => {
+    const slots: { value: string; label: string }[] = [];
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    for (let hour = 7; hour <= 21; hour++) {
+      for (const minute of [0, 30]) {
+        const slotTime = new Date(today);
+        slotTime.setHours(hour, minute, 0, 0);
+
+        // Only show future slots
+        if (slotTime > now) {
+          slots.push({
+            value: slotTime.toISOString(),
+            label: slotTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
+          });
+        }
+      }
+    }
+    return slots;
+  };
+
+  // Status bar color based on occupancy
+  const getStatusColor = () => {
+    if (!status) return 'var(--moss)';
+    const percentage = status.occupancy / status.max_capacity;
+    if (percentage >= 1) return '#dc2626'; // red
+    if (percentage >= 0.75) return '#d97706'; // amber
+    return '#16a34a'; // green
+  };
+
   const programItems: ProgramItem[] = [
     { title: "Cultural celebrations", desc: "Islamic Heritage Month, Lunar New Year, Juneteenth, Pride, Hanukkah, Christmas, Diwali, and more—honoring the traditions that matter to New Yorkers" },
     { title: "Local artist showcases", desc: "Rotating art installations from neighborhood creators" },
@@ -150,8 +406,288 @@ const HullPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Programming Section */}
+      {/* Reserve Your Spot Section */}
       <section className="py-20 px-6" style={{ background: 'var(--cream-2)' }}>
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2
+              className="text-sm font-bold uppercase tracking-widest mb-4"
+              style={{ color: 'var(--gold)', fontFamily: 'var(--sans)' }}
+            >
+              Reserve Your Spot
+            </h2>
+            <div className="w-16 h-0.5 mb-8" style={{ background: 'var(--gold)' }}></div>
+
+            {/* A. Hull Status Bar - Always visible, no auth */}
+            {status && (
+              <div className="mb-8">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-lg font-medium" style={{ color: 'var(--charcoal)', fontFamily: 'var(--sans)' }}>
+                    {status.occupancy} of {status.max_capacity} spots taken
+                  </span>
+                  <span
+                    className="text-sm font-bold px-3 py-1 rounded-full"
+                    style={{
+                      background: getStatusColor(),
+                      color: 'white',
+                    }}
+                  >
+                    {status.available > 0 ? `${status.available} available` : 'Full'}
+                  </span>
+                </div>
+                <div
+                  className="h-3 rounded-full overflow-hidden"
+                  style={{ background: 'rgba(42,39,36,0.1)' }}
+                >
+                  <div
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{
+                      width: `${(status.occupancy / status.max_capacity) * 100}%`,
+                      background: getStatusColor(),
+                    }}
+                  />
+                </div>
+                {status.queue_length > 0 && (
+                  <p className="mt-2 text-sm" style={{ color: 'rgba(42,39,36,0.6)', fontFamily: 'var(--sans)' }}>
+                    {status.queue_length} {status.queue_length === 1 ? 'person' : 'people'} waiting in queue
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* C. Confirmation Card - When user has active entry */}
+            {activeEntry && (
+              <div
+                className="p-6 rounded-xl mb-8"
+                style={{
+                  background: 'var(--cream)',
+                  border: '2px solid var(--gold)',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                }}
+              >
+                {activeEntry.status === 'checked_in' ? (
+                  <>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div
+                        className="w-10 h-10 rounded-full flex items-center justify-center"
+                        style={{ background: '#16a34a' }}
+                      >
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <h3 className="text-2xl font-bold" style={{ color: 'var(--charcoal)', fontFamily: 'var(--serif)' }}>
+                        You're In
+                      </h3>
+                    </div>
+                    <p className="text-lg mb-4" style={{ color: 'rgba(42,39,36,0.7)', fontFamily: 'var(--sans)' }}>
+                      Enjoy The Hull! Tap below when you're ready to leave.
+                    </p>
+                    <button
+                      onClick={handleCheckout}
+                      disabled={loading}
+                      className="w-full py-3 px-6 rounded-lg font-bold transition-all hover:opacity-90 disabled:opacity-50"
+                      style={{ background: 'var(--charcoal)', color: 'var(--cream)', fontFamily: 'var(--sans)' }}
+                    >
+                      {loading ? 'Processing...' : 'Check Out'}
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div
+                        className="w-10 h-10 rounded-full flex items-center justify-center"
+                        style={{ background: 'var(--gold)' }}
+                      >
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <h3 className="text-2xl font-bold" style={{ color: 'var(--charcoal)', fontFamily: 'var(--serif)' }}>
+                        {activeEntry.queue_type === 'reservation' ? 'Reservation Confirmed' : "You're in Line"}
+                      </h3>
+                    </div>
+
+                    {activeEntry.queue_type === 'reservation' && activeEntry.reserved_for && (
+                      <p className="text-xl font-medium mb-2" style={{ color: 'var(--moss)', fontFamily: 'var(--sans)' }}>
+                        {new Date(activeEntry.reserved_for).toLocaleTimeString('en-US', {
+                          hour: 'numeric',
+                          minute: '2-digit',
+                          hour12: true,
+                        })}
+                      </p>
+                    )}
+
+                    {activeEntry.queue_type === 'walk_up' && activeEntry.position && (
+                      <p className="text-xl font-medium mb-2" style={{ color: 'var(--moss)', fontFamily: 'var(--sans)' }}>
+                        Position #{activeEntry.position} in queue
+                        {activeEntry.status === 'called' && (
+                          <span className="ml-2 text-sm px-2 py-1 rounded-full" style={{ background: '#16a34a', color: 'white' }}>
+                            You're up!
+                          </span>
+                        )}
+                      </p>
+                    )}
+
+                    <p className="text-sm mb-6" style={{ color: 'rgba(42,39,36,0.6)', fontFamily: 'var(--sans)' }}>
+                      When you arrive, tap Check In or scan the QR code at The Hull entrance.
+                    </p>
+
+                    <div className="flex gap-3">
+                      {(activeEntry.queue_type === 'reservation' || activeEntry.status === 'called') && (
+                        <button
+                          onClick={handleCheckin}
+                          disabled={loading}
+                          className="flex-1 py-3 px-6 rounded-lg font-bold transition-all hover:opacity-90 disabled:opacity-50"
+                          style={{ background: 'var(--moss)', color: 'var(--cream)', fontFamily: 'var(--sans)' }}
+                        >
+                          {loading ? 'Processing...' : 'Check In'}
+                        </button>
+                      )}
+                      <button
+                        onClick={handleCancel}
+                        disabled={loading}
+                        className="flex-1 py-3 px-6 rounded-lg font-bold transition-all hover:opacity-90 disabled:opacity-50"
+                        style={{ background: 'transparent', color: 'var(--charcoal)', border: '1px solid var(--charcoal)', fontFamily: 'var(--sans)' }}
+                      >
+                        {loading ? 'Processing...' : 'Cancel'}
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+
+            {/* B. Reserve a Spot - Tabbed interface (only show if no active entry) */}
+            {!activeEntry && user && (
+              <div
+                className="p-6 rounded-xl"
+                style={{ background: 'var(--cream)', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}
+              >
+                {/* Tab buttons */}
+                <div className="flex mb-6 rounded-lg overflow-hidden" style={{ background: 'rgba(42,39,36,0.06)' }}>
+                  <button
+                    onClick={() => setActiveTab('now')}
+                    className="flex-1 py-3 px-6 font-bold transition-all"
+                    style={{
+                      background: activeTab === 'now' ? 'var(--moss)' : 'transparent',
+                      color: activeTab === 'now' ? 'var(--cream)' : 'var(--charcoal)',
+                      fontFamily: 'var(--sans)',
+                    }}
+                  >
+                    Now
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('later')}
+                    className="flex-1 py-3 px-6 font-bold transition-all"
+                    style={{
+                      background: activeTab === 'later' ? 'var(--moss)' : 'transparent',
+                      color: activeTab === 'later' ? 'var(--cream)' : 'var(--charcoal)',
+                      fontFamily: 'var(--sans)',
+                    }}
+                  >
+                    Later
+                  </button>
+                </div>
+
+                {error && (
+                  <div className="mb-4 p-3 rounded-lg" style={{ background: '#fef2f2', color: '#dc2626', fontFamily: 'var(--sans)' }}>
+                    {error}
+                  </div>
+                )}
+
+                {/* Now tab - Walk-up queue */}
+                {activeTab === 'now' && (
+                  <div>
+                    <p className="mb-4" style={{ color: 'rgba(42,39,36,0.7)', fontFamily: 'var(--sans)' }}>
+                      {status && status.available > 0
+                        ? 'Spots are available! Join the queue to secure your place.'
+                        : 'The Hull is currently full. Join the queue and we\'ll notify you when a spot opens.'}
+                    </p>
+                    <button
+                      onClick={handleJoinQueue}
+                      disabled={loading}
+                      className="w-full py-4 px-6 rounded-lg font-bold text-lg transition-all hover:opacity-90 disabled:opacity-50"
+                      style={{ background: 'var(--moss)', color: 'var(--cream)', fontFamily: 'var(--sans)' }}
+                    >
+                      {loading ? 'Joining...' : 'Get in Line'}
+                    </button>
+                  </div>
+                )}
+
+                {/* Later tab - Time picker for reservations */}
+                {activeTab === 'later' && (
+                  <div>
+                    <p className="mb-4" style={{ color: 'rgba(42,39,36,0.7)', fontFamily: 'var(--sans)' }}>
+                      Reserve a spot for later today. Reservations skip the walk-up queue.
+                    </p>
+                    <div className="mb-4">
+                      <label
+                        className="block mb-2 font-medium"
+                        style={{ color: 'var(--charcoal)', fontFamily: 'var(--sans)' }}
+                      >
+                        Select a time
+                      </label>
+                      <select
+                        value={selectedTime}
+                        onChange={(e) => setSelectedTime(e.target.value)}
+                        className="w-full p-3 rounded-lg border"
+                        style={{
+                          borderColor: 'rgba(42,39,36,0.2)',
+                          fontFamily: 'var(--sans)',
+                          color: 'var(--charcoal)',
+                        }}
+                      >
+                        <option value="">Choose a time slot...</option>
+                        {generateTimeSlots().map((slot) => (
+                          <option key={slot.value} value={slot.value}>
+                            {slot.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <button
+                      onClick={handleReservation}
+                      disabled={loading || !selectedTime}
+                      className="w-full py-4 px-6 rounded-lg font-bold text-lg transition-all hover:opacity-90 disabled:opacity-50"
+                      style={{ background: 'var(--gold)', color: 'var(--charcoal)', fontFamily: 'var(--sans)' }}
+                    >
+                      {loading ? 'Reserving...' : 'Reserve This Time'}
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Not logged in prompt */}
+            {!activeEntry && !user && (
+              <div
+                className="p-6 rounded-xl text-center"
+                style={{ background: 'var(--cream)', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}
+              >
+                <p className="mb-4 text-lg" style={{ color: 'rgba(42,39,36,0.7)', fontFamily: 'var(--sans)' }}>
+                  Sign in to reserve a spot or join the walk-up queue.
+                </p>
+                <a
+                  href="/login"
+                  className="inline-block py-3 px-8 rounded-lg font-bold transition-all hover:opacity-90"
+                  style={{ background: 'var(--moss)', color: 'var(--cream)', fontFamily: 'var(--sans)' }}
+                >
+                  Sign In
+                </a>
+              </div>
+            )}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Programming Section */}
+      <section className="py-20 px-6" style={{ background: 'var(--cream)' }}>
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

@@ -340,6 +340,9 @@ export default function SurveyPage() {
         <p className="text-[#1C2B3A]/70 text-xs max-w-xs mx-auto" style={{ fontFamily: "'Jost', sans-serif" }}>
           Help us build a restroom that actually works for you. ~2 min, anonymous.
         </p>
+        <p className="text-[#1C2B3A]/50 text-xs max-w-xs mx-auto mt-1" style={{ fontFamily: "'Jost', sans-serif" }}>
+          There are no wrong answers. Faith, ritual, body, practice — all of it is welcome here.
+        </p>
       </header>
 
       {/* Progress Bar */}
@@ -451,6 +454,7 @@ export default function SurveyPage() {
 
               <Textarea
                 label="Anything most NYC restrooms don't have that your background requires? (optional)"
+                placeholder="e.g., a lota shelf, left-side placement for toilet paper, running water for wudhu, an adult-sized changing surface..."
                 value={data.specific_practice_notes}
                 onChange={(v) => updateField('specific_practice_notes', v)}
               />
@@ -526,6 +530,7 @@ export default function SurveyPage() {
               {data.has_practice_needing_more_time && (
                 <Textarea
                   label="What requires the extra time? (optional)"
+                  placeholder="e.g., full wudhu, ostomy care, gender-affirming prep, post-intimacy cleanup, a ritual that requires stillness..."
                   value={data.more_time_reason}
                   onChange={(v) => updateField('more_time_reason', v)}
                 />
@@ -928,9 +933,10 @@ interface TextareaProps {
   label: string;
   value: string;
   onChange: (value: string) => void;
+  placeholder?: string;
 }
 
-function Textarea({ label, value, onChange }: TextareaProps) {
+function Textarea({ label, value, onChange, placeholder }: TextareaProps) {
   return (
     <div>
       <label className="text-sm text-[#1C2B3A]/70 block mb-1.5" style={{ fontFamily: "'Jost', sans-serif" }}>
@@ -939,6 +945,7 @@ function Textarea({ label, value, onChange }: TextareaProps) {
       <textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
         rows={2}
         className="w-full py-2.5 px-3 rounded-lg border border-[#1C2B3A]/20 focus:border-[#C49F58] outline-none text-sm text-[#1C2B3A] placeholder-[#1C2B3A]/40 resize-none transition-all"
         style={{ fontFamily: "'Jost', sans-serif" }}
