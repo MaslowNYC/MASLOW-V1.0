@@ -323,89 +323,6 @@ const HullPage: React.FC = () => {
         </svg>
       </section>
 
-      {/* What Is The Hull Section */}
-      <section className="py-20 px-6" style={{ background: 'var(--cream-2)' }}>
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2
-              className="text-sm font-bold uppercase tracking-widest mb-4"
-              style={{ color: 'var(--gold)', fontFamily: 'var(--sans)' }}
-            >
-              What Is The Hull
-            </h2>
-            <div className="w-16 h-0.5 mb-8" style={{ background: 'var(--gold)' }}></div>
-
-            <div className="space-y-6 text-lg leading-relaxed" style={{ color: 'rgba(42,39,36,0.7)', fontFamily: 'var(--sans)' }}>
-              <p>
-                Scan your Maslow Pass at the refurbished turnstile and step into The Hull—a respite from the heat, cold, noise, smells, and relentless energy of the city outside.
-              </p>
-              <p>
-                Here, you can catch your breath. Refill your ice water. Wash your hands. Grab something you forgot—a phone charger, a water bottle, essentials you didn't know you'd need. It's the gathering space before and after you use a Maslow suite. It's where we host cultural programming, art exhibits, and community events. It's the calm before you step back into the chaos.
-              </p>
-              <p>
-                The name comes from ship architecture—the hull is what holds everything together, the structural heart that makes the vessel work. That's what this space is meant to be: the heart of Maslow locations that have one.
-              </p>
-              <p className="font-medium italic" style={{ color: 'var(--moss)' }}>
-                Not all Maslow locations will have a Hull. Some neighborhoods need basic bathroom access more than they need community programming. We're building what each location calls for, not imposing a single model everywhere.
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Access Section */}
-      <section className="py-20 px-6" style={{ background: 'var(--cream)' }}>
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2
-              className="text-sm font-bold uppercase tracking-widest mb-4"
-              style={{ color: 'var(--gold)', fontFamily: 'var(--sans)' }}
-            >
-              Access
-            </h2>
-            <div className="w-16 h-0.5 mb-8" style={{ background: 'var(--gold)' }}></div>
-
-            <h3
-              className="text-3xl md:text-4xl mb-6"
-              style={{ color: 'var(--charcoal)', fontFamily: 'var(--serif)' }}
-            >
-              How to Enter The Hull
-            </h3>
-
-            <div className="space-y-6 text-lg leading-relaxed" style={{ color: 'rgba(42,39,36,0.7)', fontFamily: 'var(--sans)' }}>
-              <p>
-                The Hull requires an active Maslow account, which generates your Maslow Pass—a QR code you scan at our refurbished turnstile to enter.
-              </p>
-              <p>
-                Once inside, you can relax, refill your water, or wait for your Maslow suite session (which you can book anytime, anywhere through the app or website—even from home before your trip to NYC). When your suite is ready, scan your Maslow Pass again to access the member hallway.
-              </p>
-              <p>
-                Maslow suites can also be accessed directly from the street entrance, so you never have to enter The Hull if you just need to use a suite quickly. The Hull is for those who want the community space—it's never mandatory.
-              </p>
-            </div>
-
-            <div
-              className="mt-10 p-6 rounded-xl"
-              style={{ background: 'rgba(74,92,58,0.06)', border: '1px solid var(--gold)' }}
-            >
-              <p className="font-medium" style={{ color: 'var(--charcoal)', fontFamily: 'var(--sans)' }}>
-                <strong>Hours:</strong> The Hull operates during daytime and evening hours (specific times vary by location). After The Hull closes, Maslow suites remain accessible via the street entrance 24/7.
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
       {/* Reserve Your Spot Section */}
       <section className="py-20 px-6" style={{ background: 'var(--cream-2)' }}>
         <div className="max-w-4xl mx-auto">
@@ -682,6 +599,89 @@ const HullPage: React.FC = () => {
                 </a>
               </div>
             )}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* What Is The Hull Section */}
+      <section className="py-20 px-6" style={{ background: 'var(--cream)' }}>
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2
+              className="text-sm font-bold uppercase tracking-widest mb-4"
+              style={{ color: 'var(--gold)', fontFamily: 'var(--sans)' }}
+            >
+              What Is The Hull
+            </h2>
+            <div className="w-16 h-0.5 mb-8" style={{ background: 'var(--gold)' }}></div>
+
+            <div className="space-y-6 text-lg leading-relaxed" style={{ color: 'rgba(42,39,36,0.7)', fontFamily: 'var(--sans)' }}>
+              <p>
+                Scan your Maslow Pass at the refurbished turnstile and step into The Hull—a respite from the heat, cold, noise, smells, and relentless energy of the city outside.
+              </p>
+              <p>
+                Here, you can catch your breath. Refill your ice water. Wash your hands. Grab something you forgot—a phone charger, a water bottle, essentials you didn't know you'd need. It's the gathering space before and after you use a Maslow suite. It's where we host cultural programming, art exhibits, and community events. It's the calm before you step back into the chaos.
+              </p>
+              <p>
+                The name comes from ship architecture—the hull is what holds everything together, the structural heart that makes the vessel work. That's what this space is meant to be: the heart of Maslow locations that have one.
+              </p>
+              <p className="font-medium italic" style={{ color: 'var(--moss)' }}>
+                Not all Maslow locations will have a Hull. Some neighborhoods need basic bathroom access more than they need community programming. We're building what each location calls for, not imposing a single model everywhere.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Access Section */}
+      <section className="py-20 px-6" style={{ background: 'var(--cream-2)' }}>
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2
+              className="text-sm font-bold uppercase tracking-widest mb-4"
+              style={{ color: 'var(--gold)', fontFamily: 'var(--sans)' }}
+            >
+              Access
+            </h2>
+            <div className="w-16 h-0.5 mb-8" style={{ background: 'var(--gold)' }}></div>
+
+            <h3
+              className="text-3xl md:text-4xl mb-6"
+              style={{ color: 'var(--charcoal)', fontFamily: 'var(--serif)' }}
+            >
+              How to Enter The Hull
+            </h3>
+
+            <div className="space-y-6 text-lg leading-relaxed" style={{ color: 'rgba(42,39,36,0.7)', fontFamily: 'var(--sans)' }}>
+              <p>
+                The Hull requires an active Maslow account, which generates your Maslow Pass—a QR code you scan at our refurbished turnstile to enter.
+              </p>
+              <p>
+                Once inside, you can relax, refill your water, or wait for your Maslow suite session (which you can book anytime, anywhere through the app or website—even from home before your trip to NYC). When your suite is ready, scan your Maslow Pass again to access the member hallway.
+              </p>
+              <p>
+                Maslow suites can also be accessed directly from the street entrance, so you never have to enter The Hull if you just need to use a suite quickly. The Hull is for those who want the community space—it's never mandatory.
+              </p>
+            </div>
+
+            <div
+              className="mt-10 p-6 rounded-xl"
+              style={{ background: 'rgba(74,92,58,0.06)', border: '1px solid var(--gold)' }}
+            >
+              <p className="font-medium" style={{ color: 'var(--charcoal)', fontFamily: 'var(--sans)' }}>
+                <strong>Hours:</strong> The Hull operates during daytime and evening hours (specific times vary by location). After The Hull closes, Maslow suites remain accessible via the street entrance 24/7.
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>
