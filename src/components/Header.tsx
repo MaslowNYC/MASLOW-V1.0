@@ -161,12 +161,12 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
                       Dashboard
                     </Link>
                     <Link
-                      to="/admin/field-research"
+                      to="/research"
                       onClick={() => setAdminMenuOpen(false)}
                       className="flex items-center px-4 py-3 text-sm text-[#3C5999] hover:bg-[#3C5999]/5 hover:text-[#C49F58]"
                     >
                       <ClipboardList className="w-4 h-4 mr-3" />
-                      Research
+                      Unseen Standards Research
                     </Link>
                     <Link
                       to="/prototypes"
@@ -244,11 +244,11 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
 
             {isAdmin && (
               <Link
-                to="/admin/field-research"
+                to="/research"
                 className="text-lg font-bold tracking-widest uppercase text-[#3C5999]"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Research
+                Unseen Standards Research
               </Link>
             )}
 

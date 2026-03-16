@@ -118,7 +118,7 @@ const AdminFundingDashboard: React.FC = () => {
       name: 'Construction',
       items: [
         { label: 'General Contractor', amount: 175000 },
-        { label: 'Plumbing (8 suites)', amount: 40000 },
+        { label: 'Plumbing (10 suites)', amount: 50000 },
         { label: 'Electrical', amount: 25000 },
         { label: 'HVAC', amount: 35000 },
         { label: 'Flooring', amount: 20000 },
@@ -129,7 +129,7 @@ const AdminFundingDashboard: React.FC = () => {
     ffe: {
       name: 'FF&E (Furniture, Fixtures & Equipment)',
       items: [
-        { label: 'Suite Pods (8 units)', amount: 80000 },
+        { label: 'Suite Pods (10 units)', amount: 100000 },
         { label: 'Lounge Furniture', amount: 15000 },
         { label: 'Reception Desk', amount: 8000 },
         { label: 'Lighting Fixtures', amount: 12000 },
@@ -319,21 +319,21 @@ const AdminFundingDashboard: React.FC = () => {
           .logo { font-size: 32px; font-weight: bold; color: #286BCD; }
           .subtitle { color: #666; font-size: 14px; margin-top: 5px; }
           .date { color: #888; font-size: 12px; margin-top: 10px; }
-          h2 { color: #3C5999; font-size: 18px; margin: 25px 0 15px; border-bottom: 1px solid #ddd; padding-bottom: 8px; }
+          h2 { color: #1C2B3A; font-size: 18px; margin: 25px 0 15px; border-bottom: 1px solid #ddd; padding-bottom: 8px; }
           .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px; }
           .kpi { background: #f8f8f8; padding: 15px; border-radius: 8px; text-align: center; }
           .kpi-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
-          .kpi-value { font-size: 24px; font-weight: bold; color: #3C5999; margin-top: 5px; }
+          .kpi-value { font-size: 24px; font-weight: bold; color: #1C2B3A; margin-top: 5px; }
           .kpi-value.success { color: #16a34a; }
           .kpi-value.warning { color: #dc2626; }
           .progress-bar { background: #e5e5e5; border-radius: 10px; height: 20px; margin: 15px 0; overflow: hidden; }
-          .progress-fill { background: linear-gradient(90deg, #3C5999, #C49F58); height: 100%; border-radius: 10px; }
+          .progress-fill { background: linear-gradient(90deg, #1C2B3A, #C49F58); height: 100%; border-radius: 10px; }
           .table { width: 100%; border-collapse: collapse; margin-top: 10px; }
           .table th, .table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #eee; }
-          .table th { background: #3C5999; color: white; font-size: 11px; text-transform: uppercase; }
+          .table th { background: #1C2B3A; color: white; font-size: 11px; text-transform: uppercase; }
           .table td { font-size: 13px; }
           .table .right { text-align: right; }
-          .total-row { background: #3C5999 !important; color: white !important; font-weight: bold; }
+          .total-row { background: #1C2B3A !important; color: white !important; font-weight: bold; }
           .total-row td { color: white !important; }
           .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 11px; color: #888; text-align: center; }
           @media print { body { padding: 20px; } }
@@ -365,7 +365,7 @@ const AdminFundingDashboard: React.FC = () => {
         <div style="margin-bottom: 25px;">
           <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
             <span style="font-size: 12px; color: #666;">Funding Progress</span>
-            <span style="font-size: 12px; font-weight: bold; color: #3C5999;">${percentRaised.toFixed(2)}%</span>
+            <span style="font-size: 12px; font-weight: bold; color: #1C2B3A;">${percentRaised.toFixed(2)}%</span>
           </div>
           <div class="progress-bar">
             <div class="progress-fill" style="width: ${percentRaised}%;"></div>
@@ -527,9 +527,9 @@ const AdminFundingDashboard: React.FC = () => {
 
   if (verifying || loadingData) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#FAF4ED]">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-[#F8F7F4]">
         <Lock className="w-12 h-12 text-[#C49F58] mb-4 animate-pulse" />
-        <div className="text-[#3C5999] font-serif text-xl tracking-widest">VERIFYING SECURITY CLEARANCE...</div>
+        <div className="text-[#1C2B3A] font-serif text-xl tracking-widest">VERIFYING SECURITY CLEARANCE...</div>
       </div>
     );
   }
@@ -546,19 +546,32 @@ const AdminFundingDashboard: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-6 bg-[#FAF4ED] min-h-screen">
+    <div className="max-w-7xl mx-auto p-4 md:p-6 bg-[#F8F7F4] min-h-screen">
+
+      {/* DASHBOARD HEADER */}
+      <div className="mb-6 pt-8">
+        <div className="flex items-center gap-3 mb-1">
+          <img src="/MASLOW - Square.png" alt="Maslow" className="h-8 w-8" />
+          <h1 className="text-2xl font-serif font-bold tracking-widest" style={{ color: 'var(--navy, #1C2B3A)' }}>
+            MASLOW
+          </h1>
+        </div>
+        <p className="text-sm uppercase tracking-widest" style={{ color: 'var(--gold, #C49F58)', fontFamily: 'var(--sans)' }}>
+          Admin Dashboard
+        </p>
+      </div>
 
       {/* TAB NAVIGATION */}
       <div className="mb-4">
-        <div className="flex gap-1 border-b-2 border-[#3C5999]/20">
+        <div className="flex gap-1 border-b-2 border-[#1C2B3A]/20">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-3 py-2 md:px-4 md:py-3 font-semibold text-xs md:text-sm uppercase tracking-wider transition-all duration-200 border-b-4 -mb-[2px] ${
                 activeTab === tab.id
-                  ? 'border-[#C49F58] text-[#3C5999] bg-white rounded-t-lg'
-                  : 'border-transparent text-[#3C5999]/60 hover:text-[#3C5999] hover:bg-white/50'
+                  ? 'border-[#C49F58] text-[#1C2B3A] bg-white rounded-t-lg'
+                  : 'border-transparent text-[#1C2B3A]/60 hover:text-[#1C2B3A] hover:bg-white/50'
               }`}
             >
               {tab.icon}
@@ -577,20 +590,20 @@ const AdminFundingDashboard: React.FC = () => {
         >
           {/* Header */}
           <div className="mb-4">
-            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3C5999] uppercase tracking-widest">Financial Tools</h1>
-            <p className="text-[#3C5999]/60 mt-1 text-sm">Revenue projections, pricing models, and payment testing.</p>
+            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#1C2B3A] uppercase tracking-widest">Financial Tools</h1>
+            <p className="text-[#1C2B3A]/60 mt-1 text-sm">Revenue projections, pricing models, and payment testing.</p>
           </div>
 
           {/* Revenue Simulator — commented out, replaced by /model page */}
           {/* <RevenueSimulator /> */}
           <div className="bg-white rounded-xl border border-[#C49F58]/30 p-8 text-center shadow-sm">
             <TrendingUp className="w-10 h-10 text-[#C49F58] mx-auto mb-3" />
-            <h3 className="text-xl font-serif font-bold text-[#3C5999] mb-2">Revenue Model</h3>
-            <p className="text-[#3C5999]/60 mb-4 text-sm">The full interactive model lives at /model</p>
+            <h3 className="text-xl font-serif font-bold text-[#1C2B3A] mb-2">Revenue Model</h3>
+            <p className="text-[#1C2B3A]/60 mb-4 text-sm">The full interactive model lives at /model</p>
             <a
               href="/model"
               target="_blank"
-              className="inline-flex items-center gap-2 bg-[#3C5999] text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-[#2d4475] transition-colors"
+              className="inline-flex items-center gap-2 bg-[#1C2B3A] text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-[#2d4475] transition-colors"
             >
               Open Revenue Model →
             </a>
@@ -606,8 +619,8 @@ const AdminFundingDashboard: React.FC = () => {
           transition={{ duration: 0.2 }}
         >
           <div className="mb-6">
-            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3C5999] uppercase tracking-widest">Session Pricing</h1>
-            <p className="text-[#3C5999]/60 mt-1 text-sm">Current session tiers — duration, samples included, and price.</p>
+            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#1C2B3A] uppercase tracking-widest">Session Pricing</h1>
+            <p className="text-[#1C2B3A]/60 mt-1 text-sm">Current session tiers — duration, samples included, and price.</p>
           </div>
           <SessionPricingTable />
         </motion.div>
@@ -623,8 +636,8 @@ const AdminFundingDashboard: React.FC = () => {
           {/* Header */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4 border-b-4 border-[#C49F58] pb-3">
             <div>
-              <h1 className="text-xl md:text-2xl font-serif font-black text-[#3C5999] uppercase tracking-widest">Build-Out Planner</h1>
-              <p className="text-[#3C5999]/60 mt-1 text-xs">Capital requirements and funding tracker.</p>
+              <h1 className="text-xl md:text-2xl font-serif font-black text-[#1C2B3A] uppercase tracking-widest">Build-Out Planner</h1>
+              <p className="text-[#1C2B3A]/60 mt-1 text-xs">Capital requirements and funding tracker.</p>
             </div>
             <div className="flex gap-2">
               <Button
@@ -640,7 +653,7 @@ const AdminFundingDashboard: React.FC = () => {
                 onClick={exportBuildOutPDF}
                 size="sm"
                 variant="outline"
-                className="border-[#3C5999] text-[#3C5999] hover:bg-[#3C5999] hover:text-white"
+                className="border-[#1C2B3A] text-[#1C2B3A] hover:bg-[#1C2B3A] hover:text-white"
               >
                 <FileDown className="w-4 h-4 mr-1" />
                 PDF
@@ -650,10 +663,10 @@ const AdminFundingDashboard: React.FC = () => {
 
           {/* KPI Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <Card className="bg-white border-t-4 border-t-[#3C5999]">
+            <Card className="bg-white border-t-4 border-t-[#1C2B3A]">
               <CardContent className="pt-4">
-                <div className="text-xs font-bold text-[#3C5999] uppercase tracking-wider mb-1">Total Capital Required</div>
-                <div className="text-3xl font-black text-[#3C5999]">${getTotalCapital().toLocaleString()}</div>
+                <div className="text-xs font-bold text-[#1C2B3A] uppercase tracking-wider mb-1">Total Capital Required</div>
+                <div className="text-3xl font-black text-[#1C2B3A]">${getTotalCapital().toLocaleString()}</div>
               </CardContent>
             </Card>
             <Card className="bg-white border-t-4 border-t-green-500">
@@ -679,17 +692,17 @@ const AdminFundingDashboard: React.FC = () => {
           </div>
 
           {/* Funding Progress Bar */}
-          <Card className="mb-6 bg-gradient-to-r from-[#3C5999]/5 to-[#C49F58]/5">
+          <Card className="mb-6 bg-gradient-to-r from-[#1C2B3A]/5 to-[#C49F58]/5">
             <CardContent className="pt-4">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-semibold text-[#3C5999]">Funding Progress</span>
+                <span className="text-sm font-semibold text-[#1C2B3A]">Funding Progress</span>
                 <span className="text-sm font-bold text-[#C49F58]">
                   {((buildOutData.amountRaised / getTotalCapital()) * 100).toFixed(1)}%
                 </span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-[#3C5999] to-[#C49F58] transition-all duration-500"
+                  className="h-full rounded-full bg-gradient-to-r from-[#1C2B3A] to-[#C49F58] transition-all duration-500"
                   style={{ width: `${(buildOutData.amountRaised / getTotalCapital()) * 100}%` }}
                 />
               </div>
@@ -717,11 +730,11 @@ const AdminFundingDashboard: React.FC = () => {
                 >
                   <div className="flex items-center gap-2">
                     {expandedSections[key] ? (
-                      <ChevronDown className="w-4 h-4 text-[#3C5999]" />
+                      <ChevronDown className="w-4 h-4 text-[#1C2B3A]" />
                     ) : (
-                      <ChevronRight className="w-4 h-4 text-[#3C5999]" />
+                      <ChevronRight className="w-4 h-4 text-[#1C2B3A]" />
                     )}
-                    <span className="font-bold text-[#3C5999] text-sm">{data.name}</span>
+                    <span className="font-bold text-[#1C2B3A] text-sm">{data.name}</span>
                   </div>
                   <span className="font-bold text-[#C49F58] text-sm">${getCategoryTotal(data).toLocaleString()}</span>
                 </button>
@@ -762,7 +775,7 @@ const AdminFundingDashboard: React.FC = () => {
           </div>
 
           {/* Total Summary */}
-          <Card className="mt-6 bg-[#3C5999] text-white">
+          <Card className="mt-6 bg-[#1C2B3A] text-white">
             <CardContent className="py-4">
               <div className="flex justify-between items-center">
                 <span className="text-lg font-bold uppercase tracking-wider" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>Total Capital Required</span>
@@ -797,12 +810,12 @@ const AdminFundingDashboard: React.FC = () => {
           {/* Header Row */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-6 border-b-4 border-[#C49F58] pb-3">
             <div>
-              <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3C5999] uppercase tracking-widest">Revenue Command</h1>
+              <h1 className="text-2xl md:text-3xl font-serif font-black text-[#1C2B3A] uppercase tracking-widest">Revenue Command</h1>
               <p className="text-[#C49F58] font-bold mt-1 text-sm">Maslow Administrative Command</p>
             </div>
             <Button
               onClick={downloadCSV}
-              className="bg-[#3C5999] text-white hover:bg-[#2d4475] flex items-center gap-2 text-sm"
+              className="bg-[#1C2B3A] text-white hover:bg-[#2d4475] flex items-center gap-2 text-sm"
             >
               <Download size={16} /> Export CSV
             </Button>
@@ -836,16 +849,16 @@ const AdminFundingDashboard: React.FC = () => {
 
             {/* Real-Time Grid Status */}
             <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-              <Card className="h-full bg-white border border-[#3C5999]/10">
+              <Card className="h-full bg-white border border-[#1C2B3A]/10">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-[#3C5999]">
+                  <CardTitle className="flex items-center gap-2 text-[#1C2B3A]">
                     <Activity className="h-5 w-5" />
                     Live Grid Utilization
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-baseline gap-2">
-                    <div className="text-4xl font-black text-[#3C5999]">82%</div>
+                    <div className="text-4xl font-black text-[#1C2B3A]">82%</div>
                     <span className="text-green-500 font-bold text-sm">+4% vs avg</span>
                   </div>
                   <p className="text-sm text-slate-500 mt-2">
@@ -858,31 +871,31 @@ const AdminFundingDashboard: React.FC = () => {
 
           {/* EXISTING METRICS ROW */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <motion.div className="bg-white p-4 md:p-5 rounded-lg shadow-md border border-[#3C5999]/10">
+            <motion.div className="bg-white p-4 md:p-5 rounded-lg shadow-md border border-[#1C2B3A]/10">
               <div className="flex items-center gap-3 mb-1">
                 <Users className="text-[#C49F58] w-6 h-6" />
-                <h3 className="text-xs font-bold text-[#3C5999] uppercase">Total Members</h3>
+                <h3 className="text-xs font-bold text-[#1C2B3A] uppercase">Total Members</h3>
               </div>
-              <p className="text-3xl md:text-4xl font-black text-[#3C5999]">{stats.totalUsers}</p>
+              <p className="text-3xl md:text-4xl font-black text-[#1C2B3A]">{stats.totalUsers}</p>
             </motion.div>
 
-            <motion.div className="bg-white p-4 md:p-5 rounded-lg shadow-md border border-[#3C5999]/10">
+            <motion.div className="bg-white p-4 md:p-5 rounded-lg shadow-md border border-[#1C2B3A]/10">
               <div className="flex items-center gap-3 mb-1">
                 <DollarSign className="text-green-600 w-6 h-6" />
-                <h3 className="text-xs font-bold text-[#3C5999] uppercase">Total Pledged</h3>
+                <h3 className="text-xs font-bold text-[#1C2B3A] uppercase">Total Pledged</h3>
               </div>
-              <p className="text-3xl md:text-4xl font-black text-[#3C5999]">{formatNumber(stats.totalFunding)}</p>
+              <p className="text-3xl md:text-4xl font-black text-[#1C2B3A]">{formatNumber(stats.totalFunding)}</p>
             </motion.div>
 
-            <motion.div className="bg-white p-4 md:p-5 rounded-lg shadow-md border border-[#3C5999]/10">
+            <motion.div className="bg-white p-4 md:p-5 rounded-lg shadow-md border border-[#1C2B3A]/10">
               <div className="flex items-center gap-3 mb-1">
-                <Shield className="text-[#3C5999] w-6 h-6" />
-                <h3 className="text-xs font-bold text-[#3C5999] uppercase">Top Tier</h3>
+                <Shield className="text-[#1C2B3A] w-6 h-6" />
+                <h3 className="text-xs font-bold text-[#1C2B3A] uppercase">Top Tier</h3>
               </div>
               <div className="text-sm space-y-1">
                 {Object.entries(stats.tierBreakdown).map(([tier, count]) => (
                   <div key={tier} className="flex justify-between border-b border-gray-100 pb-1 last:border-0">
-                    <span className="font-medium text-[#3C5999]">{tier}</span>
+                    <span className="font-medium text-[#1C2B3A]">{tier}</span>
                     <span className="font-bold text-[#C49F58]">{count}</span>
                   </div>
                 ))}
@@ -891,31 +904,31 @@ const AdminFundingDashboard: React.FC = () => {
           </div>
 
           {/* Recent Activity Table */}
-          <div className="bg-white rounded-lg shadow-md border border-[#3C5999]/10 overflow-hidden">
-            <div className="bg-[#3C5999] px-4 py-2">
+          <div className="bg-white rounded-lg shadow-md border border-[#1C2B3A]/10 overflow-hidden">
+            <div className="bg-[#1C2B3A] px-4 py-2">
               <h3 className="text-white font-bold uppercase tracking-wider text-sm">Recent Accessions</h3>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    <th className="px-3 py-2 text-xs font-bold text-[#3C5999] uppercase">Email</th>
-                    <th className="px-3 py-2 text-xs font-bold text-[#3C5999] uppercase">Tier</th>
-                    <th className="px-3 py-2 text-xs font-bold text-[#3C5999] uppercase">Date</th>
-                    <th className="px-3 py-2 text-xs font-bold text-[#3C5999] uppercase text-right">Value</th>
+                    <th className="px-3 py-2 text-xs font-bold text-[#1C2B3A] uppercase">Email</th>
+                    <th className="px-3 py-2 text-xs font-bold text-[#1C2B3A] uppercase">Tier</th>
+                    <th className="px-3 py-2 text-xs font-bold text-[#1C2B3A] uppercase">Date</th>
+                    <th className="px-3 py-2 text-xs font-bold text-[#1C2B3A] uppercase text-right">Value</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {recentPledges.map((profile) => (
                     <tr key={profile.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-3 py-2 text-[#3C5999] font-medium text-sm">{profile.email}</td>
+                      <td className="px-3 py-2 text-[#1C2B3A] font-medium text-sm">{profile.email}</td>
                       <td className="px-3 py-2 text-sm text-gray-600">
-                        <span className="bg-[#FAF4ED] px-2 py-0.5 rounded text-[#3C5999] font-bold text-xs border border-[#C49F58]/30">
+                        <span className="bg-[#F8F7F4] px-2 py-0.5 rounded text-[#1C2B3A] font-bold text-xs border border-[#C49F58]/30">
                           {profile.membership_tier || 'Member'}
                         </span>
                       </td>
                       <td className="px-3 py-2 text-sm text-gray-500">{new Date(profile.created_at || '').toLocaleDateString()}</td>
-                      <td className="px-3 py-2 text-right font-bold text-[#3C5999] text-sm">
+                      <td className="px-3 py-2 text-right font-bold text-[#1C2B3A] text-sm">
                         {formatNumber(profile.contribution_amount || getTierPrice(profile.membership_tier))}
                       </td>
                     </tr>
@@ -936,8 +949,8 @@ const AdminFundingDashboard: React.FC = () => {
         >
           {/* Header */}
           <div className="mb-6">
-            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3C5999] uppercase tracking-widest">Video Assets</h1>
-            <p className="text-[#3C5999]/60 mt-1 text-sm">Promotional videos and animations for sharing.</p>
+            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#1C2B3A] uppercase tracking-widest">Video Assets</h1>
+            <p className="text-[#1C2B3A]/60 mt-1 text-sm">Promotional videos and animations for sharing.</p>
           </div>
 
           {/* Video Grid */}
@@ -945,7 +958,7 @@ const AdminFundingDashboard: React.FC = () => {
             {/* Video Ad 1 */}
             <Card className="overflow-hidden">
               <CardHeader className="pb-2">
-                <CardTitle className="text-[#3C5999] text-lg">Maslow Video Ad 1</CardTitle>
+                <CardTitle className="text-[#1C2B3A] text-lg">Maslow Video Ad 1</CardTitle>
               </CardHeader>
               <CardContent>
                 <video
@@ -962,7 +975,7 @@ const AdminFundingDashboard: React.FC = () => {
             {/* Video Ad 2 */}
             <Card className="overflow-hidden">
               <CardHeader className="pb-2">
-                <CardTitle className="text-[#3C5999] text-lg">Maslow Video Ad 2</CardTitle>
+                <CardTitle className="text-[#1C2B3A] text-lg">Maslow Video Ad 2</CardTitle>
               </CardHeader>
               <CardContent>
                 <video
@@ -979,7 +992,7 @@ const AdminFundingDashboard: React.FC = () => {
             {/* Splash Animation */}
             <Card className="overflow-hidden">
               <CardHeader className="pb-2">
-                <CardTitle className="text-[#3C5999] text-lg">Splash Animation</CardTitle>
+                <CardTitle className="text-[#1C2B3A] text-lg">Splash Animation</CardTitle>
               </CardHeader>
               <CardContent>
                 <img
@@ -1001,8 +1014,8 @@ const AdminFundingDashboard: React.FC = () => {
           transition={{ duration: 0.2 }}
         >
           <div className="mb-4">
-            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3C5999] uppercase tracking-widest">Tech Stack</h1>
-            <p className="text-[#3C5999]/60 mt-1 text-sm">Three-layer architecture — Guest · Platform · Physical</p>
+            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#1C2B3A] uppercase tracking-widest">Tech Stack</h1>
+            <p className="text-[#1C2B3A]/60 mt-1 text-sm">Three-layer architecture — Guest · Platform · Physical</p>
           </div>
           <StackPoster />
         </motion.div>
@@ -1016,8 +1029,8 @@ const AdminFundingDashboard: React.FC = () => {
           transition={{ duration: 0.2 }}
         >
           <div className="mb-4">
-            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3C5999] uppercase tracking-widest">Stack Upgrades</h1>
-            <p className="text-[#3C5999]/60 mt-1 text-sm">What to upgrade, when, and why — before we take real money.</p>
+            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#1C2B3A] uppercase tracking-widest">Stack Upgrades</h1>
+            <p className="text-[#1C2B3A]/60 mt-1 text-sm">What to upgrade, when, and why — before we take real money.</p>
           </div>
           <StackPricingTable />
         </motion.div>
@@ -1031,8 +1044,8 @@ const AdminFundingDashboard: React.FC = () => {
           transition={{ duration: 0.2 }}
         >
           <div className="mb-4">
-            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#3C5999] uppercase tracking-widest">Guest Journeys</h1>
-            <p className="text-[#3C5999]/60 mt-1 text-sm">The four paths from need to suite entry.</p>
+            <h1 className="text-2xl md:text-3xl font-serif font-black text-[#1C2B3A] uppercase tracking-widest">Guest Journeys</h1>
+            <p className="text-[#1C2B3A]/60 mt-1 text-sm">The four paths from need to suite entry.</p>
           </div>
           <GuestJourneys />
         </motion.div>
@@ -1095,7 +1108,7 @@ const SessionPricingTable: React.FC = () => {
       samples: 5,
       price: 32,
       note: 'The full Maslow experience. Best per-minute value. Five samples.',
-      color: '#3C5999',
+      color: '#1C2B3A',
     },
   ];
 
@@ -1104,7 +1117,7 @@ const SessionPricingTable: React.FC = () => {
       {tiers.map((tier) => (
         <div
           key={tier.name}
-          className="bg-white rounded-xl border border-[#3C5999]/10 overflow-hidden"
+          className="bg-white rounded-xl border border-[#1C2B3A]/10 overflow-hidden"
         >
           <div className="flex items-stretch">
             {/* Color bar */}
@@ -1140,7 +1153,7 @@ const SessionPricingTable: React.FC = () => {
       ))}
 
       {/* Footer note */}
-      <div className="bg-[#FAF4ED] rounded-xl border border-[#C49F58]/20 p-4 mt-4">
+      <div className="bg-[#F8F7F4] rounded-xl border border-[#C49F58]/20 p-4 mt-4">
         <p className="text-xs text-[#2A2724]/60 leading-relaxed">
           <span className="font-bold text-[#2A2724]">Pricing rationale:</span> Longer sessions carry a volume discount on a per-minute basis.
           10 min = $0.50/min · 15 min = $0.67/min · 30 min = $0.60/min · 60 min = $0.53/min.
@@ -1172,7 +1185,7 @@ const StackPoster: React.FC = () => {
     {
       id: 'platform',
       label: 'PLATFORM LAYER',
-      color: '#3C5999',
+      color: '#1C2B3A',
       bg: 'bg-blue-50',
       border: 'border-blue-300',
       icon: <Server className="w-5 h-5" />,
@@ -1330,34 +1343,34 @@ const StackPricingTable: React.FC = () => {
           <div key={group}>
             <div className="flex items-center gap-2 mb-3">
               <Clock className="w-4 h-4 text-[#C49F58]" />
-              <h3 className="text-sm font-black text-[#3C5999] uppercase tracking-widest">{group}</h3>
+              <h3 className="text-sm font-black text-[#1C2B3A] uppercase tracking-widest">{group}</h3>
             </div>
             <div className="space-y-2">
               {items.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white rounded-xl border border-[#3C5999]/10 overflow-hidden"
+                  className="bg-white rounded-xl border border-[#1C2B3A]/10 overflow-hidden"
                 >
                   <button
                     onClick={() => setExpanded(expanded === item.id ? null : item.id)}
-                    className="w-full flex items-center justify-between px-5 py-4 hover:bg-[#FAF4ED]/50 transition-colors text-left"
+                    className="w-full flex items-center justify-between px-5 py-4 hover:bg-[#F8F7F4]/50 transition-colors text-left"
                   >
                     <div className="flex items-center gap-3">
                       <span className={`text-xs font-bold px-2 py-0.5 rounded border ${priorityColor[item.priority]}`}>
                         {item.priority}
                       </span>
                       <span className="font-bold text-[#2A2724]">{item.service}</span>
-                      <span className="text-[#3C5999]/50 text-sm hidden sm:inline">
+                      <span className="text-[#1C2B3A]/50 text-sm hidden sm:inline">
                         {item.from} → {item.to}
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="font-black text-[#C49F58] text-sm">{item.cost}</span>
-                      <ArrowRight className={`w-4 h-4 text-[#3C5999]/40 transition-transform ${expanded === item.id ? 'rotate-90' : ''}`} />
+                      <ArrowRight className={`w-4 h-4 text-[#1C2B3A]/40 transition-transform ${expanded === item.id ? 'rotate-90' : ''}`} />
                     </div>
                   </button>
                   {expanded === item.id && (
-                    <div className="px-5 pb-4 border-t border-[#3C5999]/10 pt-3">
+                    <div className="px-5 pb-4 border-t border-[#1C2B3A]/10 pt-3">
                       <p className="text-sm text-[#2A2724]/70 leading-relaxed">{item.why}</p>
                     </div>
                   )}
@@ -1369,7 +1382,7 @@ const StackPricingTable: React.FC = () => {
       })}
 
       {/* Total before launch */}
-      <div className="bg-[#3C5999] text-white rounded-xl p-5">
+      <div className="bg-[#1C2B3A] text-white rounded-xl p-5">
         <p className="text-xs font-black uppercase tracking-widest text-[#C49F58] mb-2">Before Taking Real Money</p>
         <div className="flex items-baseline gap-2">
           <span className="text-3xl font-black">$45</span>
@@ -1393,7 +1406,7 @@ const GuestJourneys: React.FC = () => {
       number: '01',
       title: 'Pre-Trip Planner',
       subtitle: 'Books from abroad before arriving in NYC',
-      color: '#3C5999',
+      color: '#1C2B3A',
       bg: 'bg-blue-50',
       steps: [
         { label: 'Finds Maslow online or via recommendation' },

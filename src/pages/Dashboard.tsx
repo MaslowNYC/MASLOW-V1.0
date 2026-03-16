@@ -19,17 +19,17 @@ const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('simulator');
 
   return (
-    <div className="min-h-screen bg-[#FAF4ED] py-12 px-4">
+    <div className="min-h-screen bg-[#F8F7F4] py-12 px-4">
       <Helmet>
         <title>Dashboard | Maslow NYC</title>
       </Helmet>
 
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
-        <h1 className="text-4xl font-serif font-bold text-[#3C5999] mb-2">
+        <h1 className="text-4xl font-serif font-bold text-[#1C2B3A] mb-2">
           Maslow Dashboard
         </h1>
-        <p className="text-[#3C5999]/70">
+        <p className="text-[#1C2B3A]/70">
           Financial modeling, pricing tools, and core documentation
         </p>
       </div>
@@ -41,8 +41,8 @@ const Dashboard: React.FC = () => {
             onClick={() => setActiveTab('simulator')}
             className={`flex-1 py-3 px-6 rounded-md font-semibold transition-colors flex items-center justify-center gap-2 ${
               activeTab === 'simulator'
-                ? 'bg-[#3C5999] text-white'
-                : 'text-[#3C5999] hover:bg-[#3C5999]/5'
+                ? 'bg-[#1C2B3A] text-white'
+                : 'text-[#1C2B3A] hover:bg-[#1C2B3A]/5'
             }`}
           >
             <BarChart className="w-5 h-5" />
@@ -52,8 +52,8 @@ const Dashboard: React.FC = () => {
             onClick={() => setActiveTab('pricing')}
             className={`flex-1 py-3 px-6 rounded-md font-semibold transition-colors flex items-center justify-center gap-2 ${
               activeTab === 'pricing'
-                ? 'bg-[#3C5999] text-white'
-                : 'text-[#3C5999] hover:bg-[#3C5999]/5'
+                ? 'bg-[#1C2B3A] text-white'
+                : 'text-[#1C2B3A] hover:bg-[#1C2B3A]/5'
             }`}
           >
             <DollarSign className="w-5 h-5" />
@@ -63,8 +63,8 @@ const Dashboard: React.FC = () => {
             onClick={() => setActiveTab('docs')}
             className={`flex-1 py-3 px-6 rounded-md font-semibold transition-colors flex items-center justify-center gap-2 ${
               activeTab === 'docs'
-                ? 'bg-[#3C5999] text-white'
-                : 'text-[#3C5999] hover:bg-[#3C5999]/5'
+                ? 'bg-[#1C2B3A] text-white'
+                : 'text-[#1C2B3A] hover:bg-[#1C2B3A]/5'
             }`}
           >
             <FileText className="w-5 h-5" />
@@ -106,17 +106,17 @@ const Dashboard: React.FC = () => {
             className="space-y-6"
           >
             {/* Documentation Hub for Cat & Dayna */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 border border-[#3C5999]/10">
-              <h2 className="text-2xl font-serif font-bold text-[#3C5999] mb-2">
+            <div className="bg-white rounded-2xl shadow-lg p-8 border border-[#1C2B3A]/10">
+              <h2 className="text-2xl font-serif font-bold text-[#1C2B3A] mb-2">
                 Core Documentation
               </h2>
-              <p className="text-[#3C5999]/70 mb-6">
+              <p className="text-[#1C2B3A]/70 mb-6">
                 Everything you need to understand the Maslow project
               </p>
 
               {/* Strategic Documents */}
               <div className="mb-8">
-                <h3 className="text-xl font-bold text-[#3C5999] mb-4 flex items-center gap-2">
+                <h3 className="text-xl font-bold text-[#1C2B3A] mb-4 flex items-center gap-2">
                   <FileText className="w-5 h-5 text-[#C49F58]" />
                   Strategic Documents
                 </h3>
@@ -154,7 +154,7 @@ const Dashboard: React.FC = () => {
 
               {/* Technical Documents */}
               <div className="mb-8">
-                <h3 className="text-xl font-bold text-[#3C5999] mb-4 flex items-center gap-2">
+                <h3 className="text-xl font-bold text-[#1C2B3A] mb-4 flex items-center gap-2">
                   <Calculator className="w-5 h-5 text-[#C49F58]" />
                   Technical & Operational
                 </h3>
@@ -192,7 +192,7 @@ const Dashboard: React.FC = () => {
 
               {/* Legal & Financial */}
               <div>
-                <h3 className="text-xl font-bold text-[#3C5999] mb-4 flex items-center gap-2">
+                <h3 className="text-xl font-bold text-[#1C2B3A] mb-4 flex items-center gap-2">
                   <FileText className="w-5 h-5 text-[#C49F58]" />
                   Legal & Financial
                 </h3>
@@ -230,7 +230,7 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* Quick Stats Card */}
-            <div className="bg-gradient-to-br from-[#3C5999] to-[#2A406E] text-white rounded-2xl p-8 shadow-lg">
+            <div className="bg-gradient-to-br from-[#1C2B3A] to-[#2A406E] text-white rounded-2xl p-8 shadow-lg">
               <h3 className="text-2xl font-bold mb-6">Project Status</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                 <div>
@@ -241,7 +241,7 @@ const Dashboard: React.FC = () => {
                 <div>
                   <div className="text-sm opacity-80 mb-1">Target Location</div>
                   <div className="text-2xl font-bold">SoHo</div>
-                  <div className="text-xs opacity-70 mt-1">2,000 sq ft, 8-10 suites</div>
+                  <div className="text-xs opacity-70 mt-1">2,500 sq ft, 10 suites</div>
                 </div>
                 <div>
                   <div className="text-sm opacity-80 mb-1">Target Funding</div>
@@ -252,43 +252,43 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* MindNode Embed Section */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 border border-[#3C5999]/10">
-              <h3 className="text-xl font-bold text-[#3C5999] mb-4">
+            <div className="bg-white rounded-2xl shadow-lg p-8 border border-[#1C2B3A]/10">
+              <h3 className="text-xl font-bold text-[#1C2B3A] mb-4">
                 Visual Mind Maps
               </h3>
-              <p className="text-[#3C5999]/70 mb-6">
+              <p className="text-[#1C2B3A]/70 mb-6">
                 Interactive mind maps showing project structure and execution plan
               </p>
 
               {/* Placeholder for MindNode embeds */}
               <div className="space-y-4">
-                <div className="border-2 border-dashed border-[#3C5999]/20 rounded-lg p-8 text-center">
-                  <p className="text-[#3C5999]/70 mb-4">
+                <div className="border-2 border-dashed border-[#1C2B3A]/20 rounded-lg p-8 text-center">
+                  <p className="text-[#1C2B3A]/70 mb-4">
                     Maslow Master Map
                   </p>
-                  <button className="bg-[#3C5999] text-white px-6 py-2 rounded-lg hover:bg-[#2A406E] transition-colors">
+                  <button className="bg-[#1C2B3A] text-white px-6 py-2 rounded-lg hover:bg-[#2A406E] transition-colors">
                     Open in MindNode
                   </button>
-                  <p className="text-xs text-[#3C5999]/60 mt-2">
+                  <p className="text-xs text-[#1C2B3A]/60 mt-2">
                     Full project overview with drill-down capability
                   </p>
                 </div>
 
-                <div className="border-2 border-dashed border-[#3C5999]/20 rounded-lg p-8 text-center">
-                  <p className="text-[#3C5999]/70 mb-4">
+                <div className="border-2 border-dashed border-[#1C2B3A]/20 rounded-lg p-8 text-center">
+                  <p className="text-[#1C2B3A]/70 mb-4">
                     90-Day Sprint Map
                   </p>
-                  <button className="bg-[#3C5999] text-white px-6 py-2 rounded-lg hover:bg-[#2A406E] transition-colors">
+                  <button className="bg-[#1C2B3A] text-white px-6 py-2 rounded-lg hover:bg-[#2A406E] transition-colors">
                     Open in MindNode
                   </button>
-                  <p className="text-xs text-[#3C5999]/60 mt-2">
+                  <p className="text-xs text-[#1C2B3A]/60 mt-2">
                     Weekly execution plan with milestones
                   </p>
                 </div>
               </div>
 
               <div className="mt-6 p-4 bg-[#C49F58]/10 rounded-lg">
-                <p className="text-sm text-[#3C5999]/80">
+                <p className="text-sm text-[#1C2B3A]/80">
                   <strong>Note:</strong> MindNode files (.mindnode) can be opened in the MindNode app.
                   Download the files and open them to see the interactive mind maps.
                 </p>
@@ -305,20 +305,20 @@ const Dashboard: React.FC = () => {
 const DocCard: React.FC<DocCardProps> = ({ title, description, fileType, link, icon }) => (
   <a
     href={link}
-    className="block bg-[#FAF4ED] rounded-lg p-6 border border-[#3C5999]/10 hover:shadow-lg hover:border-[#C49F58] transition-all group"
+    className="block bg-[#F8F7F4] rounded-lg p-6 border border-[#1C2B3A]/10 hover:shadow-lg hover:border-[#C49F58] transition-all group"
   >
     <div className="flex items-start gap-4">
       <div className="text-3xl">{icon}</div>
       <div className="flex-1">
         <div className="flex items-center justify-between mb-2">
-          <h4 className="font-bold text-[#3C5999] group-hover:text-[#C49F58] transition-colors">
+          <h4 className="font-bold text-[#1C2B3A] group-hover:text-[#C49F58] transition-colors">
             {title}
           </h4>
-          <span className="text-xs bg-[#3C5999] text-white px-2 py-1 rounded">
+          <span className="text-xs bg-[#1C2B3A] text-white px-2 py-1 rounded">
             {fileType}
           </span>
         </div>
-        <p className="text-sm text-[#3C5999]/70">
+        <p className="text-sm text-[#1C2B3A]/70">
           {description}
         </p>
         <div className="mt-3 flex items-center gap-2 text-xs text-[#C49F58] font-semibold group-hover:gap-3 transition-all">
