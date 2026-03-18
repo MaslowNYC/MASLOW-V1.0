@@ -154,7 +154,7 @@ const HomePage = () => {
                 className="text-sm uppercase tracking-[0.3em] mb-4"
                 style={{ color: 'var(--gold)', fontFamily: 'var(--sans)' }}
               >
-                Member Space
+                Free & Open to All
               </p>
               <h2
                 className="text-4xl md:text-5xl font-light mb-6"
@@ -166,9 +166,7 @@ const HomePage = () => {
                 className="text-lg leading-relaxed mb-8"
                 style={{ color: 'var(--cream)', fontFamily: 'var(--sans)', opacity: 0.85 }}
               >
-                Beyond the suites lies The Hull - a members-only lounge where time moves differently.
-                Comfortable seating, complimentary refreshments, and the company of like-minded New Yorkers
-                who understand that some spaces are worth protecting.
+                Beyond the suites lies The Hull — a free communal space open to everyone. No purchase required. Water, ice, seating, phone charging, and a place to simply exist in the middle of the city. Walk in. Stay as long as you need.
               </p>
               <Link
                 to="/hull"

@@ -107,7 +107,8 @@ const AppContent: React.FC = () => {
           {/* Protected Routes */}
           <Route path="/events" element={<ProtectedRoute><EventsPage /></ProtectedRoute>} />
           <Route path="/hull" element={<HullPage />} />
-          <Route path="/suites" element={<ProtectedRoute><SanctuarySuitesPage /></ProtectedRoute>} />
+          <Route path="/suites" element={<SanctuarySuitesPage />} />
+          <Route path="/go" element={<HomePage />} />
           <Route path="/sanctuary" element={<Navigate to="/hull" replace />} />
           <Route path="/impact" element={<ImpactPage />} />
           <Route path="/membership" element={<MembershipPage />} />
