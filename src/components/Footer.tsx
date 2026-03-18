@@ -25,7 +25,7 @@ const Footer = () => {
             <h4 className="font-bold uppercase tracking-widest text-xs text-[#C49F58] mb-6">{t('footer.explore')}</h4>
             <ul className="space-y-3 text-sm">
               <li><Link to="/hull" className="text-white/70 hover:text-white transition-colors">The Hull</Link></li>
-              <li><Link to="/lotus" className="text-white/70 hover:text-white transition-colors">Maslow Suites</Link></li>
+              <li><Link to="/suites" className="text-white/70 hover:text-white transition-colors">Maslow Suites</Link></li>
               <li><Link to="/impact" className="text-white/70 hover:text-white transition-colors">Impact</Link></li>
               <li><Link to="/membership" className="text-white/70 hover:text-white transition-colors">Membership</Link></li>
               <li><Link to="/field-notes" className="text-white/70 hover:text-white transition-colors">Field Notes</Link></li>

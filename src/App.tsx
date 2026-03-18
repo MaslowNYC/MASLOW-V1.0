@@ -70,6 +70,15 @@ import PrototypeShoppingCartPage from '@/pages/prototypes/ShoppingCartPage';
 import PrototypeBoxViewPage from '@/pages/prototypes/BoxViewPage';
 import PrototypeShoppingListPage from '@/pages/prototypes/ShoppingListPage';
 
+// Scroll to top on every route change
+const ScrollToTop: React.FC = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [pathname]);
+  return null;
+};
+
 const AppContent: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   const location = useLocation();
@@ -87,6 +96,7 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#FAF4ED] flex flex-col overflow-x-hidden w-full max-w-full">
+      <ScrollToTop />
       {!isHideHeaderPath && <Header setIsCartOpen={setIsCartOpen} />}
 
       <main className="flex-grow">
