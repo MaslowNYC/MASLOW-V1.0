@@ -51,8 +51,16 @@ interface StoredState {
   memberUsagePerMonth: number;
 }
 
+const MODEL_VERSION = "v2-march2026"; // bump this to reset saved state
+
 function loadState(): Partial<StoredState> {
   try {
+    const version = localStorage.getItem(STORAGE_KEY + "-version");
+    if (version !== MODEL_VERSION) {
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.setItem(STORAGE_KEY + "-version", MODEL_VERSION);
+      return {};
+    }
     const stored = localStorage.getItem(STORAGE_KEY);
     return stored ? JSON.parse(stored) : {};
   } catch {
@@ -146,17 +154,17 @@ function RevenueBar({ channels, total, costs }: { channels: { label: string; val
 export default function RevenueModelPage() {
   const initialState = loadState();
 
-  const [suites, setSuites] = useState(initialState.suites ?? 10);
-  const [hoursPerDay, setHoursPerDay] = useState(initialState.hoursPerDay ?? 20);
-  const [utilization, setUtilization] = useState(initialState.utilization ?? 65);
+  const [suites, setSuites] = useState(initialState.suites ?? 12);
+  const [hoursPerDay, setHoursPerDay] = useState(initialState.hoursPerDay ?? 22);
+  const [utilization, setUtilization] = useState(initialState.utilization ?? 33);
   const [bookedDuration, setBookedDuration] = useState(initialState.bookedDuration ?? 20);
   const [actualDuration, setActualDuration] = useState(initialState.actualDuration ?? 13);
   const [turnaroundSec, setTurnaroundSec] = useState(initialState.turnaroundSec ?? 90);
-  const [avgTicket, setAvgTicket] = useState(initialState.avgTicket ?? 12);
-  const [rent, setRent] = useState(initialState.rent ?? 41700);
-  const [staffCost, setStaffCost] = useState(initialState.staffCost ?? 22000);
-  const [supplies, setSupplies] = useState(initialState.supplies ?? 6000);
-  const [otherCosts, setOtherCosts] = useState(initialState.otherCosts ?? 14367);
+  const [avgTicket, setAvgTicket] = useState(initialState.avgTicket ?? 14);
+  const [rent, setRent] = useState(initialState.rent ?? 70000);
+  const [staffCost, setStaffCost] = useState(initialState.staffCost ?? 28000);
+  const [supplies, setSupplies] = useState(initialState.supplies ?? 3500);
+  const [otherCosts, setOtherCosts] = useState(initialState.otherCosts ?? 9480);
   const [sampleEnabled, setSampleEnabled] = useState(initialState.sampleEnabled ?? true);
   const [sampleRate, setSampleRate] = useState(initialState.sampleRate ?? 2.0);
   const [samplesPerSession, setSamplesPerSession] = useState(initialState.samplesPerSession ?? 2.2);
@@ -359,8 +367,9 @@ export default function RevenueModelPage() {
 
           <div style={{ marginBottom: 28 }}>
             <div style={{ fontSize: 11, color: COLORS.gold, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #4A4540" }}>Operations</div>
-            <Slider label="Suites" value={suites} min={1} max={10} onChange={setSuites} format={v => `${v} suites`} />
+            <Slider label="Suites" value={suites} min={1} max={12} onChange={setSuites} format={v => `${v} suites`} />
             <Slider label="Hours / Day" value={hoursPerDay} min={8} max={24} onChange={setHoursPerDay} format={v => `${v} hrs`} />
+            <div style={{ fontSize: 11, color: COLORS.muted, marginTop: -8, marginBottom: 12, paddingLeft: 2 }}>22 hrs = 6AM–4AM · Hull closes at 10PM</div>
             <Slider label="Utilization" value={utilization} min={10} max={100} onChange={setUtilization} format={v => `${v}%`}
               accent={utilization >= (calc.breakEvenUtil || 60) ? COLORS.green : COLORS.gold} />
             {calc.breakEvenUtil !== null && (
@@ -388,10 +397,12 @@ export default function RevenueModelPage() {
 
           <div style={{ marginBottom: 28 }}>
             <div style={{ fontSize: 11, color: "#C05050", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #4A4540" }}>Monthly Costs</div>
-            <Slider label="Rent" value={rent} min={20000} max={80000} step={500} onChange={setRent} format={v => fmtK(v)} accent="#C05050" />
+            <Slider label="Rent" value={rent} min={20000} max={90000} step={500} onChange={setRent} format={v => fmtK(v)} accent="#C05050" />
+            <div style={{ fontSize: 11, color: COLORS.muted, marginTop: -8, marginBottom: 12, paddingLeft: 2 }}>$70K = worst case · fight to $55K = +$180K/yr</div>
             <Slider label="Staff" value={staffCost} min={5000} max={40000} step={500} onChange={setStaffCost} format={v => fmtK(v)} accent="#C05050" />
             <Slider label="Supplies & Amenities" value={supplies} min={1000} max={20000} step={250} onChange={setSupplies} format={v => fmtK(v)} accent="#C05050" />
             <Slider label="Tech / Insurance / Other" value={otherCosts} min={1000} max={20000} step={250} onChange={setOtherCosts} format={v => fmtK(v)} accent="#C05050" />
+            <div style={{ fontSize: 11, color: COLORS.muted, marginTop: -8, marginBottom: 12, paddingLeft: 2 }}>Includes Toto financing ~$5.3K + tech $4.2K</div>
           </div>
 
           <div>
@@ -479,7 +490,7 @@ export default function RevenueModelPage() {
           <div style={{ background: "#1E1B18", border: "1px solid #4A4540", borderRadius: 8, padding: "20px 24px", marginBottom: 20 }}>
             <div style={{ fontSize: 11, color: COLORS.label, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 16 }}>Utilization Scenarios</div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 1, background: "#4A4540", borderRadius: 6, overflow: "hidden" }}>
-              {[40, 55, 70, 85, 100].map((u) => {
+              {[25, 33, 50, 65, 80].map((u) => {
                 const slotsB = (hoursPerDay * 60) / (bookedDuration + turnaroundSec / 60);
                 const sessions = suites * slotsB * 30 * (u / 100);
                 const rev = sessions * avgTicket
@@ -490,10 +501,12 @@ export default function RevenueModelPage() {
                   + (corporateEnabled ? corporateSessions * corporateAvgRate : 0)
                   + (membershipEnabled ? memberCount * memberPrice : 0);
                 const net = rev - calc.totalCosts;
+                const isBreakEven = u === 33;
                 const isCurrent = Math.abs(u - utilization) < 8;
                 return (
                   <div key={u} style={{ background: isCurrent ? "#2A2520" : "#1A1714", padding: "14px 12px", textAlign: "center", borderBottom: isCurrent ? `2px solid ${COLORS.gold}` : "2px solid transparent" }}>
-                    <div style={{ fontSize: 12, color: isCurrent ? COLORS.gold : COLORS.muted, marginBottom: 6, fontWeight: isCurrent ? 500 : 400 }}>{u}%</div>
+                    <div style={{ fontSize: 12, color: isCurrent ? COLORS.gold : COLORS.muted, marginBottom: 4, fontWeight: isCurrent ? 500 : 400 }}>{u}%{isBreakEven ? " ★" : ""}</div>
+                    {isBreakEven && <div style={{ fontSize: 9, color: COLORS.water, letterSpacing: "0.06em", marginBottom: 4, textTransform: "uppercase" }}>break-even</div>}
                     <div style={{ fontSize: 15, color: net >= 0 ? COLORS.green : COLORS.cream, fontFamily: "Georgia, 'Times New Roman', serif", fontWeight: 600, marginBottom: 3 }}>{fmtK(rev)}</div>
                     <div style={{ fontSize: 11, color: net >= 0 ? COLORS.green : COLORS.red }}>{net >= 0 ? "+" : ""}{fmtK(net)}</div>
                   </div>
