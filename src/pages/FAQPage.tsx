@@ -35,27 +35,23 @@ const faqData: FAQSection[] = [
     ],
   },
   {
-    title: 'Credits & Payments',
+    title: 'Pricing & Payments',
     items: [
       {
-        question: 'How do credits work?',
-        answer: '1 credit = $5 = 10 minutes of sanctuary time + 2 premium samples. You can purchase credits in various packages, with larger packages offering better value per credit. Credits are deducted when you check in to a sanctuary suite.',
-      },
-      {
-        question: 'Do credits expire?',
-        answer: 'Credits expire 18 months after purchase. We recommend purchasing packages that match your expected usage to maximize value.',
+        question: 'How does pricing work?',
+        answer: 'You book by session type — Quick Stop (10 min, $5), Standard (15 min, $10), Extended (30 min, $18), or Full Session (60 min, $32). Pick the session that fits what you need. No subscription required.',
       },
       {
         question: 'What payment methods do you accept?',
         answer: 'We accept all major credit cards, debit cards, Apple Pay, and Google Pay. All payments are securely processed through Stripe.',
       },
       {
-        question: 'Can I get a refund for unused credits?',
-        answer: 'Credits are non-refundable once purchased. However, you can transfer credits to another Maslow member instantly through the app.',
+        question: 'What are Pro Suites?',
+        answer: 'Pro Suites are larger private studios (8\u00d714\u2019) with a professional shampoo sink and enhanced lighting — designed for hairstylists, cosmetology students, makeup artists, and anyone who needs a proper workspace. Pro Suites book in 2-hour blocks ($65) or half-day ($110). Ask about the Pro Monthly Pass for regular practitioners.',
       },
       {
-        question: 'Can I transfer credits to someone else?',
-        answer: 'Yes! You can transfer credits to any Maslow member directly in the app. Transfers are instant. The recipient must have their own Maslow account to use the credits.',
+        question: 'Can I get a refund?',
+        answer: 'Sessions cancelled more than 15 minutes before start time are fully refunded. Late cancellations or no-shows are charged in full. Reach out to hello@maslow.nyc with any billing questions.',
       },
     ],
   },
@@ -68,15 +64,15 @@ const faqData: FAQSection[] = [
       },
       {
         question: 'How long can I stay?',
-        answer: 'Standard visits are 10-30 minutes (1-3 credits), but you can extend your stay as long as you have available credits. The suite will notify you when your initial time is ending.',
+        answer: 'Sessions run from 10 to 60 minutes depending on the type you book. The suite will show a countdown as your session nears its end. If you need more time, you can book an additional session from the app while you\u2019re inside.',
       },
       {
         question: 'What if I need to cancel my booking?',
-        answer: 'You can cancel a booking up to 15 minutes before your scheduled time without penalty. Late cancellations or no-shows will result in a 1-credit charge.',
+        answer: 'You can cancel a booking up to 15 minutes before your scheduled start time without penalty. Late cancellations or no-shows will be charged the full session amount.',
       },
       {
         question: 'Can I book for someone else?',
-        answer: 'Each person using a Maslow suite needs their own account for safety and personalization. However, you can transfer credits to their account instantly through the app. If your child is old enough to use the suite independently, they can download the free app and you can send them credits.',
+        answer: 'Each person using a Maslow suite needs their own account for safety and personalization. You can book on someone else\u2019s behalf as a gift if you know their account. If a child is old enough to use the suite independently, they can create their own account and you can book a session for them.',
       },
     ],
   },
