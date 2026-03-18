@@ -5,11 +5,10 @@ const HeroCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const images: string[] = [
-    '/hero-carousel/marble-sink-brass-faucet.png', // Image 4 - your favorite
-    '/hero-carousel/marble-countertop-closeup.png', // Image 5
-    '/hero-carousel/control-panel-blue-leds.png', // Image 1
-    '/hero-carousel/changing-station-walnut.png', // Image 2
-    '/hero-carousel/vanity-mirror-hollywood-lights.png', // Image 3
+    // Current placeholder — replace with your own photos when ready
+    // Drop images into /public/hero-carousel/ and add paths here
+    // Suggested: NYC courtyards, brownstone gardens, quiet corners, fire escapes
+    '/ivy.jpg',
   ];
 
   useEffect(() => {

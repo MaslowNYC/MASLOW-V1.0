@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import SessionsSection, { SessionType } from '@/components/SessionsSection';
 import BookingSection from '@/components/BookingSection';
+import HeroCarousel from '@/components/HeroCarousel';
 
 const HomePage = () => {
   const [selectedSession, setSelectedSession] = useState<SessionType | null>(null);
@@ -22,13 +23,8 @@ const HomePage = () => {
 
       {/* ===== HERO SECTION ===== */}
       <section className="relative h-screen w-full overflow-hidden">
-        {/* Ivy wall background */}
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url(/ivy.jpg)' }}
-        />
-        {/* Dark overlay for text legibility */}
-        <div className="absolute inset-0 bg-black/30" />
+        {/* Hero Carousel — add images to /public/hero-carousel/ */}
+        <HeroCarousel />
 
         {/* Hero Content - Left side */}
         <div className="absolute bottom-24 left-8 md:left-16 lg:left-24 z-10 max-w-xl">
