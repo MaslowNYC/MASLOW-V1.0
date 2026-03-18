@@ -819,12 +819,12 @@ const LoginPage = () => {
         {/* Logo */}
         <motion.div variants={itemVariants} className="flex flex-col items-center mb-2.5 mt-12">
           <div
-            className="w-[140px] h-[140px] rounded-full flex items-center justify-center mb-4"
+            className="w-[182px] h-[182px] rounded-full flex items-center justify-center mb-4"
           >
             <img
-              src="/MASLOW - Round.png"
+              src="/android-chrome-512x512.png"
               alt="Maslow"
-              className="w-[140px] h-[140px] object-contain"
+              className="w-[182px] h-[182px] object-contain"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
                 e.currentTarget.parentElement!.innerHTML = '<span style="font-family: Cormorant Garamond, serif; font-size: 72px; font-weight: 300; color: #3C5999;">M</span>';
@@ -842,8 +842,8 @@ const LoginPage = () => {
 
           {/* Tagline */}
           <div
-            className="text-[16px] italic"
-            style={{ fontFamily: "'Cormorant Garamond', serif", color: '#6b5d4d', letterSpacing: '0.03em' }}
+            className="text-[10px] font-normal tracking-[0.28em] uppercase"
+            style={{ fontFamily: "'Jost', sans-serif", color: '#9a8e80', letterSpacing: '0.28em' }}
           >
             {t('hero.tagline')}
           </div>
