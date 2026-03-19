@@ -15,7 +15,7 @@ const HeroCarousel: React.FC = () => {
     '/hero-carousel/tree-gathering.jpg',
     '/hero-carousel/angola-tree.jpg',
     '/hero-carousel/men-playing.jpg',
-    '/hero-carousel/bryant-park-2.jpg',
+    '/hero-carousel/bryant-park-2.jpg', // filename fixed from byrant-park-2.jpg
     '/ivy.jpg', // fallback placeholder
   ];
 

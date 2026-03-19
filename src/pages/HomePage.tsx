@@ -105,14 +105,12 @@ const HomePage = () => {
                 ))}
               </ul>
             </div>
-            <div
-              className="aspect-[4/3] rounded-sm"
-              style={{
-                background: 'linear-gradient(135deg, var(--cream-2) 0%, var(--moss) 100%)',
-                opacity: 0.3,
-              }}
-            >
-              {/* Image placeholder */}
+            <div className="aspect-[4/3] rounded-sm overflow-hidden">
+              <img
+                src="/hero-carousel/japanese-garden.jpg"
+                alt="A private sanctuary"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>
@@ -128,14 +126,12 @@ const HomePage = () => {
       <section className="py-24" style={{ background: 'var(--moss)' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div
-              className="aspect-[4/3] rounded-sm order-2 md:order-1"
-              style={{
-                background: 'linear-gradient(135deg, var(--ivy-3) 0%, var(--ivy-4) 100%)',
-                opacity: 0.4,
-              }}
-            >
-              {/* Image placeholder */}
+            <div className="aspect-[4/3] rounded-sm overflow-hidden order-2 md:order-1">
+              <img
+                src="/hero-carousel/angola-gathering.jpg"
+                alt="Community gathering at The Hull"
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="order-1 md:order-2">
               <p
