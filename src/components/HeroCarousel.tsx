@@ -5,10 +5,18 @@ const HeroCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const images: string[] = [
-    // Current placeholder — replace with your own photos when ready
     // Drop images into /public/hero-carousel/ and add paths here
-    // Suggested: NYC courtyards, brownstone gardens, quiet corners, fire escapes
-    '/ivy.jpg',
+    '/hero-carousel/angola-gathering.jpg',
+    '/hero-carousel/moroccan-riad.jpg',
+    '/hero-carousel/japanese-garden.jpg',
+    '/hero-carousel/bryant-park.jpg',
+    '/hero-carousel/chinese-chess.jpg',
+    '/hero-carousel/bissau-women.jpg',
+    '/hero-carousel/tree-gathering.jpg',
+    '/hero-carousel/angola-tree.jpg',
+    '/hero-carousel/men-playing.jpg',
+    '/hero-carousel/bryant-park-2.jpg',
+    '/ivy.jpg', // fallback placeholder
   ];
 
   useEffect(() => {
