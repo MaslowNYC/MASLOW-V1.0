@@ -68,15 +68,7 @@ const HomePage = () => {
           </div>
         </div>
 
-        {/* Bottom wave transition */}
-        <svg
-          className="absolute bottom-0 left-0 w-full h-24 z-10"
-          viewBox="0 0 1440 96"
-          preserveAspectRatio="none"
-          fill="var(--cream)"
-        >
-          <path d="M0,64 C240,32 480,96 720,64 C960,32 1200,80 1440,48 L1440,96 L0,96 Z" />
-        </svg>
+
       </section>
 
       {/* ===== SUITE SECTION ===== */}
