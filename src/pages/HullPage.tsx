@@ -603,6 +603,16 @@ const HullPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Image Section */}
+      <section className="relative h-[60vh] min-h-[400px]">
+        <img
+          src="/hull-greenwall.jpg"
+          alt="Living wall with cascading plants and water features"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--cream)] via-transparent to-transparent" />
+      </section>
+
       {/* What Is The Hull Section */}
       <section className="py-20 px-6" style={{ background: 'var(--cream)' }}>
         <div className="max-w-4xl mx-auto">

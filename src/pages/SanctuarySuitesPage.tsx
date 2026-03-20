@@ -96,6 +96,16 @@ const SanctuarySuitesPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Image Section */}
+      <section className="relative h-[60vh] min-h-[400px]">
+        <img
+          src="/suites-vanity.jpg"
+          alt="Modern bathroom vanity with green marble wall and circular mirror"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
+      </section>
+
       {/* The Experience Section */}
       <section className="py-20 px-6 bg-white">
         <div className="max-w-4xl mx-auto">
