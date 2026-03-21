@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/lib/customSupabaseClient';
 
@@ -150,7 +150,23 @@ export default function SurveyPage() {
     setSubmitError(null);
 
     try {
-      const code = generatePromoCode();
+      // Check if this device already submitted (one-per-device enforcement)
+      const alreadySubmitted = localStorage.getItem('maslow_survey_submitted') === 'true';
+
+      // Check promo code cap (max 500)
+      let promoCapReached = false;
+      if (!alreadySubmitted) {
+        const { count, error: countError } = await (supabase.schema('research') as any)
+          .from('promo_codes')
+          .select('*', { count: 'exact', head: true });
+        if (!countError && count !== null && count >= 500) {
+          promoCapReached = true;
+        }
+      }
+
+      // Only generate promo code if eligible
+      const shouldGeneratePromo = !alreadySubmitted && !promoCapReached;
+      const code = shouldGeneratePromo ? generatePromoCode() : null;
 
       // 1. Insert main survey response
       const { data: responseData, error: responseError } = await (supabase
@@ -232,14 +248,20 @@ export default function SurveyPage() {
           one_thing_wrong: data.one_thing_wrong || null,
           one_thing_right: data.one_thing_right || null,
         }),
-        // Promo Code
-        (supabase.schema('research') as any).from('promo_codes').insert({
-          response_id: responseId,
-          stripe_promo_code: code,
-        }),
       ]);
 
-      setPromoCode(code);
+      // Insert promo code only if eligible
+      if (code) {
+        await (supabase.schema('research') as any).from('promo_codes').insert({
+          response_id: responseId,
+          stripe_promo_code: code,
+          source: 'survey',
+        });
+        // Mark device as having submitted
+        localStorage.setItem('maslow_survey_submitted', 'true');
+        setPromoCode(code);
+      }
+
       setIsComplete(true);
     } catch (err: any) {
       console.error('Survey submit error:', err);
@@ -285,25 +307,30 @@ export default function SurveyPage() {
             You're helping build something the city actually needs.
           </p>
 
-          <div className="bg-white rounded-xl p-6 mb-6 shadow-sm border border-[#1C2B3A]/10">
-            <p className="text-sm text-[#1C2B3A]/60 mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
-              Your free pass code:
-            </p>
-            <p className="text-2xl font-mono tracking-wider text-[#1C2B3A] mb-4">
-              {promoCode}
-            </p>
-            <button
-              onClick={copyToClipboard}
-              className="w-full py-3 px-4 rounded-lg border-2 border-[#C49F58] text-[#C49F58] font-medium transition-all hover:bg-[#C49F58] hover:text-white"
-              style={{ fontFamily: "'Jost', sans-serif" }}
-            >
-              {copied ? 'Copied!' : 'Copy Code'}
-            </button>
-          </div>
+          {promoCode ? (
+            <>
+              <div className="bg-white rounded-xl p-6 mb-6 shadow-sm border border-[#1C2B3A]/10">
+                <p className="text-sm text-[#1C2B3A]/60 mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
+                  Your free pass code:
+                </p>
+                <p className="text-2xl font-mono tracking-wider text-[#1C2B3A] mb-4">
+                  {promoCode}
+                </p>
+                <button
+                  onClick={copyToClipboard}
+                  className="w-full py-3 px-4 rounded-lg border-2 border-[#C49F58] text-[#C49F58] font-medium transition-all hover:bg-[#C49F58] hover:text-white"
+                  style={{ fontFamily: "'Jost', sans-serif" }}
+                >
+                  {copied ? 'Copied!' : 'Copy Code'}
+                </button>
+              </div>
 
-          <p className="text-sm text-[#1C2B3A]/60 mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
-            Valid for one free Quick Stop (10 min) when Maslow opens in SoHo.
-          </p>
+              <p className="text-sm text-[#1C2B3A]/60 mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
+                Valid for one free Quick Stop (10 min) when Maslow opens in SoHo.
+              </p>
+            </>
+          ) : null}
+
           <p className="text-sm text-[#1C2B3A]/60 mb-8" style={{ fontFamily: "'Jost', sans-serif" }}>
             Follow us for opening updates: <a href="https://instagram.com/MaslowNYC" target="_blank" rel="noopener noreferrer" className="text-[#C49F58] hover:underline">@MaslowNYC</a>
           </p>
@@ -329,11 +356,9 @@ export default function SurveyPage() {
     <div className="min-h-screen bg-[#F8F7F4]">
       {/* Header */}
       <header className="pt-4 pb-3 px-4 text-center border-b border-[#1C2B3A]/10">
-        <img
-          src="/maslow-logo.png"
-          alt="Maslow"
-          className="h-8 mx-auto mb-2"
-        />
+        <div style={{ fontFamily: 'Georgia, serif', fontSize: '24px', fontWeight: 'bold', letterSpacing: '6px', color: '#1B3A6B', textAlign: 'center', marginBottom: '8px' }}>
+          MASLOW
+        </div>
         <h1 className="text-xl font-serif text-[#1C2B3A] mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Unseen Standards
         </h1>
