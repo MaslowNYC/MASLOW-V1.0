@@ -262,6 +262,15 @@ export default function SurveyPage() {
         setPromoCode(code);
       }
 
+      // Notify founder of new survey submission
+      await supabase.functions.invoke('notify-founder', {
+        body: {
+          type: 'survey_response',
+          message: 'New Unseen Standards survey response submitted',
+          data: { location: data.neighborhood_zip || 'unknown' }
+        }
+      });
+
       setIsComplete(true);
     } catch (err: any) {
       console.error('Survey submit error:', err);
@@ -356,7 +365,7 @@ export default function SurveyPage() {
     <div className="min-h-screen bg-[#F8F7F4]">
       {/* Header */}
       <header className="pt-4 pb-3 px-4 text-center border-b border-[#1C2B3A]/10">
-        <div style={{ fontFamily: 'Georgia, serif', fontSize: '24px', fontWeight: 'bold', letterSpacing: '6px', color: '#1B3A6B', textAlign: 'center', marginBottom: '8px' }}>
+        <div style={{ fontFamily: 'Georgia, serif', fontSize: '22px', fontWeight: 'bold', letterSpacing: '5px', color: '#1B3A6B' }}>
           MASLOW
         </div>
         <h1 className="text-xl font-serif text-[#1C2B3A] mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
