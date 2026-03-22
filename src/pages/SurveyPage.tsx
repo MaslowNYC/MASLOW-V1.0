@@ -341,7 +341,7 @@ export default function SurveyPage() {
           ) : null}
 
           <p className="text-sm text-[#1C2B3A]/60 mb-8" style={{ fontFamily: "'Jost', sans-serif" }}>
-            Follow us for opening updates: <a href="https://instagram.com/MaslowNYC" target="_blank" rel="noopener noreferrer" className="text-[#C49F58] hover:underline">@MaslowNYC</a>
+            Follow us for opening updates: <a href="https://www.instagram.com/maslow.nyc" target="_blank" rel="noopener noreferrer" className="text-[#C49F58] hover:underline">@maslow.nyc</a>
           </p>
 
           <div className="border-t border-[#1C2B3A]/10 pt-8">
