@@ -106,6 +106,19 @@ Record ID: ${record.id}
       `.trim()
     }
 
+    else if (table === "field_research_responses" && type === "INSERT") {
+      subject = `📋 New Unseen Standards Survey Response`
+      body = `Someone just submitted the Unseen Standards survey!
+
+Neighborhood: ${record.neighborhood || "not provided"}
+Age Range: ${record.age_range || "not provided"}
+Would Pay: ${record.would_pay !== null ? record.would_pay : "not answered"}
+Completed: ${record.is_complete ? "yes" : "partial"}
+Time: ${timestamp}
+
+Response ID: ${record.id}`.trim()
+    }
+
     else {
       // Unknown event — log it but don't send noise
       console.log("notify-founder: unhandled event", { type, table })

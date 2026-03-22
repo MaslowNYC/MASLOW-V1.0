@@ -253,10 +253,38 @@ const FieldResearchPage = () => {
         draft_data: null,
       };
 
+      let responseId = data.id;
       if (data.id) {
         await supabase.from('field_research_responses').update(submitData).eq('id', data.id);
       } else {
-        await supabase.from('field_research_responses').insert(submitData);
+        const { data: insertedData } = await supabase
+          .from('field_research_responses')
+          .insert(submitData)
+          .select('id')
+          .single();
+        responseId = insertedData?.id;
+      }
+
+      // Notify founder of new survey response
+      try {
+        await fetch('https://hrfmphkjeqcwhsfvzfvw.supabase.co/functions/v1/notify-founder', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'INSERT',
+            table: 'field_research_responses',
+            record: {
+              neighborhood: data.neighborhood || 'unknown',
+              age_range: data.age_range || null,
+              would_pay: data.would_pay,
+              is_complete: true,
+              id: responseId
+            },
+            old_record: null
+          })
+        });
+      } catch (notifyError) {
+        console.error('Failed to notify founder:', notifyError);
       }
 
       toast({
