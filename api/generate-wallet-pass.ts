@@ -15,11 +15,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ error: 'Unauthorized' });
 
-  const supabase = createClient(
-    (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL)!,
-    (process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY)!,
-    { global: { headers: { Authorization: authHeader } } }
-  );
+  const supabaseUrl = (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL)!;
+  const supabaseKey = (process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY)!;
+
+  console.log('ENV CHECK:', {
+    hasUrl: !!supabaseUrl,
+    urlStart: supabaseUrl?.substring(0, 30),
+    hasKey: !!supabaseKey,
+    keyStart: supabaseKey?.substring(0, 20),
+    hasAuthHeader: !!req.headers.authorization,
+    authStart: req.headers.authorization?.substring(0, 20)
+  });
+
+  const supabase = createClient(supabaseUrl, supabaseKey, { global: { headers: { Authorization: authHeader } } });
 
   const { data: { user }, error: userError } = await supabase.auth.getUser();
   if (userError || !user) return res.status(401).json({ error: 'Unauthorized' });
