@@ -4,10 +4,11 @@ const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY")
 const FOUNDER_EMAIL = "patrick@maslow.nyc"
 
 interface WebhookPayload {
-  type: "INSERT" | "UPDATE" | "DELETE"
+  type: "INSERT" | "UPDATE" | "DELETE" | "survey_response"
   table: string
   record: Record<string, unknown>
   old_record: Record<string, unknown> | null
+  data?: Record<string, unknown>
 }
 
 Deno.serve(async (req) => {
@@ -23,7 +24,7 @@ Deno.serve(async (req) => {
 
   try {
     const payload: WebhookPayload = await req.json()
-    const { type, table, record, old_record } = payload
+    const { type, table, record, old_record, data } = payload
 
     // Build notification content based on event
     let subject = ""
@@ -37,7 +38,14 @@ Deno.serve(async (req) => {
     }
 
     // Route to correct message based on table + type
-    if (table === "profiles" && type === "INSERT") {
+
+    // Survey response called directly from website
+    if (type === "survey_response") {
+      subject = `📋 New Unseen Standards Survey Response`
+      body = `Someone just submitted the Unseen Standards survey!\n\nNeighborhood: ${data?.location || data?.neighborhood_zip || "not provided"}\nTime: ${timestamp}`.trim()
+    }
+
+    else if (table === "profiles" && type === "INSERT") {
       subject = `🎉 New Maslow Signup — Member ${formatMemberNumber(record.member_number)}`
       body = `
 New member just signed up!
