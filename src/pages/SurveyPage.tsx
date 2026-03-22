@@ -13,27 +13,29 @@ function generatePromoCode(): string {
 // Types for form data
 interface SurveyData {
   // Section 1: Water & Hygiene
-  uses_water_not_just_soap: boolean | null;
-  carries_own_vessel: boolean | null;
-  would_use_bidet_sprayer: boolean | null;
+  public_restroom_feeling: string;
+  uses_water_for_cleaning: string;
+  would_try_sprayer: string;
+  carries_own_vessel: string | null;
+  would_use_bidet_sprayer: string | null;
   prefers_toilet_paper: boolean;
   prefers_water_only: boolean;
   prefers_both: boolean;
   // Section 2: Faith & Ritual
-  has_faith_based_washing: boolean | null;
-  needs_running_water_for_prayer: boolean | null;
+  has_faith_based_washing: string | null;
+  needs_running_water_for_prayer: string | null;
   daily_washing_frequency: string;
   faith_background_broad: string;
   specific_practice_notes: string;
   // Section 3: Privacy
   sound_privacy_importance: number | null;
   visual_privacy_importance: number | null;
-  brings_child_or_family: boolean | null;
-  needs_gender_neutral: boolean | null;
+  brings_child_or_family: string | null;
+  needs_gender_neutral: string | null;
   other_privacy_notes: string;
   // Section 4: Time
   typical_duration: string;
-  has_practice_needing_more_time: boolean | null;
+  has_practice_needing_more_time: string | null;
   more_time_reason: string;
   // Section 5: Products & Scent
   avoids_alcohol: boolean;
@@ -45,8 +47,8 @@ interface SurveyData {
   scent_preference: string;
   // Section 6: Signage & Language
   preferred_language: string;
-  prefers_icons_over_text: boolean | null;
-  has_struggled_with_signage: boolean | null;
+  prefers_icons_over_text: string | null;
+  has_struggled_with_signage: string | null;
   signage_notes: string;
   // Section 7: Cultural Background
   region_broad: string;
@@ -57,7 +59,9 @@ interface SurveyData {
 }
 
 const initialData: SurveyData = {
-  uses_water_not_just_soap: null,
+  public_restroom_feeling: '',
+  uses_water_for_cleaning: '',
+  would_try_sprayer: '',
   carries_own_vessel: null,
   would_use_bidet_sprayer: null,
   prefers_toilet_paper: false,
@@ -136,12 +140,15 @@ export default function SurveyPage() {
   };
 
   const canProceed = () => {
-    // Only Section 1's first question is required
+    // Section 1 requires first two questions answered
     if (currentSection === 1) {
-      return data.uses_water_not_just_soap !== null;
+      return data.public_restroom_feeling !== '' && data.uses_water_for_cleaning !== '';
     }
     return true;
   };
+
+  // Check if user is on the water path (deeper questions)
+  const isWaterUser = data.uses_water_for_cleaning === 'Yes, always' || data.uses_water_for_cleaning === 'Sometimes';
 
   const handleSubmit = async () => {
     if (!canProceed()) return;
@@ -187,9 +194,11 @@ export default function SurveyPage() {
         // Water & Hygiene
         (supabase.schema('research') as any).from('water_hygiene').insert({
           response_id: responseId,
-          uses_water_not_just_soap: data.uses_water_not_just_soap,
-          carries_own_vessel: data.carries_own_vessel,
-          would_use_bidet_sprayer: data.would_use_bidet_sprayer,
+          public_restroom_feeling: data.public_restroom_feeling || null,
+          uses_water_for_cleaning: data.uses_water_for_cleaning || null,
+          would_try_sprayer: data.would_try_sprayer || null,
+          carries_own_vessel: data.carries_own_vessel || null,
+          would_use_bidet_sprayer: data.would_use_bidet_sprayer || null,
           prefers_toilet_paper: data.prefers_toilet_paper,
           prefers_water_only: data.prefers_water_only,
           prefers_both: data.prefers_both,
@@ -197,8 +206,8 @@ export default function SurveyPage() {
         // Ritual Practice
         (supabase.schema('research') as any).from('ritual_practice').insert({
           response_id: responseId,
-          has_faith_based_washing: data.has_faith_based_washing,
-          needs_running_water_for_prayer: data.has_faith_based_washing ? data.needs_running_water_for_prayer : null,
+          has_faith_based_washing: data.has_faith_based_washing || null,
+          needs_running_water_for_prayer: (data.has_faith_based_washing === 'Yes' || data.has_faith_based_washing === 'Sometimes') ? data.needs_running_water_for_prayer : null,
           daily_washing_frequency: data.daily_washing_frequency || null,
           faith_background_broad: data.faith_background_broad || null,
           specific_practice_notes: data.specific_practice_notes || null,
@@ -216,8 +225,8 @@ export default function SurveyPage() {
         (supabase.schema('research') as any).from('time_duration').insert({
           response_id: responseId,
           typical_duration: data.typical_duration || null,
-          has_practice_needing_more_time: data.has_practice_needing_more_time,
-          more_time_reason: data.has_practice_needing_more_time ? (data.more_time_reason || null) : null,
+          has_practice_needing_more_time: data.has_practice_needing_more_time || null,
+          more_time_reason: (data.has_practice_needing_more_time === 'Yes' || data.has_practice_needing_more_time === 'Sometimes') ? (data.more_time_reason || null) : null,
         }),
         // Product Preferences
         (supabase.schema('research') as any).from('product_preferences').insert({
@@ -406,45 +415,88 @@ export default function SurveyPage() {
             </h2>
 
             <div className="space-y-4">
-              <YesNoToggle
-                label="Do you use water (not just soap) as part of your routine?"
-                value={data.uses_water_not_just_soap}
-                onChange={(v) => updateField('uses_water_not_just_soap', v)}
-                required
-              />
-              <YesNoToggle
-                label="Do you carry your own water vessel when away from home?"
-                value={data.carries_own_vessel}
-                onChange={(v) => updateField('carries_own_vessel', v)}
-              />
-              <YesNoToggle
-                label="Would you use a built-in sprayer if one was available?"
-                value={data.would_use_bidet_sprayer}
-                onChange={(v) => updateField('would_use_bidet_sprayer', v)}
+              {/* Q1: Public restroom feeling */}
+              <RadioGroup
+                label="How do you feel about using public restrooms in New York City? *"
+                options={[
+                  'I avoid them if I can',
+                  "I use them but they're never good enough",
+                  "They're fine, I don't think about it",
+                  'I hold it until I get home'
+                ]}
+                value={data.public_restroom_feeling}
+                onChange={(v) => updateField('public_restroom_feeling', v)}
+                vertical
               />
 
-              <div>
-                <p className="text-sm text-[#1C2B3A]/70 mb-3" style={{ fontFamily: "'Jost', sans-serif" }}>
-                  What do you prefer to use? (select all that apply)
-                </p>
-                <div className="space-y-2">
-                  <Checkbox
-                    label="Toilet paper"
-                    checked={data.prefers_toilet_paper}
-                    onChange={(v) => updateField('prefers_toilet_paper', v)}
+              {/* Q2: Water use */}
+              <RadioGroup
+                label="When you use the bathroom, do you use water to clean up — not just washing your hands, but as part of your routine? *"
+                options={[
+                  'Yes, always',
+                  'Sometimes',
+                  'No, just toilet paper',
+                  'Prefer not to say'
+                ]}
+                value={data.uses_water_for_cleaning}
+                onChange={(v) => updateField('uses_water_for_cleaning', v)}
+                vertical
+              />
+
+              {/* Water user path: deeper questions */}
+              {isWaterUser && (
+                <>
+                  <YesNoSometimesToggle
+                    label="Do you carry your own water vessel when away from home?"
+                    value={data.carries_own_vessel}
+                    onChange={(v) => updateField('carries_own_vessel', v)}
                   />
-                  <Checkbox
-                    label="Water only"
-                    checked={data.prefers_water_only}
-                    onChange={(v) => updateField('prefers_water_only', v)}
+                  <YesNoSometimesToggle
+                    label="Would you use a hand-held water sprayer (like a bidet) if one was available?"
+                    value={data.would_use_bidet_sprayer}
+                    onChange={(v) => updateField('would_use_bidet_sprayer', v)}
                   />
-                  <Checkbox
-                    label="Both"
-                    checked={data.prefers_both}
-                    onChange={(v) => updateField('prefers_both', v)}
-                  />
-                </div>
-              </div>
+
+                  <div>
+                    <p className="text-sm text-[#1C2B3A]/70 mb-3" style={{ fontFamily: "'Jost', sans-serif" }}>
+                      What do you prefer to use? (select all that apply)
+                    </p>
+                    <div className="space-y-2">
+                      <Checkbox
+                        label="Toilet paper"
+                        checked={data.prefers_toilet_paper}
+                        onChange={(v) => updateField('prefers_toilet_paper', v)}
+                      />
+                      <Checkbox
+                        label="Water only"
+                        checked={data.prefers_water_only}
+                        onChange={(v) => updateField('prefers_water_only', v)}
+                      />
+                      <Checkbox
+                        label="Both"
+                        checked={data.prefers_both}
+                        onChange={(v) => updateField('prefers_both', v)}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* Non-water user path: simpler sprayer question */}
+              {(data.uses_water_for_cleaning === 'No, just toilet paper' || data.uses_water_for_cleaning === 'Prefer not to say') && (
+                <RadioGroup
+                  label="If a private restroom had a hand-held water sprayer (like a bidet) available next to the toilet — would you try it?"
+                  options={[
+                    "Yes, I'm curious",
+                    'Maybe, if it was clean and easy to use',
+                    'Probably not',
+                    'No'
+                  ]}
+                  value={data.would_try_sprayer}
+                  onChange={(v) => updateField('would_try_sprayer', v)}
+                  vertical
+                />
+              )}
             </div>
           </section>
         )}
@@ -457,14 +509,14 @@ export default function SurveyPage() {
             </h2>
 
             <div className="space-y-4">
-              <YesNoToggle
+              <YesNoSometimesToggle
                 label="Does your faith or background include ritual washing?"
                 value={data.has_faith_based_washing}
                 onChange={(v) => updateField('has_faith_based_washing', v)}
               />
 
-              {data.has_faith_based_washing && (
-                <YesNoToggle
+              {(data.has_faith_based_washing === 'Yes' || data.has_faith_based_washing === 'Sometimes') && (
+                <YesNoSometimesToggle
                   label="Do you need running water specifically for prayer?"
                   value={data.needs_running_water_for_prayer}
                   onChange={(v) => updateField('needs_running_water_for_prayer', v)}
@@ -518,13 +570,13 @@ export default function SurveyPage() {
                 onChange={(v) => updateField('visual_privacy_importance', v)}
               />
 
-              <YesNoToggle
+              <YesNoSometimesToggle
                 label="Do you typically bring a child or family member who needs assistance?"
                 value={data.brings_child_or_family}
                 onChange={(v) => updateField('brings_child_or_family', v)}
               />
 
-              <YesNoToggle
+              <YesNoSometimesToggle
                 label="Is gender-neutral access important to you?"
                 value={data.needs_gender_neutral}
                 onChange={(v) => updateField('needs_gender_neutral', v)}
@@ -555,13 +607,13 @@ export default function SurveyPage() {
                 vertical
               />
 
-              <YesNoToggle
+              <YesNoSometimesToggle
                 label="Is there something your routine requires that takes longer than most public restrooms allow?"
                 value={data.has_practice_needing_more_time}
                 onChange={(v) => updateField('has_practice_needing_more_time', v)}
               />
 
-              {data.has_practice_needing_more_time && (
+              {(data.has_practice_needing_more_time === 'Yes' || data.has_practice_needing_more_time === 'Sometimes') && (
                 <Textarea
                   label="What requires the extra time? (optional)"
                   placeholder="e.g., full wudhu, ostomy care, gender-affirming prep, post-intimacy cleanup, a ritual that requires stillness..."
@@ -650,13 +702,13 @@ export default function SurveyPage() {
                 placeholder="e.g., English, Spanish, Mandarin..."
               />
 
-              <YesNoToggle
+              <YesNoSometimesToggle
                 label="Do you prefer icons/symbols over written text in unfamiliar spaces?"
                 value={data.prefers_icons_over_text}
                 onChange={(v) => updateField('prefers_icons_over_text', v)}
               />
 
-              <YesNoToggle
+              <YesNoSometimesToggle
                 label="Have you ever had trouble using a public restroom because of unclear signage?"
                 value={data.has_struggled_with_signage}
                 onChange={(v) => updateField('has_struggled_with_signage', v)}
@@ -819,6 +871,60 @@ function YesNoToggle({ label, value, onChange, required }: YesNoToggleProps) {
           onClick={() => onChange(false)}
           className={`flex-1 py-2.5 px-3 rounded-lg border-2 text-sm font-medium transition-all ${
             value === false
+              ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A]'
+              : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
+          }`}
+          style={{ fontFamily: "'Jost', sans-serif", minHeight: '42px' }}
+        >
+          No
+        </button>
+      </div>
+    </div>
+  );
+}
+
+interface YesNoSometimesToggleProps {
+  label: string;
+  value: string | null;
+  onChange: (value: string) => void;
+}
+
+function YesNoSometimesToggle({ label, value, onChange }: YesNoSometimesToggleProps) {
+  return (
+    <div>
+      <p className="text-sm text-[#1C2B3A] mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
+        {label}
+      </p>
+      <div className="flex gap-2">
+        <button
+          type="button"
+          onClick={() => onChange('Yes')}
+          className={`flex-1 py-2.5 px-3 rounded-lg border-2 text-sm font-medium transition-all ${
+            value === 'Yes'
+              ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A]'
+              : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
+          }`}
+          style={{ fontFamily: "'Jost', sans-serif", minHeight: '42px' }}
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          onClick={() => onChange('Sometimes')}
+          className={`flex-1 py-2.5 px-3 rounded-lg border-2 text-sm font-medium transition-all ${
+            value === 'Sometimes'
+              ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A]'
+              : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
+          }`}
+          style={{ fontFamily: "'Jost', sans-serif", minHeight: '42px' }}
+        >
+          Sometimes
+        </button>
+        <button
+          type="button"
+          onClick={() => onChange('No')}
+          className={`flex-1 py-2.5 px-3 rounded-lg border-2 text-sm font-medium transition-all ${
+            value === 'No'
               ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A]'
               : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
           }`}
