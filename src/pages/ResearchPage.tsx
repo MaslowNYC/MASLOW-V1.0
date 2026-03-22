@@ -14,8 +14,8 @@ export default function ResearchPage() {
   return (
     <>
       <Helmet>
-        <title>Unseen Standards | Maslow NYC Research</title>
-        <meta name="description" content="Maslow NYC's community research initiative into cultural, religious, and personal hygiene practices to design restroom spaces that work for everyone." />
+        <title>Unseen Standards | Maslow Research</title>
+        <meta name="description" content="Maslow's community research initiative into cultural, religious, and personal hygiene practices to design restroom spaces that work for everyone." />
       </Helmet>
 
       <div className="min-h-screen bg-[var(--color-ivory)]">
@@ -32,9 +32,19 @@ export default function ResearchPage() {
               className="text-base text-[var(--color-navy)]/70"
               style={{ fontFamily: "'Jost', sans-serif" }}
             >
-              A community research initiative by Maslow NYC
+              A community research initiative by Maslow
             </p>
           </header>
+
+          {/* Mission Statement */}
+          <section className="mb-8 p-4 bg-[var(--color-navy)]/5 rounded-lg">
+            <p
+              className="text-[var(--color-navy)]/90 leading-relaxed text-sm"
+              style={{ fontFamily: "'Jost', sans-serif" }}
+            >
+              <strong>About Maslow:</strong> Maslow is building a network of premium, private restroom spaces across New York City — designed to meet the real needs of the people who use them. We believe everyone deserves access to clean, safe, and dignified facilities, regardless of background, religion, or circumstance. Our spaces are informed by the communities they serve.
+            </p>
+          </section>
 
           {/* Research Statement */}
           <section className="mb-8">
@@ -42,7 +52,7 @@ export default function ResearchPage() {
               className="text-[var(--color-navy)]/90 leading-relaxed mb-4"
               style={{ fontFamily: "'Jost', sans-serif" }}
             >
-              Maslow NYC is conducting anonymous community research into the cultural,
+              Maslow is conducting anonymous community research into the cultural,
               religious, and personal hygiene practices of New Yorkers — with the goal of
               designing restroom spaces that work for everyone who lives, works, and moves
               through this city.
@@ -128,7 +138,7 @@ export default function ResearchPage() {
               style={{ fontFamily: "'Jost', sans-serif" }}
             >
               By participating, you consent to your anonymous response being used to inform
-              the design of Maslow NYC restroom facilities and future public restroom
+              the design of Maslow restroom facilities and future public restroom
               initiatives in New York City.
             </p>
           </section>
@@ -202,7 +212,7 @@ export default function ResearchPage() {
               className="text-sm text-[var(--color-navy)]/50"
               style={{ fontFamily: "'Jost', sans-serif" }}
             >
-              Maslow NYC · SoHo, New York · maslow.nyc
+              Maslow · SoHo, New York · maslow.nyc
             </p>
           </footer>
         </div>
