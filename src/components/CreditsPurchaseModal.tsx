@@ -112,7 +112,7 @@ const CreditsPurchaseModal: React.FC<CreditsPurchaseModalProps> = ({
           'Authorization': `Bearer ${session.access_token}`,
         },
         body: JSON.stringify({
-          // amount is intentionally omitted — server looks up price from session_types
+          // amount is intentionally omitted — server looks up price from credit_packages table
           credits,
           packageName,
         }),
@@ -146,7 +146,7 @@ const CreditsPurchaseModal: React.FC<CreditsPurchaseModalProps> = ({
               'Authorization': `Bearer ${session.access_token}`,
             },
             body: JSON.stringify({
-              // amount is intentionally omitted — server looks up price from session_types
+              // amount is intentionally omitted — server looks up price from credit_packages table
               credits,
               packageName,
             }),
