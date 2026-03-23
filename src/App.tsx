@@ -184,7 +184,7 @@ const App: React.FC = () => {
           <CartProvider>
             <Router>
               <Helmet>
-                <title>Maslow NYC — Premium Private Restroom Suites in SoHo</title>
+                <title>Maslow — Premium Private Restroom Suites in SoHo</title>
                 <meta name="description" content="Private, app-controlled restroom suites in SoHo, New York City. Book by the session. Walk up or reserve in advance. Premium is the floor, not an upgrade." />
               </Helmet>
               <AppContent />
