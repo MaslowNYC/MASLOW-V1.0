@@ -182,6 +182,9 @@ export default function SurveyPage() {
         .insert({
           session_token: sessionToken,
           input_method: 'web',
+          public_restroom_feeling: data.public_restroom_feeling || null,
+          uses_water_for_cleaning: data.uses_water_for_cleaning || null,
+          would_try_sprayer: data.would_try_sprayer || null,
         })
         .select('id')
         .single();
@@ -272,13 +275,19 @@ export default function SurveyPage() {
       }
 
       // Notify founder of new survey submission
-      await supabase.functions.invoke('notify-founder', {
-        body: {
-          type: 'survey_response',
-          message: 'New Unseen Standards survey response submitted',
-          data: { location: data.neighborhood_zip || 'unknown' }
-        }
-      });
+      console.log('[Survey] About to call notify-founder...');
+      try {
+        const notifyResult = await supabase.functions.invoke('notify-founder', {
+          body: {
+            type: 'survey_response',
+            message: 'New Unseen Standards survey response submitted',
+            data: { location: data.neighborhood_zip || 'unknown' }
+          }
+        });
+        console.log('[Survey] notify-founder completed:', notifyResult);
+      } catch (notifyErr) {
+        console.error('[Survey] notify-founder failed:', notifyErr);
+      }
 
       setIsComplete(true);
     } catch (err: any) {
