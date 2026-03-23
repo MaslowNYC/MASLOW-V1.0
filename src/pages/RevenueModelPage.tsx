@@ -161,7 +161,7 @@ export default function RevenueModelPage() {
   const [actualDuration, setActualDuration] = useState(initialState.actualDuration ?? 13);
   const [turnaroundSec, setTurnaroundSec] = useState(initialState.turnaroundSec ?? 90);
   const [avgTicket, setAvgTicket] = useState(initialState.avgTicket ?? 14);
-  const [rent, setRent] = useState(initialState.rent ?? 70000);
+  const [rent, setRent] = useState(initialState.rent ?? 85000);
   const [staffCost, setStaffCost] = useState(initialState.staffCost ?? 28000);
   const [supplies, setSupplies] = useState(initialState.supplies ?? 3500);
   const [otherCosts, setOtherCosts] = useState(initialState.otherCosts ?? 9480);
@@ -368,6 +368,7 @@ export default function RevenueModelPage() {
           <div style={{ marginBottom: 28 }}>
             <div style={{ fontSize: 11, color: COLORS.gold, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #4A4540" }}>Operations</div>
             <Slider label="Suites" value={suites} min={1} max={12} onChange={setSuites} format={v => `${v} suites`} />
+            <div style={{ fontSize: 11, color: COLORS.muted, marginTop: -8, marginBottom: 12, paddingLeft: 2 }}>3,700 sqft flagship layout</div>
             <Slider label="Hours / Day" value={hoursPerDay} min={8} max={24} onChange={setHoursPerDay} format={v => `${v} hrs`} />
             <div style={{ fontSize: 11, color: COLORS.muted, marginTop: -8, marginBottom: 12, paddingLeft: 2 }}>22 hrs = 6AM–4AM · Hull closes at 10PM</div>
             <Slider label="Utilization" value={utilization} min={10} max={100} onChange={setUtilization} format={v => `${v}%`}
@@ -398,7 +399,7 @@ export default function RevenueModelPage() {
           <div style={{ marginBottom: 28 }}>
             <div style={{ fontSize: 11, color: "#C05050", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 16, paddingBottom: 8, borderBottom: "1px solid #4A4540" }}>Monthly Costs</div>
             <Slider label="Rent" value={rent} min={20000} max={90000} step={500} onChange={setRent} format={v => fmtK(v)} accent="#C05050" />
-            <div style={{ fontSize: 11, color: COLORS.muted, marginTop: -8, marginBottom: 12, paddingLeft: 2 }}>$70K = worst case · fight to $55K = +$180K/yr</div>
+            <div style={{ fontSize: 11, color: COLORS.muted, marginTop: -8, marginBottom: 12, paddingLeft: 2 }}>$85K = 3,700 sqft · fight to $70K = +$180K/yr</div>
             <Slider label="Staff" value={staffCost} min={5000} max={40000} step={500} onChange={setStaffCost} format={v => fmtK(v)} accent="#C05050" />
             <Slider label="Supplies & Amenities" value={supplies} min={1000} max={20000} step={250} onChange={setSupplies} format={v => fmtK(v)} accent="#C05050" />
             <Slider label="Tech / Insurance / Other" value={otherCosts} min={1000} max={20000} step={250} onChange={setOtherCosts} format={v => fmtK(v)} accent="#C05050" />
