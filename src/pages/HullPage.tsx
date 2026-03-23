@@ -91,10 +91,11 @@ const HullPage: React.FC = () => {
 
   // Get auth token for authenticated requests
   const getAuthHeaders = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session }, error } = await supabase.auth.refreshSession();
+    if (error || !session) throw new Error('Session expired. Please sign in again.');
     return {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${session?.access_token}`,
+      'Authorization': `Bearer ${session.access_token}`,
     };
   };
 

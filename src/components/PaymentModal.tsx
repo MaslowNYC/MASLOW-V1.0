@@ -106,7 +106,8 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, tierName, 
   };
 
   const createPaymentIntent = async (): Promise<string> => {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session }, error: sessionError } = await supabase.auth.refreshSession();
+    if (sessionError || !session) throw new Error('Session expired. Please sign in again.');
     const response = await fetch(
       `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-payment-intent`,
       {

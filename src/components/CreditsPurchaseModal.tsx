@@ -101,18 +101,18 @@ const CreditsPurchaseModal: React.FC<CreditsPurchaseModalProps> = ({
   };
 
   const createPaymentIntent = async (): Promise<string> => {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session }, error: sessionError } = await supabase.auth.refreshSession();
+    if (sessionError || !session) throw new Error('Session expired. Please sign in again.');
     const response = await fetch(
       `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-payment-intent`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session?.access_token}`,
+          'Authorization': `Bearer ${session.access_token}`,
         },
         body: JSON.stringify({
-          amount: price * 100,
-          userId: user?.id || 'guest',
+          // amount is intentionally omitted — server looks up price from session_types
           credits,
           packageName,
         }),
@@ -135,18 +135,18 @@ const CreditsPurchaseModal: React.FC<CreditsPurchaseModalProps> = ({
     if (stripe && isOpen) {
       // Local version to capture current price/credits/packageName (avoids stale closure)
       const createPaymentIntentLocal = async (): Promise<string> => {
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session }, error: sessionError } = await supabase.auth.refreshSession();
+        if (sessionError || !session) throw new Error('Session expired. Please sign in again.');
         const response = await fetch(
           `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-payment-intent`,
           {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${session?.access_token}`,
+              'Authorization': `Bearer ${session.access_token}`,
             },
             body: JSON.stringify({
-              amount: price * 100,
-              userId: user?.id || 'guest',
+              // amount is intentionally omitted — server looks up price from session_types
               credits,
               packageName,
             }),
