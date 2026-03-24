@@ -506,7 +506,7 @@ export default function SurveyPage() {
                   ]}
                   value={data.would_try_sprayer}
                   onChange={(v) => updateField('would_try_sprayer', v)}
-                  vertical
+                  grid
                 />
               )}
             </div>
