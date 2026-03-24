@@ -419,10 +419,10 @@ export default function SurveyPage() {
         {/* Section 1: Water & Hygiene */}
         {currentSection === 1 && (
           <section>
-            <h2 className="text-xl font-serif text-[#1C2B3A] underline mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-3xl font-serif text-[#1C2B3A] underline mb-1 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               How do you prefer to clean up?
             </h2>
-            <p className="text-sm text-[#1C2B3A]/50 italic mb-4" style={{ fontFamily: "'Jost', sans-serif" }}>
+            <p className="text-sm text-[#1C2B3A]/50 italic mb-4 text-center" style={{ fontFamily: "'Jost', sans-serif" }}>
               Your bathroom habits and preferences.
             </p>
 
@@ -516,10 +516,10 @@ export default function SurveyPage() {
         {/* Section 2: Faith & Ritual */}
         {currentSection === 2 && (
           <section>
-            <h2 className="text-xl font-serif text-[#1C2B3A] underline mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-3xl font-serif text-[#1C2B3A] underline mb-1 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Faith & Ritual
             </h2>
-            <p className="text-sm text-[#1C2B3A]/50 italic mb-4" style={{ fontFamily: "'Jost', sans-serif" }}>
+            <p className="text-sm text-[#1C2B3A]/50 italic mb-4 text-center" style={{ fontFamily: "'Jost', sans-serif" }}>
               Practices that shape how you use the restroom.
             </p>
 
@@ -566,10 +566,10 @@ export default function SurveyPage() {
         {/* Section 3: Privacy */}
         {currentSection === 3 && (
           <section>
-            <h2 className="text-xl font-serif text-[#1C2B3A] underline mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-3xl font-serif text-[#1C2B3A] underline mb-1 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Privacy
             </h2>
-            <p className="text-sm text-[#1C2B3A]/50 italic mb-4" style={{ fontFamily: "'Jost', sans-serif" }}>
+            <p className="text-sm text-[#1C2B3A]/50 italic mb-4 text-center" style={{ fontFamily: "'Jost', sans-serif" }}>
               What makes a restroom feel private to you.
             </p>
 
@@ -612,10 +612,10 @@ export default function SurveyPage() {
         {/* Section 4: Time */}
         {currentSection === 4 && (
           <section>
-            <h2 className="text-xl font-serif text-[#1C2B3A] underline mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-3xl font-serif text-[#1C2B3A] underline mb-1 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Time
             </h2>
-            <p className="text-sm text-[#1C2B3A]/50 italic mb-4" style={{ fontFamily: "'Jost', sans-serif" }}>
+            <p className="text-sm text-[#1C2B3A]/50 italic mb-4 text-center" style={{ fontFamily: "'Jost', sans-serif" }}>
               How long you typically need.
             </p>
 
@@ -649,10 +649,10 @@ export default function SurveyPage() {
         {/* Section 5: Products & Scent */}
         {currentSection === 5 && (
           <section>
-            <h2 className="text-xl font-serif text-[#1C2B3A] underline mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-3xl font-serif text-[#1C2B3A] underline mb-1 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Products & Scent
             </h2>
-            <p className="text-sm text-[#1C2B3A]/50 italic mb-4" style={{ fontFamily: "'Jost', sans-serif" }}>
+            <p className="text-sm text-[#1C2B3A]/50 italic mb-4 text-center" style={{ fontFamily: "'Jost', sans-serif" }}>
               Preferences on what's in the products you use.
             </p>
 
@@ -713,10 +713,10 @@ export default function SurveyPage() {
         {/* Section 6: Signage & Language */}
         {currentSection === 6 && (
           <section>
-            <h2 className="text-xl font-serif text-[#1C2B3A] underline mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-3xl font-serif text-[#1C2B3A] underline mb-1 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Signage & Language
             </h2>
-            <p className="text-sm text-[#1C2B3A]/50 italic mb-4" style={{ fontFamily: "'Jost', sans-serif" }}>
+            <p className="text-sm text-[#1C2B3A]/50 italic mb-4 text-center" style={{ fontFamily: "'Jost', sans-serif" }}>
               Can you find your way around easily.
             </p>
 
@@ -752,10 +752,10 @@ export default function SurveyPage() {
         {/* Section 7: Background */}
         {currentSection === 7 && (
           <section>
-            <h2 className="text-xl font-serif text-[#1C2B3A] underline mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-3xl font-serif text-[#1C2B3A] underline mb-1 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               A little about you
             </h2>
-            <p className="text-sm text-[#1C2B3A]/50 italic mb-4" style={{ fontFamily: "'Jost', sans-serif" }}>
+            <p className="text-sm text-[#1C2B3A]/50 italic mb-4 text-center" style={{ fontFamily: "'Jost', sans-serif" }}>
               Completely optional. This helps us understand which communities we're reaching.
             </p>
 
