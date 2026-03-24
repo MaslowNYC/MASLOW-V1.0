@@ -435,7 +435,7 @@ export default function SurveyPage() {
                 ]}
                 value={data.public_restroom_feeling}
                 onChange={(v) => updateField('public_restroom_feeling', v)}
-                vertical
+                grid
               />
 
               {/* Q2: Water use */}
@@ -449,7 +449,7 @@ export default function SurveyPage() {
                 ]}
                 value={data.uses_water_for_cleaning}
                 onChange={(v) => updateField('uses_water_for_cleaning', v)}
-                vertical
+                grid
               />
 
               {/* Water user path: deeper questions */}
@@ -467,10 +467,10 @@ export default function SurveyPage() {
                   />
 
                   <div>
-                    <p className="text-sm text-[#1C2B3A]/70 mb-3" style={{ fontFamily: "'Jost', sans-serif" }}>
+                    <p className="text-sm text-[#1C2B3A] font-semibold underline mb-3" style={{ fontFamily: "'Jost', sans-serif" }}>
                       What do you prefer to use? (select all that apply)
                     </p>
-                    <div className="space-y-2">
+                    <div className="flex gap-2">
                       <Checkbox
                         label="Toilet paper"
                         checked={data.prefers_toilet_paper}
@@ -643,10 +643,10 @@ export default function SurveyPage() {
 
             <div className="space-y-4">
               <div>
-                <p className="text-sm text-[#1C2B3A]/70 mb-3" style={{ fontFamily: "'Jost', sans-serif" }}>
+                <p className="text-sm text-[#1C2B3A] font-semibold underline mb-3" style={{ fontFamily: "'Jost', sans-serif" }}>
                   I avoid products containing: (select all that apply)
                 </p>
-                <div className="space-y-2">
+                <div className="grid grid-cols-2 gap-2">
                   <Checkbox
                     label="Alcohol"
                     checked={data.avoids_alcohol}
@@ -682,7 +682,6 @@ export default function SurveyPage() {
                 options={['I prefer to bring my own', "I'm happy to use what's provided if the quality is good"]}
                 value={data.product_source_preference}
                 onChange={(v) => updateField('product_source_preference', v)}
-                vertical
               />
 
               <RadioGroup
@@ -712,7 +711,7 @@ export default function SurveyPage() {
               />
 
               <YesNoSometimesToggle
-                label="Do you prefer icons/symbols over written text in unfamiliar spaces?"
+                label="Do you prefer icons/symbols instead of written text in unfamiliar spaces?"
                 value={data.prefers_icons_over_text}
                 onChange={(v) => updateField('prefers_icons_over_text', v)}
               />
@@ -743,32 +742,53 @@ export default function SurveyPage() {
             </p>
 
             <div className="space-y-4">
-              <RadioGroup
-                label="Region of origin or heritage"
-                options={[
-                  'South Asia',
-                  'East Asia',
-                  'Southeast Asia',
-                  'Middle East & MENA',
-                  'Sub-Saharan Africa',
-                  'Latin America',
-                  'Eastern Europe',
-                  'Western Europe',
-                  'North America',
-                  'Other',
-                  'Prefer not to say'
-                ]}
-                value={data.region_broad}
-                onChange={(v) => updateField('region_broad', v)}
-                grid
-              />
+              {/* Region - custom 3-col layout with 2-col bottom row */}
+              <div>
+                <p className="text-sm text-[#1C2B3A] font-semibold underline mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
+                  Region of origin or heritage
+                </p>
+                <div className="grid grid-cols-3 gap-1.5 mb-1.5">
+                  {['South Asia', 'East Asia', 'Southeast Asia', 'Middle East & MENA', 'Sub-Saharan Africa', 'Latin America', 'Eastern Europe', 'Western Europe', 'North America'].map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => updateField('region_broad', option)}
+                      className={`w-full text-left py-2 px-3 rounded-lg border text-sm transition-all ${
+                        data.region_broad === option
+                          ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A] font-medium'
+                          : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
+                      }`}
+                      style={{ fontFamily: "'Jost', sans-serif", minHeight: '38px' }}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {['Other', 'Prefer not to say'].map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => updateField('region_broad', option)}
+                      className={`w-full text-left py-2 px-3 rounded-lg border text-sm transition-all ${
+                        data.region_broad === option
+                          ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A] font-medium'
+                          : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
+                      }`}
+                      style={{ fontFamily: "'Jost', sans-serif", minHeight: '38px' }}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
               <RadioGroup
                 label="How long have you been in NYC?"
-                options={['Less than 1 year', '1-5 years', '5-10 years', '10+ years', 'Born here']}
+                options={['Less than 1 year', '1-5 years', '5-10 years', '10+ years', 'Born here', "I don't live in NYC"]}
                 value={data.years_in_nyc}
                 onChange={(v) => updateField('years_in_nyc', v)}
-                vertical
+                cols={3}
               />
 
               <TextInput
@@ -901,7 +921,7 @@ interface YesNoSometimesToggleProps {
 function YesNoSometimesToggle({ label, value, onChange }: YesNoSometimesToggleProps) {
   return (
     <div>
-      <p className="text-sm text-[#1C2B3A] mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
+      <p className="text-sm text-[#1C2B3A] font-semibold underline mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
         {label}
       </p>
       <div className="flex gap-2">
@@ -954,7 +974,7 @@ interface CheckboxProps {
 
 function Checkbox({ label, checked, onChange }: CheckboxProps) {
   return (
-    <label className="flex items-center gap-2.5 p-2.5 rounded-lg border border-[#1C2B3A]/10 hover:border-[#1C2B3A]/20 cursor-pointer transition-all" style={{ minHeight: '40px' }}>
+    <label className="flex-1 flex items-center gap-2.5 p-2.5 rounded-lg border border-[#1C2B3A]/10 hover:border-[#1C2B3A]/20 cursor-pointer transition-all" style={{ minHeight: '40px' }}>
       <div
         className={`w-5 h-5 rounded flex items-center justify-center transition-all ${
           checked
@@ -986,10 +1006,13 @@ interface RadioGroupProps {
   onChange: (value: string) => void;
   vertical?: boolean;
   grid?: boolean;
+  cols?: 2 | 3;
 }
 
-function RadioGroup({ label, options, value, onChange, vertical, grid }: RadioGroupProps) {
-  const containerClass = grid
+function RadioGroup({ label, options, value, onChange, vertical, grid, cols }: RadioGroupProps) {
+  const containerClass = cols === 3
+    ? 'grid grid-cols-3 gap-1.5'
+    : cols === 2 || grid
     ? 'grid grid-cols-2 gap-1.5'
     : vertical
     ? 'space-y-1.5'
@@ -997,7 +1020,7 @@ function RadioGroup({ label, options, value, onChange, vertical, grid }: RadioGr
 
   return (
     <div>
-      <p className="text-sm text-[#1C2B3A]/70 mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
+      <p className="text-sm text-[#1C2B3A] font-semibold underline mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
         {label}
       </p>
       <div className={containerClass}>
@@ -1006,7 +1029,7 @@ function RadioGroup({ label, options, value, onChange, vertical, grid }: RadioGr
             key={option}
             type="button"
             onClick={() => onChange(option)}
-            className={`${vertical || grid ? 'w-full text-left' : ''} py-2 px-3 rounded-lg border text-sm transition-all ${
+            className={`${vertical || grid || cols ? 'w-full text-left' : ''} py-2 px-3 rounded-lg border text-sm transition-all ${
               value === option
                 ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A] font-medium'
                 : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
@@ -1031,7 +1054,7 @@ interface ScaleInputProps {
 function ScaleInput({ label, sublabel, value, onChange }: ScaleInputProps) {
   return (
     <div>
-      <p className="text-sm text-[#1C2B3A] mb-1" style={{ fontFamily: "'Jost', sans-serif" }}>
+      <p className="text-sm text-[#1C2B3A] font-semibold underline mb-1" style={{ fontFamily: "'Jost', sans-serif" }}>
         {label}
       </p>
       {sublabel && (
@@ -1070,7 +1093,7 @@ interface TextInputProps {
 function TextInput({ label, value, onChange, placeholder }: TextInputProps) {
   return (
     <div>
-      <label className="text-sm text-[#1C2B3A]/70 block mb-1.5" style={{ fontFamily: "'Jost', sans-serif" }}>
+      <label className="text-sm text-[#1C2B3A] font-semibold underline block mb-1.5" style={{ fontFamily: "'Jost', sans-serif" }}>
         {label}
       </label>
       <input
@@ -1095,7 +1118,7 @@ interface TextareaProps {
 function Textarea({ label, value, onChange, placeholder }: TextareaProps) {
   return (
     <div>
-      <label className="text-sm text-[#1C2B3A]/70 block mb-1.5" style={{ fontFamily: "'Jost', sans-serif" }}>
+      <label className="text-sm text-[#1C2B3A] font-semibold underline block mb-1.5" style={{ fontFamily: "'Jost', sans-serif" }}>
         {label}
       </label>
       <textarea
