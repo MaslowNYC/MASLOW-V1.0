@@ -419,9 +419,12 @@ export default function SurveyPage() {
         {/* Section 1: Water & Hygiene */}
         {currentSection === 1 && (
           <section>
-            <h2 className="text-lg font-serif text-[#1C2B3A] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-xl font-serif text-[#1C2B3A] underline mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               How do you prefer to clean up?
             </h2>
+            <p className="text-sm text-[#1C2B3A]/50 italic mb-4" style={{ fontFamily: "'Jost', sans-serif" }}>
+              Your bathroom habits and preferences.
+            </p>
 
             <div className="space-y-4">
               {/* Q1: Public restroom feeling */}
@@ -467,7 +470,7 @@ export default function SurveyPage() {
                   />
 
                   <div>
-                    <p className="text-sm text-[#1C2B3A] font-semibold underline mb-3" style={{ fontFamily: "'Jost', sans-serif" }}>
+                    <p className="text-sm text-[#1C2B3A] underline mb-3" style={{ fontFamily: "'Jost', sans-serif" }}>
                       What do you prefer to use? (select all that apply)
                     </p>
                     <div className="flex gap-2">
@@ -513,9 +516,12 @@ export default function SurveyPage() {
         {/* Section 2: Faith & Ritual */}
         {currentSection === 2 && (
           <section>
-            <h2 className="text-lg font-serif text-[#1C2B3A] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-              Does your faith or background include a washing routine?
+            <h2 className="text-xl font-serif text-[#1C2B3A] underline mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Faith & Ritual
             </h2>
+            <p className="text-sm text-[#1C2B3A]/50 italic mb-4" style={{ fontFamily: "'Jost', sans-serif" }}>
+              Practices that shape how you use the restroom.
+            </p>
 
             <div className="space-y-4">
               <YesNoSometimesToggle
@@ -560,9 +566,12 @@ export default function SurveyPage() {
         {/* Section 3: Privacy */}
         {currentSection === 3 && (
           <section>
-            <h2 className="text-lg font-serif text-[#1C2B3A] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-              What makes a restroom feel private to you?
+            <h2 className="text-xl font-serif text-[#1C2B3A] underline mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Privacy
             </h2>
+            <p className="text-sm text-[#1C2B3A]/50 italic mb-4" style={{ fontFamily: "'Jost', sans-serif" }}>
+              What makes a restroom feel private to you.
+            </p>
 
             <div className="space-y-4">
               <ScaleInput
@@ -603,9 +612,12 @@ export default function SurveyPage() {
         {/* Section 4: Time */}
         {currentSection === 4 && (
           <section>
-            <h2 className="text-lg font-serif text-[#1C2B3A] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-              How long do you typically need?
+            <h2 className="text-xl font-serif text-[#1C2B3A] underline mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Time
             </h2>
+            <p className="text-sm text-[#1C2B3A]/50 italic mb-4" style={{ fontFamily: "'Jost', sans-serif" }}>
+              How long you typically need.
+            </p>
 
             <div className="space-y-4">
               <RadioGroup
@@ -637,13 +649,16 @@ export default function SurveyPage() {
         {/* Section 5: Products & Scent */}
         {currentSection === 5 && (
           <section>
-            <h2 className="text-lg font-serif text-[#1C2B3A] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-              Any preferences on what's in the products you use?
+            <h2 className="text-xl font-serif text-[#1C2B3A] underline mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Products & Scent
             </h2>
+            <p className="text-sm text-[#1C2B3A]/50 italic mb-4" style={{ fontFamily: "'Jost', sans-serif" }}>
+              Preferences on what's in the products you use.
+            </p>
 
             <div className="space-y-4">
               <div>
-                <p className="text-sm text-[#1C2B3A] font-semibold underline mb-3" style={{ fontFamily: "'Jost', sans-serif" }}>
+                <p className="text-sm text-[#1C2B3A] underline mb-3" style={{ fontFamily: "'Jost', sans-serif" }}>
                   I avoid products containing: (select all that apply)
                 </p>
                 <div className="grid grid-cols-2 gap-2">
@@ -698,9 +713,12 @@ export default function SurveyPage() {
         {/* Section 6: Signage & Language */}
         {currentSection === 6 && (
           <section>
-            <h2 className="text-lg font-serif text-[#1C2B3A] mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-              Can you find your way around easily?
+            <h2 className="text-xl font-serif text-[#1C2B3A] underline mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Signage & Language
             </h2>
+            <p className="text-sm text-[#1C2B3A]/50 italic mb-4" style={{ fontFamily: "'Jost', sans-serif" }}>
+              Can you find your way around easily.
+            </p>
 
             <div className="space-y-4">
               <TextInput
@@ -734,17 +752,17 @@ export default function SurveyPage() {
         {/* Section 7: Background */}
         {currentSection === 7 && (
           <section>
-            <h2 className="text-xl font-serif text-[#1C2B3A] mb-2" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-xl font-serif text-[#1C2B3A] underline mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               A little about you
             </h2>
-            <p className="text-sm text-[#1C2B3A]/60 mb-6" style={{ fontFamily: "'Jost', sans-serif" }}>
+            <p className="text-sm text-[#1C2B3A]/50 italic mb-4" style={{ fontFamily: "'Jost', sans-serif" }}>
               Completely optional. This helps us understand which communities we're reaching.
             </p>
 
             <div className="space-y-4">
               {/* Region - custom 3-col layout with 2-col bottom row */}
               <div>
-                <p className="text-sm text-[#1C2B3A] font-semibold underline mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
+                <p className="text-sm text-[#1C2B3A] underline mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
                   Region of origin or heritage
                 </p>
                 <div className="grid grid-cols-3 gap-1.5 mb-1.5">
@@ -921,7 +939,7 @@ interface YesNoSometimesToggleProps {
 function YesNoSometimesToggle({ label, value, onChange }: YesNoSometimesToggleProps) {
   return (
     <div>
-      <p className="text-sm text-[#1C2B3A] font-semibold underline mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
+      <p className="text-sm text-[#1C2B3A] underline mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
         {label}
       </p>
       <div className="flex gap-2">
@@ -1020,7 +1038,7 @@ function RadioGroup({ label, options, value, onChange, vertical, grid, cols }: R
 
   return (
     <div>
-      <p className="text-sm text-[#1C2B3A] font-semibold underline mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
+      <p className="text-sm text-[#1C2B3A] underline mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
         {label}
       </p>
       <div className={containerClass}>
@@ -1054,7 +1072,7 @@ interface ScaleInputProps {
 function ScaleInput({ label, sublabel, value, onChange }: ScaleInputProps) {
   return (
     <div>
-      <p className="text-sm text-[#1C2B3A] font-semibold underline mb-1" style={{ fontFamily: "'Jost', sans-serif" }}>
+      <p className="text-sm text-[#1C2B3A] underline mb-1" style={{ fontFamily: "'Jost', sans-serif" }}>
         {label}
       </p>
       {sublabel && (
@@ -1093,7 +1111,7 @@ interface TextInputProps {
 function TextInput({ label, value, onChange, placeholder }: TextInputProps) {
   return (
     <div>
-      <label className="text-sm text-[#1C2B3A] font-semibold underline block mb-1.5" style={{ fontFamily: "'Jost', sans-serif" }}>
+      <label className="text-sm text-[#1C2B3A] underline block mb-1.5" style={{ fontFamily: "'Jost', sans-serif" }}>
         {label}
       </label>
       <input
@@ -1118,7 +1136,7 @@ interface TextareaProps {
 function Textarea({ label, value, onChange, placeholder }: TextareaProps) {
   return (
     <div>
-      <label className="text-sm text-[#1C2B3A] font-semibold underline block mb-1.5" style={{ fontFamily: "'Jost', sans-serif" }}>
+      <label className="text-sm text-[#1C2B3A] underline block mb-1.5" style={{ fontFamily: "'Jost', sans-serif" }}>
         {label}
       </label>
       <textarea
