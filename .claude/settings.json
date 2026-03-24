@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(grep -E '\\\\.\\(png|ico|svg\\)$')"
+      "Bash(grep -E '\\\\.\\(png|ico|svg\\)$')",
+      "Bash(cp \"/Users/patrickmay/Downloads/suites-vanity.jpg\" \"/Users/patrickmay/Library/Mobile Documents/com~apple~CloudDocs/Maslow/MASLOW-V1.0/public/\")",
+      "Bash(cp \"/Users/patrickmay/Downloads/hull-greenwall.jpg\" \"/Users/patrickmay/Library/Mobile Documents/com~apple~CloudDocs/Maslow/MASLOW-V1.0/public/\")",
+      "Bash(grep -E '\\\\.\\(png|jpg|jpeg|svg|gif|ico|webp\\)$')",
+      "mcp__claude_ai_Supabase__search_docs",
+      "mcp__claude_ai_Supabase__get_project_url"
     ]
   }
 }

@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "cbe5af41-2d5a-42c3-b6cc-63de3e054401"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.maslownyc.maslownyc",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    }
+  }
+}

@@ -163,7 +163,7 @@ export default function SurveyPage() {
       // Check promo code cap (max 500)
       let promoCapReached = false;
       if (!alreadySubmitted) {
-        const { count, error: countError } = await (supabase.schema('research') as any)
+        const { count, error: countError } = await supabase
           .from('promo_codes')
           .select('*', { count: 'exact', head: true });
         if (!countError && count !== null && count >= 500) {
@@ -176,8 +176,7 @@ export default function SurveyPage() {
       const code = shouldGeneratePromo ? generatePromoCode() : null;
 
       // 1. Insert main survey response
-      const { data: responseData, error: responseError } = await (supabase
-        .schema('research') as any)
+      const { data: responseData, error: responseError } = await supabase
         .from('survey_responses')
         .insert({
           session_token: sessionToken,
@@ -195,7 +194,7 @@ export default function SurveyPage() {
       // 2. Insert section data in parallel
       await Promise.all([
         // Water & Hygiene
-        (supabase.schema('research') as any).from('water_hygiene').insert({
+        supabase.from('water_hygiene').insert({
           response_id: responseId,
           public_restroom_feeling: data.public_restroom_feeling || null,
           uses_water_for_cleaning: data.uses_water_for_cleaning || null,
@@ -207,7 +206,7 @@ export default function SurveyPage() {
           prefers_both: data.prefers_both,
         }),
         // Ritual Practice
-        (supabase.schema('research') as any).from('ritual_practice').insert({
+        supabase.from('ritual_practice').insert({
           response_id: responseId,
           has_faith_based_washing: data.has_faith_based_washing || null,
           needs_running_water_for_prayer: (data.has_faith_based_washing === 'Yes' || data.has_faith_based_washing === 'Sometimes') ? data.needs_running_water_for_prayer : null,
@@ -216,7 +215,7 @@ export default function SurveyPage() {
           specific_practice_notes: data.specific_practice_notes || null,
         }),
         // Privacy Needs
-        (supabase.schema('research') as any).from('privacy_needs').insert({
+        supabase.from('privacy_needs').insert({
           response_id: responseId,
           sound_privacy_importance: data.sound_privacy_importance,
           visual_privacy_importance: data.visual_privacy_importance,
@@ -225,14 +224,14 @@ export default function SurveyPage() {
           other_privacy_notes: data.other_privacy_notes || null,
         }),
         // Time Duration
-        (supabase.schema('research') as any).from('time_duration').insert({
+        supabase.from('time_duration').insert({
           response_id: responseId,
           typical_duration: data.typical_duration || null,
           has_practice_needing_more_time: data.has_practice_needing_more_time || null,
           more_time_reason: (data.has_practice_needing_more_time === 'Yes' || data.has_practice_needing_more_time === 'Sometimes') ? (data.more_time_reason || null) : null,
         }),
         // Product Preferences
-        (supabase.schema('research') as any).from('product_preferences').insert({
+        supabase.from('product_preferences').insert({
           response_id: responseId,
           avoids_alcohol: data.avoids_alcohol,
           avoids_pork_derivatives: data.avoids_pork_derivatives,
@@ -244,7 +243,7 @@ export default function SurveyPage() {
           scent_preference: data.scent_preference || null,
         }),
         // Signage & Language
-        (supabase.schema('research') as any).from('signage_language').insert({
+        supabase.from('signage_language').insert({
           response_id: responseId,
           preferred_language: data.preferred_language || null,
           prefers_icons_over_text: data.prefers_icons_over_text,
@@ -252,7 +251,7 @@ export default function SurveyPage() {
           signage_notes: data.signage_notes || null,
         }),
         // Cultural Background
-        (supabase.schema('research') as any).from('cultural_background').insert({
+        supabase.from('cultural_background').insert({
           response_id: responseId,
           region_broad: data.region_broad || null,
           years_in_nyc: data.years_in_nyc || null,
@@ -264,7 +263,7 @@ export default function SurveyPage() {
 
       // Insert promo code only if eligible
       if (code) {
-        await (supabase.schema('research') as any).from('promo_codes').insert({
+        await supabase.from('promo_codes').insert({
           response_id: responseId,
           stripe_promo_code: code,
           source: 'survey',
