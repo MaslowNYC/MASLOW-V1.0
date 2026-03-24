@@ -544,7 +544,7 @@ export default function SurveyPage() {
                 options={['Islam', 'Hindu', 'Jewish', 'Sikh', 'Christian', 'Other', 'Prefer not to say']}
                 value={data.faith_background_broad}
                 onChange={(v) => updateField('faith_background_broad', v)}
-                vertical
+                grid
               />
 
               <Textarea
@@ -690,7 +690,7 @@ export default function SurveyPage() {
                 options={['No scent', 'Light natural', 'Moderate', 'Strong', 'No preference']}
                 value={data.scent_preference}
                 onChange={(v) => updateField('scent_preference', v)}
-                vertical
+                grid
               />
             </div>
           </section>
@@ -760,7 +760,7 @@ export default function SurveyPage() {
                 ]}
                 value={data.region_broad}
                 onChange={(v) => updateField('region_broad', v)}
-                vertical
+                grid
               />
 
               <RadioGroup
@@ -985,21 +985,28 @@ interface RadioGroupProps {
   value: string;
   onChange: (value: string) => void;
   vertical?: boolean;
+  grid?: boolean;
 }
 
-function RadioGroup({ label, options, value, onChange, vertical }: RadioGroupProps) {
+function RadioGroup({ label, options, value, onChange, vertical, grid }: RadioGroupProps) {
+  const containerClass = grid
+    ? 'grid grid-cols-2 gap-1.5'
+    : vertical
+    ? 'space-y-1.5'
+    : 'flex flex-wrap gap-1.5';
+
   return (
     <div>
       <p className="text-sm text-[#1C2B3A]/70 mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
         {label}
       </p>
-      <div className={vertical ? 'space-y-1.5' : 'flex flex-wrap gap-1.5'}>
+      <div className={containerClass}>
         {options.map((option) => (
           <button
             key={option}
             type="button"
             onClick={() => onChange(option)}
-            className={`${vertical ? 'w-full text-left' : ''} py-2 px-3 rounded-lg border text-sm transition-all ${
+            className={`${vertical || grid ? 'w-full text-left' : ''} py-2 px-3 rounded-lg border text-sm transition-all ${
               value === option
                 ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A] font-medium'
                 : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
