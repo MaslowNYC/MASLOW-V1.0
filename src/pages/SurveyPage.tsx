@@ -439,7 +439,7 @@ export default function SurveyPage() {
 
               {/* Q2: Water use */}
               <RadioGroup
-                label="Do you use water to clean up — beyond just handwashing? *"
+                label="Do you use water to clean up, not just to wash your hands? *"
                 options={[
                   'Yes, always',
                   'Sometimes',
@@ -460,7 +460,7 @@ export default function SurveyPage() {
                     onChange={(v) => updateField('carries_own_vessel', v)}
                   />
                   <YesNoSometimesToggle
-                    label="Would you use a bidet sprayer if available?"
+                    label="Would you use a water sprayer (bidet) if one was available?"
                     value={data.would_use_bidet_sprayer}
                     onChange={(v) => updateField('would_use_bidet_sprayer', v)}
                   />
@@ -657,7 +657,7 @@ export default function SurveyPage() {
                     onChange={(v) => handleAvoidanceChange('avoids_pork_derivatives', v)}
                   />
                   <Checkbox
-                    label="Fragrance / synthetic scent"
+                    label="Fragrance or artificial scent"
                     checked={data.avoids_fragrance}
                     onChange={(v) => handleAvoidanceChange('avoids_fragrance', v)}
                   />
@@ -678,7 +678,7 @@ export default function SurveyPage() {
 
               <RadioGroup
                 label="Product preference"
-                options={['I prefer to bring my own', "I'm happy to use what's provided if the quality is good"]}
+                options={['I prefer to bring my own', "I'll use what's provided if quality is good"]}
                 value={data.product_source_preference}
                 onChange={(v) => updateField('product_source_preference', v)}
               />
@@ -728,13 +728,13 @@ export default function SurveyPage() {
               />
 
               <YesNoSometimesToggle
-                label="Do you prefer icons over written text?"
+                label="Do you prefer icons instead of written text?"
                 value={data.prefers_icons_over_text}
                 onChange={(v) => updateField('prefers_icons_over_text', v)}
               />
 
               <YesNoSometimesToggle
-                label="Ever had trouble with unclear restroom signage?"
+                label="Have you had trouble with unclear restroom signs?"
                 value={data.has_struggled_with_signage}
                 onChange={(v) => updateField('has_struggled_with_signage', v)}
               />
