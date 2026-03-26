@@ -379,9 +379,9 @@ export default function SurveyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F7F4]">
+    <div className="min-h-screen bg-[#F8F7F4] overflow-x-hidden w-full max-w-full">
       {/* Header */}
-      <header className="pt-4 pb-3 px-4 text-center border-b border-[#1C2B3A]/10">
+      <header className="pt-4 pb-3 px-4 text-center border-b border-[#1C2B3A]/10 overflow-hidden">
         <div style={{ fontFamily: 'Georgia, serif', fontSize: '22px', fontWeight: 'bold', letterSpacing: '5px', color: '#1B3A6B' }}>
           MASLOW
         </div>
@@ -414,7 +414,7 @@ export default function SurveyPage() {
       </div>
 
       {/* Form Content */}
-      <main className="max-w-md mx-auto px-4 py-5">
+      <main className="max-w-md mx-auto px-5 py-6 overflow-x-hidden">
         {/* Section 1: Water & Hygiene */}
         {currentSection === 1 && (
           <section>
@@ -425,7 +425,7 @@ export default function SurveyPage() {
               Your bathroom habits and preferences.
             </p>
 
-            <div className="space-y-4">
+            <div className="space-y-5">
               {/* Q1: Public restroom feeling */}
               <RadioGroup
                 label="How do you feel about using public restrooms in New York City? *"
@@ -522,7 +522,7 @@ export default function SurveyPage() {
               Practices that shape how you use the restroom.
             </p>
 
-            <div className="space-y-4">
+            <div className="space-y-5">
               <YesNoSometimesToggle
                 label="Does your faith or background include ritual washing?"
                 value={data.has_faith_based_washing}
@@ -544,12 +544,12 @@ export default function SurveyPage() {
                 onChange={(v) => updateField('daily_washing_frequency', v)}
               />
 
-              <RadioGroup
+              <SelectDropdown
                 label="Faith background (optional)"
-                options={['Islam', 'Hindu', 'Jewish', 'Sikh', 'Christian', 'Other', 'Prefer not to say']}
+                options={['Islam', 'Hindu', 'Jewish', 'Sikh', 'Christian', 'Buddhist', 'Other', 'Prefer not to say']}
                 value={data.faith_background_broad}
                 onChange={(v) => updateField('faith_background_broad', v)}
-                grid
+                placeholder="Select if you'd like to share"
               />
 
               <Textarea
@@ -572,7 +572,7 @@ export default function SurveyPage() {
               What makes a restroom feel private to you.
             </p>
 
-            <div className="space-y-4">
+            <div className="space-y-5">
               <ScaleInput
                 label="How important is sound privacy?"
                 sublabel="1 = not important, 5 = essential"
@@ -618,7 +618,7 @@ export default function SurveyPage() {
               How long you typically need.
             </p>
 
-            <div className="space-y-4">
+            <div className="space-y-5">
               <RadioGroup
                 label="Typical duration"
                 options={['Under 5 min', '5-15 min', '15-30 min', '30 min+']}
@@ -655,7 +655,7 @@ export default function SurveyPage() {
               Preferences on what's in the products you use.
             </p>
 
-            <div className="space-y-4">
+            <div className="space-y-5">
               <div>
                 <p className="text-sm text-[#1C2B3A] underline mb-3" style={{ fontFamily: "'Jost', sans-serif" }}>
                   I avoid products containing: (select all that apply)
@@ -719,12 +719,30 @@ export default function SurveyPage() {
               Can you find your way around easily.
             </p>
 
-            <div className="space-y-4">
-              <TextInput
+            <div className="space-y-5">
+              <SelectDropdown
                 label="What language do you prefer for reading instructions?"
+                options={[
+                  'English',
+                  'Spanish',
+                  'Mandarin Chinese',
+                  'Cantonese',
+                  'Bengali',
+                  'Hindi',
+                  'Urdu',
+                  'Arabic',
+                  'Russian',
+                  'Korean',
+                  'Haitian Creole',
+                  'French',
+                  'Yiddish',
+                  'Polish',
+                  'Tagalog',
+                  'Other'
+                ]}
                 value={data.preferred_language}
                 onChange={(v) => updateField('preferred_language', v)}
-                placeholder="e.g., English, Spanish, Mandarin..."
+                placeholder="Select your preferred language"
               />
 
               <YesNoSometimesToggle
@@ -758,54 +776,34 @@ export default function SurveyPage() {
               Completely optional. This helps us understand which communities we're reaching.
             </p>
 
-            <div className="space-y-4">
-              {/* Region - custom 3-col layout with 2-col bottom row */}
-              <div>
-                <p className="text-sm text-[#1C2B3A] underline mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
-                  Region of origin or heritage
-                </p>
-                <div className="grid grid-cols-3 gap-1.5 mb-1.5">
-                  {['South Asia', 'East Asia', 'Southeast Asia', 'Middle East & MENA', 'Sub-Saharan Africa', 'Latin America', 'Eastern Europe', 'Western Europe', 'North America'].map((option) => (
-                    <button
-                      key={option}
-                      type="button"
-                      onClick={() => updateField('region_broad', option)}
-                      className={`w-full text-left py-2 px-3 rounded-lg border text-sm transition-all ${
-                        data.region_broad === option
-                          ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A] font-medium'
-                          : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
-                      }`}
-                      style={{ fontFamily: "'Jost', sans-serif", minHeight: '38px' }}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-                <div className="grid grid-cols-2 gap-1.5">
-                  {['Other', 'Prefer not to say'].map((option) => (
-                    <button
-                      key={option}
-                      type="button"
-                      onClick={() => updateField('region_broad', option)}
-                      className={`w-full text-left py-2 px-3 rounded-lg border text-sm transition-all ${
-                        data.region_broad === option
-                          ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A] font-medium'
-                          : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
-                      }`}
-                      style={{ fontFamily: "'Jost', sans-serif", minHeight: '38px' }}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              </div>
+            <div className="space-y-5">
+              <SelectDropdown
+                label="Region of origin or heritage"
+                options={[
+                  'South Asia',
+                  'East Asia',
+                  'Southeast Asia',
+                  'Middle East & MENA',
+                  'Sub-Saharan Africa',
+                  'Latin America',
+                  'Eastern Europe',
+                  'Western Europe',
+                  'North America',
+                  'Caribbean',
+                  'Other',
+                  'Prefer not to say'
+                ]}
+                value={data.region_broad}
+                onChange={(v) => updateField('region_broad', v)}
+                placeholder="Select region"
+              />
 
-              <RadioGroup
+              <SelectDropdown
                 label="How long have you been in NYC?"
                 options={['Less than 1 year', '1-5 years', '5-10 years', '10+ years', 'Born here', "I don't live in NYC"]}
                 value={data.years_in_nyc}
                 onChange={(v) => updateField('years_in_nyc', v)}
-                cols={3}
+                placeholder="Select duration"
               />
 
               <TextInput
@@ -816,15 +814,17 @@ export default function SurveyPage() {
               />
 
               <Textarea
-                label="What's one thing NYC restrooms always get wrong for people from your background?"
+                label="What's one thing NYC restrooms always get wrong for people from your background? (optional)"
                 value={data.one_thing_wrong}
                 onChange={(v) => updateField('one_thing_wrong', v)}
+                placeholder="Anything we should know?"
               />
 
               <Textarea
-                label="What would make a restroom feel like it was designed for you?"
+                label="What would make a restroom feel like it was designed for you? (optional)"
                 value={data.one_thing_right}
                 onChange={(v) => updateField('one_thing_right', v)}
+                placeholder="Anything we should know?"
               />
             </div>
           </section>
@@ -838,12 +838,12 @@ export default function SurveyPage() {
         )}
 
         {/* Navigation */}
-        <div className="mt-6 flex gap-2">
+        <div className="mt-6 flex gap-3">
           {currentSection > 1 && (
             <button
               onClick={() => setCurrentSection(prev => prev - 1)}
-              className="flex-1 py-3 px-4 rounded-lg border-2 border-[#1C2B3A]/20 text-[#1C2B3A] text-sm font-medium"
-              style={{ fontFamily: "'Jost', sans-serif" }}
+              className="flex-1 py-3 px-4 rounded-lg border-2 border-[#1C2B3A]/20 text-[#1C2B3A] text-base font-medium hover:border-[#1C2B3A]/40 transition-all"
+              style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
             >
               Back
             </button>
@@ -853,12 +853,12 @@ export default function SurveyPage() {
             <button
               onClick={() => setCurrentSection(prev => prev + 1)}
               disabled={!canProceed()}
-              className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all ${
+              className={`flex-1 py-3 px-4 rounded-lg text-base font-medium transition-all ${
                 canProceed()
                   ? 'bg-[#1C2B3A] text-white hover:bg-[#1C2B3A]/90'
                   : 'bg-[#1C2B3A]/30 text-white cursor-not-allowed'
               }`}
-              style={{ fontFamily: "'Jost', sans-serif", minHeight: '44px' }}
+              style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
             >
               Continue
             </button>
@@ -866,14 +866,14 @@ export default function SurveyPage() {
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all ${
+              className={`flex-1 py-3 px-4 rounded-lg text-base font-medium transition-all ${
                 isSubmitting
                   ? 'bg-[#C49F58]/50 text-[#1C2B3A]/50 cursor-not-allowed'
                   : 'bg-[#C49F58] text-[#1C2B3A] hover:bg-[#C49F58]/90'
               }`}
-              style={{ fontFamily: "'Jost', sans-serif", minHeight: '44px' }}
+              style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
             >
-              {isSubmitting ? 'Submitting...' : 'Submit \u2014 Get Free Pass'}
+              {isSubmitting ? 'Submitting...' : 'Submit — Get Free Pass'}
             </button>
           )}
         </div>
@@ -903,24 +903,24 @@ function YesNoToggle({ label, value, onChange, required }: YesNoToggleProps) {
         <button
           type="button"
           onClick={() => onChange(true)}
-          className={`flex-1 py-2.5 px-3 rounded-lg border-2 text-sm font-medium transition-all ${
+          className={`flex-1 py-3 px-3 rounded-lg border-2 text-base font-medium transition-all ${
             value === true
               ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A]'
               : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
           }`}
-          style={{ fontFamily: "'Jost', sans-serif", minHeight: '42px' }}
+          style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
         >
           Yes
         </button>
         <button
           type="button"
           onClick={() => onChange(false)}
-          className={`flex-1 py-2.5 px-3 rounded-lg border-2 text-sm font-medium transition-all ${
+          className={`flex-1 py-3 px-3 rounded-lg border-2 text-base font-medium transition-all ${
             value === false
               ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A]'
               : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
           }`}
-          style={{ fontFamily: "'Jost', sans-serif", minHeight: '42px' }}
+          style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
         >
           No
         </button>
@@ -945,36 +945,36 @@ function YesNoSometimesToggle({ label, value, onChange }: YesNoSometimesTogglePr
         <button
           type="button"
           onClick={() => onChange('Yes')}
-          className={`flex-1 py-2.5 px-3 rounded-lg border-2 text-sm font-medium transition-all ${
+          className={`flex-1 py-3 px-3 rounded-lg border-2 text-base font-medium transition-all ${
             value === 'Yes'
               ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A]'
               : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
           }`}
-          style={{ fontFamily: "'Jost', sans-serif", minHeight: '42px' }}
+          style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
         >
           Yes
         </button>
         <button
           type="button"
           onClick={() => onChange('Sometimes')}
-          className={`flex-1 py-2.5 px-3 rounded-lg border-2 text-sm font-medium transition-all ${
+          className={`flex-1 py-3 px-3 rounded-lg border-2 text-base font-medium transition-all ${
             value === 'Sometimes'
               ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A]'
               : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
           }`}
-          style={{ fontFamily: "'Jost', sans-serif", minHeight: '42px' }}
+          style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
         >
           Sometimes
         </button>
         <button
           type="button"
           onClick={() => onChange('No')}
-          className={`flex-1 py-2.5 px-3 rounded-lg border-2 text-sm font-medium transition-all ${
+          className={`flex-1 py-3 px-3 rounded-lg border-2 text-base font-medium transition-all ${
             value === 'No'
               ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A]'
               : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
           }`}
-          style={{ fontFamily: "'Jost', sans-serif", minHeight: '42px' }}
+          style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
         >
           No
         </button>
@@ -991,9 +991,13 @@ interface CheckboxProps {
 
 function Checkbox({ label, checked, onChange }: CheckboxProps) {
   return (
-    <label className="flex-1 flex items-center gap-2.5 p-2.5 rounded-lg border border-[#1C2B3A]/10 hover:border-[#1C2B3A]/20 cursor-pointer transition-all" style={{ minHeight: '40px' }}>
+    <label className={`flex-1 flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-all ${
+      checked
+        ? 'border-[#C49F58] bg-[#C49F58]/10'
+        : 'border-[#1C2B3A]/20 hover:border-[#1C2B3A]/40'
+    }`} style={{ minHeight: '48px' }}>
       <div
-        className={`w-5 h-5 rounded flex items-center justify-center transition-all ${
+        className={`w-5 h-5 rounded flex-shrink-0 flex items-center justify-center transition-all ${
           checked
             ? 'border-[#C49F58] bg-[#C49F58]'
             : 'border-2 border-[#1C2B3A]/30'
@@ -1028,12 +1032,12 @@ interface RadioGroupProps {
 
 function RadioGroup({ label, options, value, onChange, vertical, grid, cols }: RadioGroupProps) {
   const containerClass = cols === 3
-    ? 'grid grid-cols-3 gap-1.5'
+    ? 'grid grid-cols-3 gap-2'
     : cols === 2 || grid
-    ? 'grid grid-cols-2 gap-1.5'
+    ? 'grid grid-cols-2 gap-2'
     : vertical
-    ? 'space-y-1.5'
-    : 'flex flex-wrap gap-1.5';
+    ? 'space-y-2'
+    : 'flex flex-wrap gap-2';
 
   return (
     <div>
@@ -1046,12 +1050,12 @@ function RadioGroup({ label, options, value, onChange, vertical, grid, cols }: R
             key={option}
             type="button"
             onClick={() => onChange(option)}
-            className={`${vertical || grid || cols ? 'w-full text-left' : ''} py-2 px-3 rounded-lg border text-sm transition-all ${
+            className={`${vertical || grid || cols ? 'w-full text-left' : ''} py-3 px-3 rounded-lg border-2 text-sm transition-all ${
               value === option
                 ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A] font-medium'
                 : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
             }`}
-            style={{ fontFamily: "'Jost', sans-serif", minHeight: '38px' }}
+            style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
           >
             {option}
           </button>
@@ -1085,7 +1089,7 @@ function ScaleInput({ label, sublabel, value, onChange }: ScaleInputProps) {
             key={n}
             type="button"
             onClick={() => onChange(n)}
-            className={`w-11 h-11 rounded-full border-2 text-base font-medium transition-all ${
+            className={`w-12 h-12 rounded-full border-2 text-base font-medium transition-all ${
               value === n
                 ? 'border-[#C49F58] bg-[#C49F58] text-white'
                 : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
@@ -1110,7 +1114,7 @@ interface TextInputProps {
 function TextInput({ label, value, onChange, placeholder }: TextInputProps) {
   return (
     <div>
-      <label className="text-sm text-[#1C2B3A] underline block mb-1.5" style={{ fontFamily: "'Jost', sans-serif" }}>
+      <label className="text-sm text-[#1C2B3A] underline block mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
         {label}
       </label>
       <input
@@ -1118,8 +1122,8 @@ function TextInput({ label, value, onChange, placeholder }: TextInputProps) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full py-2.5 px-3 rounded-lg border border-[#1C2B3A]/20 focus:border-[#C49F58] outline-none text-sm text-[#1C2B3A] placeholder-[#1C2B3A]/40 transition-all"
-        style={{ fontFamily: "'Jost', sans-serif", minHeight: '40px' }}
+        className="w-full py-3 px-3 rounded-lg border border-[#1C2B3A]/20 focus:border-[#C49F58] outline-none text-base text-[#1C2B3A] placeholder-[#1C2B3A]/40 transition-all"
+        style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
       />
     </div>
   );
@@ -1142,10 +1146,48 @@ function Textarea({ label, value, onChange, placeholder }: TextareaProps) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        rows={2}
-        className="w-full py-2.5 px-3 rounded-lg border border-[#1C2B3A]/20 focus:border-[#C49F58] outline-none text-sm text-[#1C2B3A] placeholder-[#1C2B3A]/40 resize-none transition-all"
-        style={{ fontFamily: "'Jost', sans-serif" }}
+        rows={3}
+        className="w-full py-2.5 px-3 rounded-lg border border-[#1C2B3A]/20 focus:border-[#C49F58] outline-none text-base text-[#1C2B3A] placeholder-[#1C2B3A]/40 resize-y transition-all"
+        style={{ fontFamily: "'Jost', sans-serif", minHeight: '80px' }}
       />
+    </div>
+  );
+}
+
+interface SelectDropdownProps {
+  label: string;
+  options: string[];
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+}
+
+function SelectDropdown({ label, options, value, onChange, placeholder }: SelectDropdownProps) {
+  return (
+    <div>
+      <label className="text-sm text-[#1C2B3A] underline block mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
+        {label}
+      </label>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={`w-full py-3 px-3 rounded-lg border border-[#1C2B3A]/20 focus:border-[#C49F58] outline-none text-base transition-all appearance-none bg-white bg-no-repeat ${
+          value ? 'text-[#1C2B3A]' : 'text-[#1C2B3A]/40'
+        }`}
+        style={{
+          fontFamily: "'Jost', sans-serif",
+          minHeight: '48px',
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%231C2B3A' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
+          backgroundPosition: 'right 12px center',
+          backgroundSize: '20px',
+          paddingRight: '40px'
+        }}
+      >
+        <option value="" disabled>{placeholder || 'Select an option'}</option>
+        {options.map((option) => (
+          <option key={option} value={option}>{option}</option>
+        ))}
+      </select>
     </div>
   );
 }
