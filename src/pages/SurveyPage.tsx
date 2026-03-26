@@ -380,31 +380,31 @@ export default function SurveyPage() {
 
   return (
     <div className="min-h-screen bg-[#F8F7F4] overflow-x-hidden w-full max-w-full">
-      {/* Header */}
-      <header className="pt-4 pb-3 px-4 text-center border-b border-[#1C2B3A]/10 overflow-hidden">
-        <div style={{ fontFamily: 'Georgia, serif', fontSize: '22px', fontWeight: 'bold', letterSpacing: '5px', color: '#1B3A6B' }}>
-          MASLOW
-        </div>
-        <h1 className="text-xl font-serif text-[#1C2B3A] mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-          Unseen Standards
-        </h1>
-        <p className="text-[#1C2B3A]/70 text-xs max-w-xs mx-auto" style={{ fontFamily: "'Jost', sans-serif" }}>
-          Help us build a restroom that actually works for you. ~2 min, anonymous.
-        </p>
-        <p className="text-[#1C2B3A]/50 text-xs max-w-xs mx-auto mt-1" style={{ fontFamily: "'Jost', sans-serif" }}>
-          There are no wrong answers. Faith, ritual, body, practice — all of it is welcome here.
-        </p>
-      </header>
+      {/* Header - full on Section 1, minimal on 2-7 */}
+      {currentSection === 1 && (
+        <header className="pt-4 pb-3 px-4 text-center border-b border-[#1C2B3A]/10 overflow-hidden">
+          <div style={{ fontFamily: 'Georgia, serif', fontSize: '22px', fontWeight: 'bold', letterSpacing: '5px', color: '#1B3A6B' }}>
+            MASLOW
+          </div>
+          <h1 className="text-xl font-serif text-[#1C2B3A] mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            Unseen Standards
+          </h1>
+          <p className="text-[#1C2B3A]/70 text-xs max-w-xs mx-auto" style={{ fontFamily: "'Jost', sans-serif" }}>
+            Help us build a restroom that actually works for you. ~2 min, anonymous.
+          </p>
+          <p className="text-[#1C2B3A]/50 text-xs max-w-xs mx-auto mt-1" style={{ fontFamily: "'Jost', sans-serif" }}>
+            There are no wrong answers. Faith, ritual, body, practice — all of it is welcome here.
+          </p>
+        </header>
+      )}
 
       {/* Progress Bar */}
-      <div className="px-4 py-2 bg-white border-b border-[#1C2B3A]/10">
-        <div className="max-w-md mx-auto">
-          <div className="flex justify-between items-center mb-1">
-            <span className="text-xs text-[#1C2B3A]/60" style={{ fontFamily: "'Jost', sans-serif" }}>
-              {currentSection} / {totalSections}
-            </span>
-          </div>
-          <div className="h-1.5 bg-[#1C2B3A]/10 rounded-full overflow-hidden">
+      <div className={`px-4 bg-white border-b border-[#1C2B3A]/10 ${currentSection === 1 ? 'py-1.5' : 'py-2'}`}>
+        <div className="max-w-md mx-auto flex items-center gap-3">
+          <span className="text-xs text-[#1C2B3A]/60 whitespace-nowrap" style={{ fontFamily: "'Jost', sans-serif" }}>
+            {currentSection} / {totalSections}
+          </span>
+          <div className="flex-1 h-1.5 bg-[#1C2B3A]/10 rounded-full overflow-hidden">
             <div
               className="h-full bg-[#C49F58] transition-all duration-300"
               style={{ width: `${(currentSection / totalSections) * 100}%` }}
@@ -418,17 +418,14 @@ export default function SurveyPage() {
         {/* Section 1: Water & Hygiene */}
         {currentSection === 1 && (
           <section>
-            <h2 className="text-3xl font-serif text-[#1C2B3A] underline mb-1 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-2xl font-serif text-[#1C2B3A] mb-4 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               How do you prefer to clean up?
             </h2>
-            <p className="text-sm text-[#1C2B3A]/50 italic mb-4 text-center" style={{ fontFamily: "'Jost', sans-serif" }}>
-              Your bathroom habits and preferences.
-            </p>
 
             <div className="space-y-5">
               {/* Q1: Public restroom feeling */}
               <RadioGroup
-                label="How do you feel about using public restrooms in New York City? *"
+                label="How do you feel about NYC public restrooms? *"
                 options={[
                   'I avoid them if I can',
                   "I use them but they're never good enough",
@@ -442,7 +439,7 @@ export default function SurveyPage() {
 
               {/* Q2: Water use */}
               <RadioGroup
-                label="When you use the bathroom, do you use water to clean up — not just washing your hands, but as part of your routine? *"
+                label="Do you use water to clean up — beyond just handwashing? *"
                 options={[
                   'Yes, always',
                   'Sometimes',
@@ -463,7 +460,7 @@ export default function SurveyPage() {
                     onChange={(v) => updateField('carries_own_vessel', v)}
                   />
                   <YesNoSometimesToggle
-                    label="Would you use a hand-held water sprayer (like a bidet) if one was available?"
+                    label="Would you use a bidet sprayer if available?"
                     value={data.would_use_bidet_sprayer}
                     onChange={(v) => updateField('would_use_bidet_sprayer', v)}
                   />
@@ -515,12 +512,9 @@ export default function SurveyPage() {
         {/* Section 2: Faith & Ritual */}
         {currentSection === 2 && (
           <section>
-            <h2 className="text-3xl font-serif text-[#1C2B3A] underline mb-1 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-2xl font-serif text-[#1C2B3A] mb-4 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Faith & Ritual
             </h2>
-            <p className="text-sm text-[#1C2B3A]/50 italic mb-4 text-center" style={{ fontFamily: "'Jost', sans-serif" }}>
-              Practices that shape how you use the restroom.
-            </p>
 
             <div className="space-y-5">
               <YesNoSometimesToggle
@@ -565,12 +559,9 @@ export default function SurveyPage() {
         {/* Section 3: Privacy */}
         {currentSection === 3 && (
           <section>
-            <h2 className="text-3xl font-serif text-[#1C2B3A] underline mb-1 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-2xl font-serif text-[#1C2B3A] mb-4 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Privacy
             </h2>
-            <p className="text-sm text-[#1C2B3A]/50 italic mb-4 text-center" style={{ fontFamily: "'Jost', sans-serif" }}>
-              What makes a restroom feel private to you.
-            </p>
 
             <div className="space-y-5">
               <ScaleInput
@@ -611,12 +602,9 @@ export default function SurveyPage() {
         {/* Section 4: Time */}
         {currentSection === 4 && (
           <section>
-            <h2 className="text-3xl font-serif text-[#1C2B3A] underline mb-1 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-2xl font-serif text-[#1C2B3A] mb-4 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Time
             </h2>
-            <p className="text-sm text-[#1C2B3A]/50 italic mb-4 text-center" style={{ fontFamily: "'Jost', sans-serif" }}>
-              How long you typically need.
-            </p>
 
             <div className="space-y-5">
               <RadioGroup
@@ -628,7 +616,7 @@ export default function SurveyPage() {
               />
 
               <YesNoSometimesToggle
-                label="Is there something your routine requires that takes longer than most public restrooms allow?"
+                label="Does your routine take longer than most restrooms allow?"
                 value={data.has_practice_needing_more_time}
                 onChange={(v) => updateField('has_practice_needing_more_time', v)}
               />
@@ -648,12 +636,9 @@ export default function SurveyPage() {
         {/* Section 5: Products & Scent */}
         {currentSection === 5 && (
           <section>
-            <h2 className="text-3xl font-serif text-[#1C2B3A] underline mb-1 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-2xl font-serif text-[#1C2B3A] mb-4 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Products & Scent
             </h2>
-            <p className="text-sm text-[#1C2B3A]/50 italic mb-4 text-center" style={{ fontFamily: "'Jost', sans-serif" }}>
-              Preferences on what's in the products you use.
-            </p>
 
             <div className="space-y-5">
               <div>
@@ -712,16 +697,13 @@ export default function SurveyPage() {
         {/* Section 6: Signage & Language */}
         {currentSection === 6 && (
           <section>
-            <h2 className="text-3xl font-serif text-[#1C2B3A] underline mb-1 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-2xl font-serif text-[#1C2B3A] mb-4 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Signage & Language
             </h2>
-            <p className="text-sm text-[#1C2B3A]/50 italic mb-4 text-center" style={{ fontFamily: "'Jost', sans-serif" }}>
-              Can you find your way around easily.
-            </p>
 
             <div className="space-y-5">
               <SelectDropdown
-                label="What language do you prefer for reading instructions?"
+                label="Preferred language for instructions?"
                 options={[
                   'English',
                   'Spanish',
@@ -742,17 +724,17 @@ export default function SurveyPage() {
                 ]}
                 value={data.preferred_language}
                 onChange={(v) => updateField('preferred_language', v)}
-                placeholder="Select your preferred language"
+                placeholder="Select language"
               />
 
               <YesNoSometimesToggle
-                label="Do you prefer icons/symbols instead of written text in unfamiliar spaces?"
+                label="Do you prefer icons over written text?"
                 value={data.prefers_icons_over_text}
                 onChange={(v) => updateField('prefers_icons_over_text', v)}
               />
 
               <YesNoSometimesToggle
-                label="Have you ever had trouble using a public restroom because of unclear signage?"
+                label="Ever had trouble with unclear restroom signage?"
                 value={data.has_struggled_with_signage}
                 onChange={(v) => updateField('has_struggled_with_signage', v)}
               />
@@ -769,12 +751,9 @@ export default function SurveyPage() {
         {/* Section 7: Background */}
         {currentSection === 7 && (
           <section>
-            <h2 className="text-3xl font-serif text-[#1C2B3A] underline mb-1 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+            <h2 className="text-2xl font-serif text-[#1C2B3A] mb-4 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               A little about you
             </h2>
-            <p className="text-sm text-[#1C2B3A]/50 italic mb-4 text-center" style={{ fontFamily: "'Jost', sans-serif" }}>
-              Completely optional. This helps us understand which communities we're reaching.
-            </p>
 
             <div className="space-y-5">
               <SelectDropdown
