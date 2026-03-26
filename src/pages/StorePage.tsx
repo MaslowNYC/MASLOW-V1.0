@@ -48,7 +48,7 @@ const StorePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
-      <Helmet><title>The Standard | Maslow NYC</title></Helmet>
+      <Helmet><title>The Standard | Maslow</title></Helmet>
       <header className="bg-slate-900 text-white pt-24 pb-20 px-6 border-b-4 border-[#C49F58]">
         <div className="max-w-6xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">

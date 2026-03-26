@@ -14,7 +14,7 @@ const LocationDetail: React.FC = () => {
     return (
       <div className="min-h-screen bg-[#FAF4ED] pb-24">
         <Helmet>
-          <title>SoHo Flagship | Maslow NYC</title>
+          <title>SoHo Flagship | Maslow</title>
           <meta name="description" content="Experience the Maslow Flagship at SoHo Historic District. The future of public sanitation." />
         </Helmet>
 
@@ -139,7 +139,7 @@ const LocationDetail: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#1a1a1a] flex flex-col items-center justify-center p-8 text-center">
       <Helmet>
-        <title>Coming Soon | Maslow NYC</title>
+        <title>Coming Soon | Maslow</title>
       </Helmet>
 
       <motion.div

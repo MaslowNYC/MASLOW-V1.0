@@ -74,7 +74,7 @@ const SanctuarySuitesPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#FAF4ED]">
       <Helmet>
-        <title>Maslow NYC | The Suites</title>
+        <title>Maslow | The Suites</title>
         <meta name="description" content="Private, safe, thoughtfully designed spaces for bathroom access, nursing, prayer, changing—whatever you need." />
       </Helmet>
 

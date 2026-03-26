@@ -17,9 +17,9 @@ const FieldNotePost: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#FAF4ED]">
       <Helmet>
-        <title>{note.title} — Maslow NYC</title>
+        <title>{note.title} — Maslow</title>
         <meta name="description" content={note.excerpt} />
-        <meta property="og:title" content={`${note.title} — Maslow NYC`} />
+        <meta property="og:title" content={`${note.title} — Maslow`} />
         <meta property="og:description" content={note.excerpt} />
         <meta property="og:type" content="article" />
       </Helmet>

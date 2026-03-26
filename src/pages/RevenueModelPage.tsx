@@ -320,10 +320,10 @@ export default function RevenueModelPage() {
   return (
     <>
       <Helmet>
-        <title>Revenue Model — Maslow NYC</title>
-        <meta name="description" content="Interactive financial model for Maslow NYC. Explore utilization scenarios, session types, and break-even projections." />
-        <meta property="og:title" content="Revenue Model — Maslow NYC" />
-        <meta property="og:description" content="Interactive financial model for Maslow NYC. Explore utilization scenarios, session types, and break-even projections." />
+        <title>Revenue Model — Maslow</title>
+        <meta name="description" content="Interactive financial model for Maslow. Explore utilization scenarios, session types, and break-even projections." />
+        <meta property="og:title" content="Revenue Model — Maslow" />
+        <meta property="og:description" content="Interactive financial model for Maslow. Explore utilization scenarios, session types, and break-even projections." />
       </Helmet>
       <div style={{ background: COLORS.charcoal, minHeight: "100vh", fontFamily: "system-ui, -apple-system, sans-serif", padding: "0 0 60px" }}>
 

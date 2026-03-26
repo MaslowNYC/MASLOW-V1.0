@@ -10,8 +10,8 @@ const Partnerships: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#F5F0E6]">
       <Helmet>
-        <title>Maslow NYC | Partnerships</title>
-        <meta name="description" content="Partner with Maslow NYC - City agencies and vendors working together to build the infrastructure of dignity." />
+        <title>Maslow | Partnerships</title>
+        <meta name="description" content="Partner with Maslow - City agencies and vendors working together to build the infrastructure of dignity." />
       </Helmet>
 
       {/* Tab Navigation */}
@@ -327,7 +327,7 @@ const Partnerships: React.FC = () => {
                 We're not asking for a blank check. We're asking for a conversation about how private infrastructure can serve public good.
               </p>
               <div className="bg-white/10 rounded-lg p-8 max-w-md mx-auto mb-8">
-                <p className="text-white font-semibold mb-2">Maslow NYC</p>
+                <p className="text-white font-semibold mb-2">Maslow</p>
                 <p className="text-white/80 mb-4">Partnership Inquiries</p>
                 <a
                   href="mailto:partners@maslow.nyc"
@@ -337,7 +337,7 @@ const Partnerships: React.FC = () => {
                 </a>
               </div>
               <p className="text-white/80 text-sm">
-                Or reach out to your City Council representative and ask them about partnering with Maslow NYC.
+                Or reach out to your City Council representative and ask them about partnering with Maslow.
               </p>
             </div>
           </section>
@@ -346,7 +346,7 @@ const Partnerships: React.FC = () => {
           <section className="py-8 px-4 bg-[#F5F0E6] border-t-2 border-[#3C5999]/10">
             <div className="max-w-4xl mx-auto text-center text-sm text-gray-600">
               <p>
-                Maslow NYC is a private company with a nonprofit arm at{' '}
+                Maslow is a private company with a nonprofit arm at{' '}
                 <a href="https://maslownyc.org" className="text-[#3C5999] hover:text-[#C49F58] font-semibold">
                   maslownyc.org
                 </a>
@@ -466,7 +466,7 @@ const Partnerships: React.FC = () => {
                 We're curating a collection of brands that share our values: quality, sustainability, and human dignity.
               </p>
               <div className="bg-white/10 rounded-lg p-8 max-w-md mx-auto mb-8">
-                <p className="text-white font-semibold mb-2">Maslow NYC</p>
+                <p className="text-white font-semibold mb-2">Maslow</p>
                 <p className="text-white/80 mb-4">Partnership Inquiries</p>
                 <a
                   href="mailto:partners@maslow.nyc"

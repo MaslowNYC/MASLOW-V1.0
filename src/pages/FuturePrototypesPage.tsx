@@ -90,7 +90,7 @@ const FuturePrototypesPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#FAF4ED]">
       <Helmet>
-        <title>Maslow NYC | The Future</title>
+        <title>Maslow | The Future</title>
         <meta name="description" content="A look at what's coming — innovations in development that will define the next generation of Maslow locations." />
       </Helmet>
 

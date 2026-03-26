@@ -16,7 +16,7 @@ const ImpactPage: React.FC = () => {
   return (
     <div className="min-h-screen" style={{ background: 'var(--cream)' }}>
       <Helmet>
-        <title>Impact | Maslow NYC</title>
+        <title>Impact | Maslow</title>
         <meta name="description" content="The Infrastructure of Dignity - Private Maslow suites across NYC." />
       </Helmet>
 

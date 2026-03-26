@@ -101,7 +101,7 @@ const MembershipPage: React.FC = () => {
   return (
     <div className="min-h-screen" style={{ background: 'var(--cream)' }}>
       <Helmet>
-        <title>Membership | Maslow NYC</title>
+        <title>Membership | Maslow</title>
         <meta name="description" content="Get your Maslow Pass. Everyone deserves access. Start free at The Hull; upgrade anytime for private suite access." />
       </Helmet>
 

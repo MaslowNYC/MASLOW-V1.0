@@ -15,9 +15,9 @@ const HomePage = () => {
   return (
     <>
       <Helmet>
-        <title>Maslow NYC — New York's First Real Restroom</title>
+        <title>Maslow — New York's First Real Restroom</title>
         <meta name="description" content="New York's first real restroom. Private suites in SoHo — not a stall, not a hotel lobby. Yours, for as long as you need. From $5." />
-        <meta property="og:title" content="Maslow NYC — New York's First Real Restroom" />
+        <meta property="og:title" content="Maslow — New York's First Real Restroom" />
         <meta property="og:description" content="New York's first real restroom. Private suites in SoHo — not a stall, not a hotel lobby. Yours, for as long as you need. From $5." />
       </Helmet>
 

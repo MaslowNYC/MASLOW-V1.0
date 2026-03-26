@@ -8,7 +8,7 @@ const MaslowPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>About Abraham Maslow | Maslow NYC</title>
+        <title>About Abraham Maslow | Maslow</title>
       </Helmet>
 
       <div className="min-h-screen bg-[#FAF4ED]">
@@ -102,7 +102,7 @@ const MaslowPage: React.FC = () => {
             </h2>
 
             <p>
-              Maslow NYC exists to fix this. We are building the infrastructure that should have
+              Maslow exists to fix this. We are building the infrastructure that should have
               been built decades ago—not as charity, but as civic duty. Clean, safe, accessible
               restrooms are not a luxury. They are the foundation.
             </p>

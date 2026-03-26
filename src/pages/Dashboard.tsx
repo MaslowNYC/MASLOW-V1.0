@@ -21,7 +21,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#F8F7F4] py-12 px-4">
       <Helmet>
-        <title>Dashboard | Maslow NYC</title>
+        <title>Dashboard | Maslow</title>
       </Helmet>
 
       {/* Header */}

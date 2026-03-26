@@ -646,7 +646,7 @@ const EventsPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#FAF4ED]">
       <Helmet>
-        <title>Events | Maslow NYC</title>
+        <title>Events | Maslow</title>
         <meta name="description" content="Upcoming events at Maslow - Connect, learn, and grow with our community." />
       </Helmet>
 

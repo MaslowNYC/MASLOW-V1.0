@@ -276,7 +276,7 @@ const HullPage: React.FC = () => {
   return (
     <div className="min-h-screen" style={{ background: 'var(--cream)' }}>
       <Helmet>
-        <title>The Hull | Maslow NYC</title>
+        <title>The Hull | Maslow</title>
         <meta name="description" content="The Hull - The gathering space at the heart of select Maslow locations." />
       </Helmet>
 

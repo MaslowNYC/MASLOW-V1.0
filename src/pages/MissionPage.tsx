@@ -7,10 +7,10 @@ const MissionPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#F5F0E6]">
       <Helmet>
-        <title>Our Mission | Maslow NYC — The Infrastructure of Dignity</title>
+        <title>Our Mission | Maslow — The Infrastructure of Dignity</title>
         <meta
           name="description"
-          content="New York City has 8 million people and fewer than 1,100 public restrooms. Maslow NYC is building clean, private, accessible restroom suites in SoHo and beyond — because dignity is not a luxury."
+          content="New York City has 8 million people and fewer than 1,100 public restrooms. Maslow is building clean, private, accessible restroom suites in SoHo and beyond — because dignity is not a luxury."
         />
       </Helmet>
 
@@ -166,7 +166,7 @@ const MissionPage: React.FC = () => {
       <section className="py-8 px-4 bg-[#F5F0E6] border-t-2 border-[#3C5999]/10">
         <div className="max-w-4xl mx-auto text-center text-sm text-gray-600">
           <p>
-            Maslow NYC LLC is a Brooklyn-based company building private restroom infrastructure in
+            Maslow LLC is a Brooklyn-based company building private restroom infrastructure in
             New York City. We are MWBE-eligible and committed to equitable access across all neighborhoods.
           </p>
         </div>

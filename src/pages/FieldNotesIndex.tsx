@@ -7,12 +7,12 @@ const FieldNotesIndex: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#FAF4ED]">
       <Helmet>
-        <title>Field Notes — Maslow NYC</title>
+        <title>Field Notes — Maslow</title>
         <meta
           name="description"
           content="Writing on restroom culture, city infrastructure, human dignity, and the spaces between."
         />
-        <meta property="og:title" content="Field Notes — Maslow NYC" />
+        <meta property="og:title" content="Field Notes — Maslow" />
         <meta property="og:description" content="Writing on restroom culture, city infrastructure, human dignity, and the spaces between." />
       </Helmet>
 

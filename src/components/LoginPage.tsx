@@ -837,7 +837,7 @@ const LoginPage = () => {
             className="text-[18px] font-medium tracking-[0.35em] uppercase mb-2"
             style={{ fontFamily: "'Cormorant Garamond', serif", color: '#2a2218' }}
           >
-            Maslow NYC
+            Maslow
           </div>
 
           {/* Tagline */}
