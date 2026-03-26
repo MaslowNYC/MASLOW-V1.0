@@ -10,11 +10,63 @@ interface UsageOption { id: string; label: string; icon: string; description: st
 interface AmenityOption { id: string; label: string; }
 interface ProductOption { id: string; label: string; }
 interface ProfileFormState {
-  first_name: string; last_name: string; bio: string; dob: string; phone: string;
+  first_name: string; last_name: string; bio: string; birthday_month: string; birthday_day: string; phone: string;
   photo_url?: string | null; member_number?: number | null; credits?: number | null;
   preferences_amenities: string[]; preferences_usage: string[]; preferences_products: string[];
 }
 type PreferenceCategory = 'preferences_amenities' | 'preferences_usage' | 'preferences_products';
+
+const MONTHS = [
+  { value: '01', label: 'January' }, { value: '02', label: 'February' }, { value: '03', label: 'March' },
+  { value: '04', label: 'April' }, { value: '05', label: 'May' }, { value: '06', label: 'June' },
+  { value: '07', label: 'July' }, { value: '08', label: 'August' }, { value: '09', label: 'September' },
+  { value: '10', label: 'October' }, { value: '11', label: 'November' }, { value: '12', label: 'December' },
+];
+
+const getDaysInMonth = (month: string): number => {
+  if (!month) return 31;
+  const m = parseInt(month, 10);
+  if ([4, 6, 9, 11].includes(m)) return 30;
+  if (m === 2) return 29; // Allow Feb 29 for leap year babies
+  return 31;
+};
+
+const getOrdinalSuffix = (day: number): string => {
+  if (day >= 11 && day <= 13) return 'th';
+  switch (day % 10) {
+    case 1: return 'st';
+    case 2: return 'nd';
+    case 3: return 'rd';
+    default: return 'th';
+  }
+};
+
+const formatBirthdayDisplay = (month: string, day: string): string => {
+  if (!month || !day) return '';
+  const monthObj = MONTHS.find(m => m.value === month);
+  const dayNum = parseInt(day, 10);
+  if (!monthObj || isNaN(dayNum)) return '';
+  return `${monthObj.label} ${dayNum}${getOrdinalSuffix(dayNum)}`;
+};
+
+const parseDob = (dob: string | null): { month: string; day: string } => {
+  if (!dob) return { month: '', day: '' };
+  // Handle both YYYY-MM-DD (legacy) and MM-DD formats
+  const parts = dob.split('-');
+  if (parts.length === 3) {
+    // YYYY-MM-DD format - strip year
+    return { month: parts[1], day: parts[2] };
+  } else if (parts.length === 2) {
+    // MM-DD format
+    return { month: parts[0], day: parts[1] };
+  }
+  return { month: '', day: '' };
+};
+
+const formatDobForStorage = (month: string, day: string): string => {
+  if (!month || !day) return '';
+  return `${month}-${day.padStart(2, '0')}`;
+};
 
 const usageOptions: UsageOption[] = [
   { id: 'prayer', label: 'Prayer & Meditation', icon: '🙏', description: 'Prayer rug, qibla compass, ablution station, meditation cushion' },
@@ -47,7 +99,7 @@ const ProfilePage: React.FC = () => {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
   const [profile, setProfile] = useState<ProfileFormState>({
-    first_name: '', last_name: '', bio: '', dob: '', phone: '',
+    first_name: '', last_name: '', bio: '', birthday_month: '', birthday_day: '', phone: '',
     preferences_amenities: [], preferences_usage: [], preferences_products: []
   });
 
@@ -59,9 +111,10 @@ const ProfilePage: React.FC = () => {
         if (error && error.code !== 'PGRST116') throw error;
         if (data) {
           const p = data as Profile;
+          const { month, day } = parseDob(p.dob);
           setProfile({
             first_name: p.first_name || '', last_name: p.last_name || '',
-            bio: p.bio || '', dob: p.dob || '', phone: p.phone || '',
+            bio: p.bio || '', birthday_month: month, birthday_day: day, phone: p.phone || '',
             photo_url: p.photo_url || null, member_number: p.member_number || null,
             credits: p.credits || 0,
             preferences_amenities: (p.preferences_amenities as unknown as string[]) || [],
@@ -113,7 +166,9 @@ const ProfilePage: React.FC = () => {
     try {
       setSaving(true);
       if (!user) return;
-      const updates = { ...profile, dob: profile.dob === '' ? null : profile.dob, updated_at: new Date().toISOString() };
+      const dob = formatDobForStorage(profile.birthday_month, profile.birthday_day);
+      const { birthday_month, birthday_day, ...rest } = profile;
+      const updates = { ...rest, dob: dob || null, updated_at: new Date().toISOString() };
       const { error } = await (supabase.from('profiles') as any).upsert({ id: user.id, email: user.email, ...updates });
       if (error) throw error;
       setSavedSection(section || 'all');
@@ -210,8 +265,44 @@ const ProfilePage: React.FC = () => {
                 <StyledInput value={profile.last_name} onChange={v => setProfile({ ...profile, last_name: v })} placeholder="Last" />
               </FieldGroup>
             </div>
-            <FieldGroup label="Date of Birth">
-              <StyledInput type="date" value={profile.dob} onChange={v => setProfile({ ...profile, dob: v })} />
+            <FieldGroup label="Birthday">
+              <div className="flex gap-3">
+                <select
+                  value={profile.birthday_month}
+                  onChange={e => {
+                    const newMonth = e.target.value;
+                    const maxDay = getDaysInMonth(newMonth);
+                    const currentDay = parseInt(profile.birthday_day, 10);
+                    setProfile({
+                      ...profile,
+                      birthday_month: newMonth,
+                      birthday_day: currentDay > maxDay ? String(maxDay).padStart(2, '0') : profile.birthday_day
+                    });
+                  }}
+                  className="flex-1 text-sm text-[#1C2B3A] bg-[#F0EFED] border-0 rounded-lg px-3 py-2.5 outline-none focus:ring-1 focus:ring-[#C49F58]/30 appearance-none cursor-pointer"
+                  style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%231C2B3A' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.75rem center', backgroundSize: '1rem' }}
+                >
+                  <option value="">Month</option>
+                  {MONTHS.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}
+                </select>
+                <select
+                  value={profile.birthday_day}
+                  onChange={e => setProfile({ ...profile, birthday_day: e.target.value })}
+                  className="w-24 text-sm text-[#1C2B3A] bg-[#F0EFED] border-0 rounded-lg px-3 py-2.5 outline-none focus:ring-1 focus:ring-[#C49F58]/30 appearance-none cursor-pointer"
+                  style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%231C2B3A' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.5rem center', backgroundSize: '1rem' }}
+                >
+                  <option value="">Day</option>
+                  {Array.from({ length: getDaysInMonth(profile.birthday_month) }, (_, i) => {
+                    const day = String(i + 1).padStart(2, '0');
+                    return <option key={day} value={day}>{i + 1}</option>;
+                  })}
+                </select>
+              </div>
+              {profile.birthday_month && profile.birthday_day && (
+                <p className="text-xs text-[#C49F58] mt-2 italic" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                  {formatBirthdayDisplay(profile.birthday_month, profile.birthday_day)}
+                </p>
+              )}
             </FieldGroup>
             <div className="mt-4">
               <FieldGroup label="Notes for Staff">
