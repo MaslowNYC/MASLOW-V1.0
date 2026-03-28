@@ -1,5 +1,3 @@
-import "@supabase/functions-js/edge-runtime.d.ts"
-
 const STRIPE_SECRET_KEY = Deno.env.get("STRIPE_SECRET_KEY")
 
 Deno.serve(async (req) => {

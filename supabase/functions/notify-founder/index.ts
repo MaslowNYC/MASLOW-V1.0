@@ -1,5 +1,3 @@
-import "@supabase/functions-js/edge-runtime.d.ts"
-
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY")
 const FOUNDER_EMAIL = "patrick@maslow.nyc"
 
@@ -43,6 +41,23 @@ Deno.serve(async (req) => {
     if (type === "survey_response") {
       subject = `📋 New Unseen Standards Survey Response`
       body = `Someone just submitted the Unseen Standards survey!\n\nNeighborhood: ${data?.location || data?.neighborhood_zip || "not provided"}\nTime: ${timestamp}`.trim()
+    }
+
+    // Pre-sale pass purchase
+    else if (type === "presale_purchase") {
+      const tierName = record.tier_name || record.tier || "Unknown"
+      const sessions = record.sessions_purchased === -1 ? "Unlimited" : record.sessions_purchased
+      const amount = record.amount_paid ? `$${Number(record.amount_paid).toFixed(2)}` : "Unknown"
+      subject = `🎟️ Pre-Sale Purchase — ${tierName}`
+      body = `
+Someone just bought a pre-sale pass!
+
+Tier: ${tierName}
+Sessions: ${sessions}
+Amount: ${amount}
+Email: ${record.email || "Unknown"}
+Time: ${timestamp}
+      `.trim()
     }
 
     else if (table === "profiles" && type === "INSERT") {
