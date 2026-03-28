@@ -120,14 +120,28 @@ function InlineAuth({ onAuthenticated }: { onAuthenticated: () => void }) {
     setLoading(true);
     setError(null);
 
-    const result = mode === 'signup'
-      ? await signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/auth/callback` } })
-      : await signIn({ email, password });
-
-    if (result.error) {
-      setError(result.error.message);
+    if (mode === 'signup') {
+      const result = await signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/auth/callback` } });
+      if (result.error) {
+        // Check if user already exists
+        if (result.error.message.toLowerCase().includes('already') ||
+            result.error.message.toLowerCase().includes('registered') ||
+            result.error.message.toLowerCase().includes('exists')) {
+          setError('An account with this email already exists.');
+          setMode('login'); // Auto-switch to login mode
+        } else {
+          setError(result.error.message);
+        }
+      } else {
+        onAuthenticated();
+      }
     } else {
-      onAuthenticated();
+      const result = await signIn({ email, password });
+      if (result.error) {
+        setError(result.error.message);
+      } else {
+        onAuthenticated();
+      }
     }
     setLoading(false);
   };

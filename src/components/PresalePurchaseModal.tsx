@@ -138,7 +138,7 @@ const PresalePurchaseModal: React.FC<PresalePurchaseModalProps> = ({
 
   // Express checkout (Apple Pay / Google Pay)
   useEffect(() => {
-    if (stripe && isOpen) {
+    if (stripe && isOpen && !paymentRequest) {
       const pr = stripe.paymentRequest({
         country: 'US',
         currency: 'usd',
@@ -186,7 +186,13 @@ const PresalePurchaseModal: React.FC<PresalePurchaseModalProps> = ({
         }
       });
     }
-  }, [stripe, tier, isOpen, email]);
+
+    // Reset when modal closes
+    if (!isOpen) {
+      setPaymentRequest(null);
+      setCanMakePayment(null);
+    }
+  }, [stripe, isOpen]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -239,8 +245,17 @@ const PresalePurchaseModal: React.FC<PresalePurchaseModalProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[480px] bg-white text-[#1C2B3A] border-none shadow-2xl rounded-xl max-h-[90vh] overflow-y-auto p-0">
+    <Dialog open={isOpen} onOpenChange={(open) => {
+      // Only allow closing via the X button or programmatic close, not backdrop click
+      if (!open && !loading) {
+        onClose();
+      }
+    }}>
+      <DialogContent
+        className="sm:max-w-[480px] bg-white text-[#1C2B3A] border-none shadow-2xl rounded-xl max-h-[90vh] overflow-y-auto p-0"
+        onInteractOutside={(e) => e.preventDefault()}
+        onEscapeKeyDown={(e) => { if (loading) e.preventDefault(); }}
+      >
         {/* Header */}
         <div className="bg-[#1C2B3A] p-6 text-white text-center rounded-t-xl">
           <DialogHeader>
