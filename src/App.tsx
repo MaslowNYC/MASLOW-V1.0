@@ -111,7 +111,7 @@ const AppContent: React.FC = () => {
           <Route path="/model" element={<RevenueModelPage />} />
           <Route path="/survey" element={<SurveyPage />} />
           <Route path="/research" element={<ResearchPage />} />
-          <Route path="/founding" element={<FoundingPage />} />
+          <Route path="/foundation" element={<FoundingPage />} />
           <Route path="/staff/inventory" element={<ProtectedRoute requireFounder={true}><StaffInventory /></ProtectedRoute>} />
           <Route path="/buy-credits" element={<ProtectedRoute><BuyCreditsPage /></ProtectedRoute>} />
           

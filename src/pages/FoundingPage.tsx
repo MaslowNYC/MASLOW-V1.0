@@ -274,12 +274,12 @@ export default function FoundingPage() {
       <div className="min-h-screen bg-[#F8F7F4]">
 
         {/* ── Hero ─────────────────────────────────────── */}
-        <section className="pt-24 pb-16 md:pt-32 md:pb-24 px-4">
+        <section className="pt-16 pb-8 md:pt-20 md:pb-12 px-4">
           <div className="max-w-3xl mx-auto text-center">
             <p className="text-[#C49F58] tracking-[0.3em] uppercase text-sm mb-6" style={{ fontFamily: 'var(--sans)' }}>
               Maslow
             </p>
-            <h1 className="text-4xl md:text-6xl font-serif text-[#1C2B3A] mb-6 leading-tight">
+            <h1 className="text-3xl md:text-6xl font-serif text-[#1C2B3A] mb-6 leading-tight">
               Be Part of the Foundation
             </h1>
             <p className="text-lg md:text-xl text-[#4A5568] leading-relaxed max-w-2xl mx-auto mb-4" style={{ fontFamily: 'var(--sans)' }}>
@@ -289,35 +289,6 @@ export default function FoundingPage() {
             <p className="text-[#1C2B3A] font-medium text-lg" style={{ fontFamily: 'var(--sans)' }}>
               Every pass you buy today is a pass you'll use on opening day.
             </p>
-          </div>
-        </section>
-
-        {/* ── How It Works ─────────────────────────────── */}
-        <section className="pb-16 md:pb-20 px-4">
-          <div className="max-w-3xl mx-auto">
-            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
-              {[
-                { step: '1', text: 'Choose your pass' },
-                { step: '2', text: 'We build it' },
-                { step: '3', text: 'You walk in on day one' },
-              ].map((item, i) => (
-                <div key={item.step} className="flex items-center gap-3 md:gap-4">
-                  {i > 0 && (
-                    <span className="hidden md:block text-[#C49F58] text-2xl font-light">
-                      &rarr;
-                    </span>
-                  )}
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-[#1C2B3A] text-white flex items-center justify-center text-sm font-bold flex-shrink-0">
-                      {item.step}
-                    </div>
-                    <span className="text-[#1C2B3A] font-medium" style={{ fontFamily: 'var(--sans)' }}>
-                      {item.text}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         </section>
 
@@ -370,12 +341,12 @@ export default function FoundingPage() {
         </AnimatePresence>
 
         {/* ── Pass Cards ───────────────────────────────── */}
-        <section className="pb-20 px-4">
-          <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <section className="pb-12 px-4">
+          <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {TIERS.map((tier) => (
               <div
                 key={tier.id}
-                className={`bg-white rounded-xl p-6 shadow-sm border-2 transition-all hover:shadow-md flex flex-col ${
+                className={`bg-white rounded-xl p-5 shadow-sm border-2 transition-all hover:shadow-md flex flex-col ${
                   tier.featured
                     ? 'border-[#C49F58] ring-1 ring-[#C49F58]/20'
                     : 'border-[#E5E0D8] hover:border-[#C49F58]'
@@ -398,7 +369,7 @@ export default function FoundingPage() {
                 </div>
 
                 {/* Features */}
-                <ul className="space-y-2 mb-6 flex-grow">
+                <ul className="space-y-1.5 mb-4 flex-grow">
                   {tier.features.map((f) => (
                     <li key={f} className="flex items-start gap-2 text-sm text-[#4A5568]" style={{ fontFamily: 'var(--sans)' }}>
                       <Check className="w-4 h-4 text-[#C49F58] flex-shrink-0 mt-0.5" />
@@ -406,11 +377,6 @@ export default function FoundingPage() {
                     </li>
                   ))}
                 </ul>
-
-                {/* Tagline */}
-                <p className="text-sm italic text-[#6B7280] mb-4" style={{ fontFamily: 'var(--sans)' }}>
-                  "{tier.tagline}"
-                </p>
 
                 {/* CTA */}
                 <button
@@ -427,39 +393,25 @@ export default function FoundingPage() {
               </div>
             ))}
           </div>
-        </section>
 
-        {/* ── The Promise ──────────────────────────────── */}
-        <section className="pb-20 px-4">
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="bg-white rounded-xl p-8 md:p-12 border border-[#E5E0D8] shadow-sm">
-              <h2 className="font-serif text-2xl md:text-3xl text-[#1C2B3A] mb-4">
-                Your money builds the space.<br />Your pass works on day one.
-              </h2>
-              <p className="text-[#6B7280] leading-relaxed" style={{ fontFamily: 'var(--sans)' }}>
-                If we don't open within 24 months of your purchase,
-                you get a full refund. No questions asked.
+          {/* ── Promise + Counter (inline under cards) ──── */}
+          <div className="max-w-5xl mx-auto text-center mt-6">
+            <p className="text-sm text-[#6B7280]" style={{ fontFamily: 'var(--sans)' }}>
+              If we don't open within 24 months, you get a full refund. No questions asked.
+            </p>
+            {passCount !== null && passCount > 0 && (
+              <p className="text-sm text-[#6B7280] mt-2" style={{ fontFamily: 'var(--sans)' }}>
+                <span className="font-bold text-[#C49F58]">{passCount}</span>{' '}
+                {passCount === 1 ? 'person is' : 'people are'} already in.
               </p>
-            </div>
+            )}
           </div>
         </section>
 
-        {/* ── Social Proof Counter ─────────────────────── */}
-        {passCount !== null && passCount > 0 && (
-          <section className="pb-20 px-4">
-            <div className="max-w-lg mx-auto text-center">
-              <p className="text-[#1C2B3A] text-lg" style={{ fontFamily: 'var(--sans)' }}>
-                <span className="text-3xl font-bold text-[#C49F58]">{passCount}</span>{' '}
-                {passCount === 1 ? 'person is' : 'people are'} already in.
-              </p>
-            </div>
-          </section>
-        )}
-
         {/* ── FAQ ──────────────────────────────────────── */}
-        <section className="pb-24 px-4">
+        <section className="pb-16 px-4">
           <div className="max-w-2xl mx-auto">
-            <h2 className="font-serif text-2xl md:text-3xl text-[#1C2B3A] text-center mb-8">
+            <h2 className="font-serif text-2xl md:text-3xl text-[#1C2B3A] text-center mb-4">
               Questions
             </h2>
             <div className="bg-white rounded-xl border border-[#E5E0D8] shadow-sm px-6">
