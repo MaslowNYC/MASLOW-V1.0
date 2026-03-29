@@ -13,14 +13,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
   const authHeader = req.headers.authorization;
-  if (!authHeader) return res.status(401).json({ error: 'Unauthorized' });
+  const queryToken = req.query.token as string | undefined;
+  const token = authHeader?.replace('Bearer ', '') || queryToken;
+  if (!token) return res.status(401).json({ error: 'Unauthorized' });
 
   const supabaseUrl = process.env.SUPABASE_URL!;
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
   const supabase = createClient(supabaseUrl, supabaseKey);
 
-  const token = authHeader.replace('Bearer ', '');
   const { data: { user }, error: userError } = await supabase.auth.getUser(token);
   if (userError || !user) return res.status(401).json({ error: 'Unauthorized' });
 
