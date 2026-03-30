@@ -265,7 +265,7 @@ const PresalePurchaseModal: React.FC<PresalePurchaseModalProps> = ({
             </DialogDescription>
           </DialogHeader>
           <div className="mt-4">
-            <div className="text-3xl font-bold text-[#C49F58]">
+            <div className="text-3xl font-bold text-[#D4AF6A]">
               ${tier.price.toLocaleString()}
             </div>
             <div className="text-sm text-white/60 mt-1">
@@ -305,7 +305,7 @@ const PresalePurchaseModal: React.FC<PresalePurchaseModalProps> = ({
                 required
                 value={name}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
-                className="bg-gray-50 border-gray-200 focus:border-[#C49F58] focus:ring-[#C49F58]"
+                className="bg-gray-50 border-gray-200 focus:border-[#D4AF6A] focus:ring-[#D4AF6A]"
               />
             </div>
 
@@ -318,13 +318,13 @@ const PresalePurchaseModal: React.FC<PresalePurchaseModalProps> = ({
                 required
                 value={email}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-                className="bg-gray-50 border-gray-200 focus:border-[#C49F58] focus:ring-[#C49F58]"
+                className="bg-gray-50 border-gray-200 focus:border-[#D4AF6A] focus:ring-[#D4AF6A]"
               />
             </div>
 
             <div className="grid gap-2">
               <Label htmlFor="presale-card" className="text-sm font-medium text-[#6B7280]">Card Details</Label>
-              <div className="p-4 border rounded-md bg-gray-50 border-gray-200 focus-within:border-[#C49F58] focus-within:ring-1 focus-within:ring-[#C49F58]">
+              <div className="p-4 border rounded-md bg-gray-50 border-gray-200 focus-within:border-[#D4AF6A] focus-within:ring-1 focus-within:ring-[#D4AF6A]">
                 <CardElement id="presale-card" options={cardStyle} />
               </div>
             </div>
@@ -340,7 +340,7 @@ const PresalePurchaseModal: React.FC<PresalePurchaseModalProps> = ({
           <div className="space-y-3 pt-2">
             <Button
               type="submit"
-              className="w-full bg-[#C49F58] hover:bg-[#b08d4b] text-white py-6 text-lg font-bold shadow-lg transition-all"
+              className="w-full bg-[#D4AF6A] hover:bg-[#bc9a58] text-white py-6 text-lg font-bold shadow-lg transition-all"
               disabled={!stripe || loading}
             >
               {loading ? (

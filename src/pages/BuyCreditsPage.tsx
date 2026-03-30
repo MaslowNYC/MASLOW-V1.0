@@ -80,7 +80,7 @@ export default function BuyCreditsPage() {
           {userEmail && (
             <div className="inline-block bg-white px-6 py-3 rounded-lg shadow-sm border border-[#E5E0D8]">
               <p className="text-sm text-[#6B7280]">Logged in as <span className="font-semibold text-[#1A1F36]">{userEmail}</span></p>
-              <p className="text-sm text-[#6B7280] mt-1">Current balance: <span className="font-bold text-[#C49F58]">{credits} credits</span></p>
+              <p className="text-sm text-[#6B7280] mt-1">Current balance: <span className="font-bold text-[#D4AF6A]">{credits} credits</span></p>
             </div>
           )}
         </div>
@@ -92,13 +92,13 @@ export default function BuyCreditsPage() {
               key={pkg.name}
               className={`bg-white rounded-lg p-6 shadow-md border-2 transition-all ${
                 pkg.badge === 'BEST VALUE' 
-                  ? 'border-[#C49F58] transform scale-105' 
-                  : 'border-[#E5E0D8] hover:border-[#C49F58]'
+                  ? 'border-[#D4AF6A] transform scale-105' 
+                  : 'border-[#E5E0D8] hover:border-[#D4AF6A]'
               }`}
             >
               {pkg.badge && (
                 <div className={`text-xs font-semibold mb-2 uppercase ${
-                  pkg.badge === 'BEST VALUE' ? 'text-[#C49F58]' : 'text-[#6B7280]'
+                  pkg.badge === 'BEST VALUE' ? 'text-[#D4AF6A]' : 'text-[#6B7280]'
                 }`}>
                   {pkg.badge}
                 </div>
@@ -124,7 +124,7 @@ export default function BuyCreditsPage() {
                 credits={pkg.credits}
                 amount={pkg.price}
                 packageName={pkg.name}
-                className="w-full bg-[#C49F58] text-white py-3 rounded-lg font-semibold"
+                className="w-full bg-[#D4AF6A] text-white py-3 rounded-lg font-semibold"
               >
                 Purchase
               </BuyCreditsButton>
@@ -138,8 +138,8 @@ export default function BuyCreditsPage() {
           
           <div className="space-y-4 text-[#4A5568]">
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-[#C49F58] bg-opacity-10 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-[#C49F58] font-bold">1</span>
+              <div className="w-8 h-8 bg-[#D4AF6A] bg-opacity-10 rounded-full flex items-center justify-center flex-shrink-0">
+                <span className="text-[#D4AF6A] font-bold">1</span>
               </div>
               <div>
                 <h3 className="font-semibold text-[#1A1F36]">Choose Your Package</h3>
@@ -148,8 +148,8 @@ export default function BuyCreditsPage() {
             </div>
             
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-[#C49F58] bg-opacity-10 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-[#C49F58] font-bold">2</span>
+              <div className="w-8 h-8 bg-[#D4AF6A] bg-opacity-10 rounded-full flex items-center justify-center flex-shrink-0">
+                <span className="text-[#D4AF6A] font-bold">2</span>
               </div>
               <div>
                 <h3 className="font-semibold text-[#1A1F36]">Complete Payment</h3>
@@ -158,8 +158,8 @@ export default function BuyCreditsPage() {
             </div>
             
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-[#C49F58] bg-opacity-10 rounded-full flex items-center justify-center flex-shrink-0">
-                <span className="text-[#C49F58] font-bold">3</span>
+              <div className="w-8 h-8 bg-[#D4AF6A] bg-opacity-10 rounded-full flex items-center justify-center flex-shrink-0">
+                <span className="text-[#D4AF6A] font-bold">3</span>
               </div>
               <div>
                 <h3 className="font-semibold text-[#1A1F36]">Credits Added Instantly</h3>
@@ -187,7 +187,7 @@ export default function BuyCreditsPage() {
           </p>
           <a 
             href="mailto:support@maslow.nyc" 
-            className="text-[#C49F58] hover:text-[#B39149] font-semibold"
+            className="text-[#D4AF6A] hover:text-[#B39149] font-semibold"
           >
             Contact Support →
           </a>

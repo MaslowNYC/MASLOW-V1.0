@@ -26,7 +26,7 @@ const MissionPage: React.FC = () => {
           </p>
           <Link
             to="/"
-            className="inline-block bg-[#C49F58] text-[#1a1a1a] px-8 py-4 rounded-lg font-semibold text-lg hover:bg-[#B8935C] transition-colors"
+            className="inline-block bg-[#D4AF6A] text-[#1a1a1a] px-8 py-4 rounded-lg font-semibold text-lg hover:bg-[#C49F58] transition-colors"
           >
             Join the Waitlist
           </Link>
@@ -63,7 +63,7 @@ const MissionPage: React.FC = () => {
           <h2 className="text-3xl font-bold text-[#3C5999] mb-8 text-center">What We're Building</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white rounded-lg p-6 shadow-md">
-              <Building2 className="w-12 h-12 text-[#C49F58] mb-4" />
+              <Building2 className="w-12 h-12 text-[#D4AF6A] mb-4" />
               <h3 className="text-xl font-bold text-[#3C5999] mb-3">Private Suites, Not Stalls</h3>
               <p className="text-gray-700">
                 Each Maslow location features 10 individual, fully enclosed suites — not shared
@@ -71,7 +71,7 @@ const MissionPage: React.FC = () => {
               </p>
             </div>
             <div className="bg-white rounded-lg p-6 shadow-md">
-              <Smartphone className="w-12 h-12 text-[#C49F58] mb-4" />
+              <Smartphone className="w-12 h-12 text-[#D4AF6A] mb-4" />
               <h3 className="text-xl font-bold text-[#3C5999] mb-3">Pay-Per-Use, No Account Required</h3>
               <p className="text-gray-700">
                 Scan to enter. $5 for a private session. No membership required, no app needed.
@@ -79,7 +79,7 @@ const MissionPage: React.FC = () => {
               </p>
             </div>
             <div className="bg-white rounded-lg p-6 shadow-md">
-              <Accessibility className="w-12 h-12 text-[#C49F58] mb-4" />
+              <Accessibility className="w-12 h-12 text-[#D4AF6A] mb-4" />
               <h3 className="text-xl font-bold text-[#3C5999] mb-3">ADA-First Design</h3>
               <p className="text-gray-700">
                 Every Maslow location includes a dedicated ADA-compliant suite designed to meet
@@ -96,19 +96,19 @@ const MissionPage: React.FC = () => {
           <h2 className="text-3xl font-bold text-white mb-10 text-center">The Numbers Don't Lie</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-[#C49F58] mb-2">1,100</div>
+              <div className="text-4xl md:text-5xl font-bold text-[#D4AF6A] mb-2">1,100</div>
               <div className="text-white/80 text-sm">Public restrooms in NYC</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-[#C49F58] mb-2">8M+</div>
+              <div className="text-4xl md:text-5xl font-bold text-[#D4AF6A] mb-2">8M+</div>
               <div className="text-white/80 text-sm">NYC residents who need them</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-[#C49F58] mb-2">$5</div>
+              <div className="text-4xl md:text-5xl font-bold text-[#D4AF6A] mb-2">$5</div>
               <div className="text-white/80 text-sm">Per private session at Maslow</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-[#C49F58] mb-2">10</div>
+              <div className="text-4xl md:text-5xl font-bold text-[#D4AF6A] mb-2">10</div>
               <div className="text-white/80 text-sm">Suites per location</div>
             </div>
           </div>
@@ -154,7 +154,7 @@ const MissionPage: React.FC = () => {
             </p>
             <Link
               to="/"
-              className="inline-block bg-[#C49F58] text-[#1a1a1a] px-8 py-4 rounded-lg font-semibold text-lg hover:bg-[#B8935C] transition-colors"
+              className="inline-block bg-[#D4AF6A] text-[#1a1a1a] px-8 py-4 rounded-lg font-semibold text-lg hover:bg-[#C49F58] transition-colors"
             >
               Secure Your Spot
             </Link>

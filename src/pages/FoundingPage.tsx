@@ -162,7 +162,7 @@ function InlineAuth({ onAuthenticated }: { onAuthenticated: () => void }) {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-[#1C2B3A] focus:outline-none focus:border-[#C49F58] focus:ring-1 focus:ring-[#C49F58]"
+          className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-[#1C2B3A] focus:outline-none focus:border-[#D4AF6A] focus:ring-1 focus:ring-[#D4AF6A]"
         />
         <input
           type="password"
@@ -171,7 +171,7 @@ function InlineAuth({ onAuthenticated }: { onAuthenticated: () => void }) {
           minLength={6}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-[#1C2B3A] focus:outline-none focus:border-[#C49F58] focus:ring-1 focus:ring-[#C49F58]"
+          className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-[#1C2B3A] focus:outline-none focus:border-[#D4AF6A] focus:ring-1 focus:ring-[#D4AF6A]"
         />
         {error && <p className="text-sm text-red-600">{error}</p>}
         <button
@@ -185,9 +185,9 @@ function InlineAuth({ onAuthenticated }: { onAuthenticated: () => void }) {
 
       <p className="text-xs text-center text-[#6B7280] mt-3">
         {mode === 'signup' ? (
-          <>Already have an account? <button onClick={() => setMode('login')} className="text-[#C49F58] underline">Sign in</button></>
+          <>Already have an account? <button onClick={() => setMode('login')} className="text-[#D4AF6A] underline">Sign in</button></>
         ) : (
-          <>Need an account? <button onClick={() => setMode('signup')} className="text-[#C49F58] underline">Sign up</button></>
+          <>Need an account? <button onClick={() => setMode('signup')} className="text-[#D4AF6A] underline">Sign up</button></>
         )}
       </p>
     </div>
@@ -207,7 +207,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
       >
         <span className="font-serif text-lg text-[#1C2B3A] pr-4">{question}</span>
         <ChevronDown
-          className={`w-5 h-5 text-[#C49F58] flex-shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}
+          className={`w-5 h-5 text-[#D4AF6A] flex-shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}
         />
       </button>
       <AnimatePresence>
@@ -229,7 +229,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 
 // ── Main Page ──────────────────────────────────────────────
 
-export default function FoundingPage() {
+export default function FoundationPage() {
   const { user } = useAuth();
   const [selectedTier, setSelectedTier] = useState<Tier | null>(null);
   const [showAuth, setShowAuth] = useState(false);
@@ -290,7 +290,7 @@ export default function FoundingPage() {
         {/* ── Hero ─────────────────────────────────────── */}
         <section className="pt-16 pb-8 md:pt-20 md:pb-12 px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <p className="text-[#C49F58] tracking-[0.3em] uppercase text-sm mb-6" style={{ fontFamily: 'var(--sans)' }}>
+            <p className="text-[#D4AF6A] tracking-[0.3em] uppercase text-sm mb-6" style={{ fontFamily: 'var(--sans)' }}>
               Maslow
             </p>
             <h1 className="text-3xl md:text-6xl font-serif text-[#1C2B3A] mb-6 leading-tight">
@@ -316,17 +316,17 @@ export default function FoundingPage() {
               className="px-4 pb-12"
             >
               <div className="max-w-lg mx-auto bg-[#1C2B3A] text-white rounded-xl p-8 text-center shadow-lg">
-                <div className="w-12 h-12 bg-[#C49F58] rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 bg-[#D4AF6A] rounded-full flex items-center justify-center mx-auto mb-4">
                   <Check className="w-6 h-6 text-white" />
                 </div>
-                <h2 className="font-serif text-2xl mb-2">You're in. Pass #{confirmation.passNumber}</h2>
+                <h2 className="font-serif text-2xl mb-2 text-white">You're in. Pass #{confirmation.passNumber}</h2>
                 <p className="text-white/70 mb-1" style={{ fontFamily: 'var(--sans)' }}>
                   {confirmation.tier.sessions === -1
                     ? 'Unlimited sessions — Founding Member'
                     : `${confirmation.tier.sessions} session${confirmation.tier.sessions > 1 ? 's' : ''} purchased`
                   }
                 </p>
-                <p className="text-[#C49F58] text-sm mt-3" style={{ fontFamily: 'var(--sans)' }}>
+                <p className="text-[#D4AF6A] text-sm mt-3" style={{ fontFamily: 'var(--sans)' }}>
                   We'll email you when we're ready.
                 </p>
                 <button
@@ -362,8 +362,8 @@ export default function FoundingPage() {
                 key={tier.id}
                 className={`bg-white rounded-xl p-5 shadow-sm border-2 transition-all hover:shadow-md flex flex-col ${
                   tier.featured
-                    ? 'border-[#C49F58] ring-1 ring-[#C49F58]/20'
-                    : 'border-[#E5E0D8] hover:border-[#C49F58]'
+                    ? 'border-[#D4AF6A] ring-1 ring-[#D4AF6A]/20'
+                    : 'border-[#E5E0D8] hover:border-[#D4AF6A]'
                 }`}
               >
                 {/* Price + Name */}
@@ -376,7 +376,7 @@ export default function FoundingPage() {
                     )}
                   </div>
                   {tier.savings && (
-                    <span className="inline-block mt-1 text-xs text-[#C49F58] font-semibold uppercase tracking-wide">
+                    <span className="inline-block mt-1 text-xs text-[#D4AF6A] font-semibold uppercase tracking-wide">
                       {tier.savings}
                     </span>
                   )}
@@ -386,7 +386,7 @@ export default function FoundingPage() {
                 <ul className="space-y-1.5 mb-4 flex-grow">
                   {tier.features.map((f) => (
                     <li key={f} className="flex items-start gap-2 text-sm text-[#4A5568]" style={{ fontFamily: 'var(--sans)' }}>
-                      <Check className="w-4 h-4 text-[#C49F58] flex-shrink-0 mt-0.5" />
+                      <Check className="w-4 h-4 text-[#D4AF6A] flex-shrink-0 mt-0.5" />
                       {f}
                     </li>
                   ))}
@@ -398,7 +398,7 @@ export default function FoundingPage() {
                   className={`w-full py-3 rounded-lg font-semibold transition-all text-center ${
                     tier.id === 'founding'
                       ? 'bg-[#1C2B3A] text-white hover:bg-[#243347]'
-                      : 'bg-[#C49F58] text-white hover:bg-[#b08d4b]'
+                      : 'bg-[#D4AF6A] text-white hover:bg-[#bc9a58]'
                   }`}
                   style={{ fontFamily: 'var(--sans)' }}
                 >
@@ -415,7 +415,7 @@ export default function FoundingPage() {
             </p>
             {passCount !== null && passCount > 0 && (
               <p className="text-sm text-[#6B7280] mt-2" style={{ fontFamily: 'var(--sans)' }}>
-                <span className="font-bold text-[#C49F58]">{passCount}</span>{' '}
+                <span className="font-bold text-[#D4AF6A]">{passCount}</span>{' '}
                 {passCount === 1 ? 'person is' : 'people are'} already in.
               </p>
             )}

@@ -231,7 +231,7 @@ const ProductDetailPage: React.FC = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-[80vh] bg-[#FAF4ED]">
-        <Loader2 className="h-16 w-16 text-[#C49F58] animate-spin" />
+        <Loader2 className="h-16 w-16 text-[#D4AF6A] animate-spin" />
       </div>
     );
   }
@@ -240,7 +240,7 @@ const ProductDetailPage: React.FC = () => {
     return (
       <div className="min-h-screen bg-[#FAF4ED] px-4 py-8 w-full overflow-x-hidden">
         <div className="max-w-5xl mx-auto w-full">
-          <Link to="/store" className="inline-flex items-center gap-2 text-[#3C5999] hover:text-[#C49F58] transition-colors mb-6 font-bold">
+          <Link to="/store" className="inline-flex items-center gap-2 text-[#3C5999] hover:text-[#D4AF6A] transition-colors mb-6 font-bold">
             <ArrowLeft size={16} />
             Back to Store
           </Link>
@@ -277,7 +277,7 @@ const ProductDetailPage: React.FC = () => {
 
       <div className="min-h-screen bg-[#FAF4ED] pb-12 w-full overflow-x-hidden">
         <div className="container mx-auto px-4 py-8 w-full">
-          <Link to="/store" className="inline-flex items-center gap-2 text-[#3C5999] hover:text-[#C49F58] transition-colors mb-8 font-bold">
+          <Link to="/store" className="inline-flex items-center gap-2 text-[#3C5999] hover:text-[#D4AF6A] transition-colors mb-8 font-bold">
             <ArrowLeft size={16} />
             Back to Collection
           </Link>
@@ -312,7 +312,7 @@ const ProductDetailPage: React.FC = () => {
                 )}
 
                 {product.ribbon_text && (
-                  <div className="absolute top-4 left-4 bg-[#C49F58] text-[#3C5999] text-xs sm:text-sm font-bold px-3 py-1 sm:px-4 sm:py-2 rounded shadow-lg uppercase tracking-wider">
+                  <div className="absolute top-4 left-4 bg-[#D4AF6A] text-[#3C5999] text-xs sm:text-sm font-bold px-3 py-1 sm:px-4 sm:py-2 rounded shadow-lg uppercase tracking-wider">
                     {product.ribbon_text}
                   </div>
                 )}
@@ -325,7 +325,7 @@ const ProductDetailPage: React.FC = () => {
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
                       className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 transition-all ${
-                        index === currentImageIndex ? 'border-[#C49F58] scale-105 shadow-md' : 'border-[#3C5999]/10 opacity-70 hover:opacity-100'
+                        index === currentImageIndex ? 'border-[#D4AF6A] scale-105 shadow-md' : 'border-[#3C5999]/10 opacity-70 hover:opacity-100'
                       }`}
                     >
                       <img
@@ -345,7 +345,7 @@ const ProductDetailPage: React.FC = () => {
               <p className="text-lg text-[#3C5999]/60 mb-6 italic break-words">{product.subtitle}</p>
 
               <div className="flex items-baseline gap-4 mb-8 pb-8 border-b border-[#FAF4ED]">
-                <span className="text-3xl md:text-4xl font-bold text-[#C49F58]">{price}</span>
+                <span className="text-3xl md:text-4xl font-bold text-[#D4AF6A]">{price}</span>
                 {selectedVariant?.sale_price_in_cents && (
                   <span className="text-xl md:text-2xl text-[#3C5999]/40 line-through">{originalPrice}</span>
                 )}
@@ -365,7 +365,7 @@ const ProductDetailPage: React.FC = () => {
                         className={`transition-all h-auto py-2 px-4 whitespace-normal text-left ${
                           selectedVariant?.id === variant.id
                             ? 'bg-[#3C5999] text-[#FAF4ED] border-[#3C5999] hover:bg-[#2d4475] hover:text-white'
-                            : 'border-[#3C5999]/30 text-[#3C5999] hover:border-[#C49F58] hover:text-[#C49F58]'
+                            : 'border-[#3C5999]/30 text-[#3C5999] hover:border-[#D4AF6A] hover:text-[#D4AF6A]'
                         }`}
                       >
                         {variant.title}
@@ -399,7 +399,7 @@ const ProductDetailPage: React.FC = () => {
                 <Button
                   onClick={handleAddToCart}
                   size="lg"
-                  className="w-full bg-[#C49F58] hover:bg-[#b08d4b] text-[#3C5999] font-bold py-8 text-xl tracking-widest uppercase transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-[#D4AF6A] hover:bg-[#C49F58] text-[#3C5999] font-bold py-8 text-xl tracking-widest uppercase transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={!canAddToCart || !product.purchasable}
                 >
                   <ShoppingCart className="mr-3 h-6 w-6" />
@@ -431,7 +431,7 @@ const ProductDetailPage: React.FC = () => {
                   {product.additional_info
                     .sort((a, b) => a.order - b.order)
                     .map((info) => (
-                      <div key={info.id} className="border-l-4 border-[#C49F58] pl-6 py-1">
+                      <div key={info.id} className="border-l-4 border-[#D4AF6A] pl-6 py-1">
                         <h4 className="text-lg font-bold text-[#3C5999] mb-2">{info.title}</h4>
                         <div className="prose prose-sm text-[#3C5999]/70 max-w-none" dangerouslySetInnerHTML={{ __html: info.description }} />
                       </div>

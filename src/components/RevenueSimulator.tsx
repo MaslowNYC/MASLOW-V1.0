@@ -262,7 +262,7 @@ const RevenueSimulator: React.FC = () => {
       toast({
         title: "Scenario Saved",
         description: "Your financial projections have been updated.",
-        className: "bg-[#3C5999] text-[#FAF4ED] border-[#C49F58]"
+        className: "bg-[#3C5999] text-[#FAF4ED] border-[#D4AF6A]"
       });
     } catch (error) {
       console.error('Error saving scenario:', error);
@@ -294,7 +294,7 @@ const RevenueSimulator: React.FC = () => {
         <style>
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body { font-family: 'Georgia', serif; color: #1a1a1a; padding: 40px; max-width: 800px; margin: 0 auto; }
-          .header { border-bottom: 3px solid #C49F58; padding-bottom: 20px; margin-bottom: 30px; }
+          .header { border-bottom: 3px solid #D4AF6A; padding-bottom: 20px; margin-bottom: 30px; }
           .logo { font-size: 32px; font-weight: bold; color: #286BCD; }
           .subtitle { color: #666; font-size: 14px; margin-top: 5px; }
           .date { color: #888; font-size: 12px; margin-top: 10px; }
@@ -312,7 +312,7 @@ const RevenueSimulator: React.FC = () => {
           .table td { font-size: 13px; }
           .table .right { text-align: right; }
           .highlight { background: #3C5999; color: white; padding: 20px; border-radius: 8px; text-align: center; margin: 25px 0; }
-          .highlight-label { font-size: 12px; color: #C49F58; text-transform: uppercase; letter-spacing: 1px; }
+          .highlight-label { font-size: 12px; color: #D4AF6A; text-transform: uppercase; letter-spacing: 1px; }
           .highlight-value { font-size: 36px; font-weight: bold; margin-top: 8px; }
           .highlight-sub { font-size: 12px; opacity: 0.8; margin-top: 8px; }
           .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 11px; color: #888; text-align: center; }
@@ -475,7 +475,7 @@ const RevenueSimulator: React.FC = () => {
     toast({
       title: "Report Generated",
       description: "Use Print → Save as PDF to download your report.",
-      className: "bg-[#3C5999] text-[#FAF4ED] border-[#C49F58]"
+      className: "bg-[#3C5999] text-[#FAF4ED] border-[#D4AF6A]"
     });
   };
 
@@ -564,7 +564,7 @@ const RevenueSimulator: React.FC = () => {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center p-24 space-y-4">
-        <Loader2 className="w-12 h-12 text-[#C49F58] animate-spin" />
+        <Loader2 className="w-12 h-12 text-[#D4AF6A] animate-spin" />
         <p className="text-[#3C5999] font-medium">Loading your projection model...</p>
       </div>
     );
@@ -577,7 +577,7 @@ const RevenueSimulator: React.FC = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-gray-200 pb-3">
         <div>
           <h2 className="text-xl md:text-2xl font-serif text-[#3C5999] font-bold flex items-center gap-2">
-            <LayoutDashboard className="w-5 h-5 text-[#C49F58]" />
+            <LayoutDashboard className="w-5 h-5 text-[#D4AF6A]" />
             Revenue Simulator
           </h2>
           <p className="text-gray-500 text-xs mt-1">
@@ -598,7 +598,7 @@ const RevenueSimulator: React.FC = () => {
             onClick={handleSave}
             disabled={saving}
             size="sm"
-            className="bg-[#C49F58] hover:bg-[#b08d4b] text-white shadow-md"
+            className="bg-[#D4AF6A] hover:bg-[#C49F58] text-white shadow-md"
           >
             {saving ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <Save className="w-3 h-3 mr-1" />}
             Save
@@ -654,7 +654,7 @@ const RevenueSimulator: React.FC = () => {
               <div className="space-y-1 col-span-2 md:col-span-1">
                 <div className="flex justify-between items-baseline">
                   <Label className="text-xs">Turnaround</Label>
-                  <span className="text-[#C49F58] font-bold text-sm">{formData.turnaround_time}s</span>
+                  <span className="text-[#D4AF6A] font-bold text-sm">{formData.turnaround_time}s</span>
                 </div>
                 <Slider
                   value={[formData.turnaround_time]}
@@ -668,7 +668,7 @@ const RevenueSimulator: React.FC = () => {
               <div className="col-span-2 md:col-span-3 pt-2 md:pt-0 border-t md:border-t-0 border-dashed">
                 <div className="flex justify-between mb-1">
                   <Label className="text-xs font-semibold text-[#3C5999]">Occupancy</Label>
-                  <span className="text-[#C49F58] font-bold text-sm">{formData.occupancy_rate}%</span>
+                  <span className="text-[#D4AF6A] font-bold text-sm">{formData.occupancy_rate}%</span>
                 </div>
                 <Slider
                   value={[formData.occupancy_rate]}
@@ -853,7 +853,7 @@ const RevenueSimulator: React.FC = () => {
         {/* OUTPUTS COLUMN */}
         <div className="lg:col-span-5 space-y-3">
           {/* Monthly P&L */}
-          <Card className="shadow-md border-t-2 border-t-[#C49F58]">
+          <Card className="shadow-md border-t-2 border-t-[#D4AF6A]">
             <CardHeader className="py-2 px-4">
               <CardTitle className="text-[#3C5999] text-sm">Monthly P&L</CardTitle>
             </CardHeader>
@@ -897,7 +897,7 @@ const RevenueSimulator: React.FC = () => {
           {/* Annual Net Profit */}
           <Card className="bg-[#3C5999] text-white border-none shadow-lg relative overflow-hidden">
             <CardContent className="p-4">
-              <div className="text-[#C49F58] uppercase tracking-wider text-xs font-semibold mb-1" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}>Annual Net Profit</div>
+              <div className="text-[#D4AF6A] uppercase tracking-wider text-xs font-semibold mb-1" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.4)' }}>Annual Net Profit</div>
               <div className="text-3xl font-serif font-bold" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
                 {formatNumber(metrics.annualProfit, { type: 'currency', maximumFractionDigits: 0 })}
               </div>
@@ -926,7 +926,7 @@ const RevenueSimulator: React.FC = () => {
                 </div>
                 <div>
                   <div className="text-gray-500 uppercase text-[10px]">Est. Daily</div>
-                  <div className="font-bold text-[#C49F58]">{metrics.dailySessions} visits</div>
+                  <div className="font-bold text-[#D4AF6A]">{metrics.dailySessions} visits</div>
                 </div>
                 <div className="col-span-2">
                   <div className="w-full bg-gray-200 rounded-full h-1.5">

@@ -80,7 +80,7 @@ const PrototypesPage: React.FC = () => {
     <div className="min-h-screen bg-[#F8F7F4] p-4 md:p-8">
       {/* Navigation */}
       <div className="max-w-7xl mx-auto flex flex-wrap gap-3 mb-6">
-        <Link to="/prototypes" className="px-4 py-2 bg-[#C49F58] text-white rounded-lg text-sm font-semibold">
+        <Link to="/prototypes" className="px-4 py-2 bg-[#D4AF6A] text-white rounded-lg text-sm font-semibold">
           📋 Systems
         </Link>
         <Link to="/prototypes/boxes" className="px-4 py-2 bg-[#1C2B3A] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
@@ -123,8 +123,8 @@ const PrototypesPage: React.FC = () => {
             onClick={() => setSelectedPhase(2)}
             className={`px-6 py-3 rounded-lg font-semibold transition-all ${
               selectedPhase === 2
-                ? 'bg-[#C49F58] text-white shadow-lg'
-                : 'bg-white text-[#C49F58] border-2 border-[#C49F58]/20 hover:border-[#C49F58]/50'
+                ? 'bg-[#D4AF6A] text-white shadow-lg'
+                : 'bg-white text-[#D4AF6A] border-2 border-[#D4AF6A]/20 hover:border-[#D4AF6A]/50'
             }`}
           >
             ⏳ Phase 2: Post-Launch
@@ -140,13 +140,13 @@ const PrototypesPage: React.FC = () => {
             to={`/prototypes/system/${system.id}`}
             className="block"
           >
-            <div className={`bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition cursor-pointer border-2 border-transparent hover:border-[#C49F58] ${
+            <div className={`bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition cursor-pointer border-2 border-transparent hover:border-[#D4AF6A] ${
               (system.phase || 1) === 2 ? 'opacity-90' : ''
             }`}>
               {/* Phase Badge (for Phase 2) */}
               {(system.phase || 1) === 2 && (
                 <div className="mb-3">
-                  <span className="px-3 py-1 bg-[#C49F58]/20 text-[#C49F58] text-xs font-bold rounded-full">
+                  <span className="px-3 py-1 bg-[#D4AF6A]/20 text-[#D4AF6A] text-xs font-bold rounded-full">
                     POST-LAUNCH
                   </span>
                 </div>
@@ -187,7 +187,7 @@ const PrototypesPage: React.FC = () => {
                 </div>
                 <div>
                   <div className="text-xs text-[#1C2B3A]/60 mb-1">Progress</div>
-                  <div className="text-lg font-bold text-[#C49F58]">
+                  <div className="text-lg font-bold text-[#D4AF6A]">
                     {system.avg_progress || 0}%
                   </div>
                 </div>
@@ -196,7 +196,7 @@ const PrototypesPage: React.FC = () => {
               {/* Progress Bar */}
               <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                 <div
-                  className="bg-[#C49F58] h-2 rounded-full transition-all"
+                  className="bg-[#D4AF6A] h-2 rounded-full transition-all"
                   style={{ width: `${system.avg_progress || 0}%` }}
                 />
               </div>
@@ -212,7 +212,7 @@ const PrototypesPage: React.FC = () => {
             {selectedPhase === 1 ? '🚀 Phase 1 Stats' : '⏳ Phase 2 Stats'}
           </h3>
           {selectedPhase === 2 && (
-            <span className="text-sm text-[#C49F58]">Post-Launch Features</span>
+            <span className="text-sm text-[#D4AF6A]">Post-Launch Features</span>
           )}
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
@@ -223,7 +223,7 @@ const PrototypesPage: React.FC = () => {
             <div className="text-sm text-[#1C2B3A]/60">Total Prototypes</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-[#C49F58] mb-1">
+            <div className="text-3xl font-bold text-[#D4AF6A] mb-1">
               ${totalBudget.toLocaleString()}
             </div>
             <div className="text-sm text-[#1C2B3A]/60">Total Budget</div>
@@ -235,7 +235,7 @@ const PrototypesPage: React.FC = () => {
             <div className="text-sm text-[#1C2B3A]/60">Total Hours</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-[#C49F58] mb-1">
+            <div className="text-3xl font-bold text-[#D4AF6A] mb-1">
               ~{Math.round(filteredSystems.reduce((sum, s) => sum + s.total_hours, 0) / 8)}
             </div>
             <div className="text-sm text-[#1C2B3A]/60">Weeks @ 8h/week</div>

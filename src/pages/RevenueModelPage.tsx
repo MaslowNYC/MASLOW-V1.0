@@ -306,7 +306,7 @@ export default function RevenueModelPage() {
         { label: "Commissions", value: commissionRevenue, color: "#A07840" },
         { label: "Hull Activations", value: hullRevenue, color: "#7A9E7E" },
         { label: "Corporate/Bulk", value: corporateRevenue, color: "#6A8CAA" },
-        { label: "Memberships", value: membershipRevenue, color: "#C49F58" },
+        { label: "Memberships", value: membershipRevenue, color: "#D4AF6A" },
       ],
     };
   }, [suites, hoursPerDay, utilization, bookedDuration, actualDuration, turnaroundSec, avgTicket,

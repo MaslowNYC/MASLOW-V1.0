@@ -72,7 +72,7 @@ const StatCard = ({
 }) => {
   const colors = {
     blue: 'bg-[#3C5999]/10 text-[#3C5999]',
-    gold: 'bg-[#C49F58]/10 text-[#C49F58]',
+    gold: 'bg-[#D4AF6A]/10 text-[#D4AF6A]',
     green: 'bg-green-100 text-green-600',
     red: 'bg-red-100 text-red-600',
   };
@@ -332,7 +332,7 @@ const FieldResearchResultsPage = () => {
             <Button
               onClick={exportToCSV}
               disabled={responses.length === 0}
-              className="bg-[#C49F58] hover:bg-[#b08d4b] text-white"
+              className="bg-[#D4AF6A] hover:bg-[#C49F58] text-white"
             >
               <Download className="w-4 h-4 mr-2" />
               Export CSV

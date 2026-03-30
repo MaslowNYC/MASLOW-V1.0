@@ -141,7 +141,7 @@ const ShoppingCartPage: React.FC = () => {
           <Link to="/prototypes/shopping" className="px-4 py-2 bg-[#3C5999] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
             🛒 Shopping
           </Link>
-          <Link to="/prototypes/shopping-cart" className="px-4 py-2 bg-[#C49F58] text-white rounded-lg text-sm font-semibold">
+          <Link to="/prototypes/shopping-cart" className="px-4 py-2 bg-[#D4AF6A] text-white rounded-lg text-sm font-semibold">
             🛒 Cart
           </Link>
         </div>
@@ -158,7 +158,7 @@ const ShoppingCartPage: React.FC = () => {
           </div>
           <button
             onClick={copyAllLinks}
-            className="px-6 py-3 bg-[#C49F58] text-white rounded-lg hover:bg-[#b08d4b] transition font-semibold flex items-center gap-2"
+            className="px-6 py-3 bg-[#D4AF6A] text-white rounded-lg hover:bg-[#C49F58] transition font-semibold flex items-center gap-2"
           >
             <Copy className="w-4 h-4" /> Copy All Links
           </button>
@@ -204,7 +204,7 @@ const ShoppingCartPage: React.FC = () => {
                 {/* Items */}
                 <div className="divide-y divide-gray-200">
                   {group.items.map((item) => (
-                    <div key={item.id} className={`p-4 hover:bg-gray-50 transition ${item.phase === 2 ? 'bg-[#C49F58]/5' : ''}`}>
+                    <div key={item.id} className={`p-4 hover:bg-gray-50 transition ${item.phase === 2 ? 'bg-[#D4AF6A]/5' : ''}`}>
                       <div className="flex flex-col md:flex-row items-start justify-between gap-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
@@ -212,7 +212,7 @@ const ShoppingCartPage: React.FC = () => {
                               {item.component_name}
                             </h3>
                             {item.phase === 2 && (
-                              <span className="px-2 py-0.5 bg-[#C49F58]/20 text-[#C49F58] text-xs font-bold rounded">
+                              <span className="px-2 py-0.5 bg-[#D4AF6A]/20 text-[#D4AF6A] text-xs font-bold rounded">
                                 PHASE 2
                               </span>
                             )}
@@ -229,7 +229,7 @@ const ShoppingCartPage: React.FC = () => {
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-xl font-bold text-[#C49F58] mb-2">
+                          <div className="text-xl font-bold text-[#D4AF6A] mb-2">
                             ${(item.price * item.quantity).toFixed(2)}
                           </div>
                           {item.vendor_url ? (
@@ -237,7 +237,7 @@ const ShoppingCartPage: React.FC = () => {
                               href={item.vendor_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-4 py-2 bg-[#C49F58] text-white rounded-lg text-sm hover:bg-[#b08d4b] transition"
+                              className="inline-flex items-center gap-2 px-4 py-2 bg-[#D4AF6A] text-white rounded-lg text-sm hover:bg-[#C49F58] transition"
                             >
                               <ExternalLink className="w-4 h-4" /> View
                             </a>
@@ -273,17 +273,17 @@ const ShoppingCartPage: React.FC = () => {
                     <div className="text-2xl font-bold text-[#3C5999]">${phase1Total.toFixed(2)}</div>
                     <div className="text-xs text-[#3C5999]/60">{phase1Count} items</div>
                   </div>
-                  <div className="flex-1 p-4 bg-[#C49F58]/10 rounded-lg">
-                    <div className="text-sm text-[#C49F58] mb-1">⏳ Phase 2: Post-Launch</div>
-                    <div className="text-2xl font-bold text-[#C49F58]">${phase2Total.toFixed(2)}</div>
-                    <div className="text-xs text-[#C49F58]/60">{phase2Count} items</div>
+                  <div className="flex-1 p-4 bg-[#D4AF6A]/10 rounded-lg">
+                    <div className="text-sm text-[#D4AF6A] mb-1">⏳ Phase 2: Post-Launch</div>
+                    <div className="text-2xl font-bold text-[#D4AF6A]">${phase2Total.toFixed(2)}</div>
+                    <div className="text-xs text-[#D4AF6A]/60">{phase2Count} items</div>
                   </div>
                 </div>
               </div>
             )}
 
             {/* Grand Total */}
-            <div className="bg-[#C49F58] text-white rounded-xl p-6 shadow-xl">
+            <div className="bg-[#D4AF6A] text-white rounded-xl p-6 shadow-xl">
               <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div>
                   <div className="text-sm opacity-90 mb-1">Grand Total</div>
@@ -293,7 +293,7 @@ const ShoppingCartPage: React.FC = () => {
                 </div>
                 <button
                   onClick={() => toast({ title: "Coming Soon", description: "Mark all as ordered feature coming soon" })}
-                  className="px-6 py-3 bg-white text-[#C49F58] rounded-lg hover:bg-gray-100 transition font-bold"
+                  className="px-6 py-3 bg-white text-[#D4AF6A] rounded-lg hover:bg-gray-100 transition font-bold"
                 >
                   Mark All as Ordered
                 </button>

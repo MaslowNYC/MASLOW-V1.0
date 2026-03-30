@@ -16,7 +16,7 @@ const MaslowPage: React.FC = () => {
         <div className="container mx-auto px-6 pt-8">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-[#3C5999] hover:text-[#C49F58] transition-colors"
+            className="inline-flex items-center gap-2 text-[#3C5999] hover:text-[#D4AF6A] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span className="text-sm font-medium">Back to Home</span>
@@ -46,7 +46,7 @@ const MaslowPage: React.FC = () => {
               basic physiological requirements.
             </p>
 
-            <div className="bg-white/50 border-l-4 border-[#C49F58] p-8 my-12">
+            <div className="bg-white/50 border-l-4 border-[#D4AF6A] p-8 my-12">
               <p className="text-2xl font-serif italic text-[#3C5999]">
                 "What a man can be, he must be."
               </p>
@@ -90,7 +90,7 @@ const MaslowPage: React.FC = () => {
               These are failures at the base of Maslow's pyramid.
             </p>
 
-            <div className="bg-white/50 border-l-4 border-[#C49F58] p-8 my-12">
+            <div className="bg-white/50 border-l-4 border-[#D4AF6A] p-8 my-12">
               <p className="text-lg font-medium text-[#3C5999]">
                 If we cannot guarantee basic sanitation, we have no right to talk about building
                 a just society, a creative economy, or a compassionate city.
@@ -121,7 +121,7 @@ const MaslowPage: React.FC = () => {
 
           {/* Visual Separator */}
           <div className="mt-16 mb-8 flex items-center justify-center">
-            <div className="h-px bg-[#C49F58] w-24"></div>
+            <div className="h-px bg-[#D4AF6A] w-24"></div>
           </div>
 
           {/* Footer */}
@@ -131,7 +131,7 @@ const MaslowPage: React.FC = () => {
             </p>
             <Link
               to="/"
-              className="text-[#C49F58] hover:text-[#3C5999] font-medium transition-colors"
+              className="text-[#D4AF6A] hover:text-[#3C5999] font-medium transition-colors"
             >
               Return Home
             </Link>

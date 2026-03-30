@@ -233,7 +233,7 @@ const ShoppingListPage: React.FC = () => {
           <Link to="/prototypes/boxes" className="px-4 py-2 bg-[#3C5999] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
             📦 Boxes
           </Link>
-          <Link to="/prototypes/shopping" className="px-4 py-2 bg-[#C49F58] text-white rounded-lg text-sm font-semibold">
+          <Link to="/prototypes/shopping" className="px-4 py-2 bg-[#D4AF6A] text-white rounded-lg text-sm font-semibold">
             🛒 Shopping
           </Link>
           <Link to="/prototypes/shopping-cart" className="px-4 py-2 bg-[#3C5999]/20 text-[#3C5999] rounded-lg text-sm font-semibold hover:bg-[#3C5999]/30 transition">
@@ -255,7 +255,7 @@ const ShoppingListPage: React.FC = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div className="bg-white rounded-xl p-4 shadow">
             <div className="text-sm text-[#3C5999]/60">Total Cost</div>
-            <div className="text-2xl font-bold text-[#C49F58]">${totalCost.toFixed(2)}</div>
+            <div className="text-2xl font-bold text-[#D4AF6A]">${totalCost.toFixed(2)}</div>
           </div>
           <div className="bg-white rounded-xl p-4 shadow">
             <div className="text-sm text-[#3C5999]/60">Items Needed</div>
@@ -342,7 +342,7 @@ const ShoppingListPage: React.FC = () => {
             {filteredItems.map((item, index) => (
               <div
                 key={`${item.component_name}-${item.vendor}-${index}`}
-                className="bg-white rounded-xl p-4 shadow border-l-4 border-[#C49F58]"
+                className="bg-white rounded-xl p-4 shadow border-l-4 border-[#D4AF6A]"
               >
                 <div className="flex flex-col md:flex-row items-start justify-between gap-4">
                   <div className="flex-1">
@@ -351,7 +351,7 @@ const ShoppingListPage: React.FC = () => {
                     </h3>
                     <p className="text-sm text-[#3C5999]/60">
                       Need: <span className="font-bold text-red-600">{item.still_needed}x</span> |
-                      Cost: <span className="font-bold text-[#C49F58]">${(item.unit_price * item.still_needed).toFixed(2)}</span> |
+                      Cost: <span className="font-bold text-[#D4AF6A]">${(item.unit_price * item.still_needed).toFixed(2)}</span> |
                       {item.vendor}
                     </p>
                     <p className="text-xs text-[#3C5999]/40 mt-1">
@@ -392,7 +392,7 @@ const ShoppingListPage: React.FC = () => {
                           rel="noopener noreferrer"
                           className={`px-3 py-2 rounded-lg text-sm transition flex items-center gap-2 ${
                             option.primary
-                              ? 'bg-[#C49F58] text-white hover:bg-[#b08d4b]'
+                              ? 'bg-[#D4AF6A] text-white hover:bg-[#C49F58]'
                               : 'bg-[#3C5999]/10 text-[#3C5999] hover:bg-[#3C5999]/20'
                           }`}
                         >
@@ -470,7 +470,7 @@ const ShoppingListPage: React.FC = () => {
                             rel="noopener noreferrer"
                             className={`px-2 py-1 rounded text-xs transition flex items-center gap-1 ${
                               option.primary
-                                ? 'bg-[#C49F58] text-white'
+                                ? 'bg-[#D4AF6A] text-white'
                                 : 'bg-[#3C5999]/10 text-[#3C5999]'
                             }`}
                             title={`~$${option.price.toFixed(2)}`}

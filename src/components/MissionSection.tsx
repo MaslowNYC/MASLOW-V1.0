@@ -12,7 +12,7 @@ const MissionSection: React.FC = () => {
              initial={{ opacity: 0 }}
              whileInView={{ opacity: 1 }}
              viewport={{ once: true }}
-             className="w-12 h-0.5 bg-[#C49F58] mx-auto"
+             className="w-12 h-0.5 bg-[#D4AF6A] mx-auto"
           ></motion.div>
           <h2 className="text-3xl md:text-4xl font-serif leading-tight">
             Public sanitation is not a luxury.<br/>
@@ -23,7 +23,7 @@ const MissionSection: React.FC = () => {
         {/* The Problem / Solution Grid */}
         <div className="grid md:grid-cols-2 gap-12 mt-12">
           <div className="space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[#C49F58]">The Crisis</h3>
+            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[#D4AF6A]">The Crisis</h3>
             <p className="font-serif text-2xl leading-snug">
               New York City has 1 public restroom for every 7,000 residents.
             </p>

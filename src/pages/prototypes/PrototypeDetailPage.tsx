@@ -132,7 +132,7 @@ const PrototypeDetailPage: React.FC = () => {
       <div className="min-h-screen bg-[#FAF4ED] flex items-center justify-center">
         <div className="text-center">
           <div className="text-2xl text-[#3C5999] mb-4">Prototype not found</div>
-          <Link to="/prototypes" className="text-[#C49F58] hover:underline">
+          <Link to="/prototypes" className="text-[#D4AF6A] hover:underline">
             ← Back to all prototypes
           </Link>
         </div>
@@ -162,18 +162,18 @@ const PrototypeDetailPage: React.FC = () => {
         {/* Header */}
         <Link
           to={`/prototypes/system/${prototype.system_id}`}
-          className="text-[#C49F58] hover:underline mb-4 inline-flex items-center gap-2"
+          className="text-[#D4AF6A] hover:underline mb-4 inline-flex items-center gap-2"
         >
           <ArrowLeft className="w-4 h-4" /> Back to System
         </Link>
 
         {/* Phase 2 Banner */}
         {(prototype.phase || 1) === 2 && (
-          <div className="bg-[#C49F58]/10 border-2 border-[#C49F58]/30 rounded-xl p-4 mb-6 mt-4">
+          <div className="bg-[#D4AF6A]/10 border-2 border-[#D4AF6A]/30 rounded-xl p-4 mb-6 mt-4">
             <div className="flex items-center gap-3">
               <span className="text-2xl">⏳</span>
               <div>
-                <div className="font-bold text-[#C49F58]">Phase 2: Post-Launch Feature</div>
+                <div className="font-bold text-[#D4AF6A]">Phase 2: Post-Launch Feature</div>
                 <div className="text-sm text-[#3C5999]/60">
                   Not included in initial MVP — planned for implementation after successful launch
                 </div>
@@ -190,7 +190,7 @@ const PrototypeDetailPage: React.FC = () => {
                   Prototype {prototype.id}: {prototype.name}
                 </h1>
                 {(prototype.phase || 1) === 2 && (
-                  <span className="px-3 py-1 bg-[#C49F58]/20 text-[#C49F58] text-sm font-bold rounded-full">
+                  <span className="px-3 py-1 bg-[#D4AF6A]/20 text-[#D4AF6A] text-sm font-bold rounded-full">
                     PHASE 2
                   </span>
                 )}
@@ -198,7 +198,7 @@ const PrototypeDetailPage: React.FC = () => {
               <p className="text-[#3C5999]/60">{prototype.description}</p>
             </div>
             <div className="text-right">
-              <div className="text-3xl font-bold text-[#C49F58] mb-1">
+              <div className="text-3xl font-bold text-[#D4AF6A] mb-1">
                 Box #{prototype.box_number}
               </div>
               <div className="text-sm text-[#3C5999]/60">Sterilite Box</div>
@@ -221,7 +221,7 @@ const PrototypeDetailPage: React.FC = () => {
             </div>
             <div>
               <div className="text-xs text-[#3C5999]/60 mb-1">Progress</div>
-              <div className="text-xl font-bold text-[#C49F58]">{prototype.progress}%</div>
+              <div className="text-xl font-bold text-[#D4AF6A]">{prototype.progress}%</div>
             </div>
           </div>
         </div>
@@ -235,7 +235,7 @@ const PrototypeDetailPage: React.FC = () => {
                 onClick={() => setActiveTab(tab as typeof activeTab)}
                 className={`flex-1 px-4 md:px-6 py-4 font-semibold capitalize transition text-sm md:text-base ${
                   activeTab === tab
-                    ? 'text-[#C49F58] border-b-2 border-[#C49F58] bg-[#C49F58]/5'
+                    ? 'text-[#D4AF6A] border-b-2 border-[#D4AF6A] bg-[#D4AF6A]/5'
                     : 'text-[#3C5999]/60 hover:text-[#3C5999]'
                 }`}
               >
@@ -253,7 +253,7 @@ const PrototypeDetailPage: React.FC = () => {
                     Components ({purchasedCount}/{components.length})
                   </h2>
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-[#C49F58]">
+                    <div className="text-2xl font-bold text-[#D4AF6A]">
                       ${totalCost.toFixed(2)}
                     </div>
                     <div className="text-xs text-[#3C5999]/60">
@@ -265,7 +265,7 @@ const PrototypeDetailPage: React.FC = () => {
                 {/* Progress bar */}
                 <div className="w-full bg-gray-200 rounded-full h-3 mb-6">
                   <div
-                    className="bg-[#C49F58] h-3 rounded-full transition-all"
+                    className="bg-[#D4AF6A] h-3 rounded-full transition-all"
                     style={{ width: `${purchaseProgress}%` }}
                   />
                 </div>
@@ -275,7 +275,7 @@ const PrototypeDetailPage: React.FC = () => {
                   {components.map((component) => (
                     <div
                       key={component.id}
-                      className="border-2 border-gray-200 rounded-lg p-4 hover:border-[#C49F58] transition"
+                      className="border-2 border-gray-200 rounded-lg p-4 hover:border-[#D4AF6A] transition"
                     >
                       <div className="flex flex-col md:flex-row items-start justify-between gap-4">
                         <div className="flex-1">
@@ -331,7 +331,7 @@ const PrototypeDetailPage: React.FC = () => {
                               href={component.vendor_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="px-4 py-2 bg-[#C49F58] text-white rounded-lg text-sm hover:bg-[#b08d4b] transition"
+                              className="px-4 py-2 bg-[#D4AF6A] text-white rounded-lg text-sm hover:bg-[#C49F58] transition"
                             >
                               Buy
                             </a>
@@ -404,7 +404,7 @@ const PrototypeDetailPage: React.FC = () => {
                 <p className="text-[#3C5999]/60 mb-4">
                   Upload wiring diagrams and connection guides
                 </p>
-                <button className="px-6 py-3 bg-[#C49F58] text-white rounded-lg hover:bg-[#b08d4b] transition">
+                <button className="px-6 py-3 bg-[#D4AF6A] text-white rounded-lg hover:bg-[#C49F58] transition">
                   Upload Diagram
                 </button>
               </div>
@@ -420,7 +420,7 @@ const PrototypeDetailPage: React.FC = () => {
                 <p className="text-[#3C5999]/60 mb-4">
                   Arduino/ESP32 code for this prototype
                 </p>
-                <button className="px-6 py-3 bg-[#C49F58] text-white rounded-lg hover:bg-[#b08d4b] transition">
+                <button className="px-6 py-3 bg-[#D4AF6A] text-white rounded-lg hover:bg-[#C49F58] transition">
                   Add Code
                 </button>
               </div>

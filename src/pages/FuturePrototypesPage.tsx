@@ -113,7 +113,7 @@ const FuturePrototypesPage: React.FC = () => {
           >
             <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 tracking-tight">
               The Future of<br />
-              <span className="text-[#C49F58]">Urban Sanctuary</span>
+              <span className="text-[#D4AF6A]">Urban Sanctuary</span>
             </h1>
 
             <p className="text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
@@ -179,7 +179,7 @@ const FuturePrototypesPage: React.FC = () => {
 
                     {/* Status Badge */}
                     <div className="absolute top-6 left-6">
-                      <div className="inline-flex items-center gap-2 bg-[#C49F58] text-white px-4 py-2 rounded-full shadow-lg">
+                      <div className="inline-flex items-center gap-2 bg-[#D4AF6A] text-white px-4 py-2 rounded-full shadow-lg">
                         <Star className="w-4 h-4" />
                         <span className="text-sm font-bold uppercase tracking-wider">{feature.status}</span>
                       </div>
@@ -197,7 +197,7 @@ const FuturePrototypesPage: React.FC = () => {
                 {/* Content */}
                 <div className="w-full lg:w-1/2">
                   <div className="max-w-lg">
-                    <p className="text-[#C49F58] font-semibold uppercase tracking-widest text-sm mb-2">
+                    <p className="text-[#D4AF6A] font-semibold uppercase tracking-widest text-sm mb-2">
                       {feature.subtitle}
                     </p>
                     <h3 className="text-3xl md:text-4xl font-serif font-bold text-[#3C5999] mb-4">
@@ -211,7 +211,7 @@ const FuturePrototypesPage: React.FC = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {feature.details.map((detail, i) => (
                         <div key={i} className="flex items-start gap-3">
-                          <div className="w-2 h-2 rounded-full bg-[#C49F58] mt-2 flex-shrink-0" />
+                          <div className="w-2 h-2 rounded-full bg-[#D4AF6A] mt-2 flex-shrink-0" />
                           <span className="text-[#3C5999]/80 text-sm">{detail}</span>
                         </div>
                       ))}
@@ -244,7 +244,7 @@ const FuturePrototypesPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/membership"
-                className="inline-flex items-center justify-center gap-2 bg-[#C49F58] text-white px-8 py-4 rounded-lg font-semibold hover:bg-[#B39149] transition-colors shadow-lg"
+                className="inline-flex items-center justify-center gap-2 bg-[#D4AF6A] text-white px-8 py-4 rounded-lg font-semibold hover:bg-[#B39149] transition-colors shadow-lg"
               >
                 Become a Sovereign
                 <ArrowRight className="w-5 h-5" />

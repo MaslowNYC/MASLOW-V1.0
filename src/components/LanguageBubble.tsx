@@ -109,10 +109,10 @@ export default function LanguageBubble({
         aria-label="Select language"
       >
         {/* Glow effect */}
-        <div className="absolute inset-0 bg-[#C49F58] rounded-full blur-xl opacity-30 group-hover:opacity-50 transition-opacity" />
+        <div className="absolute inset-0 bg-[#D4AF6A] rounded-full blur-xl opacity-30 group-hover:opacity-50 transition-opacity" />
 
         {/* Main bubble */}
-        <div className="relative bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] border border-[#C49F58]/40 rounded-full px-6 py-3 shadow-2xl">
+        <div className="relative bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] border border-[#D4AF6A]/40 rounded-full px-6 py-3 shadow-2xl">
           <AnimatePresence mode="wait">
             <motion.span
               key={currentIndex}
@@ -120,7 +120,7 @@ export default function LanguageBubble({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
-              className="text-[#C49F58] font-medium text-lg block min-w-[120px] text-center"
+              className="text-[#D4AF6A] font-medium text-lg block min-w-[120px] text-center"
             >
               {currentWelcome.text}
             </motion.span>

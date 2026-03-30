@@ -48,14 +48,14 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
         <div className="container mx-auto px-4 h-20 flex items-center justify-between w-full">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group shrink-0">
-            <div className="w-12 h-12 rounded-full overflow-hidden border border-[#3C5999]/20 group-hover:border-[#C49F58] transition-colors shadow-sm">
+            <div className="w-12 h-12 rounded-full overflow-hidden border border-[#3C5999]/20 group-hover:border-[#D4AF6A] transition-colors shadow-sm">
               <img
                 src="/MASLOW - Round.png"
                 alt="Maslow Logo"
                 className="w-full h-full object-cover"
               />
             </div>
-            <span className="text-xl font-serif font-bold text-[#3C5999] tracking-widest group-hover:text-[#C49F58] transition-colors uppercase hidden sm:block">
+            <span className="text-xl font-serif font-bold text-[#3C5999] tracking-widest group-hover:text-[#D4AF6A] transition-colors uppercase hidden sm:block">
               Maslow
             </span>
           </Link>
@@ -64,7 +64,7 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
           <div className="flex items-center gap-4">
             <Link
               to="/research"
-              className="hidden sm:block transition-colors hover:text-[#C49F58]"
+              className="hidden sm:block transition-colors hover:text-[#D4AF6A]"
               style={{
                 color: '#3C5999',
                 fontFamily: "'Jost', sans-serif",
@@ -115,14 +115,14 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
       <div className="container mx-auto px-4 h-20 flex items-center justify-between w-full">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3 group shrink-0">
-          <div className="w-12 h-12 rounded-full overflow-hidden border border-[#3C5999]/20 group-hover:border-[#C49F58] transition-colors shadow-sm">
+          <div className="w-12 h-12 rounded-full overflow-hidden border border-[#3C5999]/20 group-hover:border-[#D4AF6A] transition-colors shadow-sm">
             <img
               src="/MASLOW - Round.png"
               alt="Maslow Logo"
               className="w-full h-full object-cover"
             />
           </div>
-          <span className="text-xl font-serif font-bold text-[#3C5999] tracking-widest group-hover:text-[#C49F58] transition-colors uppercase hidden sm:block">
+          <span className="text-xl font-serif font-bold text-[#3C5999] tracking-widest group-hover:text-[#D4AF6A] transition-colors uppercase hidden sm:block">
             Maslow
           </span>
         </Link>
@@ -133,7 +133,7 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
             <Link
               key={link.name}
               to={link.path}
-              className={`text-xs font-bold tracking-widest transition-colors uppercase ${isActive(link.path) ? 'text-[#C49F58]' : 'text-[#3C5999] hover:text-[#C49F58]'}`}
+              className={`text-xs font-bold tracking-widest transition-colors uppercase ${isActive(link.path) ? 'text-[#D4AF6A]' : 'text-[#3C5999] hover:text-[#D4AF6A]'}`}
             >
               {link.name}
             </Link>
@@ -145,7 +145,7 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
               <Button
                 variant="ghost"
                 size="sm"
-                className={`h-8 text-xs uppercase tracking-wider ${isActive('/profile') ? 'text-[#C49F58]' : 'text-[#3C5999] hover:text-[#C49F58]'}`}
+                className={`h-8 text-xs uppercase tracking-wider ${isActive('/profile') ? 'text-[#D4AF6A]' : 'text-[#3C5999] hover:text-[#D4AF6A]'}`}
               >
                 <CircleUser className="w-4 h-4 mr-2" />
                 Profile
@@ -158,7 +158,7 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
                   variant="ghost"
                   size="sm"
                   onClick={() => setAdminMenuOpen(!adminMenuOpen)}
-                  className="text-[#3C5999] hover:text-[#C49F58] hover:bg-[#3C5999]/5 h-8 text-xs uppercase tracking-wider"
+                  className="text-[#3C5999] hover:text-[#D4AF6A] hover:bg-[#3C5999]/5 h-8 text-xs uppercase tracking-wider"
                 >
                   <Settings className="w-4 h-4 mr-2" />
                   Admin
@@ -169,7 +169,7 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
                     <Link
                       to="/admin"
                       onClick={() => setAdminMenuOpen(false)}
-                      className="flex items-center px-4 py-3 text-sm text-[#3C5999] hover:bg-[#3C5999]/5 hover:text-[#C49F58]"
+                      className="flex items-center px-4 py-3 text-sm text-[#3C5999] hover:bg-[#3C5999]/5 hover:text-[#D4AF6A]"
                     >
                       <LayoutDashboard className="w-4 h-4 mr-3" />
                       Dashboard
@@ -177,7 +177,7 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
                     <Link
                       to="/research"
                       onClick={() => setAdminMenuOpen(false)}
-                      className="flex items-center px-4 py-3 text-sm text-[#3C5999] hover:bg-[#3C5999]/5 hover:text-[#C49F58]"
+                      className="flex items-center px-4 py-3 text-sm text-[#3C5999] hover:bg-[#3C5999]/5 hover:text-[#D4AF6A]"
                     >
                       <ClipboardList className="w-4 h-4 mr-3" />
                       Unseen Standards Research
@@ -185,7 +185,7 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
                     <Link
                       to="/prototypes"
                       onClick={() => setAdminMenuOpen(false)}
-                      className="flex items-center px-4 py-3 text-sm text-[#3C5999] hover:bg-[#3C5999]/5 hover:text-[#C49F58]"
+                      className="flex items-center px-4 py-3 text-sm text-[#3C5999] hover:bg-[#3C5999]/5 hover:text-[#D4AF6A]"
                     >
                       <Cpu className="w-4 h-4 mr-3" />
                       Prototypes
@@ -221,7 +221,7 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`text-lg font-bold tracking-widest uppercase ${isActive(link.path) ? 'text-[#C49F58]' : 'text-[#3C5999]'}`}
+                className={`text-lg font-bold tracking-widest uppercase ${isActive(link.path) ? 'text-[#D4AF6A]' : 'text-[#3C5999]'}`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.name}
@@ -230,7 +230,7 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
 
             <Link
               to="/profile"
-              className={`text-lg font-bold tracking-widest uppercase ${isActive('/profile') ? 'text-[#C49F58]' : 'text-[#3C5999]'}`}
+              className={`text-lg font-bold tracking-widest uppercase ${isActive('/profile') ? 'text-[#D4AF6A]' : 'text-[#3C5999]'}`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Profile

@@ -169,7 +169,7 @@ const FAQItem: React.FC<{ item: FAQItem; isOpen: boolean; onToggle: () => void }
       >
         <span className="text-[#3C5999] font-medium pr-4">{item.question}</span>
         <ChevronDown
-          className={`w-5 h-5 text-[#C49F58] flex-shrink-0 transition-transform duration-200 ${
+          className={`w-5 h-5 text-[#D4AF6A] flex-shrink-0 transition-transform duration-200 ${
             isOpen ? 'rotate-180' : ''
           }`}
         />
@@ -235,7 +235,7 @@ const FAQPage = () => {
         >
           {faqData.map((section, sectionIndex) => (
             <section key={section.title} className="bg-white rounded-xl p-6 shadow-sm">
-              <h2 className="text-xl font-serif font-bold text-[#3C5999] mb-4 pb-2 border-b border-[#C49F58]/30">
+              <h2 className="text-xl font-serif font-bold text-[#3C5999] mb-4 pb-2 border-b border-[#D4AF6A]/30">
                 {section.title}
               </h2>
               <div>
@@ -261,7 +261,7 @@ const FAQPage = () => {
             </p>
             <a
               href="mailto:hello@maslow.nyc?subject=Support Question"
-              className="inline-flex items-center gap-2 bg-[#C49F58] text-[#3C5999] font-bold px-6 py-3 rounded-lg hover:bg-[#d4af69] transition-colors"
+              className="inline-flex items-center gap-2 bg-[#D4AF6A] text-[#3C5999] font-bold px-6 py-3 rounded-lg hover:bg-[#d4af69] transition-colors"
             >
               <Mail className="w-5 h-5" />
               Contact Support

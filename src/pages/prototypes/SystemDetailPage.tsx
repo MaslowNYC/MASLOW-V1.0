@@ -118,7 +118,7 @@ const SystemDetailPage: React.FC = () => {
       <div className="min-h-screen bg-[#FAF4ED] flex items-center justify-center">
         <div className="text-center">
           <div className="text-2xl text-[#3C5999] mb-4">System not found</div>
-          <Link to="/prototypes" className="text-[#C49F58] hover:underline">
+          <Link to="/prototypes" className="text-[#D4AF6A] hover:underline">
             ← Back to all systems
           </Link>
         </div>
@@ -146,7 +146,7 @@ const SystemDetailPage: React.FC = () => {
 
       {/* Header */}
       <div className="max-w-6xl mx-auto mb-8">
-        <Link to="/prototypes" className="text-[#C49F58] hover:underline mb-4 inline-flex items-center gap-2">
+        <Link to="/prototypes" className="text-[#D4AF6A] hover:underline mb-4 inline-flex items-center gap-2">
           <ArrowLeft className="w-4 h-4" /> Back to Systems
         </Link>
 
@@ -158,7 +158,7 @@ const SystemDetailPage: React.FC = () => {
                 {system.name}
               </h1>
               {(system.phase || 1) === 2 && (
-                <span className="px-3 py-1 bg-[#C49F58]/20 text-[#C49F58] text-sm font-bold rounded-full">
+                <span className="px-3 py-1 bg-[#D4AF6A]/20 text-[#D4AF6A] text-sm font-bold rounded-full">
                   POST-LAUNCH
                 </span>
               )}
@@ -184,13 +184,13 @@ const SystemDetailPage: React.FC = () => {
             to={`/prototypes/prototype/${prototype.id}`}
             className="block"
           >
-            <div className={`bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition border-2 border-transparent hover:border-[#C49F58] ${
-              (prototype.phase || 1) === 2 ? 'bg-gradient-to-r from-white to-[#C49F58]/5' : ''
+            <div className={`bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition border-2 border-transparent hover:border-[#D4AF6A] ${
+              (prototype.phase || 1) === 2 ? 'bg-gradient-to-r from-white to-[#D4AF6A]/5' : ''
             }`}>
               {/* Phase 2 Banner */}
               {(prototype.phase || 1) === 2 && (
                 <div className="mb-4 -mt-2 -mx-2">
-                  <div className="bg-[#C49F58]/10 text-[#C49F58] px-4 py-2 rounded-t-lg text-sm font-semibold flex items-center gap-2">
+                  <div className="bg-[#D4AF6A]/10 text-[#D4AF6A] px-4 py-2 rounded-t-lg text-sm font-semibold flex items-center gap-2">
                     ⏳ Phase 2: Post-Launch Feature
                   </div>
                 </div>
@@ -205,7 +205,7 @@ const SystemDetailPage: React.FC = () => {
                     </h2>
                     {getStatusBadge(prototype.status)}
                     {(prototype.phase || 1) === 2 && (
-                      <span className="px-2 py-1 bg-[#C49F58]/20 text-[#C49F58] text-xs font-bold rounded">
+                      <span className="px-2 py-1 bg-[#D4AF6A]/20 text-[#D4AF6A] text-xs font-bold rounded">
                         PHASE 2
                       </span>
                     )}
@@ -215,7 +215,7 @@ const SystemDetailPage: React.FC = () => {
                   </p>
                 </div>
                 <div className="text-right ml-4">
-                  <div className="text-2xl font-bold text-[#C49F58]">
+                  <div className="text-2xl font-bold text-[#D4AF6A]">
                     Box #{prototype.box_number}
                   </div>
                   <div className="text-xs text-[#3C5999]/60">
@@ -252,7 +252,7 @@ const SystemDetailPage: React.FC = () => {
                 </div>
                 <div>
                   <div className="text-xs text-[#3C5999]/60 mb-1">Progress</div>
-                  <div className="text-lg font-bold text-[#C49F58]">
+                  <div className="text-lg font-bold text-[#D4AF6A]">
                     {prototype.progress}%
                   </div>
                 </div>
@@ -261,14 +261,14 @@ const SystemDetailPage: React.FC = () => {
               {/* Progress Bar */}
               <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
                 <div
-                  className="bg-[#C49F58] h-3 rounded-full transition-all"
+                  className="bg-[#D4AF6A] h-3 rounded-full transition-all"
                   style={{ width: `${prototype.progress}%` }}
                 />
               </div>
 
               {/* View Button */}
               <div className="mt-4 text-right">
-                <span className="text-[#C49F58] font-semibold hover:underline">
+                <span className="text-[#D4AF6A] font-semibold hover:underline">
                   View Details →
                 </span>
               </div>

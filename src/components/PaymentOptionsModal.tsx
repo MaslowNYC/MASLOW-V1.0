@@ -117,7 +117,7 @@ const PaymentOptionsModal: React.FC<PaymentOptionsModalProps> = ({ isOpen, onClo
               Complete your {tierName} sponsorship
             </DialogDescription>
           </DialogHeader>
-          <div className="mt-4 text-3xl font-bold text-[#C49F58]">
+          <div className="mt-4 text-3xl font-bold text-[#D4AF6A]">
             ${price.toLocaleString()}
           </div>
         </div>
@@ -159,7 +159,7 @@ const PaymentOptionsModal: React.FC<PaymentOptionsModalProps> = ({ isOpen, onClo
               </div>
               <span className="text-lg font-bold text-[#3C5999]">Credit / Debit Card</span>
             </div>
-            {loadingMethod === 'card' ? <Loader2 className="w-5 h-5 animate-spin text-[#C49F58]" /> : <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-[#C49F58]" />}
+            {loadingMethod === 'card' ? <Loader2 className="w-5 h-5 animate-spin text-[#D4AF6A]" /> : <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-[#D4AF6A]" />}
           </Button>
 
           {/* PayPal */}

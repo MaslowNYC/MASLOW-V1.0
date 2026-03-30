@@ -35,7 +35,7 @@ const LocationDetail: React.FC = () => {
                animate={{ opacity: 1, y: 0 }}
                transition={{ duration: 0.8 }}
             >
-                <div className="flex items-center gap-2 text-[#C49F58] mb-4">
+                <div className="flex items-center gap-2 text-[#D4AF6A] mb-4">
                     <MapPin className="w-5 h-5" />
                     <span className="uppercase tracking-widest text-sm font-bold">Flagship Location</span>
                 </div>
@@ -56,9 +56,9 @@ const LocationDetail: React.FC = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="bg-white p-8 rounded-xl shadow-xl border-t-4 border-[#C49F58]"
+                    className="bg-white p-8 rounded-xl shadow-xl border-t-4 border-[#D4AF6A]"
                 >
-                    <Calendar className="w-8 h-8 text-[#C49F58] mb-4" />
+                    <Calendar className="w-8 h-8 text-[#D4AF6A] mb-4" />
                     <h3 className="text-xl font-serif text-[#3C5999] mb-2">Opening Timeline</h3>
                     <p className="text-[#3C5999]/70">Grand Opening: <span className="font-bold">Spring 2026</span></p>
                     <p className="text-[#3C5999]/70 text-sm mt-2 italic">Founding Member previews begin Winter 2025.</p>
@@ -84,9 +84,9 @@ const LocationDetail: React.FC = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
-                    className="bg-[#1a1a1a] p-8 rounded-xl shadow-xl border-t-4 border-[#C49F58] text-[#FAF4ED]"
+                    className="bg-[#1a1a1a] p-8 rounded-xl shadow-xl border-t-4 border-[#D4AF6A] text-[#FAF4ED]"
                 >
-                    <div className="w-8 h-8 rounded-full border border-[#C49F58] flex items-center justify-center mb-4 text-[#C49F58] font-serif font-bold">M</div>
+                    <div className="w-8 h-8 rounded-full border border-[#D4AF6A] flex items-center justify-center mb-4 text-[#D4AF6A] font-serif font-bold">M</div>
                     <h3 className="text-xl font-serif mb-2">The Significance</h3>
                     <p className="text-gray-400 text-sm leading-relaxed">
                         Our flagship location reclaims a historic cast-iron building, proving that dignity can be woven into the very fabric of New York's architectural heritage.
@@ -102,7 +102,7 @@ const LocationDetail: React.FC = () => {
             <div className="grid md:grid-cols-3 gap-8">
                 <div className="group">
                     <div className="aspect-square bg-[#3C5999]/5 rounded-lg mb-6 flex items-center justify-center group-hover:bg-[#3C5999]/10 transition-colors">
-                        <Sun className="w-16 h-16 text-[#C49F58]" />
+                        <Sun className="w-16 h-16 text-[#D4AF6A]" />
                     </div>
                     <h3 className="text-2xl font-serif text-[#3C5999] mb-2">The Artificial Sky</h3>
                     <p className="text-[#3C5999]/70 text-sm leading-relaxed">
@@ -112,7 +112,7 @@ const LocationDetail: React.FC = () => {
 
                 <div className="group">
                     <div className="aspect-square bg-[#3C5999]/5 rounded-lg mb-6 flex items-center justify-center group-hover:bg-[#3C5999]/10 transition-colors">
-                        <Volume2 className="w-16 h-16 text-[#C49F58]" />
+                        <Volume2 className="w-16 h-16 text-[#D4AF6A]" />
                     </div>
                     <h3 className="text-2xl font-serif text-[#3C5999] mb-2">The Maslow Console</h3>
                     <p className="text-[#3C5999]/70 text-sm leading-relaxed">
@@ -122,7 +122,7 @@ const LocationDetail: React.FC = () => {
 
                 <div className="group">
                     <div className="aspect-square bg-[#3C5999]/5 rounded-lg mb-6 flex items-center justify-center group-hover:bg-[#3C5999]/10 transition-colors">
-                        <Shield className="w-16 h-16 text-[#C49F58]" />
+                        <Shield className="w-16 h-16 text-[#D4AF6A]" />
                     </div>
                     <h3 className="text-2xl font-serif text-[#3C5999] mb-2">Invisible Hygiene</h3>
                     <p className="text-[#3C5999]/70 text-sm leading-relaxed">
@@ -147,8 +147,8 @@ const LocationDetail: React.FC = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8 }}
       >
-          <div className="w-24 h-24 border-2 border-[#C49F58] rounded-full mx-auto mb-8 flex items-center justify-center">
-             <MapPin className="w-10 h-10 text-[#C49F58]" />
+          <div className="w-24 h-24 border-2 border-[#D4AF6A] rounded-full mx-auto mb-8 flex items-center justify-center">
+             <MapPin className="w-10 h-10 text-[#D4AF6A]" />
           </div>
           <h1 className="text-5xl md:text-7xl font-serif text-[#FAF4ED] mb-6">Coming Soon</h1>
           <p className="text-[#FAF4ED]/60 max-w-xl mx-auto text-lg font-light mb-12">
@@ -156,7 +156,7 @@ const LocationDetail: React.FC = () => {
           </p>
 
           <Link to="/">
-             <Button className="bg-[#C49F58] text-[#1a1a1a] hover:bg-[#d4b06a] font-bold tracking-widest px-8 py-6">
+             <Button className="bg-[#D4AF6A] text-[#1a1a1a] hover:bg-[#d4b06a] font-bold tracking-widest px-8 py-6">
                 Return Home
              </Button>
           </Link>

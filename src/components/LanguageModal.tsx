@@ -55,7 +55,7 @@ export default function LanguageModal({
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] border border-[#C49F58]/30 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl"
+              className="bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] border border-[#D4AF6A]/30 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl"
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
@@ -67,7 +67,7 @@ export default function LanguageModal({
               {/* Header */}
               <div className="flex items-center justify-between px-5 py-3 border-b border-white/10">
                 <div className="flex items-center gap-2">
-                  <Globe className="w-4 h-4 text-[#C49F58]" />
+                  <Globe className="w-4 h-4 text-[#D4AF6A]" />
                   <h2
                     id="language-modal-title"
                     className="text-lg font-semibold text-white"
@@ -95,7 +95,7 @@ export default function LanguageModal({
                       className={`
                         flex items-center justify-between px-3 py-2.5 rounded-lg transition-all
                         ${selectedLanguage === lang.code
-                          ? 'bg-[#C49F58]/20 border border-[#C49F58]/50'
+                          ? 'bg-[#D4AF6A]/20 border border-[#D4AF6A]/50'
                           : 'hover:bg-white/5 border border-transparent'
                         }
                       `}
@@ -121,7 +121,7 @@ export default function LanguageModal({
                         <motion.div
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
-                          className="bg-[#C49F58] rounded-full p-0.5 ml-1 flex-shrink-0"
+                          className="bg-[#D4AF6A] rounded-full p-0.5 ml-1 flex-shrink-0"
                         >
                           <Check className="w-3 h-3 text-black" />
                         </motion.div>

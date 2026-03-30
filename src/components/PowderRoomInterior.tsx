@@ -22,10 +22,10 @@ const PowderRoomInterior: React.FC = () => {
         </div>
 
         {/* Lighting Effect */}
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-64 h-32 bg-gradient-radial from-[#C49F58]/20 to-transparent blur-2xl"></div>
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-64 h-32 bg-gradient-radial from-[#D4AF6A]/20 to-transparent blur-2xl"></div>
 
         {/* Mirror */}
-        <div className="absolute top-12 left-1/2 transform -translate-x-1/2 w-48 h-56 bg-gradient-to-br from-gray-100 via-white to-gray-200 rounded-lg border-4 border-[#C49F58] shadow-xl">
+        <div className="absolute top-12 left-1/2 transform -translate-x-1/2 w-48 h-56 bg-gradient-to-br from-gray-100 via-white to-gray-200 rounded-lg border-4 border-[#D4AF6A] shadow-xl">
           {/* Mirror Reflection Effect */}
           <div className="absolute inset-2 bg-gradient-to-br from-white/40 via-transparent to-white/20 rounded"></div>
 
@@ -42,20 +42,20 @@ const PowderRoomInterior: React.FC = () => {
         {/* Vanity/Sink */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-56 h-20">
           {/* Countertop */}
-          <div className="absolute bottom-0 w-full h-16 bg-gradient-to-b from-[#E8DCC8] to-[#D4C4A8] rounded-t-lg border-t-2 border-[#C49F58]/30 shadow-lg">
+          <div className="absolute bottom-0 w-full h-16 bg-gradient-to-b from-[#E8DCC8] to-[#D4C4A8] rounded-t-lg border-t-2 border-[#D4AF6A]/30 shadow-lg">
             {/* Sink */}
             <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-24 h-10 bg-gradient-to-b from-white to-gray-100 rounded-full border-2 border-gray-300 shadow-inner">
               {/* Faucet */}
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <div className="w-2 h-6 bg-gradient-to-b from-[#C49F58] to-[#b08d4b] rounded-full shadow-md"></div>
-                <div className="w-6 h-3 bg-gradient-to-b from-[#C49F58] to-[#b08d4b] rounded-t-full -mt-1 shadow-md"></div>
+                <div className="w-2 h-6 bg-gradient-to-b from-[#D4AF6A] to-[#C49F58] rounded-full shadow-md"></div>
+                <div className="w-6 h-3 bg-gradient-to-b from-[#D4AF6A] to-[#C49F58] rounded-t-full -mt-1 shadow-md"></div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Ambient Glow Effects */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#C49F58]/10 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#D4AF6A]/10 to-transparent"></div>
       </div>
     </motion.div>
   );

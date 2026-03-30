@@ -115,10 +115,10 @@ const SanctuarySuitesPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C49F58] mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-[#D4AF6A] mb-4">
               The Experience
             </h2>
-            <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
+            <div className="w-16 h-0.5 bg-[#D4AF6A] mb-8"></div>
 
             <p className="text-xl text-[#3C5999] font-medium mb-6">
               Every Maslow suite is designed with one goal: give you back your dignity.
@@ -144,10 +144,10 @@ const SanctuarySuitesPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C49F58] mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-[#D4AF6A] mb-4">
               What's Inside
             </h2>
-            <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
+            <div className="w-16 h-0.5 bg-[#D4AF6A] mb-8"></div>
 
             <h3 className="text-3xl md:text-4xl font-serif text-[#3C5999] mb-12">
               Thoughtful Design, Every Detail
@@ -175,7 +175,7 @@ const SanctuarySuitesPage: React.FC = () => {
                 <ul className="space-y-4">
                   {amenityItems.map((item, i) => (
                     <li key={i} className="flex items-start gap-3">
-                      <div className="w-2 h-2 bg-[#C49F58] rounded-full mt-2 shrink-0"></div>
+                      <div className="w-2 h-2 bg-[#D4AF6A] rounded-full mt-2 shrink-0"></div>
                       <div>
                         <span className="font-bold text-[#3C5999]">{item.title}:</span>{" "}
                         <span className="text-[#1a1a1a]/70">{item.desc}</span>
@@ -221,7 +221,7 @@ const SanctuarySuitesPage: React.FC = () => {
                 <ol className="space-y-3">
                   {cleaningSteps.map((item, i) => (
                     <li key={i} className="flex items-start gap-4">
-                      <span className="text-[#C49F58] font-bold">{item.num}.</span>
+                      <span className="text-[#D4AF6A] font-bold">{item.num}.</span>
                       <div>
                         <span className="font-medium text-[#3C5999]">{item.title}</span>
                         <span className="text-[#1a1a1a]/70"> – {item.desc}</span>
@@ -252,10 +252,10 @@ const SanctuarySuitesPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C49F58] mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-[#D4AF6A] mb-4">
               Privacy & Safety
             </h2>
-            <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
+            <div className="w-16 h-0.5 bg-[#D4AF6A] mb-8"></div>
 
             <h3 className="text-3xl md:text-4xl font-serif text-[#3C5999] mb-12">
               Built for Safety
@@ -282,10 +282,10 @@ const SanctuarySuitesPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C49F58] mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-[#D4AF6A] mb-4">
               Booking & Access
             </h2>
-            <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
+            <div className="w-16 h-0.5 bg-[#D4AF6A] mb-8"></div>
 
             <h3 className="text-3xl md:text-4xl font-serif text-[#3C5999] mb-12">
               How It Works
@@ -314,10 +314,10 @@ const SanctuarySuitesPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C49F58] mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-[#D4AF6A] mb-4">
               Design Philosophy
             </h2>
-            <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
+            <div className="w-16 h-0.5 bg-[#D4AF6A] mb-8"></div>
 
             <h3 className="text-3xl md:text-4xl font-serif text-[#3C5999] mb-8">
               Why We Built It This Way
@@ -333,7 +333,7 @@ const SanctuarySuitesPage: React.FC = () => {
               <p>
                 Because needing a bathroom isn't something to be ashamed of. Needing to nurse your baby isn't an inconvenience. Needing to pray isn't a disruption. These are basic human needs, and infrastructure should treat them that way.
               </p>
-              <p className="text-xl text-[#3C5999] font-medium border-l-4 border-[#C49F58] pl-6 my-8">
+              <p className="text-xl text-[#3C5999] font-medium border-l-4 border-[#D4AF6A] pl-6 my-8">
                 That's why we call them Maslow suites, not bathrooms. Because they're more than a toilet and a sink. They're a moment of peace in a city that doesn't give you many.
               </p>
             </div>
@@ -350,10 +350,10 @@ const SanctuarySuitesPage: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm font-bold uppercase tracking-widest text-[#C49F58] mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-[#D4AF6A] mb-4">
               Feedback
             </h2>
-            <div className="w-16 h-0.5 bg-[#C49F58] mb-8"></div>
+            <div className="w-16 h-0.5 bg-[#D4AF6A] mb-8"></div>
 
             <h3 className="text-3xl md:text-4xl font-serif text-white mb-8">
               We're Still Learning
@@ -370,7 +370,7 @@ const SanctuarySuitesPage: React.FC = () => {
 
             <div className="mt-10 text-center">
               <p className="text-white/60 text-sm uppercase tracking-widest mb-2">Contact</p>
-              <a href="mailto:hello@maslow.nyc" className="text-2xl text-[#C49F58] hover:text-white transition-colors">
+              <a href="mailto:hello@maslow.nyc" className="text-2xl text-[#D4AF6A] hover:text-white transition-colors">
                 hello@maslow.nyc
               </a>
             </div>

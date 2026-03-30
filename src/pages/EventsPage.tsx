@@ -62,7 +62,7 @@ const CATEGORIES: { key: EventCategory | 'all'; label: string; color: string }[]
 
 const getCategoryColor = (category: EventCategory): string => {
   const found = CATEGORIES.find(c => c.key === category);
-  return found?.color || '#C49F58';
+  return found?.color || '#D4AF6A';
 };
 
 const getCategoryLabel = (category: EventCategory): string => {
@@ -394,7 +394,7 @@ const EventsPage: React.FC = () => {
             </div>
 
             {/* Title */}
-            <h3 className="text-lg font-bold text-[#3C5999] mb-2 group-hover:text-[#C49F58] transition-colors line-clamp-2">
+            <h3 className="text-lg font-bold text-[#3C5999] mb-2 group-hover:text-[#D4AF6A] transition-colors line-clamp-2">
               {event.title}
             </h3>
 
@@ -424,7 +424,7 @@ const EventsPage: React.FC = () => {
                   {event.max_attendees ? `/${event.max_attendees}` : ''} attending
                 </span>
               </div>
-              <span className="text-sm font-semibold text-[#C49F58]">
+              <span className="text-sm font-semibold text-[#D4AF6A]">
                 {event.price_credits === 0 ? 'Free for members' : `${event.price_credits} credits`}
               </span>
             </div>
@@ -509,7 +509,7 @@ const EventsPage: React.FC = () => {
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
-                <Calendar className="w-5 h-5 text-[#C49F58] mt-0.5" />
+                <Calendar className="w-5 h-5 text-[#D4AF6A] mt-0.5" />
                 <div>
                   <p className="text-xs uppercase tracking-wider text-[#1a1a1a]/50 mb-1">Date</p>
                   <p className="text-[#3C5999] font-medium">{fullDate}</p>
@@ -517,7 +517,7 @@ const EventsPage: React.FC = () => {
               </div>
 
               <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
-                <Clock className="w-5 h-5 text-[#C49F58] mt-0.5" />
+                <Clock className="w-5 h-5 text-[#D4AF6A] mt-0.5" />
                 <div>
                   <p className="text-xs uppercase tracking-wider text-[#1a1a1a]/50 mb-1">Time</p>
                   <p className="text-[#3C5999] font-medium">{time}</p>
@@ -526,7 +526,7 @@ const EventsPage: React.FC = () => {
 
               {selectedEvent.location && (
                 <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
-                  <MapPin className="w-5 h-5 text-[#C49F58] mt-0.5" />
+                  <MapPin className="w-5 h-5 text-[#D4AF6A] mt-0.5" />
                   <div>
                     <p className="text-xs uppercase tracking-wider text-[#1a1a1a]/50 mb-1">Location</p>
                     <p className="text-[#3C5999] font-medium">{selectedEvent.location}</p>
@@ -536,7 +536,7 @@ const EventsPage: React.FC = () => {
 
               {selectedEvent.host_name && (
                 <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
-                  <User className="w-5 h-5 text-[#C49F58] mt-0.5" />
+                  <User className="w-5 h-5 text-[#D4AF6A] mt-0.5" />
                   <div>
                     <p className="text-xs uppercase tracking-wider text-[#1a1a1a]/50 mb-1">Hosted by</p>
                     <p className="text-[#3C5999] font-medium">{selectedEvent.host_name}</p>
@@ -545,7 +545,7 @@ const EventsPage: React.FC = () => {
               )}
 
               <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
-                <Users className="w-5 h-5 text-[#C49F58] mt-0.5" />
+                <Users className="w-5 h-5 text-[#D4AF6A] mt-0.5" />
                 <div>
                   <p className="text-xs uppercase tracking-wider text-[#1a1a1a]/50 mb-1">Attendees</p>
                   <p className="text-[#3C5999] font-medium">
@@ -556,7 +556,7 @@ const EventsPage: React.FC = () => {
               </div>
 
               <div className="flex items-start gap-3 p-3 bg-white rounded-lg">
-                <Ticket className="w-5 h-5 text-[#C49F58] mt-0.5" />
+                <Ticket className="w-5 h-5 text-[#D4AF6A] mt-0.5" />
                 <div>
                   <p className="text-xs uppercase tracking-wider text-[#1a1a1a]/50 mb-1">Price</p>
                   <p className="text-[#3C5999] font-medium">
@@ -630,7 +630,7 @@ const EventsPage: React.FC = () => {
                     setSelectedEvent(null);
                     handleEditEvent(selectedEvent);
                   }}
-                  className="border-[#C49F58] text-[#C49F58] hover:bg-[#C49F58]/10"
+                  className="border-[#D4AF6A] text-[#D4AF6A] hover:bg-[#D4AF6A]/10"
                 >
                   <Pencil className="w-4 h-4 mr-2" />
                   Edit
@@ -698,7 +698,7 @@ const EventsPage: React.FC = () => {
         <div className="max-w-6xl mx-auto">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20">
-              <Loader2 className="w-8 h-8 animate-spin text-[#C49F58] mb-4" />
+              <Loader2 className="w-8 h-8 animate-spin text-[#D4AF6A] mb-4" />
               <p className="text-[#1a1a1a]/60">Loading events...</p>
             </div>
           ) : events.length === 0 ? (
@@ -718,7 +718,7 @@ const EventsPage: React.FC = () => {
                 <Button
                   onClick={() => setSelectedCategory('all')}
                   variant="outline"
-                  className="border-[#C49F58] text-[#C49F58] hover:bg-[#C49F58]/10"
+                  className="border-[#D4AF6A] text-[#D4AF6A] hover:bg-[#D4AF6A]/10"
                 >
                   Show All Events
                 </Button>
@@ -744,7 +744,7 @@ const EventsPage: React.FC = () => {
         <div className="fixed bottom-6 left-6 z-50">
           <Button
             onClick={handleAddEvent}
-            className="flex items-center gap-2 px-4 py-3 bg-[#C49F58] text-white rounded-full shadow-lg hover:bg-[#C49F58]/90 transition-colors"
+            className="flex items-center gap-2 px-4 py-3 bg-[#D4AF6A] text-white rounded-full shadow-lg hover:bg-[#D4AF6A]/90 transition-colors"
           >
             <Plus className="w-5 h-5" />
             <span className="font-medium">Add Event</span>

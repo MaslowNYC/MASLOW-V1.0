@@ -49,11 +49,11 @@ const StorePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
       <Helmet><title>The Standard | Maslow</title></Helmet>
-      <header className="bg-slate-900 text-white pt-24 pb-20 px-6 border-b-4 border-[#C49F58]">
+      <header className="bg-slate-900 text-white pt-24 pb-20 px-6 border-b-4 border-[#D4AF6A]">
         <div className="max-w-6xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full border border-white/20">
-              <ShieldCheck className="w-3 h-3 text-[#C49F58]" />
+              <ShieldCheck className="w-3 h-3 text-[#D4AF6A]" />
               <span className="text-[10px] uppercase tracking-[0.2em] font-bold">The Standard of Care</span>
             </div>
             <h1 className="text-4xl md:text-7xl font-serif tracking-tight">Ethical Procurement.</h1>
@@ -81,9 +81,9 @@ const StorePage: React.FC = () => {
             </Card>
           ))}
         </div>
-        <section className="bg-slate-900 rounded-2xl p-12 text-center text-white border border-[#C49F58]/30">
+        <section className="bg-slate-900 rounded-2xl p-12 text-center text-white border border-[#D4AF6A]/30">
           <h2 className="text-3xl font-serif mb-4">Earn The Access.</h2>
-          <Button onClick={() => navigate('/login?mode=signup')} className="bg-[#C49F58] text-slate-900 font-bold px-12 py-6 rounded-none uppercase tracking-widest">
+          <Button onClick={() => navigate('/login?mode=signup')} className="bg-[#D4AF6A] text-slate-900 font-bold px-12 py-6 rounded-none uppercase tracking-widest">
             Join The Mission <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </section>

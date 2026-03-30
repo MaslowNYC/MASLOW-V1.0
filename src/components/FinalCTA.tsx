@@ -18,7 +18,7 @@ const FinalCTA: React.FC = () => {
         <div className="flex justify-center gap-4">
           <Button
             onClick={() => navigate('/login?mode=signup')}
-            className="bg-[#C49F58] hover:bg-[#b08d4b] text-[#0F172A] font-bold py-6 px-10 text-lg rounded-none"
+            className="bg-[#D4AF6A] hover:bg-[#C49F58] text-[#0F172A] font-bold py-6 px-10 text-lg rounded-none"
           >
             Get Access <ArrowRight className="ml-2 w-5 h-5" />
           </Button>

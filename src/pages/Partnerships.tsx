@@ -28,7 +28,7 @@ const Partnerships: React.FC = () => {
             >
               Partnering with NYC
               {activeTab === 'city' && (
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#C49F58]" />
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#D4AF6A]" />
               )}
             </button>
             <button
@@ -41,7 +41,7 @@ const Partnerships: React.FC = () => {
             >
               Vendor Partners
               {activeTab === 'vendor' && (
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#C49F58]" />
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#D4AF6A]" />
               )}
             </button>
           </div>
@@ -62,7 +62,7 @@ const Partnerships: React.FC = () => {
               </p>
               <a
                 href="#contact"
-                className="inline-block bg-[#C49F58] text-[#1a1a1a] px-8 py-4 rounded-lg font-semibold text-lg hover:bg-[#B8935C] transition-colors"
+                className="inline-block bg-[#D4AF6A] text-[#1a1a1a] px-8 py-4 rounded-lg font-semibold text-lg hover:bg-[#C49F58] transition-colors"
               >
                 Contact Our Team
               </a>
@@ -104,7 +104,7 @@ const Partnerships: React.FC = () => {
                   </ul>
                 </div>
                 <div className="bg-[#F5F0E6] rounded-lg p-6">
-                  <Users className="w-12 h-12 text-[#C49F58] mb-4" />
+                  <Users className="w-12 h-12 text-[#D4AF6A] mb-4" />
                   <h3 className="text-xl font-bold text-[#3C5999] mb-3">Maslow Suites</h3>
                   <ul className="space-y-2 text-gray-700">
                     <li>✓ Pay-per-use ($5)</li>
@@ -135,27 +135,27 @@ const Partnerships: React.FC = () => {
                 <h3 className="text-xl font-bold text-[#3C5999] mb-4">How It Works:</h3>
                 <div className="space-y-4 mb-8">
                   <div className="flex items-start gap-4">
-                    <div className="w-8 h-8 rounded-full bg-[#C49F58] text-white flex items-center justify-center font-bold flex-shrink-0">1</div>
+                    <div className="w-8 h-8 rounded-full bg-[#D4AF6A] text-white flex items-center justify-center font-bold flex-shrink-0">1</div>
                     <p className="text-gray-700">City purchases session vouchers (bulk pricing, scalable)</p>
                   </div>
                   <div className="flex items-start gap-4">
-                    <div className="w-8 h-8 rounded-full bg-[#C49F58] text-white flex items-center justify-center font-bold flex-shrink-0">2</div>
+                    <div className="w-8 h-8 rounded-full bg-[#D4AF6A] text-white flex items-center justify-center font-bold flex-shrink-0">2</div>
                     <p className="text-gray-700">Issues OMNY cards or digital passes (via MYmta app)</p>
                   </div>
                   <div className="flex items-start gap-4">
-                    <div className="w-8 h-8 rounded-full bg-[#C49F58] text-white flex items-center justify-center font-bold flex-shrink-0">3</div>
+                    <div className="w-8 h-8 rounded-full bg-[#D4AF6A] text-white flex items-center justify-center font-bold flex-shrink-0">3</div>
                     <p className="text-gray-700">Users tap OMNY at Maslow locations (just like entering the subway)</p>
                   </div>
                   <div className="flex items-start gap-4">
-                    <div className="w-8 h-8 rounded-full bg-[#C49F58] text-white flex items-center justify-center font-bold flex-shrink-0">4</div>
+                    <div className="w-8 h-8 rounded-full bg-[#D4AF6A] text-white flex items-center justify-center font-bold flex-shrink-0">4</div>
                     <p className="text-gray-700">System validates voucher (Supabase checks NYC database in real-time)</p>
                   </div>
                   <div className="flex items-start gap-4">
-                    <div className="w-8 h-8 rounded-full bg-[#C49F58] text-white flex items-center justify-center font-bold flex-shrink-0">5</div>
+                    <div className="w-8 h-8 rounded-full bg-[#D4AF6A] text-white flex items-center justify-center font-bold flex-shrink-0">5</div>
                     <p className="text-gray-700">Door unlocks, session logged (city gets usage data)</p>
                   </div>
                   <div className="flex items-start gap-4">
-                    <div className="w-8 h-8 rounded-full bg-[#C49F58] text-white flex items-center justify-center font-bold flex-shrink-0">6</div>
+                    <div className="w-8 h-8 rounded-full bg-[#D4AF6A] text-white flex items-center justify-center font-bold flex-shrink-0">6</div>
                     <p className="text-gray-700">City pays monthly (per-use billing, not capital expenditure)</p>
                   </div>
                 </div>
@@ -165,19 +165,19 @@ const Partnerships: React.FC = () => {
                     <h4 className="font-bold text-[#3C5999] mb-3">Benefits for NYC:</h4>
                     <ul className="space-y-2 text-gray-700">
                       <li className="flex items-start gap-2">
-                        <CheckCircle2 className="w-5 h-5 text-[#C49F58] flex-shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-5 h-5 text-[#D4AF6A] flex-shrink-0 mt-0.5" />
                         <span>No upfront infrastructure costs</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <CheckCircle2 className="w-5 h-5 text-[#C49F58] flex-shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-5 h-5 text-[#D4AF6A] flex-shrink-0 mt-0.5" />
                         <span>No maintenance burden</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <CheckCircle2 className="w-5 h-5 text-[#C49F58] flex-shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-5 h-5 text-[#D4AF6A] flex-shrink-0 mt-0.5" />
                         <span>Faster deployment (no RFP delays)</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <CheckCircle2 className="w-5 h-5 text-[#C49F58] flex-shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-5 h-5 text-[#D4AF6A] flex-shrink-0 mt-0.5" />
                         <span>Real-time usage data</span>
                       </li>
                     </ul>
@@ -186,15 +186,15 @@ const Partnerships: React.FC = () => {
                     <h4 className="font-bold text-[#3C5999] mb-3">Benefits for Maslow:</h4>
                     <ul className="space-y-2 text-gray-700">
                       <li className="flex items-start gap-2">
-                        <CheckCircle2 className="w-5 h-5 text-[#C49F58] flex-shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-5 h-5 text-[#D4AF6A] flex-shrink-0 mt-0.5" />
                         <span>Stable revenue (city contract)</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <CheckCircle2 className="w-5 h-5 text-[#C49F58] flex-shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-5 h-5 text-[#D4AF6A] flex-shrink-0 mt-0.5" />
                         <span>Mission alignment (serve underserved)</span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <CheckCircle2 className="w-5 h-5 text-[#C49F58] flex-shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-5 h-5 text-[#D4AF6A] flex-shrink-0 mt-0.5" />
                         <span>Brand credibility (city partnership)</span>
                       </li>
                     </ul>
@@ -211,7 +211,7 @@ const Partnerships: React.FC = () => {
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="bg-white/10 rounded-lg p-6">
                   <h3 className="text-xl font-bold mb-4">City Pilot Program</h3>
-                  <div className="text-4xl font-bold text-[#C49F58] mb-2">$87,000</div>
+                  <div className="text-4xl font-bold text-[#D4AF6A] mb-2">$87,000</div>
                   <div className="text-sm mb-4">per restroom</div>
                   <ul className="space-y-2 text-sm">
                     <li>• $4M total budget</li>
@@ -221,7 +221,7 @@ const Partnerships: React.FC = () => {
                 </div>
                 <div className="bg-white/10 rounded-lg p-6">
                   <h3 className="text-xl font-bold mb-4">Maslow Model</h3>
-                  <div className="text-4xl font-bold text-[#C49F58] mb-2">$15,000</div>
+                  <div className="text-4xl font-bold text-[#D4AF6A] mb-2">$15,000</div>
                   <div className="text-sm mb-4">per suite</div>
                   <ul className="space-y-2 text-sm">
                     <li>• 10 locations × 8 suites = 80 facilities</li>
@@ -272,7 +272,7 @@ const Partnerships: React.FC = () => {
           <section className="py-16 px-4 bg-white">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl font-bold text-[#3C5999] mb-6">Let's Start Small</h2>
-              <div className="bg-gradient-to-br from-[#F5F0E6] to-white rounded-lg p-8 shadow-md border-2 border-[#C49F58]">
+              <div className="bg-gradient-to-br from-[#F5F0E6] to-white rounded-lg p-8 shadow-md border-2 border-[#D4AF6A]">
                 <h3 className="text-2xl font-bold text-[#3C5999] mb-6">6-Month Pilot Program</h3>
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
                   <div>
@@ -285,7 +285,7 @@ const Partnerships: React.FC = () => {
                   </div>
                   <div>
                     <p className="font-semibold text-gray-700 mb-2">Cost to city:</p>
-                    <p className="text-2xl font-bold text-[#C49F58]">$2,500/month</p>
+                    <p className="text-2xl font-bold text-[#D4AF6A]">$2,500/month</p>
                     <p className="text-sm text-gray-600">($5 per session)</p>
                   </div>
                   <div>
@@ -297,19 +297,19 @@ const Partnerships: React.FC = () => {
                   <p className="font-semibold text-gray-700 mb-3">Metrics tracked:</p>
                   <ul className="space-y-2 text-gray-700">
                     <li className="flex items-center gap-2">
-                      <TrendingUp className="w-5 h-5 text-[#C49F58]" />
+                      <TrendingUp className="w-5 h-5 text-[#D4AF6A]" />
                       Total voucher sessions used
                     </li>
                     <li className="flex items-center gap-2">
-                      <TrendingUp className="w-5 h-5 text-[#C49F58]" />
+                      <TrendingUp className="w-5 h-5 text-[#D4AF6A]" />
                       Average session duration
                     </li>
                     <li className="flex items-center gap-2">
-                      <TrendingUp className="w-5 h-5 text-[#C49F58]" />
+                      <TrendingUp className="w-5 h-5 text-[#D4AF6A]" />
                       Peak usage times
                     </li>
                     <li className="flex items-center gap-2">
-                      <TrendingUp className="w-5 h-5 text-[#C49F58]" />
+                      <TrendingUp className="w-5 h-5 text-[#D4AF6A]" />
                       User satisfaction (optional survey)
                     </li>
                   </ul>
@@ -321,7 +321,7 @@ const Partnerships: React.FC = () => {
           {/* Contact Section */}
           <section id="contact" className="py-16 px-4 bg-[#3C5999]">
             <div className="max-w-4xl mx-auto text-center">
-              <Mail className="w-16 h-16 text-[#C49F58] mx-auto mb-6" />
+              <Mail className="w-16 h-16 text-[#D4AF6A] mx-auto mb-6" />
               <h2 className="text-3xl font-bold text-white mb-6">Start the Conversation</h2>
               <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
                 We're not asking for a blank check. We're asking for a conversation about how private infrastructure can serve public good.
@@ -331,7 +331,7 @@ const Partnerships: React.FC = () => {
                 <p className="text-white/80 mb-4">Partnership Inquiries</p>
                 <a
                   href="mailto:partners@maslow.nyc"
-                  className="inline-block bg-[#C49F58] text-[#1a1a1a] px-6 py-3 rounded-lg font-semibold hover:bg-[#B8935C] transition-colors"
+                  className="inline-block bg-[#D4AF6A] text-[#1a1a1a] px-6 py-3 rounded-lg font-semibold hover:bg-[#C49F58] transition-colors"
                 >
                   partners@maslow.nyc
                 </a>
@@ -347,7 +347,7 @@ const Partnerships: React.FC = () => {
             <div className="max-w-4xl mx-auto text-center text-sm text-gray-600">
               <p>
                 Maslow is a private company with a nonprofit arm at{' '}
-                <a href="https://maslownyc.org" className="text-[#3C5999] hover:text-[#C49F58] font-semibold">
+                <a href="https://maslownyc.org" className="text-[#3C5999] hover:text-[#D4AF6A] font-semibold">
                   maslownyc.org
                 </a>
                 . We're MWBE-eligible (64% women-owned) and committed to bringing Maslow suites to
@@ -372,7 +372,7 @@ const Partnerships: React.FC = () => {
               </p>
               <a
                 href="#vendor-contact"
-                className="inline-block bg-[#C49F58] text-[#1a1a1a] px-8 py-4 rounded-lg font-semibold text-lg hover:bg-[#B8935C] transition-colors"
+                className="inline-block bg-[#D4AF6A] text-[#1a1a1a] px-8 py-4 rounded-lg font-semibold text-lg hover:bg-[#C49F58] transition-colors"
               >
                 Become a Partner
               </a>
@@ -385,17 +385,17 @@ const Partnerships: React.FC = () => {
               <h2 className="text-3xl font-bold text-[#3C5999] mb-6">Why Partner with Maslow?</h2>
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="bg-white rounded-lg p-6 shadow-md">
-                  <Users className="w-10 h-10 text-[#C49F58] mb-4" />
+                  <Users className="w-10 h-10 text-[#D4AF6A] mb-4" />
                   <h3 className="text-lg font-bold text-[#3C5999] mb-2">Captive Audience</h3>
                   <p className="text-gray-700">Your products where people have time to appreciate them</p>
                 </div>
                 <div className="bg-white rounded-lg p-6 shadow-md">
-                  <Sparkles className="w-10 h-10 text-[#C49F58] mb-4" />
+                  <Sparkles className="w-10 h-10 text-[#D4AF6A] mb-4" />
                   <h3 className="text-lg font-bold text-[#3C5999] mb-2">Premium Context</h3>
                   <p className="text-gray-700">Associate your brand with care, dignity, and thoughtful design</p>
                 </div>
                 <div className="bg-white rounded-lg p-6 shadow-md">
-                  <TrendingUp className="w-10 h-10 text-[#C49F58] mb-4" />
+                  <TrendingUp className="w-10 h-10 text-[#D4AF6A] mb-4" />
                   <h3 className="text-lg font-bold text-[#3C5999] mb-2">Measurable Impact</h3>
                   <p className="text-gray-700">Track usage, gather feedback, build lasting relationships</p>
                 </div>
@@ -460,7 +460,7 @@ const Partnerships: React.FC = () => {
           {/* Contact Section */}
           <section id="vendor-contact" className="py-16 px-4 bg-[#3C5999]">
             <div className="max-w-4xl mx-auto text-center">
-              <Mail className="w-16 h-16 text-[#C49F58] mx-auto mb-6" />
+              <Mail className="w-16 h-16 text-[#D4AF6A] mx-auto mb-6" />
               <h2 className="text-3xl font-bold text-white mb-6">Let's Build Together</h2>
               <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
                 We're curating a collection of brands that share our values: quality, sustainability, and human dignity.
@@ -470,7 +470,7 @@ const Partnerships: React.FC = () => {
                 <p className="text-white/80 mb-4">Partnership Inquiries</p>
                 <a
                   href="mailto:partners@maslow.nyc"
-                  className="inline-block bg-[#C49F58] text-[#1a1a1a] px-6 py-3 rounded-lg font-semibold hover:bg-[#B8935C] transition-colors"
+                  className="inline-block bg-[#D4AF6A] text-[#1a1a1a] px-6 py-3 rounded-lg font-semibold hover:bg-[#C49F58] transition-colors"
                 >
                   partners@maslow.nyc
                 </a>

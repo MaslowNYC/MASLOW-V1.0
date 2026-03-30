@@ -81,13 +81,13 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isCartOpen, setIsCartOpen }
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed right-0 top-0 h-full w-full max-w-md bg-[#FAF4ED] shadow-2xl z-50 flex flex-col border-l border-[#C49F58]"
+            className="fixed right-0 top-0 h-full w-full max-w-md bg-[#FAF4ED] shadow-2xl z-50 flex flex-col border-l border-[#D4AF6A]"
             onClick={(e: MouseEvent) => e.stopPropagation()}
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-[#3C5999]/10 bg-white">
               <div className="flex items-center gap-3">
-                <ShoppingCartIcon className="w-6 h-6 text-[#C49F58]" />
+                <ShoppingCartIcon className="w-6 h-6 text-[#D4AF6A]" />
                 <h2 className="text-xl font-bold text-[#3C5999] font-serif">Your Cart</h2>
               </div>
               <Button onClick={() => setIsCartOpen(false)} variant="ghost" size="icon" className="text-[#3C5999] hover:bg-[#3C5999]/10">
@@ -103,7 +103,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isCartOpen, setIsCartOpen }
                      <ShoppingCartIcon size={48} />
                   </div>
                   <p className="font-serif text-lg">Your cart is empty.</p>
-                  <Button onClick={() => setIsCartOpen(false)} variant="link" className="text-[#C49F58] mt-2">
+                  <Button onClick={() => setIsCartOpen(false)} variant="link" className="text-[#D4AF6A] mt-2">
                     Start Shopping
                   </Button>
                 </div>
@@ -178,7 +178,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ isCartOpen, setIsCartOpen }
                 ) : (
                   <Button
                     onClick={handleCheckout}
-                    className="w-full bg-[#C49F58] hover:bg-[#b08d4b] text-[#3C5999] font-bold py-6 text-lg tracking-wider transition-all shadow-lg hover:shadow-xl"
+                    className="w-full bg-[#D4AF6A] hover:bg-[#C49F58] text-[#3C5999] font-bold py-6 text-lg tracking-wider transition-all shadow-lg hover:shadow-xl"
                   >
                     Checkout <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>

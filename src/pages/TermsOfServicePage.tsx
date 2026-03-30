@@ -35,7 +35,7 @@ const TermsOfServicePage = () => {
             color: #3C5999 !important;
           }
           .policy-content a {
-            color: #C49F58 !important;
+            color: #D4AF6A !important;
             text-decoration: underline;
           }
           .policy-content h2, .policy-content h3, .policy-content h4 {

@@ -320,8 +320,8 @@ export default function SurveyPage() {
     return (
       <div className="min-h-screen bg-[#F8F7F4] flex items-center justify-center px-4 py-12">
         <div className="max-w-md w-full text-center">
-          <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#C49F58]/20 flex items-center justify-center">
-            <svg className="w-8 h-8 text-[#C49F58]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#D4AF6A]/20 flex items-center justify-center">
+            <svg className="w-8 h-8 text-[#D4AF6A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
@@ -344,7 +344,7 @@ export default function SurveyPage() {
                 </p>
                 <button
                   onClick={copyToClipboard}
-                  className="w-full py-3 px-4 rounded-lg border-2 border-[#C49F58] text-[#C49F58] font-medium transition-all hover:bg-[#C49F58] hover:text-white"
+                  className="w-full py-3 px-4 rounded-lg border-2 border-[#D4AF6A] text-[#D4AF6A] font-medium transition-all hover:bg-[#D4AF6A] hover:text-white"
                   style={{ fontFamily: "'Jost', sans-serif" }}
                 >
                   {copied ? 'Copied!' : 'Copy Code'}
@@ -358,7 +358,7 @@ export default function SurveyPage() {
           ) : null}
 
           <p className="text-sm text-[#1C2B3A]/60 mb-8" style={{ fontFamily: "'Jost', sans-serif" }}>
-            Follow us for opening updates: <a href="https://www.instagram.com/maslow.nyc" target="_blank" rel="noopener noreferrer" className="text-[#C49F58] hover:underline">@maslow.nyc</a>
+            Follow us for opening updates: <a href="https://www.instagram.com/maslow.nyc" target="_blank" rel="noopener noreferrer" className="text-[#D4AF6A] hover:underline">@maslow.nyc</a>
           </p>
 
           <div className="border-t border-[#1C2B3A]/10 pt-8">
@@ -406,7 +406,7 @@ export default function SurveyPage() {
           </span>
           <div className="flex-1 h-1.5 bg-[#1C2B3A]/10 rounded-full overflow-hidden">
             <div
-              className="h-full bg-[#C49F58] transition-all duration-300"
+              className="h-full bg-[#D4AF6A] transition-all duration-300"
               style={{ width: `${(currentSection / totalSections) * 100}%` }}
             />
           </div>
@@ -847,8 +847,8 @@ export default function SurveyPage() {
               disabled={isSubmitting}
               className={`flex-1 py-3 px-4 rounded-lg text-base font-medium transition-all ${
                 isSubmitting
-                  ? 'bg-[#C49F58]/50 text-[#1C2B3A]/50 cursor-not-allowed'
-                  : 'bg-[#C49F58] text-[#1C2B3A] hover:bg-[#C49F58]/90'
+                  ? 'bg-[#D4AF6A]/50 text-[#1C2B3A]/50 cursor-not-allowed'
+                  : 'bg-[#D4AF6A] text-[#1C2B3A] hover:bg-[#D4AF6A]/90'
               }`}
               style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
             >
@@ -876,7 +876,7 @@ function YesNoToggle({ label, value, onChange, required }: YesNoToggleProps) {
   return (
     <div>
       <p className="text-sm text-[#1C2B3A] mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
-        {label} {required && <span className="text-[#C49F58]">*</span>}
+        {label} {required && <span className="text-[#D4AF6A]">*</span>}
       </p>
       <div className="flex gap-2">
         <button
@@ -884,7 +884,7 @@ function YesNoToggle({ label, value, onChange, required }: YesNoToggleProps) {
           onClick={() => onChange(true)}
           className={`flex-1 py-3 px-3 rounded-lg border-2 text-base font-medium transition-all ${
             value === true
-              ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A]'
+              ? 'border-[#D4AF6A] bg-[#D4AF6A]/10 text-[#1C2B3A]'
               : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
           }`}
           style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
@@ -896,7 +896,7 @@ function YesNoToggle({ label, value, onChange, required }: YesNoToggleProps) {
           onClick={() => onChange(false)}
           className={`flex-1 py-3 px-3 rounded-lg border-2 text-base font-medium transition-all ${
             value === false
-              ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A]'
+              ? 'border-[#D4AF6A] bg-[#D4AF6A]/10 text-[#1C2B3A]'
               : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
           }`}
           style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
@@ -926,7 +926,7 @@ function YesNoSometimesToggle({ label, value, onChange }: YesNoSometimesTogglePr
           onClick={() => onChange('Yes')}
           className={`flex-1 py-3 px-3 rounded-lg border-2 text-base font-medium transition-all ${
             value === 'Yes'
-              ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A]'
+              ? 'border-[#D4AF6A] bg-[#D4AF6A]/10 text-[#1C2B3A]'
               : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
           }`}
           style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
@@ -938,7 +938,7 @@ function YesNoSometimesToggle({ label, value, onChange }: YesNoSometimesTogglePr
           onClick={() => onChange('Sometimes')}
           className={`flex-1 py-3 px-3 rounded-lg border-2 text-base font-medium transition-all ${
             value === 'Sometimes'
-              ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A]'
+              ? 'border-[#D4AF6A] bg-[#D4AF6A]/10 text-[#1C2B3A]'
               : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
           }`}
           style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
@@ -950,7 +950,7 @@ function YesNoSometimesToggle({ label, value, onChange }: YesNoSometimesTogglePr
           onClick={() => onChange('No')}
           className={`flex-1 py-3 px-3 rounded-lg border-2 text-base font-medium transition-all ${
             value === 'No'
-              ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A]'
+              ? 'border-[#D4AF6A] bg-[#D4AF6A]/10 text-[#1C2B3A]'
               : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
           }`}
           style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
@@ -972,13 +972,13 @@ function Checkbox({ label, checked, onChange }: CheckboxProps) {
   return (
     <label className={`flex-1 flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-all ${
       checked
-        ? 'border-[#C49F58] bg-[#C49F58]/10'
+        ? 'border-[#D4AF6A] bg-[#D4AF6A]/10'
         : 'border-[#1C2B3A]/20 hover:border-[#1C2B3A]/40'
     }`} style={{ minHeight: '48px' }}>
       <div
         className={`w-5 h-5 rounded flex-shrink-0 flex items-center justify-center transition-all ${
           checked
-            ? 'border-[#C49F58] bg-[#C49F58]'
+            ? 'border-[#D4AF6A] bg-[#D4AF6A]'
             : 'border-2 border-[#1C2B3A]/30'
         }`}
       >
@@ -1031,7 +1031,7 @@ function RadioGroup({ label, options, value, onChange, vertical, grid, cols }: R
             onClick={() => onChange(option)}
             className={`${vertical || grid || cols ? 'w-full text-left' : ''} py-3 px-3 rounded-lg border-2 text-sm transition-all ${
               value === option
-                ? 'border-[#C49F58] bg-[#C49F58]/10 text-[#1C2B3A] font-medium'
+                ? 'border-[#D4AF6A] bg-[#D4AF6A]/10 text-[#1C2B3A] font-medium'
                 : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
             }`}
             style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
@@ -1070,7 +1070,7 @@ function ScaleInput({ label, sublabel, value, onChange }: ScaleInputProps) {
             onClick={() => onChange(n)}
             className={`w-12 h-12 rounded-full border-2 text-base font-medium transition-all ${
               value === n
-                ? 'border-[#C49F58] bg-[#C49F58] text-white'
+                ? 'border-[#D4AF6A] bg-[#D4AF6A] text-white'
                 : 'border-[#1C2B3A]/20 text-[#1C2B3A]/70 hover:border-[#1C2B3A]/40'
             }`}
             style={{ fontFamily: "'Jost', sans-serif" }}
@@ -1101,7 +1101,7 @@ function TextInput({ label, value, onChange, placeholder }: TextInputProps) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full py-3 px-3 rounded-lg border border-[#1C2B3A]/20 focus:border-[#C49F58] outline-none text-base text-[#1C2B3A] placeholder-[#1C2B3A]/40 transition-all"
+        className="w-full py-3 px-3 rounded-lg border border-[#1C2B3A]/20 focus:border-[#D4AF6A] outline-none text-base text-[#1C2B3A] placeholder-[#1C2B3A]/40 transition-all"
         style={{ fontFamily: "'Jost', sans-serif", minHeight: '48px' }}
       />
     </div>
@@ -1126,7 +1126,7 @@ function Textarea({ label, value, onChange, placeholder }: TextareaProps) {
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         rows={3}
-        className="w-full py-2.5 px-3 rounded-lg border border-[#1C2B3A]/20 focus:border-[#C49F58] outline-none text-base text-[#1C2B3A] placeholder-[#1C2B3A]/40 resize-y transition-all"
+        className="w-full py-2.5 px-3 rounded-lg border border-[#1C2B3A]/20 focus:border-[#D4AF6A] outline-none text-base text-[#1C2B3A] placeholder-[#1C2B3A]/40 resize-y transition-all"
         style={{ fontFamily: "'Jost', sans-serif", minHeight: '80px' }}
       />
     </div>
@@ -1150,7 +1150,7 @@ function SelectDropdown({ label, options, value, onChange, placeholder }: Select
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={`w-full py-3 px-3 rounded-lg border border-[#1C2B3A]/20 focus:border-[#C49F58] outline-none text-base transition-all appearance-none bg-white bg-no-repeat ${
+        className={`w-full py-3 px-3 rounded-lg border border-[#1C2B3A]/20 focus:border-[#D4AF6A] outline-none text-base transition-all appearance-none bg-white bg-no-repeat ${
           value ? 'text-[#1C2B3A]' : 'text-[#1C2B3A]/40'
         }`}
         style={{

@@ -891,7 +891,7 @@ const LoginPage = () => {
 
             {/* Animated underline */}
             <motion.div
-              className="absolute bottom-[-1px] h-[1px] bg-[#C49F58]"
+              className="absolute bottom-[-1px] h-[1px] bg-[#D4AF6A]"
               animate={{
                 left: activeTab === 'signin' ? '10%' : '60%',
                 width: '30%',

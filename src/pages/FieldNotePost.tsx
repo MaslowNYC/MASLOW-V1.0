@@ -81,7 +81,7 @@ const FieldNotePost: React.FC = () => {
         <footer className="mt-16 pt-8 border-t border-[#2A2724]/10">
           <Link
             to="/field-notes"
-            className="inline-block text-sm text-[#C49F58] hover:text-[#2A2724] transition-colors"
+            className="inline-block text-sm text-[#D4AF6A] hover:text-[#2A2724] transition-colors"
             style={{ fontFamily: "'Jost', sans-serif" }}
           >
             ← Back to Field Notes

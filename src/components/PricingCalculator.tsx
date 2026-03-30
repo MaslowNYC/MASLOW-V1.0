@@ -94,13 +94,13 @@ const PricingCalculator: React.FC = () => {
             onClick={() => setSelectedDuration(tier.duration)}
             className={`relative p-4 rounded-lg border-2 transition-all ${
               selectedDuration === tier.duration
-                ? 'border-[#C49F58] bg-[#C49F58]/5 shadow-md'
+                ? 'border-[#D4AF6A] bg-[#D4AF6A]/5 shadow-md'
                 : 'border-[#3C5999]/20 hover:border-[#3C5999]/40'
             }`}
           >
             {tier.popular && (
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <span className="bg-[#C49F58] text-white text-xs px-2 py-1 rounded-full font-bold flex items-center gap-1">
+                <span className="bg-[#D4AF6A] text-white text-xs px-2 py-1 rounded-full font-bold flex items-center gap-1">
                   <Sparkles className="w-3 h-3" />
                   POPULAR
                 </span>
@@ -113,7 +113,7 @@ const PricingCalculator: React.FC = () => {
               minutes
             </div>
             {tier.discount > 0 && (
-              <div className="text-xs text-[#C49F58] font-bold mt-2">
+              <div className="text-xs text-[#D4AF6A] font-bold mt-2">
                 Save {tier.discount}%
               </div>
             )}
@@ -155,7 +155,7 @@ const PricingCalculator: React.FC = () => {
                       <span>Regular price:</span>
                       <span>${selectedTier.basePrice.toFixed(2)}</span>
                     </div>
-                    <div className="flex justify-between text-[#C49F58] font-bold">
+                    <div className="flex justify-between text-[#D4AF6A] font-bold">
                       <span>You save:</span>
                       <span>${(selectedTier.basePrice - selectedTier.finalPrice).toFixed(2)}</span>
                     </div>
@@ -165,7 +165,7 @@ const PricingCalculator: React.FC = () => {
             </div>
 
             {/* Right: Price Display */}
-            <div className="flex flex-col items-center justify-center bg-white rounded-lg p-6 border-2 border-[#C49F58]">
+            <div className="flex flex-col items-center justify-center bg-white rounded-lg p-6 border-2 border-[#D4AF6A]">
               <div className="text-sm text-[#3C5999]/60 uppercase tracking-wide mb-2">
                 Total Cost
               </div>
@@ -178,7 +178,7 @@ const PricingCalculator: React.FC = () => {
               </div>
 
               {selectedTier.discount > 0 && (
-                <div className="bg-[#C49F58]/10 text-[#C49F58] px-4 py-2 rounded-full text-sm font-bold">
+                <div className="bg-[#D4AF6A]/10 text-[#D4AF6A] px-4 py-2 rounded-full text-sm font-bold">
                   {selectedTier.discount}% Discount Applied
                 </div>
               )}
@@ -209,7 +209,7 @@ const PricingCalculator: React.FC = () => {
               <li>Priority booking</li>
             </ul>
           </div>
-          <div className="bg-white rounded-lg p-4 border-2 border-[#C49F58]">
+          <div className="bg-white rounded-lg p-4 border-2 border-[#D4AF6A]">
             <div className="font-bold text-[#3C5999] mb-2">The Architect</div>
             <div className="text-xs text-[#3C5999]/70 mb-3">$10,000 lifetime</div>
             <ul className="space-y-1 text-xs text-[#3C5999]/80">

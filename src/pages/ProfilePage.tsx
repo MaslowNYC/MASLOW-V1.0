@@ -156,7 +156,7 @@ const ProfilePage: React.FC = () => {
       setProfile(prev => ({ ...prev, photo_url: filePath }));
       const { data } = supabase.storage.from('avatars').getPublicUrl(filePath);
       setAvatarUrl(`${data.publicUrl}?t=${Date.now()}`);
-      toast({ title: "Photo updated.", className: "bg-[#2A2724] text-[#FAF4ED] border-[#C49F58]/20" });
+      toast({ title: "Photo updated.", className: "bg-[#2A2724] text-[#FAF4ED] border-[#D4AF6A]/20" });
     } catch (e) {
       toast({ title: "Upload failed.", description: (e as Error).message, variant: "destructive" });
     } finally { setSaving(false); }
@@ -203,7 +203,7 @@ const ProfilePage: React.FC = () => {
           {/* Avatar */}
           <div className="relative group flex-shrink-0">
             <div
-              className="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden border-2 border-[#C49F58]/50 cursor-pointer transition-all hover:border-[#C49F58]"
+              className="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden border-2 border-[#D4AF6A]/50 cursor-pointer transition-all hover:border-[#D4AF6A]"
               onClick={() => avatarUrl && setIsZoomed(true)}
             >
               {avatarUrl
@@ -216,7 +216,7 @@ const ProfilePage: React.FC = () => {
                 <ZoomIn className="w-3 h-3" />
               </div>
             )}
-            <label className="absolute bottom-0 right-0 bg-[#C49F58] text-[#2A2724] p-2 rounded-full cursor-pointer hover:bg-[#d4ad6a] transition-colors shadow-lg" htmlFor="avatar-upload">
+            <label className="absolute bottom-0 right-0 bg-[#D4AF6A] text-[#2A2724] p-2 rounded-full cursor-pointer hover:bg-[#d4ad6a] transition-colors shadow-lg" htmlFor="avatar-upload">
               <Upload className="w-3.5 h-3.5" />
             </label>
             <input type="file" id="avatar-upload" accept="image/*" onChange={uploadAvatar} className="hidden" disabled={saving} />
@@ -224,7 +224,7 @@ const ProfilePage: React.FC = () => {
 
           {/* Name + Member ID */}
           <div className="flex-1 text-center md:text-left">
-            <p className="text-[#C49F58]/70 uppercase tracking-[0.2em] text-xs mb-1" style={{ fontFamily: "'Jost', sans-serif", fontWeight: 300 }}>Member Profile</p>
+            <p className="text-[#D4AF6A]/70 uppercase tracking-[0.2em] text-xs mb-1" style={{ fontFamily: "'Jost', sans-serif", fontWeight: 300 }}>Member Profile</p>
             <h1 className="text-3xl md:text-5xl text-[#FAF4ED] leading-none mb-3" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 400 }}>
               {profile.first_name || 'Welcome'}{profile.last_name ? `, ${profile.last_name}` : ''}.
             </h1>
@@ -234,15 +234,15 @@ const ProfilePage: React.FC = () => {
           {/* Credits + Member # */}
           <div className="flex gap-4 md:gap-6 flex-shrink-0">
             <div className="text-center md:text-right">
-              <p className="text-[#C49F58]/60 uppercase tracking-[0.15em] text-xs mb-1">Credits</p>
+              <p className="text-[#D4AF6A]/60 uppercase tracking-[0.15em] text-xs mb-1">Credits</p>
               <p className="text-[#FAF4ED] text-3xl md:text-4xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{profile.credits || 0}</p>
               <p className="text-[#FAF4ED]/30 text-xs mt-0.5">{((profile.credits || 0) * 10)} min</p>
             </div>
             <div className="w-px bg-[#FAF4ED]/10 hidden md:block" />
             <div className="text-center md:text-right">
-              <p className="text-[#C49F58]/60 uppercase tracking-[0.15em] text-xs mb-1">No.</p>
+              <p className="text-[#D4AF6A]/60 uppercase tracking-[0.15em] text-xs mb-1">No.</p>
               <p className="text-[#FAF4ED] text-3xl md:text-4xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>#{(profile.member_number || 0).toLocaleString()}</p>
-              <a href="/buy-credits" className="text-[#C49F58]/70 hover:text-[#C49F58] text-xs mt-0.5 block transition-colors">+ Add credits</a>
+              <a href="/buy-credits" className="text-[#D4AF6A]/70 hover:text-[#D4AF6A] text-xs mt-0.5 block transition-colors">+ Add credits</a>
             </div>
           </div>
         </div>
@@ -279,7 +279,7 @@ const ProfilePage: React.FC = () => {
                       birthday_day: currentDay > maxDay ? String(maxDay).padStart(2, '0') : profile.birthday_day
                     });
                   }}
-                  className="flex-1 text-sm text-[#1C2B3A] bg-[#F0EFED] border-0 rounded-lg px-3 py-2.5 outline-none focus:ring-1 focus:ring-[#C49F58]/30 appearance-none cursor-pointer"
+                  className="flex-1 text-sm text-[#1C2B3A] bg-[#F0EFED] border-0 rounded-lg px-3 py-2.5 outline-none focus:ring-1 focus:ring-[#D4AF6A]/30 appearance-none cursor-pointer"
                   style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%231C2B3A' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.75rem center', backgroundSize: '1rem' }}
                 >
                   <option value="">Month</option>
@@ -288,7 +288,7 @@ const ProfilePage: React.FC = () => {
                 <select
                   value={profile.birthday_day}
                   onChange={e => setProfile({ ...profile, birthday_day: e.target.value })}
-                  className="w-24 text-sm text-[#1C2B3A] bg-[#F0EFED] border-0 rounded-lg px-3 py-2.5 outline-none focus:ring-1 focus:ring-[#C49F58]/30 appearance-none cursor-pointer"
+                  className="w-24 text-sm text-[#1C2B3A] bg-[#F0EFED] border-0 rounded-lg px-3 py-2.5 outline-none focus:ring-1 focus:ring-[#D4AF6A]/30 appearance-none cursor-pointer"
                   style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%231C2B3A' stroke-width='1.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.5rem center', backgroundSize: '1rem' }}
                 >
                   <option value="">Day</option>
@@ -299,7 +299,7 @@ const ProfilePage: React.FC = () => {
                 </select>
               </div>
               {profile.birthday_month && profile.birthday_day && (
-                <p className="text-xs text-[#C49F58] mt-2 italic" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                <p className="text-xs text-[#D4AF6A] mt-2 italic" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                   {formatBirthdayDisplay(profile.birthday_month, profile.birthday_day)}
                 </p>
               )}
@@ -311,7 +311,7 @@ const ProfilePage: React.FC = () => {
                   onChange={e => setProfile({ ...profile, bio: e.target.value })}
                   placeholder="e.g. 'I prefer a quiet greeting'"
                   rows={3}
-                  className="w-full text-sm text-[#2A2724] bg-[#F7F1E9] border-0 rounded-lg px-3 py-2.5 resize-none outline-none focus:ring-1 focus:ring-[#C49F58]/30 placeholder-[#2A2724]/25"
+                  className="w-full text-sm text-[#2A2724] bg-[#F7F1E9] border-0 rounded-lg px-3 py-2.5 resize-none outline-none focus:ring-1 focus:ring-[#D4AF6A]/30 placeholder-[#2A2724]/25"
                 />
               </FieldGroup>
             </div>
@@ -354,7 +354,7 @@ const ProfilePage: React.FC = () => {
                   <span className="text-2xl block mb-2">{item.icon}</span>
                   <span className="text-xs font-medium tracking-wide leading-tight block">{item.label}</span>
                   {checked && (
-                    <span className="absolute top-3 right-3 w-4 h-4 bg-[#C49F58] rounded-full flex items-center justify-center">
+                    <span className="absolute top-3 right-3 w-4 h-4 bg-[#D4AF6A] rounded-full flex items-center justify-center">
                       <Check className="w-2.5 h-2.5 text-[#2A2724]" strokeWidth={3} />
                     </span>
                   )}
@@ -401,7 +401,7 @@ const ProfilePage: React.FC = () => {
             </button>
             <div className="bg-[#1C2B3A] rounded-xl p-6 flex-1 flex flex-col justify-between">
               <div>
-                <p className="text-[#C49F58]/70 uppercase tracking-[0.2em] text-xs mb-3">Your Sanctuary</p>
+                <p className="text-[#D4AF6A]/70 uppercase tracking-[0.2em] text-xs mb-3">Your Sanctuary</p>
                 <p className="text-[#F8F7F4] text-lg leading-snug" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                   Every preference you set is a note passed to the room before you arrive.
                 </p>
@@ -420,7 +420,7 @@ const ProfilePage: React.FC = () => {
             <X className="w-6 h-6" />
           </button>
           <img src={avatarUrl || ''} alt="Avatar" className="max-w-full max-h-[75vh] object-contain rounded-lg shadow-2xl" onClick={e => e.stopPropagation()} />
-          <label htmlFor="avatar-upload-modal" className="mt-6 cursor-pointer bg-[#C49F58] hover:bg-[#d4ad6a] text-[#2A2724] px-6 py-2.5 rounded-full text-sm font-medium flex items-center gap-2 transition-colors" onClick={e => e.stopPropagation()}>
+          <label htmlFor="avatar-upload-modal" className="mt-6 cursor-pointer bg-[#D4AF6A] hover:bg-[#d4ad6a] text-[#2A2724] px-6 py-2.5 rounded-full text-sm font-medium flex items-center gap-2 transition-colors" onClick={e => e.stopPropagation()}>
             <RotateCw className="w-4 h-4" /> Replace Photo
           </label>
           <input type="file" id="avatar-upload-modal" accept="image/*" onChange={e => { uploadAvatar(e); setIsZoomed(false); }} className="hidden" disabled={saving} />
@@ -452,7 +452,7 @@ const StyledInput: React.FC<{ value: string; onChange: (v: string) => void; plac
     value={value}
     onChange={e => onChange(e.target.value)}
     placeholder={placeholder}
-    className="w-full text-sm text-[#1C2B3A] bg-[#F0EFED] border-0 rounded-lg px-3 py-2.5 outline-none focus:ring-1 focus:ring-[#C49F58]/30 placeholder-[#1C2B3A]/20"
+    className="w-full text-sm text-[#1C2B3A] bg-[#F0EFED] border-0 rounded-lg px-3 py-2.5 outline-none focus:ring-1 focus:ring-[#D4AF6A]/30 placeholder-[#1C2B3A]/20"
   />
 );
 
@@ -464,7 +464,7 @@ const ToggleRow: React.FC<{ label: string; checked: boolean; onChange: () => voi
     }`}
   >
     <span className="text-sm">{label}</span>
-    {checked && <Check className="w-3.5 h-3.5 text-[#C49F58]" strokeWidth={2.5} />}
+    {checked && <Check className="w-3.5 h-3.5 text-[#D4AF6A]" strokeWidth={2.5} />}
   </button>
 );
 

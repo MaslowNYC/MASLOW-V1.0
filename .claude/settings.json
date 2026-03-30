@@ -6,7 +6,11 @@
       "Bash(cp \"/Users/patrickmay/Downloads/hull-greenwall.jpg\" \"/Users/patrickmay/Library/Mobile Documents/com~apple~CloudDocs/Maslow/MASLOW-V1.0/public/\")",
       "Bash(grep -E '\\\\.\\(png|jpg|jpeg|svg|gif|ico|webp\\)$')",
       "mcp__claude_ai_Supabase__search_docs",
-      "mcp__claude_ai_Supabase__get_project_url"
+      "mcp__claude_ai_Supabase__get_project_url",
+      "Bash(find /Users/patrickmay/Library/Mobile Documents/com~apple~CloudDocs/Maslow/MASLOW-V1.0/src/components -name *credit* -o -name *button*)",
+      "Bash(grep -r credit_packages /Users/patrickmay/Library/Mobile Documents/com~apple~CloudDocs/Maslow/MASLOW-V1.0/ --include=*.sql --include=*.ts --include=*.tsx)",
+      "Bash(grep -r notify /Users/patrickmay/Library/Mobile Documents/com~apple~CloudDocs/Maslow/MASLOW-V1.0/src --include=*.ts --include=*.tsx)",
+      "Bash(npx vite:*)"
     ]
   }
 }

@@ -117,7 +117,7 @@ const Dashboard: React.FC = () => {
               {/* Strategic Documents */}
               <div className="mb-8">
                 <h3 className="text-xl font-bold text-[#1C2B3A] mb-4 flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-[#C49F58]" />
+                  <FileText className="w-5 h-5 text-[#D4AF6A]" />
                   Strategic Documents
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
@@ -155,7 +155,7 @@ const Dashboard: React.FC = () => {
               {/* Technical Documents */}
               <div className="mb-8">
                 <h3 className="text-xl font-bold text-[#1C2B3A] mb-4 flex items-center gap-2">
-                  <Calculator className="w-5 h-5 text-[#C49F58]" />
+                  <Calculator className="w-5 h-5 text-[#D4AF6A]" />
                   Technical & Operational
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
@@ -193,7 +193,7 @@ const Dashboard: React.FC = () => {
               {/* Legal & Financial */}
               <div>
                 <h3 className="text-xl font-bold text-[#1C2B3A] mb-4 flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-[#C49F58]" />
+                  <FileText className="w-5 h-5 text-[#D4AF6A]" />
                   Legal & Financial
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
@@ -287,7 +287,7 @@ const Dashboard: React.FC = () => {
                 </div>
               </div>
 
-              <div className="mt-6 p-4 bg-[#C49F58]/10 rounded-lg">
+              <div className="mt-6 p-4 bg-[#D4AF6A]/10 rounded-lg">
                 <p className="text-sm text-[#1C2B3A]/80">
                   <strong>Note:</strong> MindNode files (.mindnode) can be opened in the MindNode app.
                   Download the files and open them to see the interactive mind maps.
@@ -305,13 +305,13 @@ const Dashboard: React.FC = () => {
 const DocCard: React.FC<DocCardProps> = ({ title, description, fileType, link, icon }) => (
   <a
     href={link}
-    className="block bg-[#F8F7F4] rounded-lg p-6 border border-[#1C2B3A]/10 hover:shadow-lg hover:border-[#C49F58] transition-all group"
+    className="block bg-[#F8F7F4] rounded-lg p-6 border border-[#1C2B3A]/10 hover:shadow-lg hover:border-[#D4AF6A] transition-all group"
   >
     <div className="flex items-start gap-4">
       <div className="text-3xl">{icon}</div>
       <div className="flex-1">
         <div className="flex items-center justify-between mb-2">
-          <h4 className="font-bold text-[#1C2B3A] group-hover:text-[#C49F58] transition-colors">
+          <h4 className="font-bold text-[#1C2B3A] group-hover:text-[#D4AF6A] transition-colors">
             {title}
           </h4>
           <span className="text-xs bg-[#1C2B3A] text-white px-2 py-1 rounded">
@@ -321,7 +321,7 @@ const DocCard: React.FC<DocCardProps> = ({ title, description, fileType, link, i
         <p className="text-sm text-[#1C2B3A]/70">
           {description}
         </p>
-        <div className="mt-3 flex items-center gap-2 text-xs text-[#C49F58] font-semibold group-hover:gap-3 transition-all">
+        <div className="mt-3 flex items-center gap-2 text-xs text-[#D4AF6A] font-semibold group-hover:gap-3 transition-all">
           <Download className="w-4 h-4" />
           <span>Download</span>
         </div>

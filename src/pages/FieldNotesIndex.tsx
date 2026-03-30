@@ -20,7 +20,7 @@ const FieldNotesIndex: React.FC = () => {
         {/* Page Header */}
         <div className="mb-16">
           <span
-            className="text-xs tracking-[0.2em] uppercase text-[#C49F58] mb-4 block"
+            className="text-xs tracking-[0.2em] uppercase text-[#D4AF6A] mb-4 block"
             style={{ fontFamily: "'Jost', sans-serif" }}
           >
             FIELD NOTES
@@ -42,10 +42,10 @@ const FieldNotesIndex: React.FC = () => {
               className="block group"
             >
               <article
-                className="p-6 bg-white border-l-4 border-transparent group-hover:border-[#C49F58] group-hover:bg-[#FAF4ED]/50 transition-all duration-200"
+                className="p-6 bg-white border-l-4 border-transparent group-hover:border-[#D4AF6A] group-hover:bg-[#FAF4ED]/50 transition-all duration-200"
               >
                 <h2
-                  className="text-xl md:text-2xl text-[#2A2724] mb-2 group-hover:text-[#C49F58] transition-colors"
+                  className="text-xl md:text-2xl text-[#2A2724] mb-2 group-hover:text-[#D4AF6A] transition-colors"
                   style={{ fontFamily: "'Cormorant Garamond', serif" }}
                 >
                   {note.title}

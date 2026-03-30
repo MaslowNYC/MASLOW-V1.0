@@ -266,7 +266,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, tierName, 
               {tierName} Sponsorship
             </DialogDescription>
           </DialogHeader>
-          <div className="mt-4 text-3xl font-bold text-[#C49F58]">
+          <div className="mt-4 text-3xl font-bold text-[#D4AF6A]">
             ${price.toLocaleString()}
           </div>
         </div>

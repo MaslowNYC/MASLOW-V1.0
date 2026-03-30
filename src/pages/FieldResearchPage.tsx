@@ -611,7 +611,7 @@ const FieldResearchPage = () => {
           <Button
             onClick={handleSubmit}
             disabled={submitting}
-            className="flex-1 h-14 text-lg bg-[#C49F58] hover:bg-[#b08d4b] text-white"
+            className="flex-1 h-14 text-lg bg-[#D4AF6A] hover:bg-[#C49F58] text-white"
           >
             {submitting ? (
               <Loader2 className="w-5 h-5 animate-spin" />

@@ -206,7 +206,7 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({
               <div className="bg-gradient-to-r from-[#3C5999] to-[#4A6FB3] px-6 py-5 text-white">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h2 className="text-xl font-serif font-bold text-[#C49F58]">
+                    <h2 className="text-xl font-serif font-bold text-[#D4AF6A]">
                       {t('preferences.welcome', 'Welcome to Maslow')}
                     </h2>
                     <p className="text-white/70 text-sm mt-1">

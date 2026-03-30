@@ -146,7 +146,7 @@ const BoxViewPage: React.FC = () => {
           <Link to="/prototypes" className="px-4 py-2 bg-[#3C5999] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
             📋 Systems
           </Link>
-          <Link to="/prototypes/boxes" className="px-4 py-2 bg-[#C49F58] text-white rounded-lg text-sm font-semibold">
+          <Link to="/prototypes/boxes" className="px-4 py-2 bg-[#D4AF6A] text-white rounded-lg text-sm font-semibold">
             📦 Boxes
           </Link>
           <Link to="/prototypes/shopping" className="px-4 py-2 bg-[#3C5999] text-white rounded-lg text-sm font-semibold hover:bg-[#2d4373] transition">
@@ -175,7 +175,7 @@ const BoxViewPage: React.FC = () => {
               <button
                 key={box.box_number}
                 onClick={() => handleBoxClick(box.box_number)}
-                className={`p-4 md:p-6 rounded-xl border-2 text-left transition hover:shadow-lg hover:scale-105 ${getBoxColor(box)} ${selectedBox === box.box_number ? 'ring-2 ring-[#C49F58]' : ''}`}
+                className={`p-4 md:p-6 rounded-xl border-2 text-left transition hover:shadow-lg hover:scale-105 ${getBoxColor(box)} ${selectedBox === box.box_number ? 'ring-2 ring-[#D4AF6A]' : ''}`}
               >
                 <div className="text-3xl md:text-4xl mb-2">📦</div>
                 <h3 className="text-lg md:text-xl font-bold text-[#3C5999]">
@@ -184,7 +184,7 @@ const BoxViewPage: React.FC = () => {
                 <p className="text-xs md:text-sm text-[#3C5999]/60 truncate mb-2">
                   {box.prototype_names || 'Empty'}
                 </p>
-                <p className="text-lg font-bold text-[#C49F58]">
+                <p className="text-lg font-bold text-[#D4AF6A]">
                   ${box.total_budget?.toFixed(2) || '0.00'}
                 </p>
                 <p className="text-xs md:text-sm text-[#3C5999]/60">
@@ -263,7 +263,7 @@ const BoxViewPage: React.FC = () => {
                       {boxComponents.map((component) => (
                         <div
                           key={component.id}
-                          className="border rounded-lg p-4 hover:border-[#C49F58] transition"
+                          className="border rounded-lg p-4 hover:border-[#D4AF6A] transition"
                         >
                           <div className="flex items-start justify-between gap-4">
                             <div className="flex-1">
@@ -297,7 +297,7 @@ const BoxViewPage: React.FC = () => {
                                   href={component.vendor_url}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="flex items-center gap-1 text-sm text-[#C49F58] hover:underline"
+                                  className="flex items-center gap-1 text-sm text-[#D4AF6A] hover:underline"
                                 >
                                   <ExternalLink className="w-4 h-4" />
                                   Buy

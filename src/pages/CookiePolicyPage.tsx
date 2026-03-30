@@ -79,7 +79,7 @@ const CookiePolicyPage = () => {
 
             <p className="leading-relaxed mt-6">
               For more detailed information about cookies and your rights, please review our{' '}
-              <a href="/privacy-policy" className="text-[#C49F58] hover:underline">Privacy Policy</a>.
+              <a href="/privacy-policy" className="text-[#D4AF6A] hover:underline">Privacy Policy</a>.
             </p>
           </div>
         </motion.div>

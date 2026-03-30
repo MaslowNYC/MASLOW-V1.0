@@ -39,7 +39,7 @@ const HullSection: React.FC = () => {
               <DoorOpen className="w-24 h-24 text-[#3C5999]" />
             </div>
             <h4 className="text-2xl font-serif font-bold text-[#3C5999] mb-4 flex items-center gap-3">
-              <span className="bg-[#C49F58] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+              <span className="bg-[#D4AF6A] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
               The Entry
             </h4>
             <p className="text-[#3C5999]/80 leading-relaxed font-medium">
@@ -53,17 +53,17 @@ const HullSection: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="bg-[#3C5999] border-2 border-[#C49F58] rounded-xl p-8 relative overflow-hidden group shadow-2xl"
+            className="bg-[#3C5999] border-2 border-[#D4AF6A] rounded-xl p-8 relative overflow-hidden group shadow-2xl"
           >
             <div className="absolute top-0 right-0 p-4 opacity-10">
               <Layout className="w-24 h-24 text-[#FAF4ED]" />
             </div>
             <h4 className="text-2xl font-serif font-bold text-[#FAF4ED] mb-4 flex items-center gap-3">
-              <span className="bg-[#C49F58] text-[#3C5999] w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">2</span>
+              <span className="bg-[#D4AF6A] text-[#3C5999] w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">2</span>
               The Center: "The Hull"
             </h4>
             <p className="text-[#FAF4ED]/90 leading-relaxed">
-              The heart of the facility. An open-air atrium and <span className="text-[#C49F58] font-bold">free public sanctuary</span>. This is the town hall of the space—a safe, monitored zone for hydration, device charging, and community connection.
+              The heart of the facility. An open-air atrium and <span className="text-[#D4AF6A] font-bold">free public sanctuary</span>. This is the town hall of the space—a safe, monitored zone for hydration, device charging, and community connection.
             </p>
           </motion.div>
 
@@ -76,9 +76,9 @@ const HullSection: React.FC = () => {
             className="bg-[#2a4070] rounded-xl p-8 relative overflow-hidden group"
           >
             <div className="absolute top-0 right-0 p-4 opacity-10">
-              <ShieldCheck className="w-24 h-24 text-[#C49F58]" />
+              <ShieldCheck className="w-24 h-24 text-[#D4AF6A]" />
             </div>
-            <h4 className="text-2xl font-serif font-bold text-[#C49F58] mb-4 flex items-center gap-3">
+            <h4 className="text-2xl font-serif font-bold text-[#D4AF6A] mb-4 flex items-center gap-3">
               <span className="bg-[#FAF4ED] text-[#3C5999] w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">3</span>
               The Perimeter: "The Suites"
             </h4>
@@ -99,7 +99,7 @@ const HullSection: React.FC = () => {
               <Zap className="w-24 h-24 text-[#3C5999]" />
             </div>
             <h4 className="text-2xl font-serif font-bold text-[#3C5999] mb-4 flex items-center gap-3">
-              <span className="bg-[#C49F58] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
+              <span className="bg-[#D4AF6A] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
               The Service Corridor
             </h4>
             <p className="text-[#3C5999]/80 leading-relaxed font-medium">
@@ -111,7 +111,7 @@ const HullSection: React.FC = () => {
 
         {/* Free Amenities */}
         <div className="bg-[#3C5999]/50 border-t border-[#FAF4ED]/20 pt-16 pb-16">
-            <h4 className="text-center text-[#C49F58] font-bold tracking-widest uppercase mb-12">Included in The Hull (Free Access)</h4>
+            <h4 className="text-center text-[#D4AF6A] font-bold tracking-widest uppercase mb-12">Included in The Hull (Free Access)</h4>
             <div className="flex flex-wrap justify-center gap-8 md:gap-12">
             <div className="flex flex-col items-center gap-3 w-32">
               <Wifi className="w-10 h-10 text-[#FAF4ED]" />
@@ -142,7 +142,7 @@ const HullSection: React.FC = () => {
       </div>
 
       {/* Built for Longevity Section */}
-      <div className="w-full bg-gradient-to-r from-[#1a1a1a] to-[#2d2d2d] py-24 border-t border-[#C49F58]/30 relative overflow-hidden">
+      <div className="w-full bg-gradient-to-r from-[#1a1a1a] to-[#2d2d2d] py-24 border-t border-[#D4AF6A]/30 relative overflow-hidden">
         {/* Decorative Grid */}
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
 
@@ -153,13 +153,13 @@ const HullSection: React.FC = () => {
                viewport={{ once: true }}
                transition={{ duration: 0.8 }}
             >
-                <div className="inline-flex items-center justify-center p-3 bg-[#C49F58]/10 rounded-full mb-6 border border-[#C49F58]/30">
-                  <HardHat className="w-8 h-8 text-[#C49F58]" />
+                <div className="inline-flex items-center justify-center p-3 bg-[#D4AF6A]/10 rounded-full mb-6 border border-[#D4AF6A]/30">
+                  <HardHat className="w-8 h-8 text-[#D4AF6A]" />
                 </div>
                 <h2 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tight uppercase">
                     Built for Longevity
                 </h2>
-                <div className="h-1 w-24 bg-[#C49F58] mx-auto mb-10"></div>
+                <div className="h-1 w-24 bg-[#D4AF6A] mx-auto mb-10"></div>
                 <p className="text-xl md:text-2xl text-gray-300 font-light leading-relaxed max-w-4xl mx-auto">
                     "We reject value engineering. We dig deep. We strip the building to its shell and rebuild from the dirt up—ensuring hospital-grade sanitation and prison-grade durability. We do not cover problems with luxury finishes; we solve them with heavy infrastructure."
                 </p>

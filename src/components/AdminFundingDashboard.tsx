@@ -315,7 +315,7 @@ const AdminFundingDashboard: React.FC = () => {
         <style>
           * { margin: 0; padding: 0; box-sizing: border-box; }
           body { font-family: 'Georgia', serif; color: #1a1a1a; padding: 40px; max-width: 800px; margin: 0 auto; }
-          .header { border-bottom: 3px solid #C49F58; padding-bottom: 20px; margin-bottom: 30px; }
+          .header { border-bottom: 3px solid #D4AF6A; padding-bottom: 20px; margin-bottom: 30px; }
           .logo { font-size: 32px; font-weight: bold; color: #286BCD; }
           .subtitle { color: #666; font-size: 14px; margin-top: 5px; }
           .date { color: #888; font-size: 12px; margin-top: 10px; }
@@ -327,7 +327,7 @@ const AdminFundingDashboard: React.FC = () => {
           .kpi-value.success { color: #16a34a; }
           .kpi-value.warning { color: #dc2626; }
           .progress-bar { background: #e5e5e5; border-radius: 10px; height: 20px; margin: 15px 0; overflow: hidden; }
-          .progress-fill { background: linear-gradient(90deg, #1C2B3A, #C49F58); height: 100%; border-radius: 10px; }
+          .progress-fill { background: linear-gradient(90deg, #1C2B3A, #D4AF6A); height: 100%; border-radius: 10px; }
           .table { width: 100%; border-collapse: collapse; margin-top: 10px; }
           .table th, .table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #eee; }
           .table th { background: #1C2B3A; color: white; font-size: 11px; text-transform: uppercase; }
@@ -528,7 +528,7 @@ const AdminFundingDashboard: React.FC = () => {
   if (verifying || loadingData) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-[#F8F7F4]">
-        <Lock className="w-12 h-12 text-[#C49F58] mb-4 animate-pulse" />
+        <Lock className="w-12 h-12 text-[#D4AF6A] mb-4 animate-pulse" />
         <div className="text-[#1C2B3A] font-serif text-xl tracking-widest">VERIFYING SECURITY CLEARANCE...</div>
       </div>
     );
@@ -556,7 +556,7 @@ const AdminFundingDashboard: React.FC = () => {
             MASLOW
           </h1>
         </div>
-        <p className="text-sm uppercase tracking-widest" style={{ color: 'var(--gold, #C49F58)', fontFamily: 'var(--sans)' }}>
+        <p className="text-sm uppercase tracking-widest" style={{ color: 'var(--gold, #D4AF6A)', fontFamily: 'var(--sans)' }}>
           Admin Dashboard
         </p>
       </div>
@@ -570,7 +570,7 @@ const AdminFundingDashboard: React.FC = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-3 py-2 md:px-4 md:py-3 font-semibold text-xs md:text-sm uppercase tracking-wider transition-all duration-200 border-b-4 -mb-[2px] ${
                 activeTab === tab.id
-                  ? 'border-[#C49F58] text-[#1C2B3A] bg-white rounded-t-lg'
+                  ? 'border-[#D4AF6A] text-[#1C2B3A] bg-white rounded-t-lg'
                   : 'border-transparent text-[#1C2B3A]/60 hover:text-[#1C2B3A] hover:bg-white/50'
               }`}
             >
@@ -596,8 +596,8 @@ const AdminFundingDashboard: React.FC = () => {
 
           {/* Revenue Simulator — commented out, replaced by /model page */}
           {/* <RevenueSimulator /> */}
-          <div className="bg-white rounded-xl border border-[#C49F58]/30 p-8 text-center shadow-sm">
-            <TrendingUp className="w-10 h-10 text-[#C49F58] mx-auto mb-3" />
+          <div className="bg-white rounded-xl border border-[#D4AF6A]/30 p-8 text-center shadow-sm">
+            <TrendingUp className="w-10 h-10 text-[#D4AF6A] mx-auto mb-3" />
             <h3 className="text-xl font-serif font-bold text-[#1C2B3A] mb-2">Revenue Model</h3>
             <p className="text-[#1C2B3A]/60 mb-4 text-sm">The full interactive model lives at /model</p>
             <a
@@ -634,7 +634,7 @@ const AdminFundingDashboard: React.FC = () => {
           transition={{ duration: 0.2 }}
         >
           {/* Header */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4 border-b-4 border-[#C49F58] pb-3">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4 border-b-4 border-[#D4AF6A] pb-3">
             <div>
               <h1 className="text-xl md:text-2xl font-serif font-black text-[#1C2B3A] uppercase tracking-widest">Build-Out Planner</h1>
               <p className="text-[#1C2B3A]/60 mt-1 text-xs">Capital requirements and funding tracker.</p>
@@ -644,7 +644,7 @@ const AdminFundingDashboard: React.FC = () => {
                 onClick={saveBuildOutData}
                 disabled={savingBuildOut}
                 size="sm"
-                className="bg-[#C49F58] hover:bg-[#b08d4b] text-white"
+                className="bg-[#D4AF6A] hover:bg-[#C49F58] text-white"
               >
                 {savingBuildOut ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Save className="w-4 h-4 mr-1" />}
                 Save
@@ -692,17 +692,17 @@ const AdminFundingDashboard: React.FC = () => {
           </div>
 
           {/* Funding Progress Bar */}
-          <Card className="mb-6 bg-gradient-to-r from-[#1C2B3A]/5 to-[#C49F58]/5">
+          <Card className="mb-6 bg-gradient-to-r from-[#1C2B3A]/5 to-[#D4AF6A]/5">
             <CardContent className="pt-4">
               <div className="flex justify-between items-center mb-2">
                 <span className="text-sm font-semibold text-[#1C2B3A]">Funding Progress</span>
-                <span className="text-sm font-bold text-[#C49F58]">
+                <span className="text-sm font-bold text-[#D4AF6A]">
                   {((buildOutData.amountRaised / getTotalCapital()) * 100).toFixed(1)}%
                 </span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-[#1C2B3A] to-[#C49F58] transition-all duration-500"
+                  className="h-full rounded-full bg-gradient-to-r from-[#1C2B3A] to-[#D4AF6A] transition-all duration-500"
                   style={{ width: `${(buildOutData.amountRaised / getTotalCapital()) * 100}%` }}
                 />
               </div>
@@ -736,7 +736,7 @@ const AdminFundingDashboard: React.FC = () => {
                     )}
                     <span className="font-bold text-[#1C2B3A] text-sm">{data.name}</span>
                   </div>
-                  <span className="font-bold text-[#C49F58] text-sm">${getCategoryTotal(data).toLocaleString()}</span>
+                  <span className="font-bold text-[#D4AF6A] text-sm">${getCategoryTotal(data).toLocaleString()}</span>
                 </button>
                 {expandedSections[key] && (
                   <CardContent className="pt-0 pb-2 px-3">
@@ -808,10 +808,10 @@ const AdminFundingDashboard: React.FC = () => {
           </div>
 
           {/* Header Row */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-6 border-b-4 border-[#C49F58] pb-3">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-6 border-b-4 border-[#D4AF6A] pb-3">
             <div>
               <h1 className="text-2xl md:text-3xl font-serif font-black text-[#1C2B3A] uppercase tracking-widest">Revenue Command</h1>
-              <p className="text-[#C49F58] font-bold mt-1 text-sm">Maslow Administrative Command</p>
+              <p className="text-[#D4AF6A] font-bold mt-1 text-sm">Maslow Administrative Command</p>
             </div>
             <Button
               onClick={downloadCSV}
@@ -873,7 +873,7 @@ const AdminFundingDashboard: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <motion.div className="bg-white p-4 md:p-5 rounded-lg shadow-md border border-[#1C2B3A]/10">
               <div className="flex items-center gap-3 mb-1">
-                <Users className="text-[#C49F58] w-6 h-6" />
+                <Users className="text-[#D4AF6A] w-6 h-6" />
                 <h3 className="text-xs font-bold text-[#1C2B3A] uppercase">Total Members</h3>
               </div>
               <p className="text-3xl md:text-4xl font-black text-[#1C2B3A]">{stats.totalUsers}</p>
@@ -896,7 +896,7 @@ const AdminFundingDashboard: React.FC = () => {
                 {Object.entries(stats.tierBreakdown).map(([tier, count]) => (
                   <div key={tier} className="flex justify-between border-b border-gray-100 pb-1 last:border-0">
                     <span className="font-medium text-[#1C2B3A]">{tier}</span>
-                    <span className="font-bold text-[#C49F58]">{count}</span>
+                    <span className="font-bold text-[#D4AF6A]">{count}</span>
                   </div>
                 ))}
               </div>
@@ -923,7 +923,7 @@ const AdminFundingDashboard: React.FC = () => {
                     <tr key={profile.id} className="hover:bg-gray-50 transition-colors">
                       <td className="px-3 py-2 text-[#1C2B3A] font-medium text-sm">{profile.email}</td>
                       <td className="px-3 py-2 text-sm text-gray-600">
-                        <span className="bg-[#F8F7F4] px-2 py-0.5 rounded text-[#1C2B3A] font-bold text-xs border border-[#C49F58]/30">
+                        <span className="bg-[#F8F7F4] px-2 py-0.5 rounded text-[#1C2B3A] font-bold text-xs border border-[#D4AF6A]/30">
                           {profile.membership_tier || 'Member'}
                         </span>
                       </td>
@@ -1092,7 +1092,7 @@ const SessionPricingTable: React.FC = () => {
       samples: 2,
       price: 10,
       note: 'The most common booking. Enough time to decompress, try two products.',
-      color: '#C49F58',
+      color: '#D4AF6A',
     },
     {
       name: 'Extended',
@@ -1153,7 +1153,7 @@ const SessionPricingTable: React.FC = () => {
       ))}
 
       {/* Footer note */}
-      <div className="bg-[#F8F7F4] rounded-xl border border-[#C49F58]/20 p-4 mt-4">
+      <div className="bg-[#F8F7F4] rounded-xl border border-[#D4AF6A]/20 p-4 mt-4">
         <p className="text-xs text-[#2A2724]/60 leading-relaxed">
           <span className="font-bold text-[#2A2724]">Pricing rationale:</span> Longer sessions carry a volume discount on a per-minute basis.
           10 min = $0.50/min · 15 min = $0.67/min · 30 min = $0.60/min · 60 min = $0.53/min.
@@ -1172,7 +1172,7 @@ const StackPoster: React.FC = () => {
     {
       id: 'guest',
       label: 'GUEST LAYER',
-      color: '#C49F58',
+      color: '#D4AF6A',
       bg: 'bg-amber-50',
       border: 'border-amber-300',
       icon: <Globe className="w-5 h-5" />,
@@ -1243,11 +1243,11 @@ const StackPoster: React.FC = () => {
 
       {/* Data flow */}
       <div className="bg-[#2A2724] rounded-xl p-5 mt-2">
-        <p className="text-xs font-black text-[#C49F58] uppercase tracking-widest mb-4">Request Flow</p>
+        <p className="text-xs font-black text-[#D4AF6A] uppercase tracking-widest mb-4">Request Flow</p>
         <div className="space-y-2">
           {flow.map((step, i) => (
             <div key={i} className="flex items-start gap-3">
-              <span className="text-[#C49F58] font-black text-xs w-5 flex-shrink-0 mt-0.5">{i + 1}.</span>
+              <span className="text-[#D4AF6A] font-black text-xs w-5 flex-shrink-0 mt-0.5">{i + 1}.</span>
               <p className="text-white/80 text-xs leading-relaxed">{step}</p>
             </div>
           ))}
@@ -1342,7 +1342,7 @@ const StackPricingTable: React.FC = () => {
         return (
           <div key={group}>
             <div className="flex items-center gap-2 mb-3">
-              <Clock className="w-4 h-4 text-[#C49F58]" />
+              <Clock className="w-4 h-4 text-[#D4AF6A]" />
               <h3 className="text-sm font-black text-[#1C2B3A] uppercase tracking-widest">{group}</h3>
             </div>
             <div className="space-y-2">
@@ -1365,7 +1365,7 @@ const StackPricingTable: React.FC = () => {
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="font-black text-[#C49F58] text-sm">{item.cost}</span>
+                      <span className="font-black text-[#D4AF6A] text-sm">{item.cost}</span>
                       <ArrowRight className={`w-4 h-4 text-[#1C2B3A]/40 transition-transform ${expanded === item.id ? 'rotate-90' : ''}`} />
                     </div>
                   </button>
@@ -1383,7 +1383,7 @@ const StackPricingTable: React.FC = () => {
 
       {/* Total before launch */}
       <div className="bg-[#1C2B3A] text-white rounded-xl p-5">
-        <p className="text-xs font-black uppercase tracking-widest text-[#C49F58] mb-2">Before Taking Real Money</p>
+        <p className="text-xs font-black uppercase tracking-widest text-[#D4AF6A] mb-2">Before Taking Real Money</p>
         <div className="flex items-baseline gap-2">
           <span className="text-3xl font-black">$45</span>
           <span className="text-white/60 text-sm">/month (Supabase + Vercel) + Stripe per-transaction</span>
@@ -1424,7 +1424,7 @@ const GuestJourneys: React.FC = () => {
       number: '02',
       title: 'App-First Walk-Up',
       subtitle: 'Has the app, decides on the spot',
-      color: '#C49F58',
+      color: '#D4AF6A',
       bg: 'bg-amber-50',
       steps: [
         { label: 'Is in SoHo, sees or knows about Maslow' },
@@ -1487,7 +1487,7 @@ const GuestJourneys: React.FC = () => {
             onClick={() => setActive(i)}
             className={`rounded-xl p-4 text-left border-2 transition-all ${
               active === i
-                ? 'border-[#C49F58] bg-white shadow-md'
+                ? 'border-[#D4AF6A] bg-white shadow-md'
                 : 'border-transparent bg-white/60 hover:bg-white hover:shadow-sm'
             }`}
           >
