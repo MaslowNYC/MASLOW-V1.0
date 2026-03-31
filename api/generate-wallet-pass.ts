@@ -74,7 +74,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       logoText: 'MASLOW',
     });
 
-    pass.type = 'generic';
+    pass.type = 'storeCard';
     pass.primaryFields.push({ key: 'member', label: 'MEMBER', value: memberName });
     pass.secondaryFields.push(
       { key: 'tier', label: 'TIER', value: formatTier(profile?.membership_tier) },
