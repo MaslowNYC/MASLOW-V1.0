@@ -62,17 +62,30 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
 
           {/* Navigation */}
           <div className="flex items-center gap-4">
-            <Link
-              to="/research"
-              className="hidden sm:block transition-colors hover:text-[#D4AF6A]"
+            <span
+              className="hidden sm:block"
               style={{
                 color: '#3C5999',
                 fontFamily: "'Jost', sans-serif",
-                fontSize: '11px',
-                letterSpacing: '0.15em',
+                fontSize: '14.3px',
+                letterSpacing: '0.08em',
               }}
             >
-              Help us design the restroom. <span style={{ textDecoration: 'underline' }}>Take the Survey</span>
+              Help us design NYC's first real RESTroom
+            </span>
+            <Link
+              to="/research"
+              className="px-5 py-2 rounded-full transition-all hover:bg-[rgba(40,107,205,0.06)]"
+              style={{
+                border: '1px solid rgba(40,107,205,0.3)',
+                color: '#3C5999',
+                fontFamily: "'Jost', sans-serif",
+                fontSize: '11px',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+              }}
+            >
+              Take the Survey
             </Link>
             <Link
               to="/login"
@@ -86,7 +99,7 @@ const Header = ({ setIsCartOpen: _setIsCartOpen }: HeaderProps) => {
                 textTransform: 'uppercase',
               }}
             >
-              Sign In
+              Member Access
             </Link>
           </div>
         </div>
