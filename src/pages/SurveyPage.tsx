@@ -225,11 +225,9 @@ export default function SurveyPage() {
         // Water & Hygiene
         supabase.from('water_hygiene').insert({
           response_id: responseId,
-          public_restroom_feeling: data.public_restroom_feeling || null,
-          uses_water_for_cleaning: data.uses_water_for_cleaning || null,
-          would_try_sprayer: data.would_try_sprayer || null,
-          carries_own_vessel: data.carries_own_vessel || null,
-          would_use_bidet_sprayer: data.would_use_bidet_sprayer || null,
+          uses_water_not_just_soap: data.uses_water_for_cleaning === 'Yes, always' || data.uses_water_for_cleaning === 'Sometimes',
+          carries_own_vessel: data.carries_own_vessel === 'Yes',
+          would_use_bidet_sprayer: data.would_use_bidet_sprayer === 'Yes',
           prefers_toilet_paper: data.prefers_toilet_paper,
           prefers_water_only: data.prefers_water_only,
           prefers_both: data.prefers_both,
@@ -263,7 +261,7 @@ export default function SurveyPage() {
         // Time Duration
         supabase.from('time_duration').insert({
           response_id: responseId,
-          typical_duration: data.typical_duration || null,
+          typical_duration: ({ 'Under 5 min': '<5min', '5-15 min': '5-15min', '15-30 min': '15-30min', '30 min+': '30min+' } as Record<string, string>)[data.typical_duration] || null,
           has_practice_needing_more_time: data.has_practice_needing_more_time || null,
           more_time_reason: (data.has_practice_needing_more_time === 'Yes' || data.has_practice_needing_more_time === 'Sometimes') ? (data.more_time_reason || null) : null,
         }).then(({ error }) => {
@@ -279,7 +277,7 @@ export default function SurveyPage() {
           avoids_other: data.avoids_other || null,
           prefers_own_products: data.product_source_preference === 'own',
           prefers_provided_products: data.product_source_preference === 'provided',
-          scent_preference: data.scent_preference || null,
+          scent_preference: ({ 'No scent': 'none', 'Light natural': 'light-natural', 'Moderate': 'moderate', 'Strong': 'strong', 'No preference': 'no-preference' } as Record<string, string>)[data.scent_preference] || null,
         }).then(({ error }) => {
           if (error) console.error('product_preferences insert failed:', error);
         }),
@@ -323,7 +321,6 @@ export default function SurveyPage() {
         await supabase.from('promo_codes').insert({
           response_id: responseId,
           stripe_promo_code: code,
-          source: 'survey',
         });
         // Mark device as having submitted
         localStorage.setItem('maslow_survey_submitted', 'true');
