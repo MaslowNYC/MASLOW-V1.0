@@ -56,6 +56,18 @@ interface SurveyData {
   neighborhood_zip: string;
   one_thing_wrong: string;
   one_thing_right: string;
+  willingness_to_pay: string;
+  discovery_channel: string;
+  discovery_channel_other: string;
+  faith_background_other: string;
+  // Section 8: Accessibility Needs
+  needs_wheelchair_access: boolean;
+  needs_mobility_support: boolean;
+  needs_visual_assistance: boolean;
+  needs_hearing_assistance: boolean;
+  needs_sensory_friendly: boolean;
+  has_service_animal: boolean;
+  other_accessibility_notes: string;
 }
 
 const initialData: SurveyData = {
@@ -96,6 +108,17 @@ const initialData: SurveyData = {
   neighborhood_zip: '',
   one_thing_wrong: '',
   one_thing_right: '',
+  willingness_to_pay: '',
+  discovery_channel: '',
+  discovery_channel_other: '',
+  faith_background_other: '',
+  needs_wheelchair_access: false,
+  needs_mobility_support: false,
+  needs_visual_assistance: false,
+  needs_hearing_assistance: false,
+  needs_sensory_friendly: false,
+  has_service_animal: false,
+  other_accessibility_notes: '',
 };
 
 export default function SurveyPage() {
@@ -110,7 +133,7 @@ export default function SurveyPage() {
   // Generate session token once on mount
   const sessionToken = useMemo(() => crypto.randomUUID(), []);
 
-  const totalSections = 7;
+  const totalSections = 8;
 
   const updateField = <K extends keyof SurveyData>(field: K, value: SurveyData[K]) => {
     setData(prev => ({ ...prev, [field]: value }));
@@ -176,6 +199,10 @@ export default function SurveyPage() {
       const code = shouldGeneratePromo ? generatePromoCode() : null;
 
       // 1. Insert main survey response
+      const discoveryValue = data.discovery_channel === 'Other'
+        ? (data.discovery_channel_other?.trim() ? `Other: ${data.discovery_channel_other.trim()}` : 'Other')
+        : data.discovery_channel || null;
+
       const { data: responseData, error: responseError } = await supabase
         .from('survey_responses')
         .insert({
@@ -184,6 +211,8 @@ export default function SurveyPage() {
           public_restroom_feeling: data.public_restroom_feeling || null,
           uses_water_for_cleaning: data.uses_water_for_cleaning || null,
           would_try_sprayer: data.would_try_sprayer || null,
+          willingness_to_pay: data.willingness_to_pay || null,
+          discovery_channel: discoveryValue,
         })
         .select('id')
         .single();
@@ -191,7 +220,7 @@ export default function SurveyPage() {
       if (responseError) throw responseError;
       const responseId = responseData.id;
 
-      // 2. Insert section data in parallel
+      // 2. Insert section data in parallel (with error logging per table)
       await Promise.all([
         // Water & Hygiene
         supabase.from('water_hygiene').insert({
@@ -204,6 +233,8 @@ export default function SurveyPage() {
           prefers_toilet_paper: data.prefers_toilet_paper,
           prefers_water_only: data.prefers_water_only,
           prefers_both: data.prefers_both,
+        }).then(({ error }) => {
+          if (error) console.error('water_hygiene insert failed:', error);
         }),
         // Ritual Practice
         supabase.from('ritual_practice').insert({
@@ -211,8 +242,12 @@ export default function SurveyPage() {
           has_faith_based_washing: data.has_faith_based_washing || null,
           needs_running_water_for_prayer: (data.has_faith_based_washing === 'Yes' || data.has_faith_based_washing === 'Sometimes') ? data.needs_running_water_for_prayer : null,
           daily_washing_frequency: data.daily_washing_frequency || null,
-          faith_background_broad: data.faith_background_broad || null,
+          faith_background_broad: data.faith_background_broad === 'Other'
+            ? (data.faith_background_other?.trim() ? `Other: ${data.faith_background_other.trim()}` : 'Other')
+            : (data.faith_background_broad || null),
           specific_practice_notes: data.specific_practice_notes || null,
+        }).then(({ error }) => {
+          if (error) console.error('ritual_practice insert failed:', error);
         }),
         // Privacy Needs
         supabase.from('privacy_needs').insert({
@@ -222,6 +257,8 @@ export default function SurveyPage() {
           brings_child_or_family: data.brings_child_or_family,
           needs_gender_neutral: data.needs_gender_neutral,
           other_privacy_notes: data.other_privacy_notes || null,
+        }).then(({ error }) => {
+          if (error) console.error('privacy_needs insert failed:', error);
         }),
         // Time Duration
         supabase.from('time_duration').insert({
@@ -229,6 +266,8 @@ export default function SurveyPage() {
           typical_duration: data.typical_duration || null,
           has_practice_needing_more_time: data.has_practice_needing_more_time || null,
           more_time_reason: (data.has_practice_needing_more_time === 'Yes' || data.has_practice_needing_more_time === 'Sometimes') ? (data.more_time_reason || null) : null,
+        }).then(({ error }) => {
+          if (error) console.error('time_duration insert failed:', error);
         }),
         // Product Preferences
         supabase.from('product_preferences').insert({
@@ -241,23 +280,41 @@ export default function SurveyPage() {
           prefers_own_products: data.product_source_preference === 'own',
           prefers_provided_products: data.product_source_preference === 'provided',
           scent_preference: data.scent_preference || null,
+        }).then(({ error }) => {
+          if (error) console.error('product_preferences insert failed:', error);
         }),
         // Signage & Language
         supabase.from('signage_language').insert({
           response_id: responseId,
-          preferred_language: data.preferred_language || null,
+          preferred_language: (data.preferred_language || '').trim() || null,
           prefers_icons_over_text: data.prefers_icons_over_text,
           has_struggled_with_signage: data.has_struggled_with_signage,
           signage_notes: data.signage_notes || null,
+        }).then(({ error }) => {
+          if (error) console.error('signage_language insert failed:', error);
         }),
         // Cultural Background
         supabase.from('cultural_background').insert({
           response_id: responseId,
           region_broad: data.region_broad || null,
-          years_in_nyc: data.years_in_nyc || null,
-          neighborhood_zip: data.neighborhood_zip || null,
+          years_in_nyc: ({ 'Less than 1 year': '<1', '1-5 years': '1-5', '5-10 years': '5-10', '10+ years': '10+', 'Born here': 'born here' } as Record<string, string>)[data.years_in_nyc] || null,
           one_thing_wrong: data.one_thing_wrong || null,
           one_thing_right: data.one_thing_right || null,
+        }).then(({ error }) => {
+          if (error) console.error('cultural_background insert failed:', error);
+        }),
+        // Accessibility Needs
+        supabase.from('accessibility_needs').insert({
+          response_id: responseId,
+          needs_wheelchair_access: data.needs_wheelchair_access,
+          needs_mobility_support: data.needs_mobility_support,
+          needs_visual_assistance: data.needs_visual_assistance,
+          needs_hearing_assistance: data.needs_hearing_assistance,
+          needs_sensory_friendly: data.needs_sensory_friendly,
+          has_service_animal: data.has_service_animal,
+          other_accessibility_notes: data.other_accessibility_notes || null,
+        }).then(({ error }) => {
+          if (error) console.error('accessibility_needs insert failed:', error);
         }),
       ]);
 
@@ -540,11 +597,20 @@ export default function SurveyPage() {
 
               <SelectDropdown
                 label="Faith background (optional)"
-                options={['Islam', 'Hindu', 'Jewish', 'Sikh', 'Christian', 'Buddhist', 'Other', 'Prefer not to say']}
+                options={['Islam', 'Christianity', 'Judaism', 'Hinduism', 'Sikhism', 'Buddhism', 'None', 'Prefer not to say', 'Other']}
                 value={data.faith_background_broad}
-                onChange={(v) => updateField('faith_background_broad', v)}
+                onChange={(v) => { updateField('faith_background_broad', v); if (v !== 'Other') updateField('faith_background_other', ''); }}
                 placeholder="Select if you'd like to share"
               />
+
+              {data.faith_background_broad === 'Other' && (
+                <TextInput
+                  label="Please specify (optional)"
+                  value={data.faith_background_other}
+                  onChange={(v) => updateField('faith_background_other', v)}
+                  placeholder="e.g., Zoroastrianism, Bahá'í, etc."
+                />
+              )}
 
               <Textarea
                 label="Anything most NYC restrooms don't have that your background requires? (optional)"
@@ -762,13 +828,12 @@ export default function SurveyPage() {
                   'South Asia',
                   'East Asia',
                   'Southeast Asia',
-                  'Middle East & MENA',
+                  'Middle East / MENA',
                   'Sub-Saharan Africa',
                   'Latin America',
                   'Eastern Europe',
                   'Western Europe',
                   'North America',
-                  'Caribbean',
                   'Other',
                   'Prefer not to say'
                 ]}
@@ -779,7 +844,7 @@ export default function SurveyPage() {
 
               <SelectDropdown
                 label="How long have you been in NYC?"
-                options={['Less than 1 year', '1-5 years', '5-10 years', '10+ years', 'Born here', "I don't live in NYC"]}
+                options={['Less than 1 year', '1-5 years', '5-10 years', '10+ years', 'Born here']}
                 value={data.years_in_nyc}
                 onChange={(v) => updateField('years_in_nyc', v)}
                 placeholder="Select duration"
@@ -791,6 +856,31 @@ export default function SurveyPage() {
                 onChange={(v) => updateField('neighborhood_zip', v)}
                 placeholder="e.g., 10012 or SoHo"
               />
+
+              <RadioGroup
+                label="What would you pay for a clean, private restroom when you need one?"
+                options={['Free only', '$1-3', '$3-5', '$5-10', '$10+', 'Depends on quality']}
+                value={data.willingness_to_pay}
+                onChange={(v) => updateField('willingness_to_pay', v)}
+                grid
+              />
+
+              <SelectDropdown
+                label="How would you most likely find a place like this?"
+                options={['Word of mouth', 'Google Maps', 'Social media', 'Walked past it', 'Community center / place of worship', 'Other']}
+                value={data.discovery_channel}
+                onChange={(v) => { updateField('discovery_channel', v); if (v !== 'Other') updateField('discovery_channel_other', ''); }}
+                placeholder="Select one"
+              />
+
+              {data.discovery_channel === 'Other' && (
+                <TextInput
+                  label="Please specify (optional)"
+                  value={data.discovery_channel_other}
+                  onChange={(v) => updateField('discovery_channel_other', v)}
+                  placeholder="How would you find us?"
+                />
+              )}
 
               <Textarea
                 label="What's one thing NYC restrooms always get wrong for people from your background? (optional)"
@@ -804,6 +894,62 @@ export default function SurveyPage() {
                 value={data.one_thing_right}
                 onChange={(v) => updateField('one_thing_right', v)}
                 placeholder="Anything we should know?"
+              />
+            </div>
+          </section>
+        )}
+
+        {/* Section 8: Accessibility Needs */}
+        {currentSection === 8 && (
+          <section>
+            <h2 className="text-2xl font-serif text-[#1C2B3A] mb-4 text-center" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+              Accessibility
+            </h2>
+
+            <div className="space-y-5">
+              <div>
+                <p className="text-sm text-[#1C2B3A] underline mb-3" style={{ fontFamily: "'Jost', sans-serif" }}>
+                  Do you have any accessibility needs we should design for? (select all that apply)
+                </p>
+                <div className="grid grid-cols-1 gap-2">
+                  <Checkbox
+                    label="Wheelchair access"
+                    checked={data.needs_wheelchair_access}
+                    onChange={(v) => updateField('needs_wheelchair_access', v)}
+                  />
+                  <Checkbox
+                    label="Mobility support (grab bars, wider doors)"
+                    checked={data.needs_mobility_support}
+                    onChange={(v) => updateField('needs_mobility_support', v)}
+                  />
+                  <Checkbox
+                    label="Visual assistance (braille, high contrast)"
+                    checked={data.needs_visual_assistance}
+                    onChange={(v) => updateField('needs_visual_assistance', v)}
+                  />
+                  <Checkbox
+                    label="Hearing assistance"
+                    checked={data.needs_hearing_assistance}
+                    onChange={(v) => updateField('needs_hearing_assistance', v)}
+                  />
+                  <Checkbox
+                    label="Sensory-friendly (low stimulation)"
+                    checked={data.needs_sensory_friendly}
+                    onChange={(v) => updateField('needs_sensory_friendly', v)}
+                  />
+                  <Checkbox
+                    label="I have a service animal"
+                    checked={data.has_service_animal}
+                    onChange={(v) => updateField('has_service_animal', v)}
+                  />
+                </div>
+              </div>
+
+              <Textarea
+                label="Anything else? (optional)"
+                value={data.other_accessibility_notes}
+                onChange={(v) => updateField('other_accessibility_notes', v)}
+                placeholder="Any other accessibility needs we should know about"
               />
             </div>
           </section>
