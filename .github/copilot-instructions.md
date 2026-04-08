@@ -101,7 +101,7 @@ The project includes four specialized Vite plugins—understand these to avoid b
 Brand colors via `maslow.` namespace:
 - `maslow-blue: #286BCD` (primary)
 - `maslow-cream: #FAF4ED` (secondary)
-- `maslow-gold: #C49F58` (accent)
+- `maslow-gold: #D4AF6A` (accent)
 
 Also aliased as `primary`, `secondary`, `accent` for consistency.
 

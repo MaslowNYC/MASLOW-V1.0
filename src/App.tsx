@@ -52,6 +52,7 @@ import AuthCallbackPage from '@/pages/AuthCallbackPage';
 import SurveyPage from '@/pages/SurveyPage';
 import ResearchPage from '@/pages/ResearchPage';
 import FoundationPage from '@/pages/FoundingPage';
+import BuildPage from '@/pages/BuildPage';
 
 // Future Innovations (public showcase)
 import FuturePrototypesPage from '@/pages/FuturePrototypesPage';
@@ -93,7 +94,7 @@ const AppContent: React.FC = () => {
     }
   }, [navigate]);
 
-  const isHideHeaderPath = location.pathname === '/login' || location.pathname === '/reset-password' || location.pathname === '/model' || location.pathname === '/survey';
+  const isHideHeaderPath = location.pathname === '/login' || location.pathname === '/reset-password' || location.pathname === '/model' || location.pathname === '/survey' || location.pathname === '/build';
 
   return (
     <div className="min-h-screen bg-[#FAF4ED] flex flex-col overflow-x-hidden w-full max-w-full">
@@ -112,6 +113,7 @@ const AppContent: React.FC = () => {
           <Route path="/survey" element={<SurveyPage />} />
           <Route path="/research" element={<ResearchPage />} />
           <Route path="/foundation" element={<FoundationPage />} />
+          <Route path="/build" element={<BuildPage />} />
           <Route path="/staff/inventory" element={<ProtectedRoute requireFounder={true}><StaffInventory /></ProtectedRoute>} />
           <Route path="/buy-credits" element={<ProtectedRoute><BuyCreditsPage /></ProtectedRoute>} />
           

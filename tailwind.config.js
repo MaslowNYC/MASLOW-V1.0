@@ -27,7 +27,7 @@ module.exports = {
 					navy: '#1C2B3A',   /* new primary */
 					ivory: '#F8F7F4',  /* new background */
 					cream: '#F8F7F4',  /* alias kept for compat */
-					gold: '#C49F58',
+					gold: '#D4AF6A',
 				},
 				primary: {
 					DEFAULT: '#1C2B3A',  /* navy */
@@ -46,7 +46,7 @@ module.exports = {
 					foreground: 'hsl(var(--muted-foreground))',
 				},
 				accent: {
-					DEFAULT: '#C49F58',
+					DEFAULT: '#D4AF6A',
 					foreground: '#286BCD',
 				},
 				popover: {

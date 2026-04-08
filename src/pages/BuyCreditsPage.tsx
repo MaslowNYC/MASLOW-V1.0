@@ -2,69 +2,70 @@ import { BuyCreditsButton } from '@/components/BuyCreditsButton';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/customSupabaseClient';
 
+interface CreditPackage {
+  id: string;
+  name: string;
+  credits: number;
+  price_cents: number;
+  is_active: boolean;
+}
+
+const BASE_PRICE_CENTS = 500; // $5 per credit — used to compute discount %
+
 export default function BuyCreditsPage() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [credits, setCredits] = useState<number>(0);
+  const [packages, setPackages] = useState<CreditPackage[]>([]);
+  const [loadingPackages, setLoadingPackages] = useState(true);
 
   useEffect(() => {
     loadUserData();
+    fetchPackages();
   }, []);
 
   const loadUserData = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
       setUserEmail(user.email || null);
-      
+
       // Get current credits
       const { data: profile } = await (supabase
         .from('profiles') as any)
         .select('credits')
         .eq('id', user.id)
         .single();
-      
+
       if (profile) {
         setCredits(profile.credits || 0);
       }
     }
   };
 
-  const packages = [
-    { 
-      credits: 1, 
-      price: 5, 
-      name: 'Single Visit', 
-      badge: null,
-      description: 'Try Maslow once'
-    },
-    { 
-      credits: 10, 
-      price: 45, 
-      name: 'Starter Pack', 
-      badge: '10% off',
-      description: 'Perfect for occasional use'
-    },
-    { 
-      credits: 10, 
-      price: 42, 
-      name: 'Weekly Pass', 
-      badge: 'For commuters',
-      description: 'Best for daily commuters'
-    },
-    { 
-      credits: 40, 
-      price: 140, 
-      name: 'Monthly Pass', 
-      badge: 'BEST VALUE',
-      description: 'Most popular choice'
-    },
-    { 
-      credits: 60, 
-      price: 180, 
-      name: 'Unlimited Month', 
-      badge: '40% off',
-      description: 'For power users'
-    },
-  ];
+  const fetchPackages = async () => {
+    const { data, error } = await (supabase
+      .from('credit_packages') as any)
+      .select('id, name, credits, price_cents, is_active')
+      .eq('is_active', true)
+      .order('credits');
+
+    if (data) setPackages(data);
+    if (error) console.error('Error fetching packages:', error);
+    setLoadingPackages(false);
+  };
+
+  const getDiscount = (pkg: CreditPackage) => {
+    if (pkg.credits <= 1) return 0;
+    return Math.round((1 - (pkg.price_cents / pkg.credits) / BASE_PRICE_CENTS) * 100);
+  };
+
+  const getBadge = (pkg: CreditPackage, allPkgs: CreditPackage[]) => {
+    const discount = getDiscount(pkg);
+    if (discount <= 0) return null;
+    // Largest pack gets "BEST VALUE"
+    const maxCredits = Math.max(...allPkgs.map(p => p.credits));
+    if (pkg.credits === maxCredits) return 'BEST VALUE';
+    return `${discount}% off`;
+  };
 
   return (
     <div className="min-h-screen bg-[#FAF4ED] py-12">
@@ -86,51 +87,57 @@ export default function BuyCreditsPage() {
         </div>
 
         {/* Pricing Grid */}
-        <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-6 mb-12">
-          {packages.map((pkg) => (
+        {loadingPackages ? (
+          <div className="text-center py-12 text-[#6B7280]">Loading packages…</div>
+        ) : (
+        <div className={`grid gap-6 mb-12 ${packages.length <= 3 ? 'md:grid-cols-3' : packages.length <= 4 ? 'md:grid-cols-2 lg:grid-cols-4' : 'md:grid-cols-3 lg:grid-cols-5'}`}>
+          {packages.map((pkg) => {
+            const badge = getBadge(pkg, packages);
+            const price = pkg.price_cents / 100;
+            const perCredit = (pkg.price_cents / pkg.credits / 100).toFixed(2);
+
+            return (
             <div
-              key={pkg.name}
+              key={pkg.id}
               className={`bg-white rounded-lg p-6 shadow-md border-2 transition-all ${
-                pkg.badge === 'BEST VALUE' 
-                  ? 'border-[#D4AF6A] transform scale-105' 
+                badge === 'BEST VALUE'
+                  ? 'border-[#D4AF6A] transform scale-105'
                   : 'border-[#E5E0D8] hover:border-[#D4AF6A]'
               }`}
             >
-              {pkg.badge && (
+              {badge && (
                 <div className={`text-xs font-semibold mb-2 uppercase ${
-                  pkg.badge === 'BEST VALUE' ? 'text-[#D4AF6A]' : 'text-[#6B7280]'
+                  badge === 'BEST VALUE' ? 'text-[#D4AF6A]' : 'text-[#6B7280]'
                 }`}>
-                  {pkg.badge}
+                  {badge}
                 </div>
               )}
-              
+
               <h3 className="text-xl font-bold text-[#1A1F36] mb-2">
                 {pkg.name}
               </h3>
-              
+
               <div className="text-3xl font-bold text-[#1A1F36] mb-1">
-                ${pkg.price}
+                ${price}
               </div>
-              
+
               <div className="text-sm text-[#6B7280] mb-4">
-                {pkg.credits} credits • ${(pkg.price / pkg.credits).toFixed(2)}/credit
+                {pkg.credits} credit{pkg.credits > 1 ? 's' : ''} • ${perCredit}/credit
               </div>
-              
-              <p className="text-xs text-[#6B7280] mb-6">
-                {pkg.description}
-              </p>
-              
+
               <BuyCreditsButton
                 credits={pkg.credits}
-                amount={pkg.price}
+                amount={price}
                 packageName={pkg.name}
                 className="w-full bg-[#D4AF6A] text-white py-3 rounded-lg font-semibold"
               >
                 Purchase
               </BuyCreditsButton>
             </div>
-          ))}
+            );
+          })}
         </div>
+        )}
 
         {/* Info Section */}
         <div className="bg-white rounded-lg p-8 shadow-md border border-[#E5E0D8] max-w-3xl mx-auto">
