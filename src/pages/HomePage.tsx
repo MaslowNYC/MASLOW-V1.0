@@ -649,7 +649,7 @@ const HomePage: React.FC = () => {
               marginBottom: 12,
             }}
           >
-            MASLOW NYC LLC
+            MASLOW LLC
           </div>
           <div
             style={{
