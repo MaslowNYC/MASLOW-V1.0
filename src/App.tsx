@@ -21,6 +21,7 @@ import ConciergeBubble from '@/components/ConciergeBubble';
 // Pages - Core
 // HeroSection removed - homepage now loads directly
 import HomePage from '@/pages/HomePage';
+import GoPage from '@/pages/GoPage';
 import LoginPage from '@/components/LoginPage';
 import StorePage from '@/pages/StorePage';
 import ProductDetailPage from '@/pages/ProductDetailPage';
@@ -94,7 +95,13 @@ const AppContent: React.FC = () => {
     }
   }, [navigate]);
 
-  const isHideHeaderPath = location.pathname === '/login' || location.pathname === '/reset-password' || location.pathname === '/model' || location.pathname === '/survey' || location.pathname === '/build';
+  // PRE-LAUNCH: homepage has its own self-contained nav. Auth routes are headerless.
+  // /go (walk-up booking) keeps the global Header.
+  const isHideHeaderPath =
+    location.pathname === '/' ||
+    location.pathname === '/login' ||
+    location.pathname === '/auth/callback' ||
+    location.pathname === '/reset-password';
 
   return (
     <div className="min-h-screen bg-[#FAF4ED] flex flex-col overflow-x-hidden w-full max-w-full">
@@ -103,11 +110,15 @@ const AppContent: React.FC = () => {
 
       <main className="flex-grow">
         <Routes>
-          {/* Public & Core Routes */}
+          {/* PRE-LAUNCH: only /, /go, and the back-door auth routes are live. Everything else is commented out, not deleted. */}
           <Route path="/" element={<HomePage />} />
+          <Route path="/go" element={<GoPage />} />
+          {/* Back-door admin auth routes — not linked from any nav, but functional via direct URL. */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/auth/callback" element={<AuthCallbackPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
+
+          {/*
           <Route path="/maslow" element={<MaslowPage />} />
           <Route path="/model" element={<RevenueModelPage />} />
           <Route path="/survey" element={<SurveyPage />} />
@@ -116,19 +127,15 @@ const AppContent: React.FC = () => {
           <Route path="/build" element={<BuildPage />} />
           <Route path="/staff/inventory" element={<ProtectedRoute requireFounder={true}><StaffInventory /></ProtectedRoute>} />
           <Route path="/buy-credits" element={<ProtectedRoute><BuyCreditsPage /></ProtectedRoute>} />
-          
 
-          {/* Protected Routes */}
           <Route path="/events" element={<ProtectedRoute><EventsPage /></ProtectedRoute>} />
           <Route path="/hull" element={<HullPage />} />
           <Route path="/suites" element={<SanctuarySuitesPage />} />
-          <Route path="/go" element={<HomePage />} />
           <Route path="/sanctuary" element={<Navigate to="/hull" replace />} />
           <Route path="/impact" element={<ImpactPage />} />
           <Route path="/membership" element={<MembershipPage />} />
           <Route path="/future" element={<ProtectedRoute><FuturePrototypesPage /></ProtectedRoute>} />
 
-          {/* Commerce */}
           <Route path="/store" element={<ProtectedRoute><StorePage /></ProtectedRoute>} />
           <Route path="/product/:id" element={<ProtectedRoute><ProductDetailPage /></ProtectedRoute>} />
           <Route path="/checkout-success" element={<ProtectedRoute><CheckoutSuccessPage /></ProtectedRoute>} />
@@ -136,7 +143,6 @@ const AppContent: React.FC = () => {
           <Route path="/admin" element={<ProtectedRoute requireFounder={true}><AdminFundingDashboard /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute requireFounder={true}><Dashboard /></ProtectedRoute>} />
 
-          {/* Restored Routes */}
           <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="/profile/settings" element={<ProtectedRoute><ProfileSettingsPage /></ProtectedRoute>} />
           <Route path="/mission" element={<MissionPage />} />
@@ -150,17 +156,16 @@ const AppContent: React.FC = () => {
           <Route path="/field-notes/:slug" element={<FieldNotePost />} />
           <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} />
 
-          {/* Field Research - Admin Only */}
           <Route path="/admin/field-research" element={<ProtectedRoute requireFounder={true}><FieldResearchPage /></ProtectedRoute>} />
           <Route path="/admin/research-results" element={<ProtectedRoute requireFounder={true}><FieldResearchResultsPage /></ProtectedRoute>} />
 
-          {/* Prototypes - Admin Only */}
           <Route path="/prototypes" element={<ProtectedRoute requireFounder={true}><PrototypesPage /></ProtectedRoute>} />
           <Route path="/prototypes/system/:id" element={<ProtectedRoute requireFounder={true}><PrototypeSystemDetailPage /></ProtectedRoute>} />
           <Route path="/prototypes/prototype/:id" element={<ProtectedRoute requireFounder={true}><PrototypeDetailPage /></ProtectedRoute>} />
           <Route path="/prototypes/shopping-cart" element={<ProtectedRoute requireFounder={true}><PrototypeShoppingCartPage /></ProtectedRoute>} />
           <Route path="/prototypes/boxes" element={<ProtectedRoute requireFounder={true}><PrototypeBoxViewPage /></ProtectedRoute>} />
           <Route path="/prototypes/shopping" element={<ProtectedRoute requireFounder={true}><PrototypeShoppingListPage /></ProtectedRoute>} />
+          */}
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
