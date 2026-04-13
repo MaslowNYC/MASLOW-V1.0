@@ -172,7 +172,6 @@ const HomePage: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(false);
-  const [ctaHover, setCtaHover] = useState(false);
   const [signupHover, setSignupHover] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
@@ -290,26 +289,104 @@ const HomePage: React.FC = () => {
             </p>
           </Reveal>
           <Reveal delay={0.25}>
-            <a
-              href="#signup"
-              onMouseEnter={() => setCtaHover(true)}
-              onMouseLeave={() => setCtaHover(false)}
-              style={{
-                display: 'inline-block',
-                background: ctaHover ? GOLD_HOVER : GOLD,
-                color: '#fff',
-                padding: '16px 40px',
-                fontFamily: SANS,
-                fontSize: 14,
-                fontWeight: 500,
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                textDecoration: 'none',
-                transition: 'background 0.3s ease',
-              }}
-            >
-              Join the waitlist
-            </a>
+            {submitted ? (
+              <p
+                style={{
+                  fontFamily: SERIF,
+                  fontStyle: 'italic',
+                  fontSize: 20,
+                  color: BLUE,
+                  padding: '20px 0',
+                }}
+              >
+                You're on the list. We'll be in touch.
+              </p>
+            ) : (
+              <>
+                <form
+                  onSubmit={handleSubmit}
+                  style={{
+                    display: 'flex',
+                    maxWidth: 460,
+                    margin: '0 auto',
+                    border: '1px solid rgba(212,175,106,0.4)',
+                    borderRadius: 2,
+                    background: '#fff',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="your@email.com"
+                    disabled={submitting}
+                    style={{
+                      flex: 1,
+                      border: 'none',
+                      outline: 'none',
+                      padding: '14px 18px',
+                      fontFamily: SANS,
+                      fontSize: 15,
+                      color: DARK,
+                      background: '#fff',
+                    }}
+                  />
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    onMouseEnter={() => setSignupHover(true)}
+                    onMouseLeave={() => setSignupHover(false)}
+                    style={{
+                      background: signupHover && !submitting ? GOLD_HOVER : GOLD,
+                      color: '#fff',
+                      border: 'none',
+                      padding: '14px 22px',
+                      fontFamily: SANS,
+                      fontSize: 13,
+                      fontWeight: 500,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.1em',
+                      cursor: submitting ? 'default' : 'pointer',
+                      opacity: submitting ? 0.7 : 1,
+                      transition: 'background 0.3s ease, opacity 0.3s ease',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {submitting ? 'Joining...' : 'Count me in'}
+                  </button>
+                </form>
+                {submitError && (
+                  <p
+                    style={{
+                      fontFamily: SANS,
+                      fontSize: 14,
+                      color: '#a33',
+                      marginTop: 16,
+                    }}
+                  >
+                    Something went wrong.{' '}
+                    <button
+                      type="button"
+                      onClick={retrySubmit}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        padding: 0,
+                        color: BLUE,
+                        textDecoration: 'underline',
+                        cursor: 'pointer',
+                        fontFamily: SANS,
+                        fontSize: 14,
+                      }}
+                    >
+                      Try again?
+                    </button>
+                  </p>
+                )}
+              </>
+            )}
           </Reveal>
         </section>
 
