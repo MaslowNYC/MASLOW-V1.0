@@ -332,6 +332,18 @@ const HomePage: React.FC = () => {
         {/* ===== HERO ===== */}
         <section style={{ padding: '80px 24px 40px', textAlign: 'center' }}>
           <Reveal>
+            <img
+              src="/Maslow_Round.png"
+              alt="Maslow"
+              style={{
+                display: 'block',
+                height: 56,
+                width: 'auto',
+                margin: '0 auto 28px',
+              }}
+            />
+          </Reveal>
+          <Reveal>
             <h1
               style={{
                 fontFamily: SERIF,
