@@ -333,7 +333,7 @@ const HomePage: React.FC = () => {
         <section style={{ padding: '80px 24px 40px', textAlign: 'center' }}>
           <Reveal>
             <img
-              src="/Maslow_Round.png"
+              src="/MASLOW - Round.png"
               alt="Maslow"
               style={{
                 display: 'block',
