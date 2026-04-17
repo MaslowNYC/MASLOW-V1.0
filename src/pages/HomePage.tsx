@@ -166,6 +166,79 @@ const FeatureItem: React.FC<FeatureItemProps> = ({ title, desc }) => (
   </div>
 );
 
+// ===== Presale tier card =====
+type PresaleTierProps = {
+  label: string;
+  price: string;
+  sub?: string;
+  blurb: string;
+  buyUrl: string;
+  highlight?: boolean;
+};
+
+const PresaleTier: React.FC<PresaleTierProps> = ({ label, price, sub, blurb, buyUrl, highlight }) => {
+  const [cardHover, setCardHover] = useState(false);
+  const [btnHover, setBtnHover] = useState(false);
+  const borderColor = highlight
+    ? GOLD
+    : cardHover
+    ? GOLD
+    : 'rgba(212,175,106,0.25)';
+
+  return (
+    <div
+      onMouseEnter={() => setCardHover(true)}
+      onMouseLeave={() => setCardHover(false)}
+      style={{
+        background: '#ffffff',
+        border: `1px solid ${borderColor}`,
+        borderRadius: 2,
+        padding: '28px 24px',
+        display: 'flex',
+        flexDirection: 'column',
+        boxShadow: cardHover || highlight ? '0 8px 24px rgba(212,175,106,0.15)' : 'none',
+        transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+      }}
+    >
+      <div style={{ fontFamily: SANS, fontSize: 12, letterSpacing: '0.15em', textTransform: 'uppercase', color: MUTED, marginBottom: 12 }}>
+        {label}
+      </div>
+      <div style={{ fontFamily: SERIF, fontSize: 36, fontWeight: 300, color: DARK, marginBottom: 6, lineHeight: 1.1 }}>
+        {price}
+      </div>
+      {sub && (
+        <div style={{ fontFamily: SANS, fontSize: 13, color: GOLD, marginBottom: 14, letterSpacing: '0.02em' }}>
+          {sub}
+        </div>
+      )}
+      <div style={{ fontFamily: SERIF, fontSize: 15, fontStyle: 'italic', color: MUTED, lineHeight: 1.5, marginBottom: 24, flexGrow: 1 }}>
+        {blurb}
+      </div>
+      <a
+        href={buyUrl}
+        onMouseEnter={() => setBtnHover(true)}
+        onMouseLeave={() => setBtnHover(false)}
+        style={{
+          display: 'inline-block',
+          textAlign: 'center',
+          background: btnHover ? GOLD_HOVER : GOLD,
+          color: '#ffffff',
+          fontFamily: SANS,
+          fontSize: 14,
+          fontWeight: 500,
+          letterSpacing: '0.05em',
+          textDecoration: 'none',
+          padding: '12px 20px',
+          borderRadius: 2,
+          transition: 'background 0.2s ease',
+        }}
+      >
+        Reserve
+      </a>
+    </div>
+  );
+};
+
 // ===== Page =====
 const HomePage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -211,10 +284,10 @@ const HomePage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Maslow — Help us build the bathroom New York deserves.</title>
+        <title>Maslow — The bathroom New York deserves.</title>
         <meta
           name="description"
-          content="Maslow is a network of premium private restroom suites in SoHo — community-funded, open to everyone. Join the waitlist."
+          content="Maslow is a network of premium private restroom suites in SoHo. Get early access to the flagship location opening in 2027."
         />
       </Helmet>
 
@@ -270,7 +343,7 @@ const HomePage: React.FC = () => {
                 margin: '0 auto 28px',
               }}
             >
-              Help us build the bathroom New York deserves.
+              The bathroom New York deserves.
             </h1>
           </Reveal>
           <Reveal delay={0.15}>
@@ -284,8 +357,8 @@ const HomePage: React.FC = () => {
                 margin: '0 auto 40px',
               }}
             >
-              Maslow is a network of premium private restroom suites — community‑funded, open to everyone.
-              No investors. No venture capital. Just people who think New York can do better.
+              Maslow is a network of premium private restroom suites in SoHo, Manhattan. Get early access to the flagship
+              location, opening in 2027. Premium is the floor, not an upgrade.
             </p>
           </Reveal>
           <Reveal delay={0.25}>
@@ -471,7 +544,129 @@ const HomePage: React.FC = () => {
 
         <Divider />
 
-        {/* ===== PRICING ===== */}
+        {/* ===== PRESALE ===== */}
+        <section id="presale" style={{ ...sectionPad, maxWidth: 1080 }}>
+          <Reveal>
+            <h2
+              style={{
+                fontFamily: SERIF,
+                fontWeight: 300,
+                fontSize: 'clamp(28px, 4vw, 40px)',
+                color: DARK,
+                marginBottom: 16,
+                lineHeight: 1.2,
+              }}
+            >
+              Get early access.
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p style={{ fontFamily: SANS, fontSize: 16, color: MUTED, marginBottom: 40, maxWidth: 680, margin: '0 auto 40px', lineHeight: 1.6 }}>
+              Reserve your access to the SoHo flagship before the doors open. Every purchase is an
+              advance purchase of future access and products.
+            </p>
+          </Reveal>
+
+          {/* Disclosure block */}
+          <Reveal delay={0.15}>
+            <div
+              style={{
+                maxWidth: 780,
+                margin: '0 auto 40px',
+                padding: '20px 24px',
+                border: `1px solid rgba(212,175,106,0.35)`,
+                borderRadius: 2,
+                background: 'rgba(212,175,106,0.06)',
+                textAlign: 'left',
+                fontFamily: SANS,
+                fontSize: 13,
+                lineHeight: 1.6,
+                color: MUTED,
+              }}
+            >
+              <p style={{ margin: '0 0 10px' }}>
+                <strong style={{ color: DARK }}>Facility Status:</strong>{' '}
+                Maslow's flagship location in SoHo, Manhattan is currently in development. All purchases —
+                including visit passes, brick reservations, and founding memberships — are advance purchases
+                of future access and products. Your passes will activate when our first location opens.
+                Brick products will ship during the build-out period.
+              </p>
+              <p style={{ margin: '0 0 10px' }}>
+                <strong style={{ color: DARK }}>Timeline:</strong>{' '}
+                We are targeting a 2027 opening for our SoHo flagship. Development timelines are subject to
+                change based on permitting, construction, and lease finalization. We will keep all purchasers
+                updated on progress via email.
+              </p>
+              <p style={{ margin: 0 }}>
+                <strong style={{ color: DARK }}>Refund Policy:</strong>{' '}
+                If Maslow does not open a location within 36 months of your purchase date, you are entitled
+                to a full refund of your purchase price. You may also request a full refund at any time
+                before our first location opens by emailing patrick@maslow.nyc. Refunds will be processed
+                within 10 business days of your request.
+              </p>
+            </div>
+          </Reveal>
+
+          {/* Tier grid */}
+          <Reveal delay={0.2}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+                gap: 20,
+                textAlign: 'left',
+                marginBottom: 24,
+              }}
+            >
+              <PresaleTier
+                label="Single Pass"
+                price="$5"
+                blurb="One visit. Walk in, lock the door, take ten minutes."
+                buyUrl="https://buy.stripe.com/PLACEHOLDER_SINGLE_PASS"
+              />
+              <PresaleTier
+                label="Starter Bundle"
+                price="$25"
+                sub="5 visits · save $5"
+                blurb="Enough to make it a habit."
+                buyUrl="https://buy.stripe.com/PLACEHOLDER_STARTER_BUNDLE"
+              />
+              <PresaleTier
+                label="Home Brick"
+                price="$150"
+                sub="Includes 5 visits"
+                blurb="Engraved reclaimed NYC brick, sealed and shipped to your door."
+                buyUrl="https://buy.stripe.com/PLACEHOLDER_HOME_BRICK"
+              />
+              <PresaleTier
+                label="Hull Brick"
+                price="$150"
+                sub="Includes 5 visits · limited to 1,000"
+                blurb="Your name engraved in the floor of The Hull."
+                buyUrl="https://buy.stripe.com/PLACEHOLDER_HULL_BRICK"
+              />
+              <PresaleTier
+                label="Both Bricks"
+                price="$250"
+                sub="10 visits · save $50"
+                blurb="Home Brick shipped. Hull Brick laid in the floor. Both bricks, both stories."
+                buyUrl="https://buy.stripe.com/PLACEHOLDER_BOTH_BRICKS"
+                highlight
+              />
+              <PresaleTier
+                label="Founding Member"
+                price="$500 / year"
+                sub="Limited to 500"
+                blurb="Unlimited visits. Priority booking. Guest passes. Both bricks included."
+                buyUrl="https://buy.stripe.com/PLACEHOLDER_FOUNDING_MEMBER"
+              />
+            </div>
+          </Reveal>
+        </section>
+
+        <Divider />
+
+        {/* ===== PRICING (POST-OPEN) ===== */}
         <section style={{ ...sectionPad, maxWidth: 980 }}>
           <Reveal>
             <h2
@@ -484,7 +679,7 @@ const HomePage: React.FC = () => {
                 lineHeight: 1.2,
               }}
             >
-              Simple pricing. No membership required.
+              What it costs when we open.
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
@@ -546,43 +741,9 @@ const HomePage: React.FC = () => {
                 and stone, and a seat. No purchase required. No questions asked. Just walk in.
               </p>
               <p style={{ fontFamily: SERIF, fontStyle: 'italic', fontSize: 17, opacity: 0.85, lineHeight: 1.5 }}>
-                The people who pay for suites fund free access for everyone else. That's the whole model.
+                The people who pay for suites cover free access for everyone else. That's the whole model.
               </p>
             </div>
-          </Reveal>
-        </section>
-
-        <Divider />
-
-        {/* ===== WHY NO INVESTORS ===== */}
-        <section style={sectionPad}>
-          <Reveal>
-            <h2
-              style={{
-                fontFamily: SERIF,
-                fontWeight: 300,
-                fontSize: 'clamp(28px, 4vw, 40px)',
-                color: DARK,
-                marginBottom: 28,
-                lineHeight: 1.2,
-              }}
-            >
-              Why no investors?
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p style={{ fontFamily: SANS, fontSize: 16, lineHeight: 1.75, color: MUTED, marginBottom: 20 }}>
-              Because the second you take their money, the room stops being yours and starts being theirs. The
-              prices go up. The free space disappears. The mission gets a quarterly review. We've watched it
-              happen to every good idea in this city.
-            </p>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <p style={{ fontFamily: SANS, fontSize: 16, lineHeight: 1.75, color: MUTED }}>
-              So we're funding it the only way that keeps it honest: directly, from the people who actually
-              want it to exist. No board. No exit. No investors quietly redesigning the thing into something
-              else. Just a bathroom that belongs to the city it's in.
-            </p>
           </Reveal>
         </section>
 
