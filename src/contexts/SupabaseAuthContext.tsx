@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         const { data: { session } } = await supabase.auth.getSession();
         setUser(session?.user ?? null);
         if (session?.user) {
-          checkFounderStatus(session.user.id, session.user.email);
+          await checkFounderStatus(session.user.id, session.user.email);
         }
       } catch (err) {
         console.error("Session check failed", err);
@@ -62,7 +62,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setUser(session?.user ?? null);
       if (session?.user) {
-        checkFounderStatus(session.user.id, session.user.email);
+        await checkFounderStatus(session.user.id, session.user.email);
+      } else {
+        setIsFounder(false);
       }
       setLoading(false);
     });
