@@ -117,6 +117,8 @@ const AppContent: React.FC = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/auth/callback" element={<AuthCallbackPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
+          {/* Admin dashboard: back-door access only, not in any nav. Gated by ProtectedRoute + Supabase RLS on admin_config. */}
+          <Route path="/admin" element={<ProtectedRoute requireFounder={true}><AdminFundingDashboard /></ProtectedRoute>} />
 
           {/*
           <Route path="/maslow" element={<MaslowPage />} />
@@ -140,7 +142,6 @@ const AppContent: React.FC = () => {
           <Route path="/product/:id" element={<ProtectedRoute><ProductDetailPage /></ProtectedRoute>} />
           <Route path="/checkout-success" element={<ProtectedRoute><CheckoutSuccessPage /></ProtectedRoute>} />
           <Route path="/locations/:slug" element={<ProtectedRoute><LocationDetail /></ProtectedRoute>} />
-          <Route path="/admin" element={<ProtectedRoute requireFounder={true}><AdminFundingDashboard /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute requireFounder={true}><Dashboard /></ProtectedRoute>} />
 
           <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
