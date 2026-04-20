@@ -16,7 +16,7 @@ import PricingCalculator from '@/components/PricingCalculator';
 import PaymentModal from '@/components/PaymentModal';
 import PaymentOptionsModal from '@/components/PaymentOptionsModal';
 
-type TabType = 'financial' | 'pricing' | 'buildout' | 'stack' | 'stackpricing' | 'journeys';
+type TabType = 'financial' | 'pricing' | 'buildout' | 'command' | 'videos' | 'stack' | 'stackpricing' | 'journeys';
 
 interface Stats {
   totalUsers: number;
@@ -58,7 +58,7 @@ interface BuildOutData {
 }
 
 const AdminFundingDashboard: React.FC = () => {
-  const { user } = useAuth();
+  const { user, isFounder, loading: authLoading } = useAuth();
   const navigate: NavigateFunction = useNavigate();
 
   // Security State
@@ -400,30 +400,17 @@ const AdminFundingDashboard: React.FC = () => {
     }
   };
 
-  // 1. SECURITY CHECK
+  // 1. SECURITY CHECK — trust AuthContext's founder check (DB is_admin OR email allowlist).
   useEffect(() => {
-    const checkAdminStatus = async (): Promise<void> => {
-      if (!user) {
-        navigate('/');
-        return;
-      }
-      const { data, error } = await (supabase
-        .from('profiles') as any)
-        .select('is_admin')
-        .eq('id', user.id)
-        .single();
-
-      if (error || !data || data.is_admin !== true) {
-        console.warn("Unauthorized access attempt blocked.");
-        navigate('/');
-      } else {
-        setIsAdmin(true);
-        setVerifying(false);
-        fetchData();
-      }
-    };
-    checkAdminStatus();
-  }, [user, navigate]);
+    if (authLoading) return;
+    if (!user || !isFounder) {
+      navigate('/');
+      return;
+    }
+    setIsAdmin(true);
+    setVerifying(false);
+    fetchData();
+  }, [user, isFounder, authLoading, navigate]);
 
   // 2. DATA FETCHING
   const fetchData = async (): Promise<void> => {
@@ -540,6 +527,8 @@ const AdminFundingDashboard: React.FC = () => {
     { id: 'financial', label: 'Financial Tools', icon: <TrendingUp className="w-4 h-4" /> },
     { id: 'pricing', label: 'Session Pricing', icon: <Calculator className="w-4 h-4" /> },
     { id: 'buildout', label: 'Build-Out Planner', icon: <Building className="w-4 h-4" /> },
+    { id: 'command', label: 'Revenue Command', icon: <BarChart3 className="w-4 h-4" /> },
+    { id: 'videos', label: 'Video Assets', icon: <Video className="w-4 h-4" /> },
     { id: 'stack', label: 'Stack', icon: <Activity className="w-4 h-4" /> },
     { id: 'stackpricing', label: 'Stack Pricing', icon: <DollarSign className="w-4 h-4" /> },
     { id: 'journeys', label: 'Guest Journeys', icon: <Users className="w-4 h-4" /> },

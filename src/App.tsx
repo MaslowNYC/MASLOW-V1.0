@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavig
 import { Helmet } from 'react-helmet';
 import { Toaster } from '@/components/ui/toaster';
 import { StripeProvider } from '@/contexts/StripeContext';
-import { AuthProvider } from '@/contexts/SupabaseAuthContext';
+import { AuthProvider, useAuth } from '@/contexts/SupabaseAuthContext';
 import { CartProvider } from '@/hooks/useCart';
 import { AccessibilityProvider } from '@/contexts/AccessibilityContext';
 import { Analytics } from "@vercel/analytics/react";
@@ -86,6 +86,10 @@ const AppContent: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { isFounder, loading: authLoading } = useAuth();
+  // While auth is resolving we keep the gated routes mounted so a direct visit
+  // to a founder-only URL doesn't get bounced to "/" before isFounder settles.
+  const showFounderRoutes = authLoading || isFounder;
   // Detect password recovery links and redirect to reset-password page
   useEffect(() => {
     const hash = window.location.hash;
@@ -118,54 +122,58 @@ const AppContent: React.FC = () => {
           <Route path="/auth/callback" element={<AuthCallbackPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-          {/*
-          <Route path="/maslow" element={<MaslowPage />} />
-          <Route path="/model" element={<RevenueModelPage />} />
-          <Route path="/survey" element={<SurveyPage />} />
-          <Route path="/research" element={<ResearchPage />} />
-          <Route path="/foundation" element={<FoundationPage />} />
-          <Route path="/build" element={<BuildPage />} />
-          <Route path="/staff/inventory" element={<ProtectedRoute requireFounder={true}><StaffInventory /></ProtectedRoute>} />
-          <Route path="/buy-credits" element={<ProtectedRoute><BuyCreditsPage /></ProtectedRoute>} />
-
-          <Route path="/events" element={<ProtectedRoute><EventsPage /></ProtectedRoute>} />
-          <Route path="/hull" element={<HullPage />} />
-          <Route path="/suites" element={<SanctuarySuitesPage />} />
-          <Route path="/sanctuary" element={<Navigate to="/hull" replace />} />
-          <Route path="/impact" element={<ImpactPage />} />
-          <Route path="/membership" element={<MembershipPage />} />
-          <Route path="/future" element={<ProtectedRoute><FuturePrototypesPage /></ProtectedRoute>} />
-
-          <Route path="/store" element={<ProtectedRoute><StorePage /></ProtectedRoute>} />
-          <Route path="/product/:id" element={<ProtectedRoute><ProductDetailPage /></ProtectedRoute>} />
-          <Route path="/checkout-success" element={<ProtectedRoute><CheckoutSuccessPage /></ProtectedRoute>} />
-          <Route path="/locations/:slug" element={<ProtectedRoute><LocationDetail /></ProtectedRoute>} />
+          {/* Admin-only routes — live during pre-launch for founder access. */}
           <Route path="/admin" element={<ProtectedRoute requireFounder={true}><AdminFundingDashboard /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute requireFounder={true}><Dashboard /></ProtectedRoute>} />
-
-          <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-          <Route path="/profile/settings" element={<ProtectedRoute><ProfileSettingsPage /></ProtectedRoute>} />
-          <Route path="/mission" element={<MissionPage />} />
-          <Route path="/partnerships" element={<Partnerships />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-          <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-          <Route path="/disclaimer" element={<DisclaimerPage />} />
-          <Route path="/cookie-policy" element={<CookiePolicyPage />} />
-          <Route path="/faq" element={<FAQPage />} />
-          <Route path="/field-notes" element={<FieldNotesIndex />} />
-          <Route path="/field-notes/:slug" element={<FieldNotePost />} />
-          <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} />
-
           <Route path="/admin/field-research" element={<ProtectedRoute requireFounder={true}><FieldResearchPage /></ProtectedRoute>} />
           <Route path="/admin/research-results" element={<ProtectedRoute requireFounder={true}><FieldResearchResultsPage /></ProtectedRoute>} />
 
-          <Route path="/prototypes" element={<ProtectedRoute requireFounder={true}><PrototypesPage /></ProtectedRoute>} />
-          <Route path="/prototypes/system/:id" element={<ProtectedRoute requireFounder={true}><PrototypeSystemDetailPage /></ProtectedRoute>} />
-          <Route path="/prototypes/prototype/:id" element={<ProtectedRoute requireFounder={true}><PrototypeDetailPage /></ProtectedRoute>} />
-          <Route path="/prototypes/shopping-cart" element={<ProtectedRoute requireFounder={true}><PrototypeShoppingCartPage /></ProtectedRoute>} />
-          <Route path="/prototypes/boxes" element={<ProtectedRoute requireFounder={true}><PrototypeBoxViewPage /></ProtectedRoute>} />
-          <Route path="/prototypes/shopping" element={<ProtectedRoute requireFounder={true}><PrototypeShoppingListPage /></ProtectedRoute>} />
-          */}
+          {/* Founder-only preview of the full site during pre-launch. Non-admins never see these — they fall through to the catch-all and land on "/". */}
+          {showFounderRoutes && (
+            <>
+              <Route path="/maslow" element={<MaslowPage />} />
+              <Route path="/model" element={<RevenueModelPage />} />
+              <Route path="/survey" element={<SurveyPage />} />
+              <Route path="/research" element={<ResearchPage />} />
+              <Route path="/foundation" element={<FoundationPage />} />
+              <Route path="/build" element={<BuildPage />} />
+              <Route path="/staff/inventory" element={<ProtectedRoute requireFounder={true}><StaffInventory /></ProtectedRoute>} />
+              <Route path="/buy-credits" element={<ProtectedRoute><BuyCreditsPage /></ProtectedRoute>} />
+
+              <Route path="/events" element={<ProtectedRoute><EventsPage /></ProtectedRoute>} />
+              <Route path="/hull" element={<HullPage />} />
+              <Route path="/suites" element={<SanctuarySuitesPage />} />
+              <Route path="/sanctuary" element={<Navigate to="/hull" replace />} />
+              <Route path="/impact" element={<ImpactPage />} />
+              <Route path="/membership" element={<MembershipPage />} />
+              <Route path="/future" element={<ProtectedRoute><FuturePrototypesPage /></ProtectedRoute>} />
+
+              <Route path="/store" element={<ProtectedRoute><StorePage /></ProtectedRoute>} />
+              <Route path="/product/:id" element={<ProtectedRoute><ProductDetailPage /></ProtectedRoute>} />
+              <Route path="/checkout-success" element={<ProtectedRoute><CheckoutSuccessPage /></ProtectedRoute>} />
+              <Route path="/locations/:slug" element={<ProtectedRoute><LocationDetail /></ProtectedRoute>} />
+
+              <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+              <Route path="/profile/settings" element={<ProtectedRoute><ProfileSettingsPage /></ProtectedRoute>} />
+              <Route path="/mission" element={<MissionPage />} />
+              <Route path="/partnerships" element={<Partnerships />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+              <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+              <Route path="/disclaimer" element={<DisclaimerPage />} />
+              <Route path="/cookie-policy" element={<CookiePolicyPage />} />
+              <Route path="/faq" element={<FAQPage />} />
+              <Route path="/field-notes" element={<FieldNotesIndex />} />
+              <Route path="/field-notes/:slug" element={<FieldNotePost />} />
+              <Route path="/concierge" element={<ProtectedRoute requireFounder={true}><ConciergeDashboard /></ProtectedRoute>} />
+
+              <Route path="/prototypes" element={<ProtectedRoute requireFounder={true}><PrototypesPage /></ProtectedRoute>} />
+              <Route path="/prototypes/system/:id" element={<ProtectedRoute requireFounder={true}><PrototypeSystemDetailPage /></ProtectedRoute>} />
+              <Route path="/prototypes/prototype/:id" element={<ProtectedRoute requireFounder={true}><PrototypeDetailPage /></ProtectedRoute>} />
+              <Route path="/prototypes/shopping-cart" element={<ProtectedRoute requireFounder={true}><PrototypeShoppingCartPage /></ProtectedRoute>} />
+              <Route path="/prototypes/boxes" element={<ProtectedRoute requireFounder={true}><PrototypeBoxViewPage /></ProtectedRoute>} />
+              <Route path="/prototypes/shopping" element={<ProtectedRoute requireFounder={true}><PrototypeShoppingListPage /></ProtectedRoute>} />
+            </>
+          )}
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
