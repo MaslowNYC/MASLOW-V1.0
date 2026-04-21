@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, FormEvent, ChangeEvent, KeyboardEvent } fr
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAuth } from '@/contexts/SupabaseAuthContext';
+import { useAuth, ADMIN_EMAILS } from '@/contexts/SupabaseAuthContext';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useToast } from '@/components/ui/use-toast';
 import { identifyUser } from '@/utils/customerio';
@@ -201,7 +201,7 @@ const LoginPage = () => {
       if (data?.user) {
         const { data: profile } = await (supabase
           .from('profiles') as any)
-          .select('first_name, phone_verified')
+          .select('first_name, phone_verified, is_admin')
           .eq('id', data.user.id)
           .single();
 
@@ -215,7 +215,10 @@ const LoginPage = () => {
 
         identifyUser(data.user, { first_name: profile?.first_name || undefined });
 
-        if (profile && profile.first_name) {
+        const isAdminByEmail = !!(data.user.email && ADMIN_EMAILS.includes(data.user.email.toLowerCase()));
+        if (profile?.is_admin === true || isAdminByEmail) {
+          navigate('/admin');
+        } else if (profile && profile.first_name) {
           navigate('/');
         } else {
           navigate('/profile');

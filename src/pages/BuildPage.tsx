@@ -794,7 +794,7 @@ export default function BuildPage() {
               marginBottom: 6,
             }}
           >
-            Maslow NYC LLC · patrick@maslow.nyc · maslow.nyc
+            Maslow LLC · patrick@maslow.nyc · maslow.nyc
           </p>
           <p style={{ fontSize: 15, fontStyle: "italic", color: C.gray }}>
             Premium is the floor, not an upgrade.

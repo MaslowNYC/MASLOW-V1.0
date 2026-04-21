@@ -3,7 +3,7 @@ import { supabase } from '@/lib/customSupabaseClient';
 import type { User, AuthResponse, AuthError } from '@supabase/supabase-js';
 
 // Admin emails - add new admins here
-const ADMIN_EMAILS = [
+export const ADMIN_EMAILS = [
   'patrick@maslownyc.com',
   'cat@maslownyc.com',
   'dayna@maslownyc.com',
