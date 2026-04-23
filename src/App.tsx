@@ -114,9 +114,8 @@ const AppContent: React.FC = () => {
 
       <main className="flex-grow">
         <Routes>
-          {/* PRE-LAUNCH: only /, /go, and the back-door auth routes are live. Everything else is commented out, not deleted. */}
+          {/* PRE-LAUNCH: only /, and the back-door auth routes are live. Everything else is commented out, not deleted. */}
           <Route path="/" element={<HomePage />} />
-          <Route path="/go" element={<GoPage />} />
           {/* Back-door admin auth routes — not linked from any nav, but functional via direct URL. */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/auth/callback" element={<AuthCallbackPage />} />
@@ -131,6 +130,7 @@ const AppContent: React.FC = () => {
           {/* Founder-only preview of the full site during pre-launch. Non-admins never see these — they fall through to the catch-all and land on "/". */}
           {showFounderRoutes && (
             <>
+              <Route path="/go" element={<GoPage />} />
               <Route path="/maslow" element={<MaslowPage />} />
               <Route path="/model" element={<RevenueModelPage />} />
               <Route path="/survey" element={<SurveyPage />} />
