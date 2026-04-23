@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, FormEvent, CSSProperties, ReactNode } from 'react';
 import { Helmet } from 'react-helmet';
 import { supabase } from '@/lib/customSupabaseClient';
+import { PRESALE_VISIBLE } from '@/config/stripe';
 
 // ===== Brand tokens =====
 const BLUE = '#286BCD';
@@ -333,7 +334,7 @@ const HomePage: React.FC = () => {
         <section style={{ padding: '80px 24px 40px', textAlign: 'center' }}>
           <Reveal>
             <img
-              src="/MASLOW - Round.png"
+              src="/Maslow_Round.png"
               alt="Maslow"
               style={{
                 display: 'block',
@@ -486,6 +487,8 @@ const HomePage: React.FC = () => {
         <Divider />
 
         {/* ===== PRESALE ===== */}
+        {PRESALE_VISIBLE && (
+        <>
         <section id="presale" style={{ ...sectionPad, maxWidth: 1080 }}>
           <Reveal>
             <h2
@@ -606,6 +609,8 @@ const HomePage: React.FC = () => {
         </section>
 
         <Divider />
+        </>
+        )}
 
         {/* ===== PRICING (POST-OPEN) ===== */}
         <section style={{ ...sectionPad, maxWidth: 980 }}>

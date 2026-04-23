@@ -32,7 +32,7 @@ const PowderRoomInterior: React.FC = () => {
           {/* Subtle Maslow Logo Reflection */}
           <div className="absolute inset-0 flex items-center justify-center opacity-10">
             <img
-              src="/MASLOW - Round.png"
+              src="/Maslow_Round.png"
               alt="Reflection"
               className="w-20 h-20 object-contain"
             />
