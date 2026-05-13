@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { researchSupabaseClient as supabase } from '@/lib/researchSupabaseClient';
+import { researchSupabaseClient as supabase } from './researchSupabaseClient';
 
 // Generate promo code client-side
 function generatePromoCode(): string {
