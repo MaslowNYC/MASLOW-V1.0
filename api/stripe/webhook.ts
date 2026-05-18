@@ -18,7 +18,12 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
 
-export const config = { runtime: 'nodejs' };
+export const config = {
+  runtime: 'nodejs',
+  api: {
+    bodyParser: false, // Required for Stripe signature verification
+  },
+};
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-02-24.acacia',
@@ -26,7 +31,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 const supabase = createClient(
   process.env.VITE_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY! // Service key bypasses RLS
+  process.env.SUPABASE_SERVICE_KEY!, // Service key bypasses RLS
+  { db: { schema: 'v2' } }
 );
 
 function generateQRCode(): string {
@@ -34,12 +40,6 @@ function generateQRCode(): string {
   const random = Math.random().toString(36).substring(2, 10);
   return `MASLOW-${timestamp}-${random}`.toUpperCase();
 }
-
-export const config = {
-  api: {
-    bodyParser: false, // Required for Stripe signature verification
-  },
-};
 
 async function getRawBody(req: VercelRequest): Promise<Buffer> {
   const chunks: Buffer[] = [];
