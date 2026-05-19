@@ -6,6 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Check } from 'lucide-react';
 import { supabase } from '@/lib/customSupabaseClient';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
+import { toE164 } from '@/utils/phoneFormat';
+import PhoneInput from '@/components/auth/PhoneInput';
+import OtpInput from '@/components/auth/OtpInput';
 import PresalePurchaseModal from '@/components/PresalePurchaseModal';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -108,88 +111,176 @@ const FAQ_ITEMS = [
 // ── Inline auth form ───────────────────────────────────────
 
 function InlineAuth({ onAuthenticated }: { onAuthenticated: () => void }) {
-  const { signIn, signUp } = useAuth();
+  const { sendPhoneOtp, verifyPhoneOtp } = useAuth();
   const [mode, setMode] = useState<'login' | 'signup'>('signup');
+  const [step, setStep] = useState<'enter' | 'verify'>('enter');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState('');
+  const [codeDigits, setCodeDigits] = useState(['', '', '', '', '', '']);
+  const [pendingPhone, setPendingPhone] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const inputClassName =
+    'w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-[#1C2B3A] focus:outline-none focus:border-[#D4AF6A] focus:ring-1 focus:ring-[#D4AF6A]';
+
+  const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    try {
+      const e164 = toE164(phone);
+      if (!e164) throw new Error('Please enter a valid phone number');
 
-    if (mode === 'signup') {
-      const result = await signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/auth/callback` } });
-      if (result.error) {
-        // Check if user already exists
-        if (result.error.message.toLowerCase().includes('already') ||
-            result.error.message.toLowerCase().includes('registered') ||
-            result.error.message.toLowerCase().includes('exists')) {
-          setError('An account with this email already exists.');
-          setMode('login'); // Auto-switch to login mode
-        } else {
-          setError(result.error.message);
+      if (mode === 'signup') {
+        if (!firstName.trim() || !lastName.trim()) throw new Error('Please enter your first and last name');
+        if (!email.trim()) throw new Error('Please enter your email');
+        const { error: sendError } = await sendPhoneOtp({
+          phone: e164,
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          email: email.trim(),
+        });
+        if (sendError) throw sendError;
+      } else {
+        const { error: sendError } = await sendPhoneOtp({ phone: e164, shouldCreateUser: false });
+        if (sendError) {
+          const msg = sendError.message?.toLowerCase() ?? '';
+          if (msg.includes('not found') || msg.includes('signups not allowed') || msg.includes('user not')) {
+            setError('No account found for this number.');
+            setMode('signup');
+            setLoading(false);
+            return;
+          }
+          throw sendError;
         }
-      } else {
-        onAuthenticated();
       }
-    } else {
-      const result = await signIn({ email, password });
-      if (result.error) {
-        setError(result.error.message);
-      } else {
-        onAuthenticated();
-      }
+
+      setPendingPhone(e164);
+      setStep('verify');
+    } catch (err: any) {
+      setError(err.message || 'Unable to send code');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
+  };
+
+  const handleVerifyCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!pendingPhone) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const { error: verifyError } = await verifyPhoneOtp({ phone: pendingPhone, token: codeDigits.join('') });
+      if (verifyError) throw verifyError;
+      onAuthenticated();
+    } catch (err: any) {
+      setError(err.message || 'Invalid verification code');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResendCode = async () => {
+    if (!pendingPhone) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const { error: sendError } = await sendPhoneOtp({
+        phone: pendingPhone,
+        ...(mode === 'signup'
+          ? {
+              firstName: firstName.trim() || undefined,
+              lastName: lastName.trim() || undefined,
+              email: email.trim() || undefined,
+            }
+          : { shouldCreateUser: false }),
+      });
+      if (sendError) throw sendError;
+      setCodeDigits(['', '', '', '', '', '']);
+    } catch (err: any) {
+      setError(err.message || 'Unable to resend code');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="bg-white rounded-xl p-6 border border-[#E5E0D8] shadow-sm max-w-md mx-auto">
       <h3 className="font-serif text-xl text-[#1C2B3A] text-center mb-1">
-        {mode === 'signup' ? 'Create an account to continue' : 'Sign in to continue'}
+        {step === 'verify'
+          ? 'Enter verification code'
+          : mode === 'signup'
+            ? 'Create an account to continue'
+            : 'Sign in to continue'}
       </h3>
       <p className="text-sm text-[#6B7280] text-center mb-4">
-        We need an account to hold your pass.
+        {step === 'verify'
+          ? 'We sent a 6-digit code to your phone.'
+          : 'We need an account to hold your pass.'}
       </p>
 
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <input
-          type="email"
-          placeholder="Email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-[#1C2B3A] focus:outline-none focus:border-[#D4AF6A] focus:ring-1 focus:ring-[#D4AF6A]"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          required
-          minLength={6}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 text-[#1C2B3A] focus:outline-none focus:border-[#D4AF6A] focus:ring-1 focus:ring-[#D4AF6A]"
-        />
-        {error && <p className="text-sm text-red-600">{error}</p>}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-[#1C2B3A] text-white py-3 rounded-lg font-semibold hover:bg-[#243347] transition-colors disabled:opacity-50"
-        >
-          {loading ? 'Please wait...' : mode === 'signup' ? 'Create Account' : 'Sign In'}
-        </button>
-      </form>
-
-      <p className="text-xs text-center text-[#6B7280] mt-3">
-        {mode === 'signup' ? (
-          <>Already have an account? <button onClick={() => setMode('login')} className="text-[#D4AF6A] underline">Sign in</button></>
-        ) : (
-          <>Need an account? <button onClick={() => setMode('signup')} className="text-[#D4AF6A] underline">Sign up</button></>
-        )}
-      </p>
+      {step === 'enter' ? (
+        <form onSubmit={handleSendCode} className="space-y-3">
+          {mode === 'signup' && (
+            <>
+              <div className="grid grid-cols-2 gap-3">
+                <input type="text" placeholder="First name" required value={firstName} onChange={(e) => setFirstName(e.target.value)} className={inputClassName} />
+                <input type="text" placeholder="Last name" required value={lastName} onChange={(e) => setLastName(e.target.value)} className={inputClassName} />
+              </div>
+              <input type="email" placeholder="Email" required value={email} onChange={(e) => setEmail(e.target.value)} className={inputClassName} />
+            </>
+          )}
+          <PhoneInput
+            value={phone}
+            onChange={setPhone}
+            required
+            containerClassName="flex gap-2"
+            prefixClassName="px-3 flex items-center justify-center border border-gray-200 rounded-lg bg-gray-50 text-sm text-[#1C2B3A]"
+            inputClassName={inputClassName + ' flex-1'}
+          />
+          {error && <p className="text-sm text-red-600">{error}</p>}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-[#1C2B3A] text-white py-3 rounded-lg font-semibold hover:bg-[#243347] transition-colors disabled:opacity-50"
+          >
+            {loading ? 'Please wait...' : 'Send Code'}
+          </button>
+          <p className="text-xs text-center text-[#6B7280] mt-3">
+            {mode === 'signup' ? (
+              <>Already have an account? <button type="button" onClick={() => setMode('login')} className="text-[#D4AF6A] underline">Sign in</button></>
+            ) : (
+              <>Need an account? <button type="button" onClick={() => setMode('signup')} className="text-[#D4AF6A] underline">Sign up</button></>
+            )}
+          </p>
+        </form>
+      ) : (
+        <form onSubmit={handleVerifyCode} className="space-y-3">
+          <OtpInput
+            value={codeDigits}
+            onChange={setCodeDigits}
+            containerClassName="flex gap-2 justify-center"
+            boxClassName="w-11 h-12 text-center text-lg border border-gray-200 rounded-lg bg-gray-50 text-[#1C2B3A] focus:outline-none focus:border-[#D4AF6A] focus:ring-1 focus:ring-[#D4AF6A]"
+          />
+          {error && <p className="text-sm text-red-600 text-center">{error}</p>}
+          <button
+            type="submit"
+            disabled={loading || codeDigits.some((d) => !d)}
+            className="w-full bg-[#1C2B3A] text-white py-3 rounded-lg font-semibold hover:bg-[#243347] transition-colors disabled:opacity-50"
+          >
+            {loading ? 'Verifying...' : 'Verify & Continue'}
+          </button>
+          <p className="text-xs text-center text-[#6B7280]">
+            Didn't get it?{' '}
+            <button type="button" onClick={handleResendCode} disabled={loading} className="text-[#D4AF6A] underline">Resend</button>
+            {' · '}
+            <button type="button" onClick={() => { setStep('enter'); setCodeDigits(['', '', '', '', '', '']); setPendingPhone(null); setError(null); }} className="text-[#D4AF6A] underline">Edit number</button>
+          </p>
+        </form>
+      )}
     </div>
   );
 }

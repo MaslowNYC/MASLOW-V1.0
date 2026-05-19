@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, FormEvent, ChangeEvent, KeyboardEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -7,6 +7,8 @@ import { supabase } from '@/lib/customSupabaseClient';
 import { useToast } from '@/components/ui/use-toast';
 import { identifyUser } from '@/utils/customerio';
 import { toE164 } from '@/utils/phoneFormat';
+import PhoneInput from '@/components/auth/PhoneInput';
+import OtpInput from '@/components/auth/OtpInput';
 import LanguageModal from '@/components/LanguageModal';
 import { useLanguage } from '@/hooks/useLanguage';
 
@@ -55,28 +57,20 @@ const LANGUAGES_FOR_MODAL = [
 
 const LoginPage = () => {
   // Form state
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [countryCode] = useState('+1');
   const [loading, setLoading] = useState(false);
 
-  // Multi-step signup state
-  const [signupStep, setSignupStep] = useState(1);
+  // Two-step state (1 = entry form, 2 = OTP verify). Used by both signin and signup.
+  const [step, setStep] = useState<1 | 2>(1);
   const [codeDigits, setCodeDigits] = useState(['', '', '', '', '', '']);
-  const codeInputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  // E.164 phone captured at step 1, used by step 2 to verify.
+  const [pendingPhone, setPendingPhone] = useState<string | null>(null);
 
   // Member number preview
   const [nextMemberNumber, setNextMemberNumber] = useState<number | null>(null);
-
-  // SMS Verification state
-  const [pendingUserId, setPendingUserId] = useState<string | null>(null);
-
-  // Forgot password state
-  const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [resetEmailSent, setResetEmailSent] = useState(false);
 
   // Tab state
   const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin');
@@ -88,7 +82,7 @@ const LoginPage = () => {
   const { t } = useTranslation();
 
   const [searchParams] = useSearchParams();
-  const { signIn, signUp } = useAuth();
+  const { sendPhoneOtp, verifyPhoneOtp } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -154,81 +148,182 @@ const LoginPage = () => {
     }
   };
 
-  const formatPhoneNumber = (value: string): string => {
-    const cleaned = value.replace(/\D/g, '');
-    if (cleaned.length <= 3) {
-      return cleaned;
-    } else if (cleaned.length <= 6) {
-      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3)}`;
-    } else {
-      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`;
-    }
+  const resetToStep1 = () => {
+    setStep(1);
+    setCodeDigits(['', '', '', '', '', '']);
+    setPendingPhone(null);
   };
 
-  const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatPhoneNumber(e.target.value);
-    setPhone(formatted);
-  };
-
-  // Code digit input handlers
-  const handleDigitChange = (index: number, value: string) => {
-    if (!/^\d*$/.test(value)) return;
-
-    const newDigits = [...codeDigits];
-    newDigits[index] = value.slice(-1);
-    setCodeDigits(newDigits);
-
-    // Auto-advance to next input
-    if (value && index < 5) {
-      codeInputRefs.current[index + 1]?.focus();
-    }
-  };
-
-  const handleDigitKeyDown = (index: number, e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Backspace' && !codeDigits[index] && index > 0) {
-      codeInputRefs.current[index - 1]?.focus();
-    }
-  };
-
-  // Login handler
-  const handleLogin = async (e: FormEvent) => {
+  // Sign In step 1 — send OTP. shouldCreateUser: false → unknown phone returns error.
+  const handleSigninSendCode = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
     try {
-      const { data, error } = await signIn({ email, password });
-      if (error) throw error;
-
-      if (data?.user) {
-        const { data: profile } = await (supabase
-          .from('profiles') as any)
-          .select('first_name, phone_verified, is_admin')
-          .eq('id', data.user.id)
-          .single();
-
-        if (profile && !profile.phone_verified) {
-          // User needs to verify phone - go to step 3
-          setPendingUserId(data.user.id);
-          setActiveTab('signup');
-          setSignupStep(3);
-          return;
-        }
-
-        identifyUser(data.user, { first_name: profile?.first_name || undefined });
-
-        const isAdminByEmail = !!(data.user.email && ADMIN_EMAILS.includes(data.user.email.toLowerCase()));
-        if (profile?.is_admin === true || isAdminByEmail) {
-          navigate('/admin');
-        } else if (profile && profile.first_name) {
-          navigate('/');
-        } else {
-          navigate('/profile');
-        }
+      const e164 = toE164(phone);
+      if (!e164) {
+        throw new Error('Please enter a valid phone number');
       }
+
+      const { error } = await sendPhoneOtp({ phone: e164, shouldCreateUser: false });
+
+      if (error) {
+        const msg = error.message?.toLowerCase() ?? '';
+        if (msg.includes('not found') || msg.includes('signups not allowed') || msg.includes('user not')) {
+          throw new Error('No account found for this number. Tap Sign Up to create one.');
+        }
+        throw error;
+      }
+
+      setPendingPhone(e164);
+      setStep(2);
+      safeToast({
+        title: t('login.codeSent'),
+        description: `${t('login.codeSentDesc')} ${phone}`,
+      });
     } catch (error) {
       safeToast({
         title: t('login.accessDenied'),
-        description: error instanceof Error ? error.message : "Invalid credentials.",
-        variant: "destructive",
+        description: error instanceof Error ? error.message : 'Unable to send code',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Sign Up step 1 — collect name+email+phone, send OTP.
+  const handleSignupSendCode = async (e: FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      if (!firstName.trim() || !lastName.trim()) {
+        throw new Error('Please enter your first and last name');
+      }
+      if (!email.trim()) {
+        throw new Error('Please enter your email');
+      }
+
+      const e164 = toE164(phone);
+      if (!e164) {
+        throw new Error('Please enter a valid phone number');
+      }
+
+      const { error } = await sendPhoneOtp({
+        phone: e164,
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        email: email.trim(),
+      });
+
+      if (error) throw error;
+
+      setPendingPhone(e164);
+      setStep(2);
+      safeToast({
+        title: t('login.codeSent'),
+        description: `${t('login.codeSentDesc')} ${phone}`,
+      });
+    } catch (error) {
+      safeToast({
+        title: t('login.signupFailed'),
+        description: error instanceof Error ? error.message : 'Unknown error',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Step 2 — verify OTP. Shared by signin and signup; verifyOtp establishes the session.
+  const handleVerifyCode = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!pendingPhone) return;
+    setLoading(true);
+
+    try {
+      const token = codeDigits.join('');
+      const { data, error } = await verifyPhoneOtp({ phone: pendingPhone, token });
+      if (error) throw error;
+      if (!data?.user) throw new Error('Verification failed');
+
+      const verifiedUser = data.user;
+
+      // Customer.io best-effort identify (do not block sign-in).
+      const metaFirstName =
+        (verifiedUser.user_metadata as Record<string, unknown> | undefined)?.first_name;
+      try {
+        identifyUser(verifiedUser, {
+          first_name: typeof metaFirstName === 'string' ? metaFirstName : undefined,
+        });
+      } catch (err) {
+        console.error('Customer.io identify failed, continuing:', err);
+      }
+
+      // Resolve admin routing using either auth.users.email or metadata.email.
+      const metaEmail = (verifiedUser.user_metadata as Record<string, unknown> | undefined)?.email;
+      const effectiveEmail =
+        verifiedUser.email ?? (typeof metaEmail === 'string' ? metaEmail : null);
+      const isAdminByEmail = !!(
+        effectiveEmail && ADMIN_EMAILS.includes(effectiveEmail.toLowerCase())
+      );
+
+      const { data: profile } = await (supabase
+        .from('profiles') as any)
+        .select('first_name, is_admin')
+        .eq('id', verifiedUser.id)
+        .single();
+
+      safeToast({
+        title: `${t('login.phoneVerified')} ✓`,
+        description: t('login.signingYouIn'),
+      });
+
+      if (profile?.is_admin === true || isAdminByEmail) {
+        navigate('/admin');
+      } else if (profile && profile.first_name) {
+        navigate('/');
+      } else {
+        navigate('/profile');
+      }
+    } catch (error) {
+      safeToast({
+        title: t('login.verificationFailed'),
+        description: error instanceof Error ? error.message : 'Invalid verification code',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResendCode = async () => {
+    if (!pendingPhone) return;
+    setLoading(true);
+    try {
+      const { error } = await sendPhoneOtp({
+        phone: pendingPhone,
+        ...(activeTab === 'signup'
+          ? {
+              firstName: firstName.trim() || undefined,
+              lastName: lastName.trim() || undefined,
+              email: email.trim() || undefined,
+            }
+          : { shouldCreateUser: false }),
+      });
+      if (error) throw error;
+
+      setCodeDigits(['', '', '', '', '', '']);
+      safeToast({
+        title: t('login.newCodeSent'),
+        description: t('login.checkYourPhone'),
+      });
+    } catch (error) {
+      safeToast({
+        title: t('login.resendFailed'),
+        description: error instanceof Error ? error.message : 'Unknown error',
+        variant: 'destructive',
       });
     } finally {
       setLoading(false);
@@ -277,353 +372,6 @@ const LoginPage = () => {
     }
   };
 
-  // Signup Step 1 - Validate and continue
-  const handleSignupStep1 = async (e: FormEvent) => {
-    e.preventDefault();
-
-    if (!firstName.trim()) {
-      safeToast({
-        title: t('login.signupFailed'),
-        description: 'Please enter your first name',
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!lastName.trim()) {
-      safeToast({
-        title: t('login.signupFailed'),
-        description: 'Please enter your last name',
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!email.trim() || !password.trim()) {
-      safeToast({
-        title: t('login.signupFailed'),
-        description: 'Please enter email and password',
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (password.length < 6) {
-      safeToast({
-        title: t('login.signupFailed'),
-        description: 'Password must be at least 6 characters',
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setSignupStep(2);
-  };
-
-  // Signup Step 2 - Create account and send SMS
-  const handleSignupStep2 = async (e: FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      const cleanedPhone = phone.replace(/\D/g, '');
-
-      if (cleanedPhone.length !== 10) {
-        throw new Error('Please enter a valid 10-digit phone number');
-      }
-
-      console.log('📝 Starting signup...');
-
-      const { data, error } = await signUp({
-        email,
-        password,
-        options: {
-          data: { first_name: firstName, last_name: lastName }
-        }
-      });
-
-      if (error) {
-        if (error.message?.includes('already registered')) {
-          safeToast({
-            title: t('login.accountExists'),
-            description: t('login.accountExistsDesc'),
-            variant: "destructive",
-          });
-          return;
-        }
-        throw error;
-      }
-
-      if (data?.user) {
-        console.log('✅ User created:', data.user.id);
-
-        // Immediately upsert profile with name so founder notification has it
-        const { error: upsertError } = await (supabase
-          .from('profiles') as any)
-          .upsert({
-            id: data.user.id,
-            email: email,
-            first_name: firstName,
-            last_name: lastName,
-          });
-
-        if (upsertError) {
-          console.error('⚠️ Immediate profile upsert failed:', upsertError);
-        } else {
-          console.log('✅ Profile upserted with name immediately');
-        }
-
-        console.log('⏳ Waiting for profile to be created by trigger...');
-
-        // Wait for the profile to be created by the trigger
-        let attempts = 0;
-        let profileExists = false;
-
-        while (attempts < 10 && !profileExists) {
-          await new Promise(resolve => setTimeout(resolve, 500));
-
-          const { data: checkData } = await (supabase
-            .from('profiles') as any)
-            .select('id')
-            .eq('id', data.user.id);
-
-          if (checkData && checkData.length > 0) {
-            profileExists = true;
-            console.log('✅ Profile exists!');
-
-            // Update the profile with signup data (trigger only creates with id/email)
-            const { error: updateError } = await (supabase
-              .from('profiles') as any)
-              .update({
-                first_name: firstName,
-                last_name: lastName,
-                phone: cleanedPhone,
-              })
-              .eq('id', data.user.id);
-
-            if (updateError) {
-              console.error('⚠️ Profile update failed:', updateError);
-            } else {
-              console.log('✅ Profile updated with signup data');
-            }
-
-            try {
-              identifyUser(data.user, { member_number: null, first_name: firstName });
-            } catch (err) {
-              console.error('Customer.io failed, continuing signup:', err);
-            }
-          } else {
-            attempts++;
-            console.log(`⏳ Profile not ready yet... attempt ${attempts}/10`);
-          }
-        }
-
-        // If trigger didn't work, create profile manually
-        if (!profileExists) {
-          console.log('⚠️ Trigger failed, creating profile manually...');
-
-          const { error: insertError } = await (supabase
-            .from('profiles') as any)
-            .insert({
-              id: data.user.id,
-              email: email,
-              first_name: firstName,
-              last_name: lastName,
-              phone: cleanedPhone,
-              phone_verified: false
-            });
-
-          if (insertError) {
-            console.error('❌ Manual profile creation failed:', insertError);
-            throw new Error(`Failed to create profile: ${insertError.message}`);
-          }
-
-          console.log('✅ Profile created manually');
-        }
-
-        // Send SMS verification via Twilio Verify API
-        console.log('📱 Sending verification code via Twilio...');
-        const { sendVerificationSMS } = await import('../utils/sendSMS');
-        const smsResult = await sendVerificationSMS(cleanedPhone);
-
-        if (!smsResult.success) {
-          console.error('⚠️ SMS failed to send:', smsResult.error);
-          throw new Error('Failed to send verification code. Please try again.');
-        }
-
-        console.log('✅ Verification SMS sent via Twilio');
-
-        setPendingUserId(data.user.id);
-        setSignupStep(3);
-
-        safeToast({
-          title: t('login.codeSent'),
-          description: `${t('login.codeSentDesc')} ${phone}`,
-        });
-      }
-    } catch (error) {
-      console.error('❌ Signup error:', error);
-      safeToast({
-        title: t('login.signupFailed'),
-        description: error instanceof Error ? error.message : 'Unknown error',
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Signup Step 3 - Verify code
-  const handleVerifyCode = async (e: FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    const verificationCode = codeDigits.join('');
-
-    try {
-      console.log('🔍 Verifying code with Twilio...');
-
-      const { verifyCode } = await import('../utils/sendSMS');
-      const cleanedPhone = phone.replace(/\D/g, '');
-      const verifyResult = await verifyCode(cleanedPhone, verificationCode);
-
-      if (!verifyResult.success) {
-        throw new Error(verifyResult.error || 'Invalid verification code');
-      }
-
-      console.log('✅ Code verified by Twilio!');
-
-      // Update profile with all signup data and mark phone as verified
-      // Clear verification_code and code_expires_at for security
-      // Store phone in E.164 format (+1XXXXXXXXXX)
-      const e164Phone = toE164(cleanedPhone);
-      const { error: updateError } = await (supabase
-        .from('profiles') as any)
-        .update({
-          first_name: firstName,
-          last_name: lastName,
-          email: email,
-          phone: e164Phone,
-          phone_verified: true,
-          verification_code: null,
-          code_expires_at: null
-        })
-        .eq('id', pendingUserId);
-
-      if (updateError) {
-        console.error('❌ Update error:', updateError);
-        throw updateError;
-      }
-
-      console.log('✅ Profile updated with signup data');
-
-      safeToast({
-        title: `${t('login.phoneVerified')} ✓`,
-        description: t('login.signingYouIn'),
-      });
-
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
-      });
-
-      if (signInError) {
-        throw signInError;
-      }
-
-      navigate('/profile');
-    } catch (error) {
-      console.error('❌ Verification error:', error);
-      safeToast({
-        title: t('login.verificationFailed'),
-        description: error instanceof Error ? error.message : 'Unknown error',
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleResendCode = async () => {
-    setLoading(true);
-    try {
-      console.log('📱 Resending verification code...');
-
-      const { sendVerificationSMS } = await import('../utils/sendSMS');
-      const cleanedPhone = phone.replace(/\D/g, '');
-      const smsResult = await sendVerificationSMS(cleanedPhone);
-
-      if (!smsResult.success) {
-        throw new Error('Failed to resend code. Please try again.');
-      }
-
-      console.log('✅ New code sent via Twilio');
-      setCodeDigits(['', '', '', '', '', '']);
-
-      safeToast({
-        title: t('login.newCodeSent'),
-        description: t('login.checkYourPhone'),
-      });
-    } catch (error) {
-      safeToast({
-        title: t('login.resendFailed'),
-        description: error instanceof Error ? error.message : 'Unknown error',
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleBackStep = () => {
-    if (signupStep === 2) {
-      setSignupStep(1);
-    } else if (signupStep === 3) {
-      setSignupStep(2);
-      setCodeDigits(['', '', '', '', '', '']);
-    }
-  };
-
-  const handleForgotPassword = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!email) {
-      safeToast({
-        title: t('login.forgotPassword'),
-        description: t('login.enterEmailFirst'),
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`,
-      });
-
-      if (error) throw error;
-
-      setResetEmailSent(true);
-      safeToast({
-        title: t('login.resetEmailSent'),
-        description: t('login.checkYourEmail'),
-      });
-    } catch (error) {
-      safeToast({
-        title: t('login.resetFailed'),
-        description: error instanceof Error ? error.message : 'Unknown error',
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleBackToLogin = () => {
-    setShowForgotPassword(false);
-    setResetEmailSent(false);
-  };
-
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -656,97 +404,96 @@ const LoginPage = () => {
   const labelClassName = "block text-[9px] font-normal tracking-[0.24em] uppercase mb-1.5";
   const labelStyle = { color: 'rgba(196,159,88,0.85)', fontFamily: "'Jost', sans-serif" };
 
-  // Forgot Password Screen
-  if (showForgotPassword) {
-    return (
-      <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-4">
-        {/* Background */}
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #fdf8f0 0%, #f5ede0 40%, #ede4d4 100%)' }} />
-        <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 80% 60% at 30% 0%, rgba(255,255,255,0.8) 0%, transparent 60%)' }} />
+  const phonePrefixClassName =
+    'w-[58px] flex-shrink-0 flex items-center justify-center rounded-lg text-[13px] text-[#2a2218]';
+  const phonePrefixStyle = {
+    fontFamily: "'Jost', sans-serif",
+    background: 'rgba(255,255,255,0.72)',
+    border: '1px solid rgba(196,159,88,0.2)',
+  };
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative z-10 w-full max-w-[340px]"
+  const otpBoxClassName =
+    'w-[42px] h-[46px] text-center text-xl font-light rounded-lg transition-all focus:border-[#3C5999] focus:ring-2 focus:ring-[#3C5999]/10 focus:bg-white outline-none';
+  const otpBoxStyle = {
+    fontFamily: "'Jost', sans-serif",
+    color: '#2a2218',
+    background: 'rgba(255,255,255,0.72)',
+    border: '1px solid rgba(196,159,88,0.2)',
+  };
+
+  const renderStepDots = () => (
+    <div className="flex justify-center gap-1.5 mb-4">
+      {[1, 2].map((s) => (
+        <div
+          key={s}
+          className="w-1 h-1 rounded-full transition-all duration-300"
+          style={{
+            background: step === s ? '#3C5999' : 'rgba(196,159,88,0.25)',
+            transform: step === s ? 'scale(1.3)' : 'scale(1)',
+          }}
+        />
+      ))}
+    </div>
+  );
+
+  const renderOtpStep = (onSubmit: (e: FormEvent) => void) => (
+    <motion.form
+      key="otp"
+      variants={stepVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      onSubmit={onSubmit}
+      className="space-y-4"
+    >
+      {renderStepDots()}
+
+      <p className="text-[11px] text-[#b8ad9e] text-center leading-relaxed mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
+        Enter the 6-digit code sent to your phone.
+      </p>
+
+      <OtpInput
+        value={codeDigits}
+        onChange={setCodeDigits}
+        boxClassName={otpBoxClassName}
+        boxStyle={otpBoxStyle}
+      />
+
+      <p className="text-[11px] text-[#b8ad9e] text-center" style={{ fontFamily: "'Jost', sans-serif" }}>
+        Didn't get it?{' '}
+        <button
+          type="button"
+          onClick={handleResendCode}
+          disabled={loading}
+          className="text-[#3C5999] hover:underline"
         >
-          {/* Card */}
-          <div
-            className="rounded-xl p-7"
-            style={{
-              background: 'rgba(255,255,255,0.52)',
-              backdropFilter: 'blur(18px)',
-              WebkitBackdropFilter: 'blur(18px)',
-              border: '1px solid rgba(255,255,255,0.6)',
-              boxShadow: '0 8px 32px rgba(42,34,24,0.08)',
-            }}
-          >
-            <button
-              onClick={handleBackToLogin}
-              className="flex items-center gap-1 text-[#b8ad9e] hover:text-[#3C5999] transition-colors mb-4 text-sm"
-              style={{ fontFamily: "'Jost', sans-serif" }}
-            >
-              ← {t('login.backToLogin')}
-            </button>
+          Resend
+        </button>
+      </p>
 
-            <h2
-              className="text-xl font-normal text-[#2a2218] mb-2 text-center"
-              style={{ fontFamily: "'Cormorant Garamond', serif" }}
-            >
-              {t('login.forgotPassword')}
-            </h2>
+      <button
+        type="submit"
+        disabled={loading || codeDigits.some(d => !d)}
+        className="w-full py-3.5 rounded-lg text-white uppercase tracking-[0.26em] text-[11px] font-normal transition-all hover:opacity-90 hover:-translate-y-0.5 disabled:opacity-50"
+        style={{ fontFamily: "'Jost', sans-serif", background: '#3C5999', boxShadow: '0 4px 16px rgba(40,107,205,0.2)' }}
+      >
+        {loading ? (
+          <motion.span animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
+            ...
+          </motion.span>
+        ) : 'Verify & Enter'}
+      </button>
 
-            <p className="text-sm text-[#9a8e80] text-center mb-6" style={{ fontFamily: "'Jost', sans-serif" }}>
-              {resetEmailSent ? t('login.resetEmailSentDesc') : t('login.forgotPasswordDesc')}
-            </p>
-
-            {resetEmailSent ? (
-              <div className="text-center space-y-4">
-                <div className="w-14 h-14 mx-auto bg-[#3C5999]/10 rounded-full flex items-center justify-center">
-                  <svg className="w-7 h-7 text-[#3C5999]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <button
-                  onClick={handleBackToLogin}
-                  className="w-full py-3 rounded-lg text-white uppercase tracking-[0.26em] text-[11px] font-normal transition-all hover:opacity-90 hover:-translate-y-0.5"
-                  style={{ fontFamily: "'Jost', sans-serif", background: '#3C5999', boxShadow: '0 4px 16px rgba(40,107,205,0.2)' }}
-                >
-                  {t('login.backToLogin')}
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleForgotPassword} className="space-y-4">
-                <div>
-                  <label className={labelClassName} style={labelStyle}>{t('login.email')}</label>
-                  <input
-                    type="email"
-                    placeholder="you@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className={inputClassName}
-                    style={inputStyle}
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full py-3 rounded-lg text-white uppercase tracking-[0.26em] text-[11px] font-normal transition-all hover:opacity-90 hover:-translate-y-0.5 disabled:opacity-50"
-                  style={{ fontFamily: "'Jost', sans-serif", background: '#3C5999', boxShadow: '0 4px 16px rgba(40,107,205,0.2)' }}
-                >
-                  {loading ? (
-                    <motion.span animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
-                      ...
-                    </motion.span>
-                  ) : t('login.sendResetLink')}
-                </button>
-              </form>
-            )}
-          </div>
-        </motion.div>
-      </div>
-    );
-  }
+      <button
+        type="button"
+        onClick={resetToStep1}
+        className="w-full py-3 rounded-lg text-[#b8ad9e] uppercase tracking-[0.2em] text-[11px] font-normal transition-all border hover:border-[#3C5999]/30 hover:text-[#3C5999]"
+        style={{ fontFamily: "'Jost', sans-serif", border: '1px solid rgba(196,159,88,0.22)' }}
+      >
+        ← Back
+      </button>
+    </motion.form>
+  );
 
   // Main Login/Signup Screen
   return (
@@ -874,7 +621,7 @@ const LoginPage = () => {
           {/* Tabs */}
           <div className="relative flex justify-center border-b border-[rgba(196,159,88,0.18)] mb-6">
             <button
-              onClick={() => { setActiveTab('signin'); setSignupStep(1); }}
+              onClick={() => { setActiveTab('signin'); resetToStep1(); }}
               className={`flex-1 text-center pb-3 text-[10.5px] font-normal tracking-[0.24em] uppercase transition-colors ${
                 activeTab === 'signin' ? 'text-[#2a2218]' : 'text-[#b8ad9e]'
               }`}
@@ -883,7 +630,7 @@ const LoginPage = () => {
               {t('login.signIn')}
             </button>
             <button
-              onClick={() => setActiveTab('signup')}
+              onClick={() => { setActiveTab('signup'); resetToStep1(); }}
               className={`flex-1 text-center pb-3 text-[10.5px] font-normal tracking-[0.24em] uppercase transition-colors ${
                 activeTab === 'signup' ? 'text-[#2a2218]' : 'text-[#b8ad9e]'
               }`}
@@ -903,42 +650,37 @@ const LoginPage = () => {
             />
           </div>
 
-          {/* Sign In Form */}
           <AnimatePresence mode="wait">
-            {activeTab === 'signin' && (
+            {/* Sign In step 1 — phone only */}
+            {activeTab === 'signin' && step === 1 && (
               <motion.form
-                key="signin"
+                key="signin-1"
                 variants={stepVariants}
                 initial="hidden"
                 animate="visible"
                 exit="exit"
-                onSubmit={handleLogin}
+                onSubmit={handleSigninSendCode}
                 className="space-y-4"
               >
+                {renderStepDots()}
+
                 <div>
-                  <label className={labelClassName} style={labelStyle}>{t('login.email')}</label>
-                  <input
-                    type="email"
-                    placeholder="you@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className={inputClassName}
-                    style={inputStyle}
+                  <label className={labelClassName} style={labelStyle}>Mobile Number</label>
+                  <PhoneInput
+                    value={phone}
+                    onChange={setPhone}
                     required
+                    prefixClassName={phonePrefixClassName}
+                    prefixStyle={phonePrefixStyle}
+                    inputClassName={inputClassName + ' flex-1'}
+                    inputStyle={inputStyle}
                   />
                 </div>
-                <div>
-                  <label className={labelClassName} style={labelStyle}>{t('login.password')}</label>
-                  <input
-                    type="password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className={inputClassName}
-                    style={inputStyle}
-                    required
-                  />
-                </div>
+
+                <p className="text-[11px] text-[#b8ad9e] text-center leading-relaxed" style={{ fontFamily: "'Jost', sans-serif" }}>
+                  We'll send a one-time code to verify your number.
+                </p>
+
                 <button
                   type="submit"
                   disabled={loading}
@@ -949,18 +691,8 @@ const LoginPage = () => {
                     <motion.span animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
                       ...
                     </motion.span>
-                  ) : 'Enter'}
+                  ) : 'Send Code'}
                 </button>
-                <div className="text-center mt-2">
-                  <button
-                    type="button"
-                    onClick={() => setShowForgotPassword(true)}
-                    className="text-[13px] text-[#b8ad9e] hover:text-[#3C5999] transition-colors"
-                    style={{ fontFamily: "'Jost', sans-serif" }}
-                  >
-                    {t('login.forgotPassword')}?
-                  </button>
-                </div>
 
                 {/* Social Sign-In Divider */}
                 <div className="flex items-center gap-3 mt-5">
@@ -1014,30 +746,18 @@ const LoginPage = () => {
               </motion.form>
             )}
 
-            {/* Sign Up Step 1 */}
-            {activeTab === 'signup' && signupStep === 1 && (
+            {/* Sign Up step 1 — name + email + phone */}
+            {activeTab === 'signup' && step === 1 && (
               <motion.form
                 key="signup-1"
                 variants={stepVariants}
                 initial="hidden"
                 animate="visible"
                 exit="exit"
-                onSubmit={handleSignupStep1}
+                onSubmit={handleSignupSendCode}
                 className="space-y-4"
               >
-                {/* Step dots */}
-                <div className="flex justify-center gap-1.5 mb-4">
-                  {[1, 2, 3].map((step) => (
-                    <div
-                      key={step}
-                      className="w-1 h-1 rounded-full transition-all duration-300"
-                      style={{
-                        background: signupStep === step ? '#3C5999' : 'rgba(196,159,88,0.25)',
-                        transform: signupStep === step ? 'scale(1.3)' : 'scale(1)',
-                      }}
-                    />
-                  ))}
-                </div>
+                {renderStepDots()}
 
                 <div>
                   <label className={labelClassName} style={labelStyle}>{t('login.firstName')}</label>
@@ -1076,15 +796,15 @@ const LoginPage = () => {
                   />
                 </div>
                 <div>
-                  <label className={labelClassName} style={labelStyle}>{t('login.password')}</label>
-                  <input
-                    type="password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className={inputClassName}
-                    style={inputStyle}
+                  <label className={labelClassName} style={labelStyle}>Mobile Number</label>
+                  <PhoneInput
+                    value={phone}
+                    onChange={setPhone}
                     required
+                    prefixClassName={phonePrefixClassName}
+                    prefixStyle={phonePrefixStyle}
+                    inputClassName={inputClassName + ' flex-1'}
+                    inputStyle={inputStyle}
                   />
                 </div>
 
@@ -1097,66 +817,6 @@ const LoginPage = () => {
                     You'll be member <span style={{ color: '#3C5999' }}>#{String(nextMemberNumber).padStart(5, '0')}</span>
                   </div>
                 )}
-
-                <button
-                  type="submit"
-                  className="w-full py-3.5 rounded-lg text-white uppercase tracking-[0.26em] text-[11px] font-normal transition-all hover:opacity-90 hover:-translate-y-0.5"
-                  style={{ fontFamily: "'Jost', sans-serif", background: '#3C5999', boxShadow: '0 4px 16px rgba(40,107,205,0.2)' }}
-                >
-                  Continue
-                </button>
-              </motion.form>
-            )}
-
-            {/* Sign Up Step 2 - Phone */}
-            {activeTab === 'signup' && signupStep === 2 && (
-              <motion.form
-                key="signup-2"
-                variants={stepVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                onSubmit={handleSignupStep2}
-                className="space-y-4"
-              >
-                {/* Step dots */}
-                <div className="flex justify-center gap-1.5 mb-4">
-                  {[1, 2, 3].map((step) => (
-                    <div
-                      key={step}
-                      className="w-1 h-1 rounded-full transition-all duration-300"
-                      style={{
-                        background: signupStep === step ? '#3C5999' : 'rgba(196,159,88,0.25)',
-                        transform: signupStep === step ? 'scale(1.3)' : 'scale(1)',
-                      }}
-                    />
-                  ))}
-                </div>
-
-                <div>
-                  <label className={labelClassName} style={labelStyle}>Mobile Number</label>
-                  <div className="flex gap-2">
-                    <div
-                      className="w-[58px] flex-shrink-0 flex items-center justify-center rounded-lg text-[13px] text-[#2a2218]"
-                      style={{
-                        fontFamily: "'Jost', sans-serif",
-                        background: 'rgba(255,255,255,0.72)',
-                        border: '1px solid rgba(196,159,88,0.2)',
-                      }}
-                    >
-                      🇺🇸 {countryCode}
-                    </div>
-                    <input
-                      type="tel"
-                      placeholder="(212) 555-0100"
-                      value={phone}
-                      onChange={handlePhoneChange}
-                      className={inputClassName + " flex-1"}
-                      style={inputStyle}
-                      required
-                    />
-                  </div>
-                </div>
 
                 <p className="text-[11px] text-[#b8ad9e] text-center leading-relaxed" style={{ fontFamily: "'Jost', sans-serif" }}>
                   We'll send a one-time code to verify your number.
@@ -1174,106 +834,11 @@ const LoginPage = () => {
                     </motion.span>
                   ) : 'Send Code'}
                 </button>
-
-                <button
-                  type="button"
-                  onClick={handleBackStep}
-                  className="w-full py-3 rounded-lg text-[#b8ad9e] uppercase tracking-[0.2em] text-[11px] font-normal transition-all border hover:border-[#3C5999]/30 hover:text-[#3C5999]"
-                  style={{ fontFamily: "'Jost', sans-serif", border: '1px solid rgba(196,159,88,0.22)' }}
-                >
-                  ← Back
-                </button>
               </motion.form>
             )}
 
-            {/* Sign Up Step 3 - Verify Code */}
-            {activeTab === 'signup' && signupStep === 3 && (
-              <motion.form
-                key="signup-3"
-                variants={stepVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                onSubmit={handleVerifyCode}
-                className="space-y-4"
-              >
-                {/* Step dots */}
-                <div className="flex justify-center gap-1.5 mb-4">
-                  {[1, 2, 3].map((step) => (
-                    <div
-                      key={step}
-                      className="w-1 h-1 rounded-full transition-all duration-300"
-                      style={{
-                        background: signupStep === step ? '#3C5999' : 'rgba(196,159,88,0.25)',
-                        transform: signupStep === step ? 'scale(1.3)' : 'scale(1)',
-                      }}
-                    />
-                  ))}
-                </div>
-
-                <p className="text-[11px] text-[#b8ad9e] text-center leading-relaxed mb-2" style={{ fontFamily: "'Jost', sans-serif" }}>
-                  Enter the 6-digit code sent to your phone.
-                </p>
-
-                {/* 6 digit code boxes */}
-                <div className="flex gap-2 justify-center">
-                  {codeDigits.map((digit, index) => (
-                    <input
-                      key={index}
-                      ref={(el) => { codeInputRefs.current[index] = el; }}
-                      type="text"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                      maxLength={1}
-                      value={digit}
-                      onChange={(e) => handleDigitChange(index, e.target.value)}
-                      onKeyDown={(e) => handleDigitKeyDown(index, e)}
-                      className="w-[42px] h-[46px] text-center text-xl font-light rounded-lg transition-all focus:border-[#3C5999] focus:ring-2 focus:ring-[#3C5999]/10 focus:bg-white outline-none"
-                      style={{
-                        fontFamily: "'Jost', sans-serif",
-                        color: '#2a2218',
-                        background: 'rgba(255,255,255,0.72)',
-                        border: '1px solid rgba(196,159,88,0.2)',
-                      }}
-                    />
-                  ))}
-                </div>
-
-                <p className="text-[11px] text-[#b8ad9e] text-center" style={{ fontFamily: "'Jost', sans-serif" }}>
-                  Didn't get it?{' '}
-                  <button
-                    type="button"
-                    onClick={handleResendCode}
-                    disabled={loading}
-                    className="text-[#3C5999] hover:underline"
-                  >
-                    Resend
-                  </button>
-                </p>
-
-                <button
-                  type="submit"
-                  disabled={loading || codeDigits.some(d => !d)}
-                  className="w-full py-3.5 rounded-lg text-white uppercase tracking-[0.26em] text-[11px] font-normal transition-all hover:opacity-90 hover:-translate-y-0.5 disabled:opacity-50"
-                  style={{ fontFamily: "'Jost', sans-serif", background: '#3C5999', boxShadow: '0 4px 16px rgba(40,107,205,0.2)' }}
-                >
-                  {loading ? (
-                    <motion.span animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
-                      ...
-                    </motion.span>
-                  ) : 'Verify & Enter'}
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleBackStep}
-                  className="w-full py-3 rounded-lg text-[#b8ad9e] uppercase tracking-[0.2em] text-[11px] font-normal transition-all border hover:border-[#3C5999]/30 hover:text-[#3C5999]"
-                  style={{ fontFamily: "'Jost', sans-serif", border: '1px solid rgba(196,159,88,0.22)' }}
-                >
-                  ← Back
-                </button>
-              </motion.form>
-            )}
+            {/* Step 2 — OTP verification (shared by signin and signup) */}
+            {step === 2 && renderOtpStep(handleVerifyCode)}
           </AnimatePresence>
         </motion.div>
 
