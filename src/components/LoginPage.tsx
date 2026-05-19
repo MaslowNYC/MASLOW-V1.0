@@ -121,7 +121,7 @@ const LoginPage = () => {
     const fetchNextNumber = async () => {
       try {
         // Use RPC function to bypass RLS and get next member number
-        const { data, error } = await supabase.rpc('get_next_member_number');
+        const { data, error } = await supabase.schema('public').rpc('get_next_member_number');
 
         if (error) {
           console.error('Error fetching next member number:', error);
