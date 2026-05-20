@@ -21,7 +21,8 @@ const AuthCallbackPage = () => {
 
         if (session) {
           // Check if profile exists and has required fields
-          const { data: profile } = await (supabase
+          const { data: profile } = await ((supabase as any)
+            .schema('v2')
             .from('profiles') as any)
             .select('first_name, phone_verified')
             .eq('id', session.user.id)
@@ -37,7 +38,8 @@ const AuthCallbackPage = () => {
               const firstName = nameParts[0];
               const lastName = nameParts.slice(1).join(' ') || '';
 
-              await (supabase
+              await ((supabase as any)
+                .schema('v2')
                 .from('profiles') as any)
                 .update({
                   first_name: firstName,

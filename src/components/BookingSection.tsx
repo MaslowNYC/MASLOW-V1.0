@@ -162,7 +162,7 @@ const BookingSection = ({ selectedSession }: BookingSectionProps) => {
       if (stripeError) throw stripeError;
 
       if (paymentIntent?.status === 'succeeded') {
-        const { error: bookingError } = await (supabase.from('bookings') as any).insert({
+        const { error: bookingError } = await (supabase.schema('public').from('bookings') as any).insert({
           user_id: user.id,
           location_id: 1,
           session_type_id: selectedSession.id,

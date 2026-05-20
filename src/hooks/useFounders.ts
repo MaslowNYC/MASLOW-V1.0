@@ -30,6 +30,7 @@ export const useFounders = (): UseFoundersResult => {
     const fetchFounders = async (): Promise<void> => {
       try {
         const { data, error } = await supabase
+          .schema('public')
           .from('memberships')
           .select('member_name, member_location, tier_name, created_at')
           .or('status.eq.active,status.eq.completed')

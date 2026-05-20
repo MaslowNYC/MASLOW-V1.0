@@ -29,7 +29,8 @@ export default function BuyCreditsPage() {
       setUserEmail(user.email || null);
 
       // Get current credits
-      const { data: profile } = await (supabase
+      const { data: profile } = await ((supabase as any)
+        .schema('v2')
         .from('profiles') as any)
         .select('credits')
         .eq('id', user.id)
@@ -43,6 +44,7 @@ export default function BuyCreditsPage() {
 
   const fetchPackages = async () => {
     const { data, error } = await (supabase
+      .schema('public')
       .from('credit_packages') as any)
       .select('id, name, credits, price_cents, is_active')
       .eq('is_active', true)

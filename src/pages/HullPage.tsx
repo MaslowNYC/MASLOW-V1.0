@@ -58,6 +58,7 @@ const HullPage: React.FC = () => {
     }
     try {
       const { data, error } = await supabase
+        .schema('public')
         .from('queue')
         .select('*')
         .eq('user_id', user.id)

@@ -32,6 +32,7 @@ const SamplePicker = ({ sessionType, onConfirm }: SamplePickerProps) => {
     const fetchSamples = async () => {
       try {
         const { data, error } = await (supabase
+          .schema('public')
           .from('samples') as any)
           .select('*')
           .eq('is_available', true)

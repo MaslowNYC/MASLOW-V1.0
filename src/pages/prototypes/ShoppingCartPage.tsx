@@ -36,6 +36,7 @@ const ShoppingCartPage: React.FC = () => {
     try {
       // Get all components with status "need"
       const { data: componentsData, error: componentsError } = await (supabase
+        .schema('public')
         .from('prototype_components') as any)
         .select(`
           id,

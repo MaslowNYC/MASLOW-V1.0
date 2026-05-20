@@ -65,6 +65,7 @@ export default function ConciergeModal({ userId, onClose }: ConciergeModalProps)
   const loadChatHistory = async () => {
     try {
       const { data } = await (supabase
+        .schema('public')
         .from('concierge_chats') as any)
         .select('messages')
         .eq('user_id', userId)
@@ -93,6 +94,7 @@ export default function ConciergeModal({ userId, onClose }: ConciergeModalProps)
   const checkRateLimits = async () => {
     try {
       const { data } = await (supabase
+        .schema('public')
         .from('concierge_usage') as any)
         .select('*')
         .eq('user_id', userId)
@@ -134,6 +136,7 @@ export default function ConciergeModal({ userId, onClose }: ConciergeModalProps)
 
       // Upsert usage record
       await (supabase
+        .schema('public')
         .from('concierge_usage') as any)
         .upsert({
           user_id: userId,
@@ -154,6 +157,7 @@ export default function ConciergeModal({ userId, onClose }: ConciergeModalProps)
   const saveChatHistory = async (newMessages: Message[]) => {
     try {
       await (supabase
+        .schema('public')
         .from('concierge_chats') as any)
         .upsert({
           user_id: userId,

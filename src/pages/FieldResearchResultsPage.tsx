@@ -123,6 +123,7 @@ const FieldResearchResultsPage = () => {
     setLoading(true);
     try {
       const { data, error } = await supabase
+        .schema('public')
         .from('field_research_responses')
         .select('*')
         .eq('is_complete', true)

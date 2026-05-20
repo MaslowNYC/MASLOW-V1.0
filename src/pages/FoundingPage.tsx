@@ -337,6 +337,7 @@ export default function FoundationPage() {
   useEffect(() => {
     const fetchCount = async () => {
       const { count } = await (supabase
+        .schema('public')
         .from('presale_purchases') as any)
         .select('*', { count: 'exact', head: true });
       setPassCount(count || 0);

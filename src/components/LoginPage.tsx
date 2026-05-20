@@ -269,7 +269,8 @@ const LoginPage = () => {
         effectiveEmail && ADMIN_EMAILS.includes(effectiveEmail.toLowerCase())
       );
 
-      const { data: profile } = await (supabase
+      const { data: profile } = await ((supabase as any)
+        .schema('v2')
         .from('profiles') as any)
         .select('first_name, is_admin')
         .eq('id', verifiedUser.id)

@@ -26,6 +26,7 @@ const SessionsSection = ({ onSelect, selectedId }: SessionsSectionProps) => {
     const fetchSessions = async () => {
       try {
         const { data, error } = await (supabase
+          .schema('public')
           .from('session_types') as any)
           .select('id, name, duration_minutes, price_cents, passes_included, sample_limit, is_active, sort_order')
           .eq('is_active', true)

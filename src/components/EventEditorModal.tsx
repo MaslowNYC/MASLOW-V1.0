@@ -143,6 +143,7 @@ const EventEditorModal: React.FC<EventEditorModalProps> = ({
       if (event) {
         // Update existing event
         const { error } = await (supabase
+          .schema('public')
           .from('events') as any)
           .update(eventData)
           .eq('id', event.id);
@@ -153,6 +154,7 @@ const EventEditorModal: React.FC<EventEditorModalProps> = ({
       } else {
         // Create new event
         const { error } = await (supabase
+          .schema('public')
           .from('events') as any)
           .insert({ ...eventData, current_attendees: 0 });
 
@@ -179,12 +181,14 @@ const EventEditorModal: React.FC<EventEditorModalProps> = ({
     try {
       // First delete all RSVPs for this event
       await (supabase
+        .schema('public')
         .from('event_attendees') as any)
         .delete()
         .eq('event_id', event.id);
 
       // Then delete the event
       const { error } = await (supabase
+        .schema('public')
         .from('events') as any)
         .delete()
         .eq('id', event.id);

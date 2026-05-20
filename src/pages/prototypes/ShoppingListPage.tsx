@@ -98,6 +98,7 @@ const ShoppingListPage: React.FC = () => {
   async function loadShoppingList() {
     try {
       const { data, error } = await (supabase
+        .schema('public')
         .from('shopping_list_aggregated') as any)
         .select('*')
         .order('total_cost', { ascending: false });
@@ -200,6 +201,7 @@ const ShoppingListPage: React.FC = () => {
   async function updateItemStatus(componentName: string, vendor: string, newStatus: string) {
     // Update all components with this name and vendor
     const { error } = await (supabase
+      .schema('public')
       .from('prototype_components') as any)
       .update({ status: newStatus })
       .eq('name', componentName)

@@ -23,7 +23,8 @@ export interface UserContact {
  * // Returns: [{ email: 'user@example.com', first_name: 'John' }, ...]
  */
 export const getUsersInterestedIn = async (category: EventCategory): Promise<UserContact[]> => {
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
+    .schema('v2')
     .from('profiles')
     .select('email, first_name')
     .contains('interested_categories', [category]);
@@ -44,7 +45,8 @@ export const getUsersInterestedIn = async (category: EventCategory): Promise<Use
  * const users = await getUsersInterestedInAny(['wellness', 'learning']);
  */
 export const getUsersInterestedInAny = async (categories: EventCategory[]): Promise<UserContact[]> => {
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
+    .schema('v2')
     .from('profiles')
     .select('email, first_name')
     .overlaps('interested_categories', categories);
@@ -66,6 +68,7 @@ export const getUsersInterestedInAny = async (categories: EventCategory[]): Prom
  */
 export const getUsersWhoAttendedCategory = async (category: EventCategory): Promise<UserContact[]> => {
   const { data, error } = await supabase
+    .schema('public')
     .from('event_attendees')
     .select(`
       profiles:user_id (
@@ -106,6 +109,7 @@ export const getUsersWhoAttendedCategory = async (category: EventCategory): Prom
  */
 export const getEventAttendees = async (eventId: string): Promise<UserContact[]> => {
   const { data, error } = await supabase
+    .schema('public')
     .from('event_attendees')
     .select(`
       profiles:user_id (
@@ -130,7 +134,8 @@ export const getEventAttendees = async (eventId: string): Promise<UserContact[]>
  * Get all users with any event interests set (for general event announcements)
  */
 export const getUsersWithEventInterests = async (): Promise<UserContact[]> => {
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
+    .schema('v2')
     .from('profiles')
     .select('email, first_name')
     .not('interested_categories', 'is', null)

@@ -64,7 +64,8 @@ const CreditsPurchaseModal: React.FC<CreditsPurchaseModalProps> = ({
 
     try {
       // Get current credits
-      const { data: profile } = await (supabase
+      const { data: profile } = await ((supabase as any)
+        .schema('v2')
         .from('profiles') as any)
         .select('credits')
         .eq('id', user.id)
@@ -74,7 +75,8 @@ const CreditsPurchaseModal: React.FC<CreditsPurchaseModalProps> = ({
       const newCredits = currentCredits + credits;
 
       // Update credits
-      const { error } = await (supabase
+      const { error } = await ((supabase as any)
+        .schema('v2')
         .from('profiles') as any)
         .update({ credits: newCredits })
         .eq('id', user.id);
@@ -86,6 +88,7 @@ const CreditsPurchaseModal: React.FC<CreditsPurchaseModalProps> = ({
 
       // Record transaction
       await (supabase
+        .schema('public')
         .from('credit_transactions') as any)
         .insert({
           user_id: user.id,

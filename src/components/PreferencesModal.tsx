@@ -92,7 +92,8 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({
 
     const loadSettings = async () => {
       try {
-        const { data, error } = await (supabase
+        const { data, error } = await ((supabase as any)
+          .schema('v2')
           .from('profiles') as any)
           .select('accessibility_settings')
           .eq('id', user.id)
@@ -137,7 +138,8 @@ const PreferencesModal: React.FC<PreferencesModalProps> = ({
         ...settings,
         skip_preferences_modal: dontShowAgain,
       };
-      await (supabase
+      await ((supabase as any)
+        .schema('v2')
         .from('profiles') as any)
         .update({ accessibility_settings: updatedSettings })
         .eq('id', user.id);

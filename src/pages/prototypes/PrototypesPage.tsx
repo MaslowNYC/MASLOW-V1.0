@@ -29,6 +29,7 @@ const PrototypesPage: React.FC = () => {
     try {
       // Get systems
       const { data: systemsData, error: systemsError } = await (supabase
+        .schema('public')
         .from('prototype_systems') as any)
         .select('*')
         .order('sort_order');
@@ -37,6 +38,7 @@ const PrototypesPage: React.FC = () => {
 
       // Get prototype counts and progress for each system
       const { data: prototypesData } = await (supabase
+        .schema('public')
         .from('prototypes') as any)
         .select('system_id, progress');
 

@@ -57,6 +57,7 @@ const PrototypeDetailPage: React.FC = () => {
     try {
       // Get prototype
       const { data: prototypeData, error: prototypeError } = await (supabase
+        .schema('public')
         .from('prototypes') as any)
         .select('*')
         .eq('id', prototypeId)
@@ -67,6 +68,7 @@ const PrototypeDetailPage: React.FC = () => {
 
       // Get components
       const { data: componentsData, error: componentsError } = await (supabase
+        .schema('public')
         .from('prototype_components') as any)
         .select('*')
         .eq('prototype_id', prototypeId)
@@ -77,6 +79,7 @@ const PrototypeDetailPage: React.FC = () => {
 
       // Get build steps
       const { data: stepsData, error: stepsError } = await (supabase
+        .schema('public')
         .from('build_steps') as any)
         .select('*')
         .eq('prototype_id', prototypeId)
@@ -93,6 +96,7 @@ const PrototypeDetailPage: React.FC = () => {
 
   async function updateComponentStatus(componentId: string, newStatus: string) {
     const { error } = await (supabase
+      .schema('public')
       .from('prototype_components') as any)
       .update({ status: newStatus })
       .eq('id', componentId);

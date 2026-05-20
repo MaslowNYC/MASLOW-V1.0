@@ -9,7 +9,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 const customSupabaseClient: SupabaseClient<Database> = createClient<Database>(supabaseUrl, supabaseAnonKey, {
-  db: { schema: 'public' },
+  db: { schema: 'v2' },
 });
 
 export default customSupabaseClient;

@@ -91,8 +91,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const isAdminByEmail = !!(effectiveEmail && ADMIN_EMAILS.includes(effectiveEmail.toLowerCase()));
 
     try {
-      const { data, error } = await (supabase
-        .from('profiles') as any)
+      const { data, error } = await ((supabase as any)
+        .schema('v2').from('profiles') as any)
         .select('is_admin')
         .eq('id', userId)
         .single();

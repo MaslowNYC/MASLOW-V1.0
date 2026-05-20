@@ -65,6 +65,7 @@ export default function BuildPage() {
   const logIntent = (tierId: string) => {
     // Fire and forget — don't block the UI
     (supabase
+      .schema('public')
       .from("presale_intent_clicks") as any)
       .insert({ tier_id: tierId })
       .then(({ error }) => {
@@ -101,7 +102,8 @@ export default function BuildPage() {
     setSubmitting(true);
     setEmailError("");
 
-    const { error } = await (supabase
+    const { error } = await ((supabase as any)
+      .schema('v2')
       .from("waitlist") as any)
       .insert({ email: email.toLowerCase().trim() });
 

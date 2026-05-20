@@ -192,7 +192,7 @@ const FieldResearchPage = () => {
   useEffect(() => {
     const fetchCount = async () => {
       const { count } = await supabase
-        .from('field_research_responses')
+        .schema('public').from('field_research_responses')
         .select('*', { count: 'exact', head: true })
         .eq('is_complete', true);
       setResponseCount(count || 0);
@@ -216,12 +216,12 @@ const FieldResearchPage = () => {
     try {
       if (data.id) {
         await supabase
-          .from('field_research_responses')
+          .schema('public').from('field_research_responses')
           .update({ ...data, draft_data: data })
           .eq('id', data.id);
       } else {
         const { data: newData } = await supabase
-          .from('field_research_responses')
+          .schema('public').from('field_research_responses')
           .insert({
             ...data,
             interviewer_id: user.id,
@@ -255,10 +255,10 @@ const FieldResearchPage = () => {
 
       let responseId = data.id;
       if (data.id) {
-        await supabase.from('field_research_responses').update(submitData).eq('id', data.id);
+        await supabase.schema('public').from('field_research_responses').update(submitData).eq('id', data.id);
       } else {
         const { data: insertedData } = await supabase
-          .from('field_research_responses')
+          .schema('public').from('field_research_responses')
           .insert(submitData)
           .select('id')
           .single();

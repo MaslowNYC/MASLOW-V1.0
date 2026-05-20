@@ -222,6 +222,7 @@ const AdminFundingDashboard: React.FC = () => {
   const loadBuildOutData = async (): Promise<void> => {
     try {
       const { data, error } = await (supabase
+        .schema('public')
         .from('admin_config') as any)
         .select('config_value')
         .eq('config_key', 'buildout_planner')
@@ -245,6 +246,7 @@ const AdminFundingDashboard: React.FC = () => {
     setSavingBuildOut(true);
     try {
       const { error } = await (supabase
+        .schema('public')
         .from('admin_config') as any)
         .upsert({
           config_key: 'buildout_planner',
@@ -416,7 +418,8 @@ const AdminFundingDashboard: React.FC = () => {
   const fetchData = async (): Promise<void> => {
     try {
       // A. Fetch Users
-      const { data: profiles } = await (supabase
+      const { data: profiles } = await ((supabase as any)
+        .schema('v2')
         .from('profiles') as any)
         .select('*')
         .order('created_at', { ascending: false });
@@ -440,6 +443,7 @@ const AdminFundingDashboard: React.FC = () => {
 
       // B. Fetch Operational Logs (The Efficiency Leak)
       const { data: logs } = await (supabase
+        .schema('public')
         .from('usage_logs') as any)
         .select('turnaround_time, created_at')
         .order('created_at', { ascending: false })

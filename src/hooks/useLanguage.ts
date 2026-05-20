@@ -36,7 +36,8 @@ export function useLanguage(userId?: string): UseLanguageReturn {
       if (!userId) return;
 
       try {
-        const { data, error } = await (supabase
+        const { data, error } = await ((supabase as any)
+          .schema('v2')
           .from('profiles') as any)
           .select('preferred_language')
           .eq('id', userId)
@@ -72,7 +73,8 @@ export function useLanguage(userId?: string): UseLanguageReturn {
     // If user is logged in, save to profile
     if (userId) {
       try {
-        const { error } = await (supabase
+        const { error } = await ((supabase as any)
+          .schema('v2')
           .from('profiles') as any)
           .update({ preferred_language: code })
           .eq('id', userId);

@@ -21,7 +21,8 @@ const ConciergeDashboard: React.FC = () => {
   // Fetch all profiles (RLS MUST ALLOW THIS FOR ADMINS)
   useEffect(() => {
     const fetchProfiles = async (): Promise<void> => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
+        .schema('v2')
         .from('profiles')
         .select('*')
         .order('created_at', { ascending: false });

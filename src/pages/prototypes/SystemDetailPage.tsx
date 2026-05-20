@@ -44,6 +44,7 @@ const SystemDetailPage: React.FC = () => {
     try {
       // Get system details
       const { data: systemData, error: systemError } = await (supabase
+        .schema('public')
         .from('prototype_systems') as any)
         .select('*')
         .eq('id', systemId)
@@ -54,6 +55,7 @@ const SystemDetailPage: React.FC = () => {
 
       // Get prototypes in this system
       const { data: prototypesData, error: prototypesError } = await (supabase
+        .schema('public')
         .from('prototypes') as any)
         .select('*')
         .eq('system_id', systemId)
@@ -63,6 +65,7 @@ const SystemDetailPage: React.FC = () => {
 
       // Get component counts for each prototype
       const { data: componentsData } = await (supabase
+        .schema('public')
         .from('prototype_components') as any)
         .select('prototype_id, status');
 

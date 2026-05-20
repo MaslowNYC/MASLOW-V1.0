@@ -255,7 +255,7 @@ const HomePage: React.FC = () => {
     setSubmitting(true);
     setSubmitError(false);
 
-    const { error } = await (supabase.from('waitlist') as any).insert({
+    const { error } = await ((supabase as any).schema('v2').from('waitlist') as any).insert({
       email: email.trim().toLowerCase(),
       source: 'homepage',
     });

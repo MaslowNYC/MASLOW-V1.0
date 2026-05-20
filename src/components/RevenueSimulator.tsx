@@ -185,6 +185,7 @@ const RevenueSimulator: React.FC = () => {
       setLoading(true);
       try {
         const { data, error } = await (supabase
+          .schema('public')
           .from('financial_projections') as any)
           .select('*')
           .eq('user_id', user.id)
@@ -250,6 +251,7 @@ const RevenueSimulator: React.FC = () => {
     setSaving(true);
     try {
       const { error } = await (supabase
+        .schema('public')
         .from('financial_projections') as any)
         .upsert({
           user_id: user.id,

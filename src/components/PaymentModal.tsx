@@ -70,6 +70,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, tierName, 
     try {
       // Direct insertion to memberships table using authenticated user
       const { error } = await (supabase
+        .schema('public')
         .from('memberships') as any)
         .insert({
           user_id: user.id,
@@ -88,12 +89,14 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, tierName, 
       // Also update the funding goal
       // In a real app, this should be a trigger or atomic transaction on the server
       const { data: currentGoal } = await (supabase
+        .schema('public')
         .from('funding_goal') as any)
         .select('current_total')
         .single();
 
       if (currentGoal) {
         await (supabase
+          .schema('public')
           .from('funding_goal') as any)
           .update({ current_total: Number(currentGoal.current_total) + Number(price) })
           .eq('goal_amount', 1000000); // Ideally use ID, but simplifying here

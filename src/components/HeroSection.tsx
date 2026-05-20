@@ -239,8 +239,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ variant = 'default', children
     if (isSanctuary) return;
     const fetchCount = async (): Promise<void> => {
       try {
-        const { count: userCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
-        const { count: betaCount } = await supabase.from('beta_signups').select('*', { count: 'exact', head: true });
+        const { count: userCount } = await (supabase as any).schema('v2').from('profiles').select('*', { count: 'exact', head: true });
+        const { count: betaCount } = await supabase.schema('public').from('beta_signups').select('*', { count: 'exact', head: true });
         setMemberCount(FOUNDER_SEED_COUNT + (userCount || 0) + (betaCount || 0));
       } catch (err) { console.error(err); }
     };

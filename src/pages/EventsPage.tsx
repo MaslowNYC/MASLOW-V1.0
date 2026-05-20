@@ -94,7 +94,8 @@ const formatEventDate = (dateString: string): { date: string; time: string; full
 
 // Email segmentation utility (for future use)
 export const getUsersInterestedIn = async (category: string) => {
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
+    .schema('v2')
     .from('profiles')
     .select('email, first_name')
     .contains('interested_categories', [category]);
@@ -130,6 +131,7 @@ const EventsPage: React.FC = () => {
   const fetchEvents = useCallback(async () => {
     try {
       let query = supabase
+        .schema('public')
         .from('events')
         .select('*')
         .in('status', ['upcoming', 'happening_now'])
@@ -159,6 +161,7 @@ const EventsPage: React.FC = () => {
 
     try {
       const { data, error } = await supabase
+        .schema('public')
         .from('event_attendees')
         .select('event_id')
         .eq('user_id', user.id)
@@ -237,6 +240,7 @@ const EventsPage: React.FC = () => {
       if (isAlreadyRSVPd) {
         // Cancel RSVP
         const { error } = await supabase
+          .schema('public')
           .from('event_attendees')
           .delete()
           .eq('event_id', event.id)
@@ -276,6 +280,7 @@ const EventsPage: React.FC = () => {
 
         // Create RSVP
         const { error } = await (supabase
+          .schema('public')
           .from('event_attendees') as any)
           .insert({
             event_id: event.id,

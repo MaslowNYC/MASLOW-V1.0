@@ -44,6 +44,7 @@ const BoxViewPage: React.FC = () => {
   async function loadBoxes() {
     try {
       const { data, error } = await (supabase
+        .schema('public')
         .from('box_summary') as any)
         .select('*')
         .order('box_number');
@@ -61,6 +62,7 @@ const BoxViewPage: React.FC = () => {
     setLoadingComponents(true);
     try {
       const { data, error } = await (supabase
+        .schema('public')
         .from('components_by_box') as any)
         .select('*')
         .eq('box_number', boxNumber)
@@ -102,6 +104,7 @@ const BoxViewPage: React.FC = () => {
 
   async function updateComponentStatus(componentId: string, newStatus: string) {
     const { error } = await (supabase
+      .schema('public')
       .from('prototype_components') as any)
       .update({ status: newStatus })
       .eq('id', componentId);
@@ -120,6 +123,7 @@ const BoxViewPage: React.FC = () => {
 
     for (const component of componentsToUpdate) {
       await (supabase
+        .schema('public')
         .from('prototype_components') as any)
         .update({ status: 'have' })
         .eq('id', component.id);

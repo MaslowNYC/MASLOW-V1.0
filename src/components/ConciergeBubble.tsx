@@ -21,7 +21,8 @@ export default function ConciergeBubble({ userId }: ConciergeBubbleProps) {
       if (!userId) return;
 
       try {
-        const { data } = await (supabase
+        const { data } = await ((supabase as any)
+          .schema('v2')
           .from('profiles') as any)
           .select('accessibility_settings')
           .eq('id', userId)
@@ -60,7 +61,8 @@ export default function ConciergeBubble({ userId }: ConciergeBubbleProps) {
     if (userId) {
       try {
         // Get current settings first
-        const { data } = await (supabase
+        const { data } = await ((supabase as any)
+          .schema('v2')
           .from('profiles') as any)
           .select('accessibility_settings')
           .eq('id', userId)
@@ -72,7 +74,8 @@ export default function ConciergeBubble({ userId }: ConciergeBubbleProps) {
           show_concierge: false,
         };
 
-        await (supabase
+        await ((supabase as any)
+          .schema('v2')
           .from('profiles') as any)
           .update({ accessibility_settings: updatedSettings })
           .eq('id', userId);

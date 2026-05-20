@@ -107,7 +107,7 @@ const ProfilePage: React.FC = () => {
     const getProfile = async () => {
       try {
         if (!user) return;
-        const { data, error } = await (supabase.from('profiles') as any).select('*').eq('id', user.id).single();
+        const { data, error } = await ((supabase as any).schema('v2').from('profiles') as any).select('*').eq('id', user.id).single();
         if (error && error.code !== 'PGRST116') throw error;
         if (data) {
           const p = data as Profile;
@@ -146,12 +146,12 @@ const ProfilePage: React.FC = () => {
       }
       const { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file, { upsert: false });
       if (uploadError) throw uploadError;
-      const { data: existing } = await (supabase.from('profiles') as any).select('*').eq('id', user.id).maybeSingle();
+      const { data: existing } = await ((supabase as any).schema('v2').from('profiles') as any).select('*').eq('id', user.id).maybeSingle();
       const now = new Date().toISOString();
       if (!existing) {
-        await (supabase.from('profiles') as any).insert({ id: user.id, email: user.email, photo_url: filePath, created_at: now, updated_at: now });
+        await ((supabase as any).schema('v2').from('profiles') as any).insert({ id: user.id, email: user.email, photo_url: filePath, created_at: now, updated_at: now });
       } else {
-        await (supabase.from('profiles') as any).update({ photo_url: filePath, updated_at: now }).eq('id', user.id);
+        await ((supabase as any).schema('v2').from('profiles') as any).update({ photo_url: filePath, updated_at: now }).eq('id', user.id);
       }
       setProfile(prev => ({ ...prev, photo_url: filePath }));
       const { data } = supabase.storage.from('avatars').getPublicUrl(filePath);
@@ -169,7 +169,7 @@ const ProfilePage: React.FC = () => {
       const dob = formatDobForStorage(profile.birthday_month, profile.birthday_day);
       const { birthday_month, birthday_day, ...rest } = profile;
       const updates = { ...rest, dob: dob || null, updated_at: new Date().toISOString() };
-      const { error } = await (supabase.from('profiles') as any).upsert({ id: user.id, email: user.email, ...updates });
+      const { error } = await ((supabase as any).schema('v2').from('profiles') as any).upsert({ id: user.id, email: user.email, ...updates });
       if (error) throw error;
       setSavedSection(section || 'all');
       setTimeout(() => setSavedSection(null), 2000);

@@ -86,6 +86,7 @@ const PresalePurchaseModal: React.FC<PresalePurchaseModalProps> = ({
   const recordPurchase = async (paymentIntentId: string): Promise<number> => {
     // Insert presale purchase record
     const { data, error: insertError } = await (supabase
+      .schema('public')
       .from('presale_purchases') as any)
       .insert({
         user_id: user?.id || null,
@@ -104,6 +105,7 @@ const PresalePurchaseModal: React.FC<PresalePurchaseModalProps> = ({
 
     // Get total pass count for the "Pass #X" display
     const { count } = await (supabase
+      .schema('public')
       .from('presale_purchases') as any)
       .select('*', { count: 'exact', head: true });
 

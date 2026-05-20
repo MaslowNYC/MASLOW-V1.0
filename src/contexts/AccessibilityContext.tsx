@@ -38,7 +38,8 @@ export const AccessibilityProvider: React.FC<{ children: ReactNode }> = ({ child
       }
 
       try {
-        const { data, error } = await (supabase
+        const { data, error } = await ((supabase as any)
+          .schema('v2')
           .from('profiles') as any)
           .select('accessibility_settings')
           .eq('id', user.id)
@@ -92,7 +93,8 @@ export const AccessibilityProvider: React.FC<{ children: ReactNode }> = ({ child
 
     if (user) {
       try {
-        await (supabase
+        await ((supabase as any)
+          .schema('v2')
           .from('profiles') as any)
           .update({ accessibility_settings: newSettings })
           .eq('id', user.id);
